@@ -4,10 +4,10 @@ warnings_are_errors: true
 
 sudo: required
 
-before_install:
-  - tlmgr install amsmath amssymb nicefrac arydshln
+services: docker
 
-install: echo Installation step #do not remove this line!
+script:
+  - docker pull dxjoke/tectonic-docker
 
 notifications:
   email: false
