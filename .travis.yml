@@ -1,13 +1,16 @@
 language: r
+  - oldrel
+  - release
+  - devel
 
 warnings_are_errors: true
-
-sudo: required
 
 services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
+  - R CMD build . --compact-vignettes=gs+qpdf
+  - R CMD check *tar.gz --as-cran
 
 notifications:
   email: false
