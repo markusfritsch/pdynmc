@@ -1,3 +1,6 @@
 ^pdynmc\.Rproj$
 ^\.Rproj\.user$
+.Rhistory
+.gitignore
 .travis.yml
+cran-comments.md
