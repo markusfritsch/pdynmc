@@ -1,3 +1,17 @@
 language: r
+
 warnings_are_errors: true
+
 sudo: required
+
+before_install:
+  - tlmgr install standalone showexpl imakeidx xpatch
+
+install: echo Installation step #do not remove this line!
+
+script: make manual-git
+
+after_success: tools/deploy.sh
+
+notifications:
+  email: false
