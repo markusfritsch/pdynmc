@@ -1,0 +1,11 @@
+bibentry(bibtype = "Article",
+	title = "{pdynmc} -- An {R}-package for estimating linear dynamic panel data models based on nonlinear moment conditions",
+	author = c(person("Markus", "Fritsch"),
+		person("Andrew Adrian Yu", "Pua"),
+		person("Joachim", "Schnurbus")),
+	journal = "Working Paper",
+	year = "2019",
+	url = "https://cran.r-project.org/package=pdynmc",
+	header = "To cite pdynmc in publication use:"
+	)
+
