@@ -1,0 +1,17 @@
+language: r
+
+sudo: false
+
+r_github_packages:
+  - markusfritsch/pdynmc
+
+warnings_are_errors: false
+
+cache:
+  packages: true
+
+script:
+  - Rscript test-script.R
+
+notifications:
+  email: false
