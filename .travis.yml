@@ -5,7 +5,7 @@ warnings_are_errors: true
 sudo: required
 
 before_install:
-  - tlmgr install standalone showexpl imakeidx xpatch
+  - tlmgr install amsmath amssymb nicefrac arydshln
 
 install: echo Installation step #do not remove this line!
 
