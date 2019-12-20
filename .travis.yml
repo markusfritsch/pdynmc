@@ -7,9 +7,6 @@ sudo: required
 before_install:
   - tlmgr install standalone showexpl imakeidx xpatch
 
-install: echo Installation step #do not remove this line!
-
-after_success: tools/deploy.sh
 
 notifications:
   email: false
