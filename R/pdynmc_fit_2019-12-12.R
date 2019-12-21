@@ -160,7 +160,7 @@
 
 #' @keywords internal
 #'
- dat.fct		<- function(			# function that creates instruments based on 
+ dat.fct		<- function(			# function that creates instruments based on
    ti
    ,t.end
    ,i												# [M:] renamed since 't()' is already a function
@@ -180,7 +180,7 @@
                         dat.na[dat.na[, varname.i] == i, varname][t.end+2])))
 #   } else{
 #     dat[dat[, varname.i] == i, varname][ti]*						# [M:] if period T, T-1 and T-2 do not exist, t is not available as instrument
-#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] * 
+#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-1] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-2] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-3])))
@@ -229,7 +229,7 @@
                         dat.na[dat.na[, varname.i] == i, varname][t.end+1])))
 #   } else{
 #     dat[dat[, varname.i] == i, varname][ti]*
-#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] * 
+#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-1] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-2])))
 #   }
@@ -273,7 +273,7 @@
                         dat.na[dat.na[, varname.i] == i, varname][rep((err.term.start-2), times = length(ti:t.end))])))
 #   } else{
 #     dat[dat[, varname.i] == i, varname][ti]*
-#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] * 
+#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-1] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-2])))
 #   }
@@ -468,14 +468,14 @@
 #     if(is.na(dat.na[dat.na[, varname.i] == i, varname][ti])){
 #       ti	= ti+1
 #       t.end	= t.end+1
-#     } 
+#     }
 
      if(use.mc.diff & !(inst.stata)){
 
        (dat[dat[, varname.i] == i, varname][ti:t.end]*
          as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - max(2,lagTerms) + 1):(t.end - max(2,lagTerms) + 1)]*
 					dat.na[dat[, varname.i] == i, varname][(ti):(t.end)]*
-					dat.na[dat[, varname.i] == i, varname][(ti + 1):(t.end + 1)] )) - 
+					dat.na[dat[, varname.i] == i, varname][(ti + 1):(t.end + 1)] )) -
        dat[dat[, varname.i] == i, varname][(ti - 1):(t.end - 1)]*
          as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - max(2,lagTerms) + 1):(t.end - max(2,lagTerms) + 1)]*
 					dat.na[dat[, varname.i] == i, varname][(ti):(t.end)]*
@@ -487,7 +487,7 @@
        (dat[dat[, varname.i] == i, varname][ti:t.end]*
          as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][t.end - max(2,lagTerms) + 1]*
 					dat.na[dat[, varname.i] == i, varname][t.end]*
-					dat.na[dat[, varname.i] == i, varname][t.end+1] )) - 
+					dat.na[dat[, varname.i] == i, varname][t.end+1] )) -
        dat[dat[, varname.i] == i, varname][(ti - 1):(t.end - 1)]*
          as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][t.end - max(2,lagTerms) + 1]*
 					dat.na[dat[, varname.i] == i, varname][t.end]*
@@ -497,12 +497,12 @@
 
 #   } else{
 #
-#     dat[dat[, varname.i] == i, varname][ti]*					
-#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] * 
+#     dat[dat[, varname.i] == i, varname][ti]*
+#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-1] *
-#                        dat.na[dat.na[, varname.i] == i, varname][ti]))) - 
-#     dat[dat[, varname.i] == i, varname][ti - 1]*				
-#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] * 
+#                        dat.na[dat.na[, varname.i] == i, varname][ti]))) -
+#     dat[dat[, varname.i] == i, varname][ti - 1]*
+#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-1] *
 #                        dat.na[dat.na[, varname.i] == i, varname][ti - 1])))
 #   }
@@ -555,7 +555,7 @@
 
        (dat[dat[, varname.i] == i, varname][ti:t.end]*
          as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - max(2,lagTerms) + 1):(t.end - max(2,lagTerms) + 1)]*
-					dat.na[dat[, varname.i] == i, varname][(ti):(t.end)] )) - 
+					dat.na[dat[, varname.i] == i, varname][(ti):(t.end)] )) -
        dat[dat[, varname.i] == i, varname][(ti - 1):(t.end - 1)]*
          as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - max(2,lagTerms) + 1):(t.end - max(2,lagTerms) + 1)]*
 					dat.na[dat[, varname.i] == i, varname][(ti):(t.end)] )) ) *
@@ -565,7 +565,7 @@
 
        (dat[dat[, varname.i] == i, varname][ti:t.end] *
                    as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][t.end - max(2,lagTerms)+1]*
-						dat.na[dat[, varname.i] == i, varname][t.end] ))  - 
+						dat.na[dat[, varname.i] == i, varname][t.end] ))  -
        dat[dat[, varname.i] == i, varname][(ti - 1):(t.end - 1)]*
                    as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][t.end - max(2,lagTerms)+1]*
 						dat.na[dat[, varname.i] == i, varname][t.end] )) ) *
@@ -573,12 +573,12 @@
      }
 
 #   } else{
-#     dat[dat[, varname.i] == i, varname][ti]*					
-#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] * 
+#     dat[dat[, varname.i] == i, varname][ti]*
+#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-1] *
-#                        dat.na[dat.na[, varname.i] == i, varname][ti]))) - 
-#     dat[dat[, varname.i] == i, varname][ti - 1]*				
-#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] * 
+#                        dat.na[dat.na[, varname.i] == i, varname][ti]))) -
+#     dat[dat[, varname.i] == i, varname][ti - 1]*
+#     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][T] *
 #                        dat.na[dat.na[, varname.i] == i, varname][T-1] *
 #                        dat.na[dat.na[, varname.i] == i, varname][ti - 1])))
 #   }
@@ -675,26 +675,26 @@
    if(use.mc.diff){
 #     if(mc.ref.t){
        if(include.y){
-         Z_i.mc.diff_end.y	<- do.call(what = "cbind", args = sapply(X = varname.y, FUN = variable.fct, i = i, T.mcDiff = maxLags.y, 
+         Z_i.mc.diff_end.y	<- do.call(what = "cbind", args = sapply(X = varname.y, FUN = variable.fct, i = i, T.mcDiff = maxLags.y,
 						lagTerms = max.lagTerms
 #						, mc.ref.t = mc.ref.t
 						, T = T, varname.i = varname.i, dat = dat, dat.na = dat.na) )
        }
        if(include.x){
          if(end.reg){
-           Z_i.mc.diff_end.x	<- do.call(what = "cbind", args = mapply(FUN = variable.fct, varname.reg.end, i = i, T.mcDiff = maxLags.reg.end, 
+           Z_i.mc.diff_end.x	<- do.call(what = "cbind", args = mapply(FUN = variable.fct, varname.reg.end, i = i, T.mcDiff = maxLags.reg.end,
 						lagTerms = max.lagTerms
 #						, mc.ref.t = mc.ref.t
 						, T = T, varname.i = varname.i, dat = dat, dat.na = dat.na) )
          }
          if(pre.reg){
-           Z_i.mc.diff_pre	<- do.call(what = "cbind", args = mapply(FUN = variable.pre.fct, varname.reg.pre, i = i, T.mcDiff = maxLags.reg.pre, 
+           Z_i.mc.diff_pre	<- do.call(what = "cbind", args = mapply(FUN = variable.pre.fct, varname.reg.pre, i = i, T.mcDiff = maxLags.reg.pre,
 						lagTerms = max.lagTerms
 #						, mc.ref.t = mc.ref.t
 						, T = T, varname.i = varname.i, dat = dat, dat.na = dat.na) )
          }
          if(ex.reg){
-           Z_i.mc.diff_ex	<- do.call(what = "cbind", args = mapply(FUN = variable.ex.fct, varname.reg.ex, i = i, T.mcDiff = maxLags.reg.ex, 
+           Z_i.mc.diff_ex	<- do.call(what = "cbind", args = mapply(FUN = variable.ex.fct, varname.reg.ex, i = i, T.mcDiff = maxLags.reg.ex,
 						lagTerms = max.lagTerms
 #						, mc.ref.t = mc.ref.t
 						, T = T, varname.i = varname.i, dat = dat, dat.na = dat.na) )
@@ -702,7 +702,7 @@
        }
 #     }
      Z_i.mc.diff_temp	<- do.call(what = "cbind", args = mget(ls(pattern = "Z_i.mc.diff")))
-	# Note that sequence of arrangement is in alphabetical order, i.e.: 
+	# Note that sequence of arrangement is in alphabetical order, i.e.:
 	# 1. endogenous, 2. exogenous, 3. predetermined Variables.
      n.inst.diff	<- ncol(Z_i.mc.diff_temp)
      n.obs.diff	<- nrow(Z_i.mc.diff_temp)
@@ -725,7 +725,7 @@
          }
          if(ex.reg | pre.reg){
            Z_i.mc.lev_ex.pre	<- do.call(what = "cbind", args = mapply(FUN = LEV.pre.fct, c({if(!(is.null("varname.reg.ex"))){varname.reg.ex}}, {if(!(is.null("varname.reg.pre"))){varname.reg.pre}} ),
-						i = i, T.mcLev = c({if(!(is.null("varname.reg.ex"))){maxLags.reg.ex - 1}}, {if(!(is.null("varname.reg.pre"))){maxLags.reg.pre}} ), 
+						i = i, T.mcLev = c({if(!(is.null("varname.reg.ex"))){maxLags.reg.ex - 1}}, {if(!(is.null("varname.reg.pre"))){maxLags.reg.pre}} ),
 						lagTerms = max.lagTerms, use.mc.diff = use.mc.diff, inst.stata = inst.stata
 #						,mc.ref.t = mc.ref.t
 						, T = T, varname.i = varname.i, dat = dat, dat.na = dat.na) )
@@ -848,7 +848,7 @@
          Z_i.dum_3.end			<- matrix(0, ncol = ncol(Z_i.dum_1.diff), nrow = nrow(Z_i.mc.lev_end))
          colnames.dum_3.end		<- colnames(Z_i.dum_3.end)
          rownames(Z_i.dum_3.end)	<- NULL
-        
+
        }
        if((use.mc.lev | (!include.y & (ex.reg | pre.reg))) | fur.con.lev){
          Z_i.dum_4.expre		<- matrix(0, ncol = ncol(Z_i.dum_1.diff), nrow = (T - max.lagTerms))
@@ -891,7 +891,7 @@
        }
      }
 
-     colnames_Z_i.dum		<- unique(as.vector(do.call(what = "c", mget(ls(pattern = "colnames.dum_"))))) 
+     colnames_Z_i.dum		<- unique(as.vector(do.call(what = "c", mget(ls(pattern = "colnames.dum_")))))
      Z_i.temp			<- cbind(Z_i.temp, as.matrix(Z_i.dum))
      if(dum.diff & dum.lev){
        n.inst.dum			<- c(length(get(ls(pattern = "colnames.dum_1"))), length(get(ls(pattern = "colnames.dum_4"))))
@@ -1096,12 +1096,12 @@ Wonestep.fct		<- function(
  if(w.mat == "iid.err"){
 #   if(mc.ref.t){
      if(use.mc.diff | dum.diff | fur.con.diff){
-       H_i.mcDiff	<- (diag(x = 2, nrow = T - max.lagTerms - 1, ncol = T - max.lagTerms - 1) - 
+       H_i.mcDiff	<- (diag(x = 2, nrow = T - max.lagTerms - 1, ncol = T - max.lagTerms - 1) -
        			rbind(rep(x = 0, times = T - max.lagTerms - 1, ncol = T - max.lagTerms - 2),
 	 				diag(x = 1, nrow = T - max.lagTerms - 2, ncol = T - max.lagTerms - 1)) -
        			cbind(rep(x = 0, times = T - max.lagTerms - 1),
 	 				diag(x = 1, nrow = T - max.lagTerms - 1, ncol = T - max.lagTerms - 2)) )
-       H_i.off		<- (cbind(diag(x = -1, nrow = T - max.lagTerms - 1, ncol = T - max.lagTerms - 1), 0) + 
+       H_i.off		<- (cbind(diag(x = -1, nrow = T - max.lagTerms - 1, ncol = T - max.lagTerms - 1), 0) +
      					cbind(rep(x = 0, times = T - max.lagTerms - 1),
  						diag(x = 1, nrow = T - max.lagTerms - 1, ncol = T - max.lagTerms - 1)) )
      }
@@ -1186,7 +1186,7 @@ Wonestep.fct		<- function(
  if(w.mat == "zero.cov"){					#[M:] similar to w.mat = "iid.err"; difference: covariances of linear m.c. are set to zero.
 #   if(mc.ref.t){
      if(use.mc.diff | dum.diff | fur.con.diff){
-       H_i.mcDiff	<- (diag(x = 2, nrow = T - max.lagTerms - 1, ncol = T - max.lagTerms - 1) - 
+       H_i.mcDiff	<- (diag(x = 2, nrow = T - max.lagTerms - 1, ncol = T - max.lagTerms - 1) -
       			rbind(rep(x = 0, times = T - max.lagTerms - 1, ncol = T - max.lagTerms - 2),
 					diag(x = 1, nrow = T - max.lagTerms - 2, ncol = T - max.lagTerms - 1)) -
       			cbind(rep(x = 0, times = T - max.lagTerms - 1),
@@ -1598,9 +1598,9 @@ gmmDat.fct		<- function(
 #'
 gmmObj.fct		<- function(
  j
- ,param 
+ ,param
  ,y_m1
- ,X_m1 
+ ,X_m1
  ,dy
  ,dX
  ,varname.reg.estParam
@@ -1658,7 +1658,7 @@ gmmObj.fct		<- function(
 						}
 
  gmmDat.parDep$du.hat		<- dy[-(((0:(n - 1))*(T - 1)) + 1)] - gmmDat.parDep$fitted.diff						#[M:] vector of length T-2
-					
+
 
 
 
@@ -2079,7 +2079,7 @@ wald.fct 		<- function(
   names(dof)	<- "df"
   pval		<- stats::pchisq(w.stat, df = dof, lower.tail = FALSE)
   wald		<- list(statistic = w.stat, p.value = pval, parameter = dof, method = "Wald test"
-				,data.name = paste(object$iter, "step GMM Estimation; H0: ", param, " parameters are zero jointly", sep = "") 
+				,data.name = paste(object$iter, "step GMM Estimation; H0: ", param, " parameters are zero jointly", sep = "")
 				)
   class(wald) <- "htest"
   return(wald)
@@ -2116,7 +2116,7 @@ wald.fct 		<- function(
 #'
 #' The null hypothesis is that the overidentifying restrictions are valid.
 #'    The test statistic is computed as proposed by
-#'    \insertCite{Sar1958estimation;textual}{pdynmc}. As noted by 
+#'    \insertCite{Sar1958estimation;textual}{pdynmc}. As noted by
 #'    \insertCite{Bow2002testing;textual}{pdynmc} and
 #'    \insertCite{Win2005;textual}{pdynmc}
 #'    the test statistic is weakened by many instruments and inconsistent
@@ -2183,7 +2183,7 @@ sargan.fct 		<- function(
 #  stat		<- as.numeric(crossprod(tzu, t(crossprod(tzu, gmm.1step.results$W1))))*
 #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE) /(n*T - sum(n.inst)+3))))^(-1)						#[M:] 'xtabond2' test statistics (does not account for unbalancedness of the data!!)
 				((as.vector(Matrix::crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(sum(!is.na(dat.na[, varname.y])) - sum(n.inst))))^(-1)		#[M:] adjusted dof correction (unbalancedness of the data is accounted for)
-#				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(n.obs - 280 - sum(n.inst))))^(-1)	
+#				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(n.obs - 280 - sum(n.inst))))^(-1)
 #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(1260-27-280-sum(n.inst)+3)))^(-1)					#[M:] roughly the Stata results
   names(stat)	<- "chisq"
   p			<- sum(n.inst)
@@ -2231,7 +2231,7 @@ sargan.fct 		<- function(
 #'
 #' The null hypothesis is that the overidentifying restrictions are valid.
 #'    The test statistic is computed as proposed by
-#'    \insertCite{Han1982large;textual}{pdynmc}. As noted by 
+#'    \insertCite{Han1982large;textual}{pdynmc}. As noted by
 #'    \insertCite{Bow2002testing;textual}{pdynmc} and
 #'    \insertCite{Win2005;textual}{pdynmc}
 #'    the test statistic is weakened by many instruments.
@@ -2533,7 +2533,7 @@ mtest.fct 		<- function(
 #'    conditions with the Generalized Method of Moments (GMM).
 #'
 #' The function estimates a linear dynamic panel data model of the form
-#'    \deqn{y_{i,t} = y_{i,t-1} \rho_1 + \boldsymbol{x}_{i,t}' \boldsymbol{\beta} + a_i + \varepsilon_{i,t}},
+#'    \deqn{y_{i,t} = y_{i,t-1} \rho_1 + \boldsymbol{x}_{i,t}' \boldsymbol{\beta} + a_i + \varepsilon_{i,t}}
 #'    where \eqn{y_{i,t-1}} is the lagged dependent variable, \eqn{\rho_1} is
 #'    the lag parameter, \eqn{\boldsymbol{x}_{i,t}} are further covariates,
 #'    \eqn{\boldsymbol{\beta}} are the corresponding parameters, \eqn{a_i}
@@ -2543,7 +2543,7 @@ mtest.fct 		<- function(
 #'    and dynamics. Note that the specification given above is simplified for
 #'    illustatory purposes and more general lag structures are allowed in
 #'    \code{pdynmc.fit}.
-#'    
+#'
 #'    Estimation of the model parameters in \code{pdynmc.fit} is based on
 #'    moment conditions with the generalized method of moments (GMM). Linear
 #'    dynamic panel data models  The moment conditions employed in estimation can be linear and
@@ -2831,7 +2831,7 @@ pdynmc.fit		<- function(
  ,use.mc.lev
  ,use.mc.nonlin
  ,use.mc.nonlinAS			= NULL
- 
+
 # ,mc.ref.t				= TRUE
 # ,mc.ref.T				= FALSE
 
@@ -2886,7 +2886,7 @@ pdynmc.fit		<- function(
  ,opt.meth				= "BFGS"
  ,hessian				= FALSE
  ,optCtrl				= list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol = .Machine$double.eps^(1/3),
-						starttests = TRUE, dowarn = TRUE, badval = (0.25)*.Machine$double.xmax, usenumDeriv = FALSE, 
+						starttests = TRUE, dowarn = TRUE, badval = (0.25)*.Machine$double.xmax, usenumDeriv = FALSE,
 						reltol = 1e-12, maxit = 200, trace = TRUE,
 						follow.on = FALSE, save.failures = TRUE, maximize = FALSE, factr = 1e7, pgtol = 0, all.methods = FALSE)
 # ,nmulti				= 1
@@ -3047,7 +3047,7 @@ pdynmc.fit		<- function(
 # ){
 #   mc.ref.t		<- TRUE
 #   mc.ref.T		<- FALSE
-#   warning("Only one of 'mc.ref.t' and 'mc.ref.T' is allowed to be TRUE; 'mc.ref.T' was therefore set to FALSE.")	
+#   warning("Only one of 'mc.ref.t' and 'mc.ref.T' is allowed to be TRUE; 'mc.ref.T' was therefore set to FALSE.")
 # }
 
 
@@ -3492,7 +3492,7 @@ pdynmc.fit		<- function(
 						,if(exists("varname.reg.estParam.x.pre")) as.vector(varname.reg.estParam.x.pre)
 						,if(exists("varname.reg.estParam.x.ex")) as.vector(varname.reg.estParam.x.ex)
 						,if(exists("varname.reg.estParam.fur")) as.vector(varname.reg.estParam.fur) )
-  
+
 
 
 
@@ -3598,7 +3598,7 @@ pdynmc.fit		<- function(
 
 # resGMM$param.ini			<- runif(n = nmulti*(length(varname.reg.estParam)), min = start.val.lo, max = start.val.up)
 ## resGMM$param.ini			<- runif(n = nmulti*(length(varname.reg.estParam)), min = -1, max = 1)
-### resGMM$param.ini			<- matrix(data = runif(n = nmulti*(estimate.int + 1 + length(varname.reg.estParam)), min = -1, max = 1), nrow = nmulti)	#INT#	
+### resGMM$param.ini			<- matrix(data = runif(n = nmulti*(estimate.int + 1 + length(varname.reg.estParam)), min = -1, max = 1), nrow = nmulti)	#INT#
 ## resGMM$param.ini			<- matrix(data = runif(n = nmulti*(length(varname.reg.estParam)), min = -1, max = 1), nrow = nmulti)
 ### resGMM$param.ini			<- matrix(data = rep(0, times = length(varname.reg.estParam)) )		# [M:] Stata default
 
@@ -3646,7 +3646,7 @@ pdynmc.fit		<- function(
  resGMM.stderr.j		<- list()
  resGMM.zvalue.j		<- list()
  resGMM.pvalue.j		<- list()
- 
+
 
 
  j 				<- 1
@@ -3742,7 +3742,7 @@ pdynmc.fit		<- function(
 #           }
 #         }
 #       }
-#  
+#
 #     dat.clF.temp		<- list.temp
 #     rm(dat.clF.temp.diff, dat.clF.temp.nl, dat.clF.temp.lev, list.temp)
 #   }
@@ -3887,7 +3887,7 @@ pdynmc.fit		<- function(
 
        resGMM.vcov.j[[j]]		<- get(paste("step", j, sep = ""), resGMM.vcov.j) + Matrix::crossprod(Matrix::t(D), get(paste("step", j, sep = ""), resGMM.vcov.j)) + Matrix::t(Matrix::crossprod(Matrix::t(D), get(paste("step", j, sep = ""), resGMM.vcov.j))) + Matrix::tcrossprod(Matrix::tcrossprod(D, get(paste("step", 1, sep = ""), resGMM.vcov.j)), D)
        resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = ""), resGMM.vcov.j))))
-   
+
 
 
        if(opt.meth != "none"){
@@ -3941,7 +3941,7 @@ pdynmc.fit		<- function(
 ##    ,mc.ref.T = mc.ref.T, N_i = N_i
 #   )
 #
-#   
+#
 #
 # }
 
@@ -4077,7 +4077,7 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
 
 #' Extract residuals.
-#' 
+#'
 #' \code{residual.pdynmc} extracts residuals of an object of class
 #'    `pdynmc.fit`.
 #'
@@ -4142,14 +4142,14 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
 
 #' Extract variance covariance matrix.
-#' 
+#'
 #' \code{vcov.pdynmc} extracts variance covariance matrix of the paramter
 #'    estimates of an object of class `pdynmc.fit`.
 #'
 #' @param object An object of class `pdynmc.fit`.
 #' @param step An integer denoting the iteration step for which fitted values
 #'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates). 
+#'    estimates).
 #' @param ... further arguments.
 #'
 #' @return Extract variance covariance matrix of the paramter estimates from
@@ -4209,13 +4209,13 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 
 
 #' Extract weighting matrix.
-#' 
+#'
 #' \code{wmat.pdynmc} extracts weighting matrix of an object of class `pdynmc.fit`.
 #'
 #' @param object An object of class `pdynmc.fit`.
 #' @param step An integer denoting the iteration step for which fitted values
 #'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates). 
+#'    estimates).
 #' @param ... further arguments.
 #'
 #' @return Extract weighting matrix from an object of class `pdynmc.fit`.
@@ -4287,7 +4287,7 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 
 
 #' Summary for objects of class `pdynmc.fit`.
-#' 
+#'
 #' \code{summary.pdynmc} generates the summary for objects of class `pdynmc.fit`.
 #'
 #' @param object An object of class `pdynmc.fit`.
@@ -4370,7 +4370,7 @@ summary.pdynmc	<- function(object, ...){
 
 
 #' Print summary for objects of class `pdynmc.fit`.
-#' 
+#'
 #' \code{print.summary.pdynmc} prints the summary for objects of class
 #'    `pdynmc.fit`.
 #'
@@ -4419,7 +4419,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), wi
 #  cat(paste("Residual Sum of Squares ", round(x$rss, digits = digits), "\n", sep = ""))
   cat(paste(sum(x$data$n.inst), " total instruments are employed to estimate ", length(x$data$varnames.reg), " parameters", "\n", sep = ""))
   cat(paste("J-Test (overid restrictions): ", round(x$hansenj$statistic, digits = 2), " with ", x$hansenj$parameter, " DF, pvalue: ", if(x$hansenj$p.value < 0.001){paste("<0.001")} else{round(x$hansenj$p.value, digits = digits)}, "\n", sep = ""))
-  cat(paste("F-Statistic (slope coeff): ", round(x$slopef$statistic, digits = 2), " with ", x$slopef$parameter, " DF, pvalue: ", if(x$slopef$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)}, "\n", sep = "")) 
+  cat(paste("F-Statistic (slope coeff): ", round(x$slopef$statistic, digits = 2), " with ", x$slopef$parameter, " DF, pvalue: ", if(x$slopef$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)}, "\n", sep = ""))
   cat(paste("F-Statistic (time dummies): ", round(x$time.dumf$statistic, digits = 2), " with ", x$time.dumf$parameter, " DF, pvalue: ", if(x$time.dumf$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)} ) )
 }
 
