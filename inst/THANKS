@@ -2,8 +2,7 @@ We've benefited from a number of resources when writing the package.
 The plm package by Croissant and Millo (2008-2019) was an inspiration.
 Additionally, a number of books, blogs, and forum entries on
 stackexchange proved to be very resourceful. A notable example is the
-book R Packages by Hadley Wickham and Jennifer Bryan and the related
-R package roxygen2.
+book R Packages by Hadley Wickham and Jennifer Bryan.
 
 
 
