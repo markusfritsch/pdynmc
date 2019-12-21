@@ -38,7 +38,7 @@
 \Abstract{
 \pkg{pdynmc} is an \proglang{R}-package for IV- or GMM-estimation of linear dynamic panel data models that are based on nonlinear moment conditions as proposed by \citet{AhnSch1995}.
 This paper provides a description of the variety of options regarding instrument type, covariate type, estimation methodology, and general configuration from the perspective of an applied statistician.
-All functionality is demonstrated for an unbalanced Spanish Household Panel \citep[cf.,][]{BroCol2007} and we relate to other software and packages.
+All functionality is demonstrated for a publicly available unbalanced panel data set \citep{AreBon1991} and we relate to other software and packages.
 }
 \Keywords{dynamic panel, generalized method of moments, instrument variable, nonlinear moment conditions, \proglang{R}}
 \Plainkeywords{dynamic panel, generalized method of moments, instrument variable, nonlinear moment conditions, R} %% without formatting
@@ -523,11 +523,11 @@ An estimate for the weighting matrix $\widehat{\boldsymbol{W}}_2$ of the two-ste
 \begin{align} \label{EQ11:W2step}
 \widehat{\boldsymbol{W}}_2 & = \left(\frac{1}{n} \cdot \boldsymbol{Z}' \hat{\boldsymbol{s}}_{1} \hat{\boldsymbol{s}}_{1}' \boldsymbol{Z}\right)^{-1},
 \end{align}
-where $\hat{\boldsymbol{s}}_{1}$ denotes the residuals from one-step estimation. When the nonlinear moment conditions are used, nonlinear optimization techniques are required to obtain coefficient estimates. Per default, GMM estimation by \pkg{pdynmc} is based on numerical optimization. To initialize the optimization procedure, starting values are drawn for all parameter estimates from a uniform distribution over the interval [-1, 1]. 
+where $\hat{\boldsymbol{s}}_{1}$ denotes the residuals from one-step estimation. When the nonlinear moment conditions are used, nonlinear optimization techniques are required to obtain coefficient estimates. Per default, GMM estimation by \pkg{pdynmc} is based on numerical optimization. To initialize the optimization procedure, starting values are drawn for all parameter estimates from a uniform distribution over the interval [-1, 1].
 %Multistarting can be employed to avoid local minima when computing the GMM1S estimates, where the number of multistarts is adjustable by the user.
 %Per default no multistarting is carried out.
 %By default, GMM1S is calculated for 3 different parameter starting value combinations. The number of multistarts can be adjusted by the user.
-GMM2S then employs the parameter estimates obtained by GMM1S as starting values. %and performs no multistarting. 
+GMM2S then employs the parameter estimates obtained by GMM1S as starting values. %and performs no multistarting.
 For the optimization procedure, we rely on the \proglang{R}-package \pkg{optimx} \citep{NasVar2011,Nas2014}. All optimization routines implemented in \pkg{optimx} are available in \pkg{pdynmc}. From our experience, the Variable Metric method \citep{Fle1970new,Nas1990compact} seems to work satisfactory in the estimation of linear dynamic panel data models. In all settings encountered while programming the package, the results from this method were close to closed form results for GMM estimation based on linear moment conditions.
 The Variable Metric method is named \code{BFGS} in \pkg{optimx}\footnote{For more details and references on the available optimization methods in \pkg{optimx} see the package documentation and \citet{NasVar2011}.} and serves as the default procedure in \pkg{pdynmc}.
 %This may, however, change in future versions of \pkg{pdynmc} depending on prospective results and insights -- this is especially the case for the nonlinear moment conditions, which cannot be compared to closed form results.
