@@ -1982,7 +1982,7 @@ dat.closedFormExpand.fct		<- function(
 #' Wald test.
 #'
 #' \code{wald.fct} computes F test statistics and corresponding p-values for
-#'    `pdynmc.fit` objects.
+#'    `pdynmc` objects.
 #'
 #' The three available null hypothesis are: All time dummies are zero jointly,
 #'    all slope coefficients are zero jointly, all times dummies and slope
@@ -1992,7 +1992,7 @@ dat.closedFormExpand.fct		<- function(
 #'    time.dum (i.e., all time dummies are jointly zero), slope (i.e., all slope
 #'    coefficients are jointly zero), and all (i.e., all dummies and slope
 #'    coefficients are jointly zero).
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @return An object of class `htest` which contains the F test statistic and
 #'    corresponding p-value for the tested null hypothesis.
 #'
@@ -2005,7 +2005,7 @@ dat.closedFormExpand.fct		<- function(
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #'
 #' @examples
@@ -2014,7 +2014,7 @@ dat.closedFormExpand.fct		<- function(
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2031,7 +2031,7 @@ wald.fct 		<- function(
  ,object
 ){
 
-  if(all(class(object) != "pdynmc.fit")) stop("Object needs to be of class 'pdynmc.fit'")
+  if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
 
   coef.est				<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)),
 						yes = get(paste("step", object$iter, sep = ""), object$par.clForm),
@@ -2126,7 +2126,7 @@ wald.fct 		<- function(
 #'    in the presence of heteroscedasticity according to
 #'    \insertCite{Roo2009StJ;textual}{pdynmc}.
 #'
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @return An object of class `htest` which contains the Sargan test statistic
 #'    and corresponding p-value for the null hypothesis that the overidentifying
 #'    restrictions are valid.
@@ -2138,7 +2138,7 @@ wald.fct 		<- function(
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @references
 #'
@@ -2151,7 +2151,7 @@ wald.fct 		<- function(
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2167,7 +2167,7 @@ sargan.fct 		<- function(
  object
 ){
 
-  if(all(class(object) != "pdynmc.fit")) stop("Object needs to be of class 'pdynmc.fit'")
+  if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
 
   coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
   Szero.j		<- get(paste("step", object$iter, sep = ""), object$resid)
@@ -2241,7 +2241,7 @@ sargan.fct 		<- function(
 #'    \insertCite{Win2005;textual}{pdynmc}
 #'    the test statistic is weakened by many instruments.
 #'
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @return An object of class `htest` which contains the Hansen J test statistic
 #'    and corresponding p-value for the null hypothesis that the overidentifying
 #'    restrictions are valid.
@@ -2253,7 +2253,7 @@ sargan.fct 		<- function(
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @references
 #'
@@ -2266,7 +2266,7 @@ sargan.fct 		<- function(
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2282,7 +2282,7 @@ jtest.fct		<- function(
  object
 ){
 
-  if(all(class(object) != "pdynmc.fit")) stop("Object needs to be of class 'pdynmc.fit'")
+  if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
 
   coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
   Szero.j		<- get(paste("step", object$iter, sep = ""), object$resid)
@@ -2345,7 +2345,7 @@ jtest.fct		<- function(
 #'    particular order. The test statistic is computed as proposed by
 #'    \insertCite{AreBon1991;textual}{pdynmc}.
 #'
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @param t.order A number denoting the order of serial correlation to test for.
 #' @return An object of class `htest` which contains the Arellano and Bond m test
 #'    statistic and corresponding p-value for the null hypothesis that there is no
@@ -2360,7 +2360,7 @@ jtest.fct		<- function(
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @references
 #'
@@ -2373,7 +2373,7 @@ jtest.fct		<- function(
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2390,7 +2390,7 @@ mtest.fct 		<- function(
  ,t.order
 ){
 
-  if(all(class(object) != "pdynmc.fit")) stop("Object needs to be of class 'pdynmc.fit'")
+  if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
 
   Szero.j			<- get(paste("step", object$iter, sep = ""), object$resid)
   Z.temp			<- object$data$Z
@@ -2538,7 +2538,7 @@ mtest.fct 		<- function(
 #' Generalized Method of Moments (GMM) Estimation of Linear Dynamic Panel Data
 #'    Models.
 #'
-#' \code{pdynmc.fit} fits a linear dynamic panel data model based on moment
+#' \code{pdynmc} fits a linear dynamic panel data model based on moment
 #'    conditions with the Generalized Method of Moments (GMM).
 #'
 #' The function estimates a linear dynamic panel data model of the form
@@ -2551,9 +2551,9 @@ mtest.fct 		<- function(
 #'    model structure accounts for unobserved individual specific heterogeneity
 #'    and dynamics. Note that the specification given above is simplified for
 #'    illustatory purposes and more general lag structures are allowed in
-#'    \code{pdynmc.fit}.
+#'    \code{pdynmc}.
 #'
-#'    Estimation of the model parameters in \code{pdynmc.fit} is based on
+#'    Estimation of the model parameters in \code{pdynmc} is based on
 #'    moment conditions with the generalized method of moments (GMM). Linear
 #'    dynamic panel data models  The moment conditions employed in estimation can be linear and
 #'    nonlinear in parameters and estimation is carried out iteratively. In case
@@ -2562,14 +2562,14 @@ mtest.fct 		<- function(
 #'    conditions are employed, parameter estimation relies on numerical
 #'    optimization of the objective function.
 #'
-#'    `pdynmc.fit` provides an implementation of some of the functionality available
+#'    `pdynmc` provides an implementation of some of the functionality available
 #'    in the Stata library xtdpdgmm \insertCite{Kri2019;textual}{pdynmc} and allows
 #'    for `"onestep"`, `"twostep"`, and `"iterative"` GMM estimation based on the
 #'    moment conditions of \insertCite{HolNewRos1988;textual}{pdynmc},
 #'    \insertCite{AreBov1995;textual}{pdynmc}, and
 #'    \insertCite{AhnSch1995;textual}{pdynmc}.
 #'
-#' @aliases pdynmc.fit
+#' @aliases pdynmc
 #' @param dat A data set.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
@@ -2706,7 +2706,7 @@ mtest.fct 		<- function(
 #'    `custom.start.val` is set to `TRUE`).
 #' @param seed.input An integer used as seed for drawing starting values (defaults
 #'    to 42; required if custom.start.val is set to `FALSE`).
-#' @return An object of class `c("list","pdynmc.fit)` with the following elements:
+#' @return An object of class `c("list","pdynmc)` with the following elements:
 #'
 #' \item{data}{a list of elements on which computation of the model fit is based}
 #' \item{dep.clF}{a list of vectors containing the dependent variable for the
@@ -2778,7 +2778,7 @@ mtest.fct 		<- function(
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Arellano and Bond (1991) estimation in Table 4, column (a1)
-#' pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2788,7 +2788,7 @@ mtest.fct 		<- function(
 #'    opt.meth = "none")
 #'
 #' ## Arellano and Bond (1991) estimation in Table 4, column (a2)
-#' pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2799,7 +2799,7 @@ mtest.fct 		<- function(
 #'
 #' ## Arellano and Bond (1991) twostep estimation extended by nonlinear moment
 #' ## conditions
-#' pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = TRUE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2810,7 +2810,7 @@ mtest.fct 		<- function(
 #'
 #' ## Arellano and Bond (1991) iterative estimation extended by nonlinear moment
 #' ## conditions
-#' pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = TRUE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2821,7 +2821,7 @@ mtest.fct 		<- function(
 #'
 #' ## Arellano and Bond (1991) twostep estimation extended by linear moment
 #' ## conditions from equations in levels
-#' pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = TRUE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2832,7 +2832,7 @@ mtest.fct 		<- function(
 #' }
 #'
 #'
-pdynmc.fit		<- function(
+pdynmc		<- function(
  dat
  ,varname.i
  ,varname.t
@@ -3957,8 +3957,8 @@ pdynmc.fit		<- function(
 
 
  fit 		<-  list(data = resGMM, dep.clF = dep.temp, dat.clF = dat.clF.temp, w.mat = resGMM.W.j, H_i = resGMM.H.i, par.optim = resGMM.par.opt.j, ctrl.optim = resGMM.ctrl.opt.j, par.clForm = resGMM.clF.j, iter = resGMM.iter,
-				fitted = resGMM.fitted.j, resid = resGMM.Szero.j, vcov = resGMM.vcov.j, stderr = resGMM.stderr.j, zvalue = resGMM.zvalue.j, pvalue = resGMM.pvalue.j)
- class(fit)	<- "pdynmc.fit"
+				fitted.values = resGMM.fitted.j, residuals = resGMM.Szero.j, vcov = resGMM.vcov.j, stderr = resGMM.stderr.j, zvalue = resGMM.zvalue.j, pvalue = resGMM.pvalue.j)
+ class(fit)	<- "pdynmc"
 
  return(fit)
 
@@ -4022,9 +4022,9 @@ pdynmc.fit		<- function(
 #' Extract fitted values.
 #'
 #' \code{fitted.pdynmc} extracts fitted values of an object of class
-#'    `pdynmc.fit`.
+#'    `pdynmc`.
 #'
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @param step An integer denoting the iteration step for which fitted values
 #'    are extracted (defaults to last iteration step used for obtaining parameter
 #'    estimates).
@@ -4032,14 +4032,14 @@ pdynmc.fit		<- function(
 #'    removed from the vector of fitted values (defaults to `FALSE`).
 #' @param ... further arguments.
 #'
-#' @return Extract fitted values from object of class `pdynmc.fit`.
+#' @return Extract fitted values from object of class `pdynmc`.
 #'
 #' @export
 #' @importFrom stats na.omit
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
 #' \donttest{
@@ -4047,7 +4047,7 @@ pdynmc.fit		<- function(
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -4061,9 +4061,9 @@ pdynmc.fit		<- function(
 #'
 fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
   if(na.rm == TRUE){
-    fit.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$fit.pd))
+    fit.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$fitted.values))
   } else{
-    fit.pd	<- get(paste("step", step, sep = "") , object$fit.pd)
+    fit.pd	<- get(paste("step", step, sep = "") , object$fitted.values)
   }
   return(fit.pd)
 }
@@ -4091,9 +4091,9 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' Extract residuals.
 #'
 #' \code{residual.pdynmc} extracts residuals of an object of class
-#'    `pdynmc.fit`.
+#'    `pdynmc`.
 #'
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @param step An integer denoting the iteration step for which fitted values
 #'    are extracted (defaults to last iteration step used for obtaining parameter
 #'    estimates).
@@ -4101,14 +4101,14 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'    removed from the vector of fitted values (defaults to `FALSE`).
 #' @param ... further arguments.
 #'
-#' @return Extract residuals from object of class `pdynmc.fit`.
+#' @return Extract residuals from object of class `pdynmc`.
 #'
 #' @export
 #' @importFrom stats na.omit
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
 #' \donttest{
@@ -4116,7 +4116,7 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -4130,9 +4130,9 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'
 residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
   if(na.rm == TRUE){
-    res.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$resid))
+    res.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$residuals))
   } else{
-    res.pd	<- get(paste("step", step, sep = "") , object$resid)
+    res.pd	<- get(paste("step", step, sep = "") , object$residuals)
   }
   return(res.pd)
 }
@@ -4159,22 +4159,22 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' Extract variance covariance matrix.
 #'
 #' \code{vcov.pdynmc} extracts variance covariance matrix of the paramter
-#'    estimates of an object of class `pdynmc.fit`.
+#'    estimates of an object of class `pdynmc`.
 #'
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @param step An integer denoting the iteration step for which fitted values
 #'    are extracted (defaults to last iteration step used for obtaining parameter
 #'    estimates).
 #' @param ... further arguments.
 #'
 #' @return Extract variance covariance matrix of the paramter estimates from
-#'    object of class `pdynmc.fit`.
+#'    object of class `pdynmc`.
 #'
 #' @export
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
 #' \donttest{
@@ -4182,7 +4182,7 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -4227,21 +4227,21 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 
 #' Extract weighting matrix.
 #'
-#' \code{wmat.pdynmc} extracts weighting matrix of an object of class `pdynmc.fit`.
+#' \code{wmat.pdynmc} extracts weighting matrix of an object of class `pdynmc`.
 #'
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @param step An integer denoting the iteration step for which fitted values
 #'    are extracted (defaults to last iteration step used for obtaining parameter
 #'    estimates).
 #' @param ... further arguments.
 #'
-#' @return Extract weighting matrix from an object of class `pdynmc.fit`.
+#' @return Extract weighting matrix from an object of class `pdynmc`.
 #'
 #' @export
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
 #' \donttest{
@@ -4249,7 +4249,7 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -4305,11 +4305,11 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 
 
 
-#' Summary for objects of class `pdynmc.fit`.
+#' Summary for objects of class `pdynmc`.
 #'
-#' \code{summary.pdynmc} generates the summary for objects of class `pdynmc.fit`.
+#' \code{summary.pdynmc} generates the summary for objects of class `pdynmc`.
 #'
-#' @param object An object of class `pdynmc.fit`.
+#' @param object An object of class `pdynmc`.
 #' @param ... further arguments.
 #'
 #' @return Object of class `summary.pdynmc`.
@@ -4318,7 +4318,7 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
 #' \donttest{
@@ -4326,7 +4326,7 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -4390,10 +4390,10 @@ summary.pdynmc	<- function(object, ...){
 
 
 
-#' Print summary for objects of class `pdynmc.fit`.
+#' Print summary for objects of class `pdynmc`.
 #'
 #' \code{print.summary.pdynmc} prints the summary for objects of class
-#'    `pdynmc.fit`.
+#'    `pdynmc`.
 #'
 #' @param x An object of class `summary.pdynmc`.
 #' @param digits An integer indicating the maximum number of digits to display in the object.
@@ -4408,7 +4408,7 @@ summary.pdynmc	<- function(object, ...){
 #'
 #' @seealso
 #'
-#' \code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
 #' \donttest{
@@ -4416,7 +4416,7 @@ summary.pdynmc	<- function(object, ...){
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
-#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
