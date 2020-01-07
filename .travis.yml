@@ -1,6 +1,9 @@
 os: linux
 
 language: r
+r:
+ -release
+ -devel
 
 warnings_are_errors: true
 
