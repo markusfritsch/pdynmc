@@ -1173,6 +1173,7 @@ Wonestep.fct		<- function(
 
  if(w.mat == "identity"){
    W1.inv.temp		<- lapply(Z.temp, function(x) crossprod(x, x))						# [M:] according to BBW, p.34 (Fn. 13); does not replicate the Stata xtdpdgmm results, though
+   H_i.temp       <- diag(ncol(Z.temp))
  }
 
 
@@ -2766,6 +2767,7 @@ mtest.fct 		<- function(
 #' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Arellano and Bond (1991) estimation in Table 4, column (a1)
 #' pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
