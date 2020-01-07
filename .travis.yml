@@ -1,6 +1,10 @@
 os: linux
 
 language: r
+r:
+ -oldrel
+ -release
+ -devel
 
 warnings_are_errors: true
 
@@ -10,7 +14,7 @@ services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
-  - R CMD check *tar.gz --as-cran
+  - R CMD check . --as-cran
 
 notifications:
   email: false
