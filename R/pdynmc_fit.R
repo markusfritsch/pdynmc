@@ -897,7 +897,7 @@
        n.inst.dum			<- c(length(get(ls(pattern = "colnames.dum_1"))), length(get(ls(pattern = "colnames.dum_4"))))
      } else{
        if(dum.diff & !(dum.lev)){
-         n.inst.dum		<- length(get(ls(pattern = "colnames.dum_1")))
+         n.inst.dum		<- length(get(ls(pattern = "colnames.dum_1")))-1
        }
        if(dum.lev & !(dum.diff)){
          n.inst.dum		<- length(get(ls(pattern = "colnames.dum_4")))
