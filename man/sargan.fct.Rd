@@ -20,7 +20,7 @@ An object of class `htest` which contains the Sargan test statistic
 \details{
 The null hypothesis is that the overidentifying restrictions are valid.
    The test statistic is computed as proposed by
-   \insertCite{Sar1958estimation;textual}{pdynmc}. As noted by 
+   \insertCite{Sar1958estimation;textual}{pdynmc}. As noted by
    \insertCite{Bow2002testing;textual}{pdynmc} and
    \insertCite{Win2005;textual}{pdynmc}
    the test statistic is weakened by many instruments and inconsistent

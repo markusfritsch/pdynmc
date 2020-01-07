@@ -292,7 +292,7 @@ It has `fitted`, `residuals`, `wmat`, `vcov`, `summary`, and `print.summary`
 }
 \details{
 The function estimates a linear dynamic panel data model of the form
-   \deqn{y_{i,t} = y_{i,t-1} \rho_1 + \boldsymbol{x}_{i,t}' \boldsymbol{\beta} + a_i + \varepsilon_{i,t}},
+   \deqn{y_{i,t} = y_{i,t-1} \rho_1 + \boldsymbol{x}_{i,t}' \boldsymbol{\beta} + a_i + \varepsilon_{i,t}}
    where \eqn{y_{i,t-1}} is the lagged dependent variable, \eqn{\rho_1} is
    the lag parameter, \eqn{\boldsymbol{x}_{i,t}} are further covariates,
    \eqn{\boldsymbol{\beta}} are the corresponding parameters, \eqn{a_i}
@@ -302,7 +302,7 @@ The function estimates a linear dynamic panel data model of the form
    and dynamics. Note that the specification given above is simplified for
    illustatory purposes and more general lag structures are allowed in
    \code{pdynmc.fit}.
-   
+
    Estimation of the model parameters in \code{pdynmc.fit} is based on
    moment conditions with the generalized method of moments (GMM). Linear
    dynamic panel data models  The moment conditions employed in estimation can be linear and
@@ -324,6 +324,7 @@ The function estimates a linear dynamic panel data model of the form
 ## Load data from plm package
 data(EmplUK, package = "plm")
 dat <- EmplUK
+dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 ## Arellano and Bond (1991) estimation in Table 4, column (a1)
 pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
