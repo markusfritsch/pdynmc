@@ -7,7 +7,7 @@
 jtest.fct(object)
 }
 \arguments{
-\item{object}{An object of class `pdynmc.fit`.}
+\item{object}{An object of class `pdynmc`.}
 }
 \value{
 An object of class `htest` which contains the Hansen J test statistic
@@ -31,7 +31,7 @@ data(EmplUK, package = "plm")
 dat <- EmplUK
 dat[,c(4:7)] <- log(dat[,c(4:7)])
 
-m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -48,5 +48,5 @@ jtest.fct(m1)
 \insertAllCited{}
 }
 \seealso{
-\code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+\code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 }

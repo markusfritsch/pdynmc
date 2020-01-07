@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fit.R
 \name{print.summary.pdynmc}
 \alias{print.summary.pdynmc}
-\title{Print summary for objects of class `pdynmc.fit`.}
+\title{Print summary for objects of class `pdynmc`.}
 \usage{
 \method{print}{summary.pdynmc}(
   x,
@@ -25,7 +25,7 @@ Print information on objcets of class `summary.pdynmc`.
 }
 \description{
 \code{print.summary.pdynmc} prints the summary for objects of class
-   `pdynmc.fit`.
+   `pdynmc`.
 }
 \examples{
 \donttest{
@@ -33,7 +33,7 @@ data(EmplUK, package = "plm")
 dat <- EmplUK
 dat[,c(4:7)] <- log(dat[,c(4:7)])
 
-m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -47,5 +47,5 @@ summary.pdynmc(m1)
 
 }
 \seealso{
-\code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+\code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 }

@@ -12,7 +12,7 @@ time.dum (i.e., all time dummies are jointly zero), slope (i.e., all slope
 coefficients are jointly zero), and all (i.e., all dummies and slope
 coefficients are jointly zero).}
 
-\item{object}{An object of class `pdynmc.fit`.}
+\item{object}{An object of class `pdynmc`.}
 }
 \value{
 An object of class `htest` which contains the F test statistic and
@@ -20,7 +20,7 @@ An object of class `htest` which contains the F test statistic and
 }
 \description{
 \code{wald.fct} computes F test statistics and corresponding p-values for
-   `pdynmc.fit` objects.
+   `pdynmc` objects.
 }
 \details{
 The three available null hypothesis are: All time dummies are zero jointly,
@@ -33,7 +33,7 @@ data(EmplUK, package = "plm")
 dat <- EmplUK
 dat[,c(4:7)] <- log(dat[,c(4:7)])
 
-m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -47,5 +47,5 @@ wald.fct(param = "all", m1)
 
 }
 \seealso{
-\code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+\code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 }

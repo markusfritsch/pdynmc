@@ -7,7 +7,7 @@
 \method{fitted}{pdynmc}(object, step = object$iter, na.rm = FALSE, ...)
 }
 \arguments{
-\item{object}{An object of class `pdynmc.fit`.}
+\item{object}{An object of class `pdynmc`.}
 
 \item{step}{An integer denoting the iteration step for which fitted values
 are extracted (defaults to last iteration step used for obtaining parameter
@@ -19,11 +19,11 @@ removed from the vector of fitted values (defaults to `FALSE`).}
 \item{...}{further arguments.}
 }
 \value{
-Extract fitted values from object of class `pdynmc.fit`.
+Extract fitted values from object of class `pdynmc`.
 }
 \description{
 \code{fitted.pdynmc} extracts fitted values of an object of class
-   `pdynmc.fit`.
+   `pdynmc`.
 }
 \examples{
 \donttest{
@@ -31,7 +31,7 @@ data(EmplUK, package = "plm")
 dat <- EmplUK
 dat[,c(4:7)] <- log(dat[,c(4:7)])
 
-m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -45,5 +45,5 @@ fitted(m1, na.rm = TRUE)
 
 }
 \seealso{
-\code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+\code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 }

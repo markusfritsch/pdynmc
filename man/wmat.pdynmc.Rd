@@ -7,7 +7,7 @@
 wmat.pdynmc(object, step = object$iter, ...)
 }
 \arguments{
-\item{object}{An object of class `pdynmc.fit`.}
+\item{object}{An object of class `pdynmc`.}
 
 \item{step}{An integer denoting the iteration step for which fitted values
 are extracted (defaults to last iteration step used for obtaining parameter
@@ -16,10 +16,10 @@ estimates).}
 \item{...}{further arguments.}
 }
 \value{
-Extract weighting matrix from an object of class `pdynmc.fit`.
+Extract weighting matrix from an object of class `pdynmc`.
 }
 \description{
-\code{wmat.pdynmc} extracts weighting matrix of an object of class `pdynmc.fit`.
+\code{wmat.pdynmc} extracts weighting matrix of an object of class `pdynmc`.
 }
 \examples{
 \donttest{
@@ -27,7 +27,7 @@ data(EmplUK, package = "plm")
 dat <- EmplUK
 dat[,c(4:7)] <- log(dat[,c(4:7)])
 
-m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -41,5 +41,5 @@ wmat.pdynmc(m1)
 
 }
 \seealso{
-\code{\link{pdynmc.fit}} for fitting a linear dynamic panel data model.
+\code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 }
