@@ -4104,6 +4104,7 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' @return Extract residuals from object of class `pdynmc.fit`.
 #'
 #' @export
+#' @importFrom stats na.omit
 #'
 #' @seealso
 #'
