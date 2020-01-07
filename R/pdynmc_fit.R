@@ -3957,8 +3957,8 @@ pdynmc.fit		<- function(
 
 
  fit 		<-  list(data = resGMM, dep.clF = dep.temp, dat.clF = dat.clF.temp, w.mat = resGMM.W.j, H_i = resGMM.H.i, par.optim = resGMM.par.opt.j, ctrl.optim = resGMM.ctrl.opt.j, par.clForm = resGMM.clF.j, iter = resGMM.iter,
-				fit.pd = resGMM.fitted.j, resid.pd = resGMM.Szero.j, vcov.pd = resGMM.vcov.j, stderr = resGMM.stderr.j, zvalue = resGMM.zvalue.j, pvalue = resGMM.pvalue.j)
- class(fit)	<- append("pdynmc.fit", class(fit))
+				fitted = resGMM.fitted.j, resid = resGMM.Szero.j, vcov = resGMM.vcov.j, stderr = resGMM.stderr.j, zvalue = resGMM.zvalue.j, pvalue = resGMM.pvalue.j)
+ class(fit)	<- "pdynmc.fit"
 
  return(fit)
 
@@ -4061,9 +4061,9 @@ pdynmc.fit		<- function(
 #'
 fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
   if(na.rm == TRUE){
-    fit.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$fit.pd, ...))
+    fit.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$fit.pd))
   } else{
-    fit.pd	<- get(paste("step", step, sep = "") , object$fit.pd, ...)
+    fit.pd	<- get(paste("step", step, sep = "") , object$fit.pd)
   }
   return(fit.pd)
 }
@@ -4130,9 +4130,9 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'
 residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
   if(na.rm == TRUE){
-    res.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$resid.pd, ...))
+    res.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$resid))
   } else{
-    res.pd	<- get(paste("step", step, sep = "") , object$resid.pd, ...)
+    res.pd	<- get(paste("step", step, sep = "") , object$resid)
   }
   return(res.pd)
 }
@@ -4195,7 +4195,7 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'
 #'
 vcov.pdynmc		<- function(object, step = object$iter, ...){
-  vcov	<- get(paste("step", step, sep = "") , object$vcov.pd, ...)
+  vcov	<- get(paste("step", step, sep = "") , object$vcov)
   return(vcov)
 }
 
@@ -4262,7 +4262,7 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #'
 #'
 wmat.pdynmc		<- function(object, step = object$iter, ...){
-  wmat	<- get(paste("step", step, sep = "") , object$w.mat, ...)
+  wmat	<- get(paste("step", step, sep = "") , object$w.mat)
   return(wmat)
 }
 
@@ -4345,12 +4345,12 @@ summary.pdynmc	<- function(object, ...){
   object$n.obs	<- object$data$n * object$data$n - length(object$data$dat.na[is.na(object$data$dat.na[, object$data$varname.y]), ])
   object$unbal	<- length(object$data$dat.na[is.na(object$data$dat.na[, object$data$varname.y]), ]) > 0
 
-  coef.est		<- as.numeric(if(object$data$opt.method == "none"){ get(paste("step", step, sep = ""), object$par.clForm, ...)} else{get(paste("step", step, sep = ""), object$par.optim, ...)})
+  coef.est		<- as.numeric(if(object$data$opt.method == "none"){ get(paste("step", step, sep = ""), object$par.clForm)} else{get(paste("step", step, sep = ""), object$par.optim)})
   varnames.reg	<- object$data$varnames.reg
 
-  stderr		<- get(paste("step", step, sep = ""), object$stderr, ...)
-  zvalue		<- get(paste("step", step, sep = ""), object$zvalue, ...)
-  pvalue		<- get(paste("step", step, sep = ""), object$pvalue, ...)
+  stderr		<- get(paste("step", step, sep = ""), object$stderr)
+  zvalue		<- get(paste("step", step, sep = ""), object$zvalue)
+  pvalue		<- get(paste("step", step, sep = ""), object$pvalue)
 
   object$coefficients			<- cbind(coef.est, stderr, zvalue, pvalue)
   colnames(object$coefficients)	<- if(object$data$stderr.type != "corrected") {c("Estimate", "Std.Err", "z-value", "Pr(>|t|)")} else{c("Estimate", "Std.Err.rob", "z-value", "Pr(>|t|)")}

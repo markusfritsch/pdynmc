@@ -39,7 +39,7 @@ m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
    opt.meth = "none")
-fitted.pdynmc(m1, na.rm = TRUE)
+fitted(m1, na.rm = TRUE)
 }
 
 
