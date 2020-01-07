@@ -2012,6 +2012,8 @@ dat.closedFormExpand.fct		<- function(
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -2147,6 +2149,8 @@ wald.fct 		<- function(
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -2260,6 +2264,8 @@ sargan.fct 		<- function(
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -2365,6 +2371,8 @@ jtest.fct		<- function(
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -4037,6 +4045,8 @@ pdynmc.fit		<- function(
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -4101,17 +4111,19 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'
 #' @examples
 #' \donttest{
-#'    data(EmplUK, package = "plm")
-#'    dat <- EmplUK
-#'    m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
-#'       use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'       include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'       fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'       varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'       include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'       w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'       opt.meth = "none")
-#'    residuals.pdynmc(m1, na.rm = TRUE)
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' residuals.pdynmc(m1, na.rm = TRUE)
 #' }
 #'
 #'
@@ -4167,6 +4179,8 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -4232,6 +4246,8 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -4307,6 +4323,8 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -4395,6 +4413,8 @@ summary.pdynmc	<- function(object, ...){
 #' \donttest{
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
 #' m1 <- pdynmc.fit(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
