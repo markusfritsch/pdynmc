@@ -4353,7 +4353,7 @@ summary.pdynmc	<- function(object, ...){
   pvalue		<- get(paste("step", step, sep = ""), object$pvalue)
 
   object$coefficients			<- cbind(coef.est, stderr, zvalue, pvalue)
-  colnames(object$coefficients)	<- if(object$data$stderr.type != "corrected") {c("Estimate", "Std.Err", "z-value", "Pr(>|t|)")} else{c("Estimate", "Std.Err.rob", "z-value", "Pr(>|t|)")}
+  colnames(object$coefficients)	<- if(object$data$stderr.type != "corrected") {c("Estimate", "Std.Err", "z-value", "Pr(>|z|)")} else{c("Estimate", "Std.Err.rob", "z-value.rob", "Pr(>|z.rob|)")}
   rownames(object$coefficients)	<- object$data$varnames.reg
 
   object$hansenj		<- jtest.fct(object)
@@ -4433,7 +4433,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), wi
 #  cat(formula(paste(x$data$varname.y, paste(x$data$varnames.reg, collapse = "+"), sep = " ~ ")))
 #  cat("\n")
   cat(paste("Dynamic linear panel estimation (", x$data$estimation, ")", "\n", sep = ""))
-  cat(paste("Moment conditions: ", if(x$data$diffMC){ "linear (DIFF)" }, if(x$data$levMC){ " linear (LEV)" }, if(x$data$nlMC){ " nonlinear" }, "\n", sep = ""))
+  cat(paste("Moment conditions: ", if(x$data$diffMC){ "linear (DIF)" }, if(x$data$levMC){ " linear (LEV)" }, if(x$data$nlMC){ " nonlinear" }, "\n", sep = ""))
   cat(paste("Estimation steps: ", x$iter, "\n", sep = ""))
   cat("\n")
   stats::printCoefmat(stats::coef(x), digits = digits)
