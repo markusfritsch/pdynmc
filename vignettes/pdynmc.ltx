@@ -770,7 +770,15 @@ The functionality of \pkg{pdynmc}
 %\footnote{All results contained in this section are reproducible with the functions provided in the accompanying \proglang{R}-code. The estimation function is approximately 2,000 lines of code and provides a flexible implementation of the estimation of linear dynamic panel data models with linear and nonlinear moment conditions. Most of the options described in the text are already fully implemented. Additionally, functions to carry out the tests in Section \ref{sec:covariance_matrix} are also provided.}
 is illustrated by replicating some of the empirical results in \citet{AreBon1991}. Additionally, we show how to incorporate the linear AB and the nonlinear AS moment conditions into the analysis. We explain all arguments which need to be set to reproduce the results and point out some alternative options. We also draw comparisons between \pkg{pdynmc}, the \proglang{Stata} implementations \pkg{xtabond2}, \pkg{xtdpdgmm}, and the \pkg{pgmm} function in the \proglang{R}-package \pkg{plm} -- where we are aware of differences between the implementations.
 
-The data set employed in \citet{AreBon1991} is an unbalanced panel of $n=140$ firms located in the United Kingdom which are observed over a maximum of $T=9$ time periods. The authors investigate employment equations and consider the dynamic specification
+The data set employed in \citet{AreBon1991} is an unbalanced panel of $n=140$ firms located in the UK observed over $T=9$ time periods and is available from package \proglang{R}-\pkg{plm}:
+\begin{verbatim}
+data(EmplUK, package = "plm")
+dat                  <- EmplUK
+dat[,c(4:7)]         <- log(dat[,c(4:7)])
+names(dat[,c(4:7)])  <- c("n", "w", "k", "ys")
+\end{verbatim}
+
+The authors investigate employment equations and consider the dynamic specification
 \begin{align} \label{EQ18:ABEstimation}
 n_{i,t} =& \alpha_1 n_{i,t-1} + \alpha_2 n_{i,t-2} + \\
 &\beta_1 w_{i,t} + \beta_2 w_{i,t-1} + \beta_3 k_{i,t} + \beta_4 k_{i,t-1} + \beta_5 k_{i,t-2} + \beta_6 ys_{i,t} + \beta_7 ys_{i,t-1} + \beta_8 ys_{i,t-2} + \nonumber \\
@@ -790,7 +798,7 @@ In the equation, $i$ denotes the firm and $t$ is the time series dimension. The 
 \subsection{GMM estimation with HNR moment conditions} \label{sec:HNRmcEstimation}
 When reproducing the results in Table 4 on p.290 of \citet{AreBon1991} with \pkg{pdynmc}, the model structure of the underlying Equation (\ref{EQ18:ABEstimation}) can be specified by:
 \begin{verbatim}
-m1 <- pdynmc.fit(
+m1 <- pdynmc(
   dat = dat, varname.i = "firm", varname.t = "year",
   use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
   include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -799,11 +807,10 @@ m1 <- pdynmc.fit(
   lagTerms.reg.fur = c(1,2,2),
   include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
   w.mat = "iid.err", std.err = "corrected",
-  estimation = "onestep", opt.meth = "none"
-)
+  estimation = "onestep", opt.meth = "none")
 \end{verbatim}
 The first arguments relate to the data set (\code{dat}), the individual (\code{varname.i}), and time series dimension (\code{varname.t}).
-Next, the moment conditions are defined, here, moment conditions from equations in differences are used, only.
+Next, the moment conditions are defined -- here, only moment conditions from equations in differences are used.
 The moment conditions are derived for the dependent variable (\code{varname.y}), and for the corresponding number of lags of the dependent variable to be included as explanatory variables (\code{lagTerms.y}).
 Further non-lagged dependent explanatory variables (\code{fur.con}) are included in the equations in differences, not in the equations in levels (compare \code{fur.con.diff = TRUE, fur.con.lev = FALSE}), their variable names are stated in (\code{varname.reg.fur}), their lag structure is specified in (\code{lagTerms.reg.fur}).
 Note that the first element of the vector denoting the lag structure corresponds to the first element of the vector with the variable names, the second element to the second, and so on.
@@ -853,7 +860,7 @@ $p<0.001$ (refers to $t$-test of the null}}\tabularnewline
 %\FloatBarrier
 the estimation results when specifying all arguments as stated in this section and reproduces the results in Table 4, column (a1) on p.290 of \citet{AreBon1991}.
 
-Changing the argument \code{estimation} to \code{twostep} yields the two-step GMM coefficient estimates (the \code{pdynmc.fit}-output object is assigned to \code{m2}) from Table 4, column (a2) on p.290 of \citet{AreBon1991}.
+Changing the argument \code{estimation} to \code{twostep} yields the two-step GMM coefficient estimates (the \code{pdynmc}-output object is assigned to \code{m2}) from Table 4, column (a2) on p.290 of \citet{AreBon1991}.
 %\FloatBarrier
 \begin{table}[htbp]
 \centering
@@ -861,7 +868,7 @@ Changing the argument \code{estimation} to \code{twostep} yields the two-step GM
 \caption{Column (a2) of Table 4 in \citet{AreBon1991}} \label{Tab02:HNR2step}
 \begin{tabular}{lllll}
   \hline
- & \multicolumn{1}{c}{{Estimate}} & \multicolumn{1}{c}{{Std.Err.corr}} & \multicolumn{1}{c}{{z.corr}} & \multicolumn{1}{c}{{Pr($>$$|$z.corr$|$)}}\tabularnewline
+ & \multicolumn{1}{c}{{Estimate}} & \multicolumn{1}{c}{{Std.Err.rob}} & \multicolumn{1}{c}{{z.rob}} & \multicolumn{1}{c}{{Pr($>$$|$z.rob$|$)}}\tabularnewline
   \hline
   L1.n  & 0.62871{**}   & 0.19341 & 3.25100 & 0.00115 \tabularnewline
   L2.n  & -0.06519      & 0.04505 & -1.44700 & 0.14790 \tabularnewline
@@ -899,16 +906,18 @@ Regarding the arguments
 \end{verbatim}
 it has to be noted that the HNR moment conditions (\code{use.mc.diff}) derived from the lagged dependent variable (\code{include.y}) are employed, while none are derived from the further non-lagged dependent explanatory variables (by default \code{include.x = FALSE}). The latter argument implies that the non-lagged dependent explanatory variables in the model are assumed to be exogenous and instrument themselves.
 
-Different capabilities for testing hypotheses about the population parameters are available in \pkg{pdynmc}. Among them are the tests for serial correlation in the idiosyncratic remainder components proposed by \citet{AreBon1991}, Sargan tests, Hansen tests, and Wald tests. In the following, carrying out these tests and interpreting the results is briefly illustrated based on the two-step GMM estimation results presented in Table \ref{Tab02:HNR2step}.
+Different capabilities for testing hypotheses about the population parameters are available in \pkg{pdynmc}. Among them are the tests for serial correlation in the idiosyncratic remainder components proposed by \citet{AreBon1991},
+%Sargan tests,
+Hansen tests, and Wald tests. In the following, carrying out these tests and interpreting the results is briefly illustrated based on the two-step GMM estimation results presented in Table \ref{Tab02:HNR2step}.
 
 Employing the test for second order serial correlation of \citet{AreBon1991} described in Section \ref{sec:specTesting} by \code{m.test(m2, t.order = 2)} yields:
 \begin{verbatim}
         Serial correlation test of degree 2
 
 data:  GMM Estimation; H0: no serial correlation of order 2 in epsilon
-normal = -0.35166, p-value = 0.7251
+normal = -0.36744, p-value = 0.7133
 \end{verbatim}
-The test does not reject the null hypothesis at any plausible significance level and does not provide any indication that the model specification might be inadequate. The test statistic and $p$-value are identical to \pkg{xtabond2} and \pkg{pgmm}.
+The test does not reject the null hypothesis at any plausible significance level and does not provide any indication that the model specification might be inadequate. The test statistic and $p$-value are similar to \pkg{xtabond2} and \pkg{pgmm}.
 
 Computing the Hansen $J$-test of the overidentifying restrictions described in Section \ref{sec:oirTesting} by \code{j.test(m2)} yields:
 \begin{verbatim}
@@ -919,25 +928,25 @@ chisq = 31.381, df = 25, p-value = 0.1767
 \end{verbatim}
 The test does not reject the overidentifying restrictions and does not provide any indications that the validity of the instruments employed in estimation may be in doubt. Comparing the results to \pkg{xtabond2} shows that the degrees of freedom and the $p$-value differ. We consider 25 degrees of freedom to be the appropriate number here, as 41 instruments are employed in estimation to obtain 16 coefficient estimates. It seems that the function \pkg{xtabond2} does not correct the degrees of freedom for the number of dummies dropped in estimation\footnote{Dummies are dropped by the estimation routine in case of high collinearity.}. The difference in the $p$-value is due to the differences in the degrees of freedom. Our results are equivalent to the results of \pkg{pgmm} for the overidentifying restrictions test. In \pkg{pgmm}, the above test is referred to as `Sargan test'.
 
-For the Sargan test (\code{sargan.fct(m2}) we get:
-\begin{verbatim}
-        Sargan Test
+%For the Sargan test (\code{sargan.fct(m2}) we get:
+%\begin{verbatim}
+%        Sargan Test
+%
+%data:  GMM Estimation; H0: overidentifying restrictions valid
+%chisq = 54.756, df = 25, p-value = 0.0005297
+%\end{verbatim}
+%
+%Contrary to the $J$-Test of Hansen, the Sargan test rejects the null hypothesis and raises doubts about the instrument set. The results of both tests should, however, be interpreted with caution, as the Sargan test statistic is inconsistent when heteroscedasticity is present and the power of the $J$-Test is weakened by the presence of many instruments \citep[see][]{Roo2009StJ}.
+%Comparing the result to \pkg{xtabond2} reveals differences besides the degrees of freedom and the corresponding $p$-value: The test statistics are not identical. The differences stem from the calculation requiring a correction of the degrees of freedom. While we correct the number of observations available in estimation for missing values in the case of an unbalanced panel data set, \pkg{xtabond2} does not. Additionally, \pkg{xtabond2} seems to use the number of instruments employed in estimation to correct the degrees of freedom without adjusting for the time dummies dropped in estimation, while we make this adjustment.
 
-data:  GMM Estimation; H0: overidentifying restrictions valid
-chisq = 54.756, df = 25, p-value = 0.0005297
-\end{verbatim}
-
-Contrary to the $J$-Test of Hansen, the Sargan test rejects the null hypothesis and raises doubts about the instrument set. The results of both tests should, however, be interpreted with caution, as the Sargan test statistic is inconsistent when heteroscedasticity is present and the power of the $J$-Test is weakened by the presence of many instruments \citep[see][]{Roo2009StJ}.
-Comparing the result to \pkg{xtabond2} reveals differences besides the degrees of freedom and the corresponding $p$-value: The test statistics are not identical. The differences stem from the calculation requiring a correction of the degrees of freedom. While we correct the number of observations available in estimation for missing values in the case of an unbalanced panel data set, \pkg{xtabond2} does not. Additionally, \pkg{xtabond2} seems to use the number of instruments employed in estimation to correct the degrees of freedom without adjusting for the time dummies dropped in estimation, while we make this adjustment.
-
-For the Wald test illustrated in Section \ref{sec:linHyp}, consider the null hypothesis that the population parameters of all coefficients included in the model are zero jointly (\code{wald.fct(param = "slope.all", object = m2}):
+For the Wald test illustrated in Section \ref{sec:linHyp}, consider the null hypothesis that the population parameters of all coefficients included in the model are zero jointly (\code{wald.fct(param = "all", object = m2}):
 \begin{verbatim}
         Wald test
 
 data:  GMM Estimation; H0: beta = 0; tested model parameters: all
 chisq = 1104.7, df = 16, p-value < 2.2e-16
 \end{verbatim}
-The test rejects the null hypothesis. Comparing the test result to the implementation of the test in \pkg{xtabond2} -- again -- reveals differences concerning the degrees of freedom. We consider 16 to be the appropriate number of degrees of freedom here, since this corresponds to the number of estimated parameters. As noted previously, the differences seem to stem from \pkg{xtabond2} not adjusting the degrees of freedom for the dummies dropped in estimation. Alternative hypotheses that can be tested via the Wald test in \pkg{pdynmc} are that all slope parameters are zero jointly and that all parameters corresponding to the time dummies are zero jointly (\code{param = "time.dum"} only tests the time dummies, while \code{param = "slope"} only tests the other slope parameters).
+The test rejects the null hypothesis. Comparing the test result to the implementation of the test in \pkg{xtabond2} -- again -- reveals differences concerning the degrees of freedom. We consider 16 to be the appropriate number of degrees of freedom here, since this corresponds to the number of estimated parameters. As noted previously, the differences seem to stem from \pkg{xtabond2} not adjusting the degrees of freedom for the dummies dropped in estimation. Alternative hypotheses that can be tested via the Wald test in \pkg{pdynmc} are that all slope parameters are zero jointly and that all parameters corresponding to the time dummies are zero jointly (\code{param = "time.dum"} only tests the time dummies, while \code{param = "slope"} only tests the slope parameters).
 
 
 
@@ -1086,17 +1095,17 @@ Iterated GMM can be used, by specifying the following commands:
 \begin{verbatim}
 estimation = "iterative", max.iter = NULL, iter.tol = NULL,
 \end{verbatim}
-When \code{estimation = "iterative"} is used, \code{max.iter} shows the maximum number of iterations, \code{iter.tol} the search tolerance w.r.t.\ convergence. By default, \code{max.iter = 100} and \code{iter.tol = 0.01} are employed.
+When \code{estimation = "iterative"} is used, \code{max.iter} specifies the maximum number of iterations, \code{iter.tol} the search tolerance w.r.t.\ convergence. Unless changed by the user, \code{max.iter = 100} and \code{iter.tol = 0.01} are employed.
 
 
 
 \subsection{Starting values}
-The starting for all parameters are drawn from the uniform distribution on an interval [-1, 1] by the following commands (set as default):
+If numeric optimization techniques are used, the starting for all parameters are drawn from the uniform distribution on an interval [-1, 1] by the following commands (set as default):
 \begin{verbatim}
 start.val.lo = -1, start.val.up = 1, seed.input = 42
 \end{verbatim}
 As usual, the \code{seed.input} ensures reproducibility.
-The starting values can also be specified by the user via argument \code{start.val} and setting \code{custom.start.val} to TRUE.
+The starting values can be varied by the user via arguments \code{start.val.lo} and \code{start.val.up} and setting \code{custom.start.val} to TRUE.
 
 
 
