@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fit.R
 \name{jtest.fct}
 \alias{jtest.fct}
-\title{Hansen J test.}
+\title{Sargan test.}
 \usage{
 jtest.fct(object)
 }
@@ -10,22 +10,56 @@ jtest.fct(object)
 \item{object}{An object of class `pdynmc`.}
 }
 \value{
+An object of class `htest` which contains the Sargan test statistic
+   and corresponding p-value for the null hypothesis that the overidentifying
+   restrictions are valid.
+
 An object of class `htest` which contains the Hansen J test statistic
    and corresponding p-value for the null hypothesis that the overidentifying
    restrictions are valid.
 }
 \description{
-\code{jtest.fct} tests the validity of the overidentifying restrictions.
+\code{sargan.fct} tests the validity of the overidentifying restrictions.
 }
 \details{
+The null hypothesis is that the overidentifying restrictions are valid.
+   The test statistic is computed as proposed by
+   \insertCite{Sar1958estimation;textual}{pdynmc}. As noted by
+   \insertCite{Bow2002testing;textual}{pdynmc} and
+   \insertCite{Win2005;textual}{pdynmc}
+   the test statistic is weakened by many instruments and inconsistent
+   in the presence of heteroscedasticity according to
+   \insertCite{Roo2009StJ;textual}{pdynmc}.
+}
+\examples{
+\donttest{
+data(EmplUK, package = "plm")
+dat <- EmplUK
+dat[,c(4:7)] <- log(dat[,c(4:7)])
+
+m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+   use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+   include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+   fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+   varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+   include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+   w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+   opt.meth = "none")
+sargan.fct(m1)
+}
+
+
+Hansen J test.
+
+\code{jtest.fct} tests the validity of the overidentifying restrictions.
+
 The null hypothesis is that the overidentifying restrictions are valid.
    The test statistic is computed as proposed by
    \insertCite{Han1982large;textual}{pdynmc}. As noted by
    \insertCite{Bow2002testing;textual}{pdynmc} and
    \insertCite{Win2005;textual}{pdynmc}
    the test statistic is weakened by many instruments.
-}
-\examples{
+
 \donttest{
 data(EmplUK, package = "plm")
 dat <- EmplUK
@@ -46,7 +80,11 @@ jtest.fct(m1)
 }
 \references{
 \insertAllCited{}
+
+\insertAllCited{}
 }
 \seealso{
+\code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+
 \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 }
