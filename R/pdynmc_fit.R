@@ -2045,7 +2045,7 @@ wald.fct 		<- function(
   n					<- object$data$n
   T					<- object$data$T
   n.inst				<- object$data$n.inst
-  Szero.j				<- get(paste("step", object$iter, sep = ""), object$resid)
+  Szero.j				<- get(paste("step", object$iter, sep = ""), object$residuals)
 
 
 
@@ -2170,7 +2170,7 @@ sargan.fct 		<- function(
   if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
 
   coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
-  Szero.j		<- get(paste("step", object$iter, sep = ""), object$resid)
+  Szero.j		<- get(paste("step", object$iter, sep = ""), object$residuals)
   Z.temp		<- object$data$Z
   W.j			<- get(paste("step", object$iter, sep = ""), object$w.mat)
   n			<- object$data$n
@@ -2285,7 +2285,7 @@ jtest.fct		<- function(
   if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
 
   coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
-  Szero.j		<- get(paste("step", object$iter, sep = ""), object$resid)
+  Szero.j		<- get(paste("step", object$iter, sep = ""), object$residuals)
   Z.temp		<- object$data$Z
   W.j			<- get(paste("step", object$iter, sep = ""), object$w.mat)
   n.inst		<- object$data$n.inst
@@ -2392,7 +2392,7 @@ mtest.fct 		<- function(
 
   if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
 
-  Szero.j			<- get(paste("step", object$iter, sep = ""), object$resid)
+  Szero.j			<- get(paste("step", object$iter, sep = ""), object$residuals)
   Z.temp			<- object$data$Z
   vcov.est			<- get(paste("step", object$iter, sep = ""), object$vcov)
   W.j				<- get(paste("step", object$iter, sep = ""), object$w.mat)
