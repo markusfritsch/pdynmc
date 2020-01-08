@@ -2112,6 +2112,98 @@ wald.fct 		<- function(
 
 
 
+##' Sargan test.
+##'
+##' \code{sargan.fct} tests the validity of the overidentifying restrictions.
+##'
+##' The null hypothesis is that the overidentifying restrictions are valid.
+##'    The test statistic is computed as proposed by
+##'    \insertCite{Sar1958estimation;textual}{pdynmc}. As noted by
+##'    \insertCite{Bow2002testing;textual}{pdynmc} and
+##'    \insertCite{Win2005;textual}{pdynmc}
+##'    the test statistic is weakened by many instruments and inconsistent
+##'    in the presence of heteroscedasticity according to
+##'    \insertCite{Roo2009StJ;textual}{pdynmc}.
+##'
+##' @param object An object of class `pdynmc`.
+##' @return An object of class `htest` which contains the Sargan test statistic
+##'    and corresponding p-value for the null hypothesis that the overidentifying
+##'    restrictions are valid.
+##'
+##' @export
+##' @importFrom Matrix crossprod
+##' @importFrom stats pchisq
+##' @importFrom Rdpack reprompt
+##'
+##' @seealso
+##'
+##' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+##'
+##' @references
+##'
+##' \insertAllCited{}
+##'
+##'
+##' @examples
+##' \donttest{
+##' data(EmplUK, package = "plm")
+##' dat <- EmplUK
+##' dat[,c(4:7)] <- log(dat[,c(4:7)])
+##'
+##' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+##'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+##'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+##'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+##'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+##'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+##'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+##'    opt.meth = "none")
+##' sargan.fct(m1)
+##' }
+##'
+##'
+#sargan.fct 		<- function(
+#  object
+#){
+#
+#  if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
+#
+#  coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
+#  Szero.j		<- get(paste("step", object$iter, sep = ""), object$residuals)
+#  Z.temp		<- object$data$Z
+#  W.j			<- get(paste("step", object$iter, sep = ""), object$w.mat)
+#  n			<- object$data$n
+#  T			<- object$data$T
+#  n.inst		<- object$data$n.inst
+#  varname.y		<- object$data$varname.y
+#  dat.na		<- object$data$dat.na
+#
+#
+#
+#  K.tot		<- length(coef.est)
+#  N			<- length(do.call(what = "c", Szero.j))
+#  tzu			<- as.numeric(Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), Z.temp, Szero.j)))
+#  stat		<- as.numeric(crossprod(tzu, t(crossprod(tzu, W.j))))*
+#    #  stat		<- as.numeric(crossprod(tzu, t(crossprod(tzu, gmm.1step.results$W1))))*
+#    #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE) /(n*T - sum(n.inst)+3))))^(-1)						#[M:] 'xtabond2' test statistics (does not account for unbalancedness of the data!!)
+#    ((as.vector(Matrix::crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(sum(!is.na(dat.na[, varname.y])) - sum(n.inst))))^(-1)		#[M:] adjusted dof correction (unbalancedness of the data is accounted for)
+#  #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(n.obs - 280 - sum(n.inst))))^(-1)
+#  #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(1260-27-280-sum(n.inst)+3)))^(-1)					#[M:] roughly the Stata results
+#  names(stat)	<- "chisq"
+#  p			<- sum(n.inst)
+#  param		<- p - K.tot
+#  names(param)	<- "df"
+#  method		<- "Sargan Test"
+#  pval		<- stats::pchisq(stat, df = param, lower.tail = FALSE)
+#  sargan		<- list(statistic = stat, p.value = pval, parameter = param, method = method
+#                  , data.name = paste(object$iter, "step GMM Estimation; H0: overidentifying restrictions valid", sep = "")
+#  )
+#  class(sargan)	<- "htest"
+#  return(sargan)
+#}
+
+
+
 
 
 
