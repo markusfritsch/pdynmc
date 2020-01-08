@@ -1965,7 +1965,7 @@ dat.closedFormExpand.fct		<- function(
 
 
 ############################################################################################################
-### Standard specification tests (Wald, Sargan, Hansen J-Test, Arellano and Bond serial correlation test)
+### Standard specification tests (Wald, Hansen J-Test, Arellano and Bond serial correlation test)
 ############################################################################################################
 
 
@@ -2669,7 +2669,6 @@ mtest.fct 		<- function(
 #' @seealso
 #'
 #' \code{\link{wald.fct}} for Wald tests,
-#' \code{\link{sargan.fct}} for the Sargan test,
 #' \code{\link{jtest.fct}} for the Hansen J test, and
 #' \code{\link{mtest.fct}} for serial correlation tests.
 #' \code{\link[optimx]{optimx}} for details on alternative routines and options
