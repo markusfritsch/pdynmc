@@ -1,6 +1,6 @@
 Package: pdynmc
 Type: Package
-Title: Moment condition based estimation of linear dynamic panel data models
+Title: Moment Condition Based Estimation of Linear Dynamic Panel Data Models
 Version: 0.8.0
 Date: 2019-12-20
 Authors@R: c(person("Markus", "Fritsch", role = c("aut", "cre"),
@@ -26,9 +26,14 @@ Suggests:
     R.rsp (>= 0.43.2)
 RdMacros: Rdpack
 Description: Linear dynamic panel data modeling based on linear and
-    nonlinear moment conditions. Estimation of the model parameters relies on numerical
-    optimization and the computation of closed form solutions. For inference and specification
-    testing, corrected standard errors, serial correlation tests, tests for overidentification,
+    nonlinear moment conditions as proposed by
+    Holtz-Eakin, Newey, and Rosen (1988) <https://doi.org/10.2307/1913103>,
+    Ahn and Schmidt (1995) <https://doi.org/10.1016/0304-4076(94)01641-C>,
+    and Arellano and Bover (1995) <https://doi.org/10.1016/0304-4076(94)01642-D>.
+    Estimation of the model parameters relies on numerical optimization
+    and the computation of closed form solutions. For inference and specification
+    testing, Windmeijer (2005) <https://doi.org/10.1016/j.jeconom.2004.02.005>
+    corrected standard errors, serial correlation tests, tests for overidentification,
     and Wald tests are available.
 License: GPL (>=2)
 URL: http://github.com/markusfritsch/pdynmc
