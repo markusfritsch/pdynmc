@@ -3414,6 +3414,21 @@ pdynmc		<- function(
 
 
 
+# varname.reg.estParam		<- do.call(what = "c", args = list(varname.reg.estParam))
+
+
+
+
+
+ varname.reg			<- 	c( if(!(is.null(varname.reg.end))) varname.reg.end							# [M:] covariates (besides the lagged dependent variable) to include in estimation
+							,if(!(is.null(varname.reg.pre))) varname.reg.pre
+							,if(!(is.null(varname.reg.ex))) varname.reg.ex
+							,if(!(is.null(varname.reg.estParam.fur))) as.vector(varname.reg.estParam.fur) )
+
+
+
+
+
 
  if(!(is.null(varname.reg.toInstr))){
    if(varname.reg.toInstr != varname.y){
@@ -3427,16 +3442,7 @@ pdynmc		<- function(
 
 
 
- varname.reg.estParam		<- do.call(what = "c", args = list(varname.reg.estParam))
 
-
-
-
-
- varname.reg			<- 	c( if(!(is.null(varname.reg.end))) varname.reg.end							# [M:] covariates (besides the lagged dependent variable) to include in estimation
-							,if(!(is.null(varname.reg.pre))) varname.reg.pre
-							,if(!(is.null(varname.reg.ex))) varname.reg.ex
-							,if(!(is.null(varname.reg.estParam.fur))) as.vector(varname.reg.estParam.fur) )
 
 
 
