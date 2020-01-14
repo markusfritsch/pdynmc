@@ -2301,22 +2301,22 @@ mtest.fct 		<- function(
 
   if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
 
+  estimation	<- object$data$estimation
   Szero.j			<- get(paste("step", object$iter, sep = ""), object$residuals)
   Z.temp			<- object$data$Z
-  vcov.est			<- get(paste("step", object$iter, sep = ""), object$vcov)
-  W.j				<- get(paste("step", object$iter, sep = ""), object$w.mat)
-  H_i				<- object$H_i
-  estimation		<- object$data$estimation
-  stderr.type		<- object$data$stderr.type
+  vcov.est		<- get(paste("step", object$iter, sep = ""), object$vcov)
+  W.j				  <- get(paste("step", object$iter, sep = ""), object$w.mat)
+
+  stderr.type	<- object$data$stderr.type
   std.err			<- get(paste("step", object$iter, sep = ""), object$stderr)
   n.inst			<- object$data$n.inst
-  n				<- object$data$n
-  T				<- object$data$T
+  n				    <- object$data$n
+  T				    <- object$data$T
   varname.y			<- object$data$varname.y
   varname.reg		<- object$data$varnames.reg
   varname.dum		<- object$data$varnames.dum
-  dat.clF.temp		<- rapply(lapply(object$dat.clF, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
-  dat.na			<- object$data$dat.na
+  dat.clF.temp	<- rapply(lapply(object$dat.clF, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
+  dat.na			  <- object$data$dat.na
 
 
 
@@ -2324,7 +2324,7 @@ mtest.fct 		<- function(
   u.hat.m_o		<- lapply(Szero.j, function(x) c(rep(0, times = t.order), x[1:(length(x)-t.order)]) )
 
   if(estimation == "onestep" & stderr.type == "unadjusted"){
-#    uHtu			<- lapply(lapply(Szero.j, function(x) crossprod(x,x)), function(x) as.numeric(x) * 0.2* H_i.temp * (1/ (n*T - sum(n.inst)+3) ))
+    #    uHtu			<- lapply(lapply(Szero.j, function(x) crossprod(x,x)), function(x) as.numeric(x) * 0.2* H_i.temp * (1/ (n*T - sum(n.inst)+3) ))
     uHtu			<- lapply(lapply(Szero.j, function(x) crossprod(x,x)), function(x) as.numeric(x) * H_i * (1/ (sum(!is.na(dat.na[, varname.y])) - sum(n.inst)) ))
     tu_m_outuu.m_o	<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::tcrossprod(y, Matrix::t(x))), u.hat.m_o, uHtu, SIMPLIFY = FALSE ))
     tZutuu.m_o		<- Reduce("+", mapply(function(x,y,z) Matrix::tcrossprod(Matrix::crossprod(x,y), Matrix::t(z)), Z.temp, uHtu, u.hat.m_o, SIMPLIFY = FALSE))
@@ -2350,8 +2350,8 @@ mtest.fct 		<- function(
   names(stat)	<- "normal"
   pval		<- 2*stats::pnorm(abs(stat), lower.tail = FALSE)
   mtest		<- list(statistic = stat, p.value = pval, method = paste("Arrelano and Bond (1991) serial correlation test of degree", t.order)
-				,data.name = paste(object$iter, "step GMM Estimation; H0: no serial correlation of order ", t.order, " in the error terms", sep = "")
-				)
+                 ,data.name = paste(object$iter, "step GMM Estimation; H0: no serial correlation of order ", t.order, " in the error terms", sep = "")
+  )
   class(mtest)	<- "htest"
   return(mtest)
 }
