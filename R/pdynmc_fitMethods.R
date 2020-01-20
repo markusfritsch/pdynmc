@@ -70,11 +70,30 @@
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' fitted(m1, na.rm = TRUE)
+#'
 #' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
+#' ## Further code example
 #' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -139,11 +158,13 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
+#' ## Code example
 #' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -152,7 +173,24 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'    opt.meth = "none")
-#' residuals.pdynmc(m1, na.rm = TRUE)
+#' residuals(m1, na.rm = TRUE)
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' ## Further code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' residuals(m1, na.rm = TRUE)
 #' }
 #'
 #'
@@ -205,7 +243,25 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' vcov(m1)
+#'
 #' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
@@ -218,7 +274,7 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'    opt.meth = "none")
-#' vcov.pdynmc(m1)
+#' vcov(m1)
 #' }
 #'
 #'
@@ -272,7 +328,25 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' wmat.pdynmc(m1)
+#'
 #' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
@@ -349,7 +423,25 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' summary(m1, na.rm = TRUE)
+#'
 #' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
@@ -362,7 +454,7 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 #'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'    opt.meth = "none")
-#' summary.pdynmc(m1)
+#' summary(m1)
 #' }
 #'
 #'
@@ -439,7 +531,25 @@ summary.pdynmc	<- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' summary(m1)
+#'
 #' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
@@ -452,7 +562,7 @@ summary.pdynmc	<- function(object, ...){
 #'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'    opt.meth = "none")
-#' summary.pdynmc(m1)
+#' summary(m1)
 #' }
 #'
 #'

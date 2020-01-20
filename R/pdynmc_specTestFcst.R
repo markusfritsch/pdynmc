@@ -74,11 +74,30 @@
 #'
 #'
 #' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(140:0), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' wald.fct(param = "all", m1)
+#'
 #' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
+#' ## Further code example
 #' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -235,11 +254,30 @@ wald.fct 		<- function(
 #'
 #'
 #' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(140:0), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' jtest.fct(m1)
+#'
 #' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
+#' ## Further code example
 #' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -342,11 +380,30 @@ jtest.fct		<- function(
 #'
 #'
 #' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(140:0), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' mtest.fct(m1, t.order = 2)
+#'
 #' \donttest{
+#' ## Load data from plm package
 #' data(EmplUK, package = "plm")
 #' dat <- EmplUK
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
+#' ## Further code example
 #' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
