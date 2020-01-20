@@ -10,7 +10,8 @@ services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
-  - R CMD check . --as-cran
+  - R CMD build . --compact-vignettes=gs+qpdf
+  - R CMD check *tar.gz --as-cran
 
 notifications:
   email: false
