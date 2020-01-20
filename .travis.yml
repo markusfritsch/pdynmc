@@ -2,6 +2,8 @@ os: linux
 
 language: r
 
+r_check_args: --as-cran --no-build-vignettes
+
 warnings_are_errors: true
 
 services: docker
