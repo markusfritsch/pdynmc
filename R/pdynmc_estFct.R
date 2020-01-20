@@ -637,7 +637,7 @@ pdynmc		<- function(
 
 
  n				<- length(unique(dat[, varname.i]))		# number of cross-section units
- T				<- length(unique(dat[, varname.t]))		# number of time-series units
+ Time				<- length(unique(dat[, varname.t]))		# number of time-series units
 
 
 
