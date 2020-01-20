@@ -1,16 +1,8 @@
-os:
-  - linux
-  - osx
+os: linux
 
 language: r
 
 warnings_are_errors: true
-
-sudo: false
-
-global:
-  - R_BUILD_ARGS=--no-manual
-  - R_CHECK_ARGS=--no-manual --as-cran
 
 services: docker
 
