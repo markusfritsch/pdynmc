@@ -1,21 +1,17 @@
-os: linux
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: r
-
-r:
+language: R
+R:
+  - oldrel
   - release
   - devel
-  - oldrel
 
-sudo: required
+cache: packages
 
-warnings_are_errors: true
 
-services: docker
+apt_packages:
+  - libxml2-dev
 
 script:
-  - docker pull dxjoke/tectonic-docker
-  - R CMD check --as-cran
-
-notifications:
-  email: false
+- R CMD build .
+- R CMD check *tar.gz
