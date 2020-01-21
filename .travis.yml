@@ -21,10 +21,18 @@ r:
 env:
   - PKG_TARBALL=pdynmc_0.8.0.tar.gz
 
+sudo: required
+
 before_install:
   - tlmgr install index
 
-pandoc: false
+cache:
+ - packages
+ - apt: true
+pandoc_version: 1.19.2.1
+r_github_packages:
+  - r-lib/covr
+  - r-lib/pkgdown
 
 warnings_are_errors: true
 
@@ -32,6 +40,7 @@ services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
+  - docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c "tectonic main.tex"
   - R CMD build . --compact-vignettes=gs+qpdf
   - R CMD check *tar.gz --as-cran
 
