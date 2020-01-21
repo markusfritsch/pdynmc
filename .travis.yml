@@ -16,7 +16,8 @@ services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
-  - R CMD check pdynmc_0.8.0.tar.gz --as-cran
+  - R CMD build .
+  - R CMD check *tar.gz --as-cran
 
 notifications:
   email: false
