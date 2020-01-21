@@ -7,12 +7,14 @@ r:
 
 cache: packages
 
-before_install:
-  - tlmgr install standalone showexpl imakeidx xpatch
+sudo: required
+
+services: docker
 
 apt_packages:
   - libxml2-dev
 
 script:
-- R CMD build .
-- R CMD check *tar.gz
+  - docker pull dxjoke/tectonic-docker
+  - R CMD build .
+  - R CMD check *tar.gz
