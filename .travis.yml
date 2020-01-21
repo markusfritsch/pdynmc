@@ -5,18 +5,17 @@ r:
 
 warnings_are_errors: true
 
-
-before_install:
-  - tlmgr install nicefrac
-
-
 cache: packages
-
 
 os: linux
 
+sudo: required
+
+services: docker
+
 
 script:
+  - docker pull dxjoke/tectonic-docker
   - R CMD build . --compact-vignettes=gs+qpdf
   - R CMD check *tar.gz --as-cran
 
@@ -34,7 +33,7 @@ addons:
 # deploy to github
 deploy:
   provider: releases
-  skip_cleanup: true
+  cleanup: true
   github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true
   file: pdynmc*.t*gz
