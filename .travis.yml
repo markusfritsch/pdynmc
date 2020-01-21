@@ -1,10 +1,12 @@
 os: linux
 
+apt_packages:
+  - libxml2-dev
+
 addons:
   apt:
     update: true
     packages:
-      - libxml2-dev
       - libgs-dev
       - qpdf
       - ghostscript
@@ -22,8 +24,6 @@ before_install:
 pandoc: false
 
 warnings_are_errors: true
-
-r_check_args: as-cran
 
 services: docker
 
