@@ -4,3 +4,4 @@
 .gitignore
 .travis.yml
 cran-comments.md
+^\.travis\.yml$
