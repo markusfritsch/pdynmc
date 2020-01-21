@@ -5,7 +5,9 @@ r:
   - release
   - devel
 
-cache: packages
+cache:
+  directories:
+    - $HOME/.cache/Tectonic
 
 sudo: required
 
