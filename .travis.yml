@@ -3,28 +3,20 @@ r:
   - release
   - devel
 
-os: linux
+warnings_are_errors: true
 
-cache:
-  directories:
-    - $HOME/.cache/Tectonic
-
-sudo: required
 
 before_install:
-  - sudo apt-get -y install libxml2-dev
-addons:
-  apt:
-    update: true
+  - tlmgr install nicefrac
 
-services: docker
 
-apt_packages:
-  - libxml2-dev
+cache: packages
+
+
+os: linux
+
 
 script:
-  - docker pull dxjoke/tectonic-docker
-  - docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c "tectonic main.tex"
   - R CMD build . --compact-vignettes=gs+qpdf
   - R CMD check *tar.gz --as-cran
 
@@ -41,10 +33,11 @@ addons:
 
 # deploy to github
 deploy:
-  provider: pages
+  provider: releases
   skip_cleanup: true
   github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true
-  repo: markusfritsch/pdynmc
+  file: pdynmc*.t*gz
   on:
-    branch: master
+    tags: true
+    repo: markusfritsch/pdynmc
