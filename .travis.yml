@@ -9,6 +9,8 @@ cache:
   directories:
     - $HOME/.cache/Tectonic
 
+r_check_args: "--no-vignettes"
+
 sudo: required
 
 services: docker
@@ -18,5 +20,13 @@ apt_packages:
 
 script:
   - docker pull dxjoke/tectonic-docker
-  - R CMD build .
-  - R CMD check *tar.gz
+  - R CMD build . --compact-vignettes=gs+qpdf
+  - R CMD check *tar.gz --as-cran
+
+addons:
+  apt:
+    update: true
+    packages:
+      - libgs-dev
+      - qpdf
+      - ghostscript
