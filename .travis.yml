@@ -18,6 +18,9 @@ r:
   - devel
   - oldrel
 
+env:
+  - PKG_TARBALL=pdynmc_0.8.0.tar.gz
+
 before_install:
   - tlmgr install index
 
