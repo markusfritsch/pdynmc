@@ -1,21 +1,36 @@
 os: linux
 
-apt_packages:
-  - libxml2-dev
+addons:
+  apt:
+    update: true
+    packages:
+      - libxml2-dev
+      - libgs-dev
+      - qpdf
+      - ghostscript
 
 language: r
 
 r:
   - release
+  - devel
+  - oldrel
 
-r_check_args: --as-cran --no-build-vignettes
+before_install:
+  - tlmgr install index
+
+pandoc: false
 
 warnings_are_errors: true
+
+r_check_args: as-cran
 
 services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
+  - R CMD build . --compact-vignettes=gs+qpdf
+  - R CMD check *tag.gz --as-cran
 
 
 notifications:
