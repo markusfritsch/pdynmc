@@ -1,7 +1,7 @@
 os: linux
 
 apt_packages:
-  - libpngl2-dev
+  - libxml2-dev
 
 language: r
 
