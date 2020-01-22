@@ -15,19 +15,19 @@ services: docker
 script:
   - docker pull dxjoke/tectonic-docker
   - R CMD build .
-  - R CMD check *tar.gz --as-cran
+  - R CMD check pdynmc_0.8.0.tar.gz --as-cran
 
 
 
 
-# deploy to github
-deploy:
-  provider: releases
-  cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep_history: true
-  file: pdynmc*.t*gz
-  on:
-    branch: master
-    tags: true
-    repo: markusfritsch/pdynmc
+## deploy to github
+#deploy:
+#  provider: releases
+#  cleanup: true
+#  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+#  keep_history: true
+#  file: pdynmc*.t*gz
+#  on:
+#    branch: master
+#    tags: true
+#    repo: markusfritsch/pdynmc
