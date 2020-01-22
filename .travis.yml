@@ -29,7 +29,6 @@ services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
-  - docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c "tectonic pdynmc.tex"
   - R CMD build .
   - R CMD check pdynmc_0.8.0.tar.gz --as-cran
 
