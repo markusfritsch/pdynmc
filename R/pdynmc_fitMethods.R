@@ -400,6 +400,90 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 
 
 
+#' Print objects of class `pdynmc`.
+#'
+#' \code{print.pdynmc} prints objects of class `pdynmc`.
+#'
+#' @param x An object of class `pdynmc`.
+#' @param digits An integer indicating the maximum number of digits to display in the object.
+#' @param ... further arguments.
+#'
+#' @return Print objects of class `pdynmc`.
+#'
+#' @export
+#' @importFrom stats coef
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' m1
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' data(EmplUK, package = "plm")
+#' dat <- EmplUK
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'    opt.meth = "none")
+#' m1
+#' }
+#'
+#'
+print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
+
+  cat("\nDynamic linear panel estimation", paste(" (", x$data$estimation, ")", sep = ""), sep = "")
+  cat("\nMoment conditions: ", paste(if(x$data$diffMC){ "linear (DIF)" }, if(x$data$levMC){ " linear (LEV)" }, if(x$data$nlMC){ " nonlinear" }), sep = "")
+  cat("\nEstimation steps: ", paste(x$iter), sep = "")
+  cat("\n")
+  cat("\nCoefficients:\n")
+  print.default(format(coef(x), digits = digits), print.gap = 2L, quote = FALSE)
+  cat("\n")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -465,7 +549,7 @@ summary.pdynmc	<- function(object, ...){
   object$n.obs	<- object$data$n * object$data$n - length(object$data$dat.na[is.na(object$data$dat.na[, object$data$varname.y]), ])
   object$unbal	<- length(object$data$dat.na[is.na(object$data$dat.na[, object$data$varname.y]), ]) > 0
 
-  coef.est		<- as.numeric(if(object$data$opt.method == "none"){ get(paste("step", step, sep = ""), object$par.clForm)} else{get(paste("step", step, sep = ""), object$par.optim)})
+  coef.est		  <- as.numeric(if(object$data$opt.method == "none"){ get(paste("step", step, sep = ""), object$par.clForm)} else{get(paste("step", step, sep = ""), object$par.optim)})
   varnames.reg	<- object$data$varnames.reg
 
   stderr		<- get(paste("step", step, sep = ""), object$stderr)
@@ -478,10 +562,10 @@ summary.pdynmc	<- function(object, ...){
 
   object$hansenj		<- jtest.fct(object)
 
-  object$slopef		<- wald.fct(param = "slope", object = object)
+  object$slopef		  <- wald.fct(param = "slope", object = object)
   object$time.dumf	<- wald.fct(param = "time.dum", object = object)
 
-  class(object)		<- append(class(object), "summary.pdynmc")
+  class(object)		<- "summary.pdynmc"
   return(object)
 }
 
@@ -517,10 +601,10 @@ summary.pdynmc	<- function(object, ...){
 #'
 #' @param x An object of class `summary.pdynmc`.
 #' @param digits An integer indicating the maximum number of digits to display in the object.
-#' @param width Argument is defined as in \code{\link{options}}.
+#' @param signif.stars Argument is defined as in \code{\link{options}}.
 #' @param ... further arguments.
 #'
-#' @return Print information on objcets of class `summary.pdynmc`.
+#' @return Print information on objects of class `summary.pdynmc`.
 #'
 #' @export
 #' @importFrom stats coef
@@ -566,23 +650,41 @@ summary.pdynmc	<- function(object, ...){
 #' }
 #'
 #'
-print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), width = getOption("width"), ...){
+print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), signif.stars = getOption("show.signif.stars"), ...){
 
 #  cat(formula(paste(x$data$varname.y, paste(x$data$varnames.reg, collapse = "+"), sep = " ~ ")))
 #  cat("\n")
-  cat(paste("Dynamic linear panel estimation (", x$data$estimation, ")", "\n", sep = ""))
-  cat(paste("Moment conditions: ", if(x$data$diffMC){ "linear (DIF)" }, if(x$data$levMC){ " linear (LEV)" }, if(x$data$nlMC){ " nonlinear" }, "\n", sep = ""))
-  cat(paste("Estimation steps: ", x$iter, "\n", sep = ""))
-  cat("\n")
-  stats::printCoefmat(stats::coef(x), digits = digits)
-  cat("\n")
+  cat("\nDynamic linear panel estimation", paste(" (", x$data$estimation, ")", sep = ""), sep = "")
+  cat("\nMoment conditions: ", paste(if(x$data$diffMC){ "linear (DIF)" }, if(x$data$levMC){ " linear (LEV)" }, if(x$data$nlMC){ " nonlinear" }), sep = "")
+  cat("\nEstimation steps: ", paste(x$iter), "\n", sep = "")
+  cat("\nCoefficients:\n")
+  printCoefmat(coef(x), digits = digits, signif.stars = signif.stars, na.print = "NA", ...)
 #  cat(paste("Total Sum of Squares ", round(x$tss, digits = digits), "\n", sep = ""))
 #  cat(paste("Residual Sum of Squares ", round(x$rss, digits = digits), "\n", sep = ""))
-  cat(paste(sum(x$data$n.inst), " total instruments are employed to estimate ", length(x$data$varnames.reg), " parameters", "\n", sep = ""))
-  cat(paste("J-Test (overid restrictions): ", round(x$hansenj$statistic, digits = 2), " with ", x$hansenj$parameter, " DF, pvalue: ", if(x$hansenj$p.value < 0.001){paste("<0.001")} else{round(x$hansenj$p.value, digits = digits)}, "\n", sep = ""))
-  cat(paste("F-Statistic (slope coeff): ", round(x$slopef$statistic, digits = 2), " with ", x$slopef$parameter, " DF, pvalue: ", if(x$slopef$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)}, "\n", sep = ""))
-  cat(paste("F-Statistic (time dummies): ", round(x$time.dumf$statistic, digits = 2), " with ", x$time.dumf$parameter, " DF, pvalue: ", if(x$time.dumf$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)} ) )
+  cat("\n", paste(sum(x$data$n.inst), " total instruments are employed to estimate ", length(x$data$varnames.reg), " parameters", "\n", sep = ""))
+  cat("\nJ-Test (overid restrictions): ", paste(round(x$hansenj$statistic, digits = 2), " with ", x$hansenj$parameter, " DF, pvalue: ", if(x$hansenj$p.value < 0.001){paste("<0.001")} else{round(x$hansenj$p.value, digits = digits)}, sep = ""))
+  cat("\nF-Statistic (slope coeff): ", paste(round(x$slopef$statistic, digits = 2), " with ", x$slopef$parameter, " DF, pvalue: ", if(x$slopef$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)}, sep = ""))
+  cat("\nF-Statistic (time dummies): ", paste(round(x$time.dumf$statistic, digits = 2), " with ", x$time.dumf$parameter, " DF, pvalue: ", if(x$time.dumf$p.value < 0.001){paste("<0.001")} else{round(x$time.dumf$p.value, digits = digits)}, sep = ""))
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -115,7 +115,7 @@ wald.fct 		<- function(
  ,object
 ){
 
-  if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
+  if(!(all(inherits(object, "pdynmc")))) stop("Object needs to be of class 'pdynmc'")
 
   coef.est				<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)),
 						yes = get(paste("step", object$iter, sep = ""), object$par.clForm),
@@ -294,14 +294,13 @@ jtest.fct		<- function(
  object
 ){
 
-  if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
+  if(!(all(inherits(object, "pdynmc")))) stop("Object needs to be of class 'pdynmc'")
 
   coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
   Szero.j		<- get(paste("step", object$iter, sep = ""), object$residuals)
   Z.temp		<- object$data$Z
   W.j			<- get(paste("step", object$iter, sep = ""), object$w.mat)
   n.inst		<- object$data$n.inst
-
 
 
   K.tot			<- length(coef.est)
@@ -421,7 +420,7 @@ mtest.fct 		<- function(
  ,t.order
 ){
 
-  if(all(class(object) != "pdynmc")) stop("Object needs to be of class 'pdynmc'")
+  if(!(all(inherits(object, "pdynmc")))) stop("Object needs to be of class 'pdynmc'")
 
   estimation	<- object$data$estimation
   Szero.j			<- get(paste("step", object$iter, sep = ""), object$residuals)

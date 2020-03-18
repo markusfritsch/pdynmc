@@ -253,7 +253,6 @@
 #' @author Markus Fritsch
 #' @export
 #' @importFrom data.table shift
-#' @importFrom dplyr left_join
 #' @importFrom MASS ginv
 #' @importFrom Matrix crossprod
 #' @importFrom Matrix Diagonal
@@ -625,7 +624,7 @@ pdynmc		<- function(
  dat_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
 
 
- dat				<- dplyr::left_join(x = dat_b, y = dat, by = c(varname.i, varname.t), all.x = TRUE)
+ dat				<- merge(x = dat_b, y = dat, by = c(varname.i, varname.t), all.x = TRUE)
  dat				<- dat[order(dat[, varname.i], dat[, varname.t], decreasing = FALSE), ]
 
  dat.na			<- dat
@@ -1467,6 +1466,8 @@ pdynmc		<- function(
 
  }
 
+ coefGMM        <- if(resGMM$opt.method == "none"){ get(paste("step", resGMM.iter, sep = ""), resGMM.clF.j)} else{get(paste("step", resGMM.iter, sep = ""), resGMM.par.opt.j)}
+ names(coefGMM) <- resGMM$varnames.reg
 
 # if(estimation == "cue"){
 #
@@ -1487,9 +1488,12 @@ pdynmc		<- function(
 # }
 
 
- fit 		<-  list(data = resGMM, dep.clF = dep.temp, dat.clF = dat.clF.temp, w.mat = resGMM.W.j, H_i = resGMM.H.i, par.optim = resGMM.par.opt.j, ctrl.optim = resGMM.ctrl.opt.j, par.clForm = resGMM.clF.j, iter = resGMM.iter,
-				fitted.values = resGMM.fitted.j, residuals = resGMM.Szero.j, vcov = resGMM.vcov.j, stderr = resGMM.stderr.j, zvalue = resGMM.zvalue.j, pvalue = resGMM.pvalue.j)
- class(fit)	<- "pdynmc"
+ fit 		<-  list(coefficients = coefGMM, residuals = resGMM.Szero.j, fitted.values = resGMM.fitted.j,
+   par.optim = resGMM.par.opt.j, ctrl.optim = resGMM.ctrl.opt.j, par.clForm = resGMM.clF.j, iter = resGMM.iter,
+   w.mat = resGMM.W.j, H_i = resGMM.H.i, vcov = resGMM.vcov.j, stderr = resGMM.stderr.j,
+   zvalue = resGMM.zvalue.j, pvalue = resGMM.pvalue.j,
+   data = resGMM, dep.clF = dep.temp, dat.clF = dat.clF.temp)
+ attr(fit, "class")  <- "pdynmc"
 
  return(fit)
 
