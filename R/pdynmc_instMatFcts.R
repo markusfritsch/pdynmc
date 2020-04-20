@@ -918,14 +918,24 @@ Z_i.fct	<- function(
       if(length(varname.reg.estParam.fur) == 1){
         Z_i.furCon.diff				<- diff(as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][-c(1:max.lagTerms)]), differences = 1)
         Z_i.furCon.diff[ind_vec.diff.row]	<- 0
-        Z_i.furCon.temp_diff			<- as.matrix(c(Z_i.furCon.diff, rep(0, times = nrow(Z_i.temp) - length(Z_i.furCon.diff)) ) )
+        if(!include.dum & !(use.mc.diff | use.mc.nonlin) & use.mc.lev){
+          Z_i.furCon.temp_diff      <- as.matrix(c(Z_i.furCon.diff, rep(0, times = nrow(Z_i.temp)) ) )
+          Z_i.temp                  <- as.matrix(c(rep(0, times = nrow(Z_i.furCon.diff)), Z_i.temp) )
+        } else{
+          Z_i.furCon.temp_diff			<- as.matrix(c(Z_i.furCon.diff, rep(0, times = nrow(Z_i.temp) - length(Z_i.furCon.diff)) ) )
+        }
         colnames.fur.con.diff			<- colnames(Z_i.furCon.temp_diff)
         rownames(Z_i.furCon.temp_diff)		<- NULL
         colnames(Z_i.furCon.temp_diff)		<- NULL
       } else{
         Z_i.furCon.diff				<- diff(as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][-c(1:max.lagTerms), ]), differences = 1)
         Z_i.furCon.diff[ind_vec.diff.row, ]	<- 0
-        Z_i.furCon.temp_diff			<- rbind(Z_i.furCon.diff, matrix(0, ncol = ncol(Z_i.furCon.diff), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.diff)) )
+        if(!include.dum & !(use.mc.diff | use.mc.nonlin) & use.mc.lev){
+          Z_i.furCon.temp_diff      <- rbind(Z_i.furCon.diff, matrix(0, ncol = ncol(Z_i.furCon.diff), nrow = nrow(Z_i.temp)) )
+          Z_i.temp                  <- rbind(matrix(0, nrow = nrow(Z_i.furCon.diff), ncol = ncol(Z_i.temp)), Z_i.temp)
+        } else{
+          Z_i.furCon.temp_diff			<- rbind(Z_i.furCon.diff, matrix(0, ncol = ncol(Z_i.furCon.diff), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.diff)) )
+        }
         colnames.fur.con.diff			<- colnames(Z_i.furCon.temp_diff)
         rownames(Z_i.furCon.temp_diff)		<- NULL
         colnames(Z_i.furCon.temp_diff)		<- NULL
@@ -965,7 +975,6 @@ Z_i.fct	<- function(
         n.inst.furCon		<- length(get(ls(pattern = "colnames.fur.con.lev")))
       }
     }
-
     Z_i.temp				<- cbind(Z_i.temp, Z_i.furCon.temp)
     Z_i.temp[is.na(Z_i.temp)]	<- 0
 

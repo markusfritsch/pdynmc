@@ -95,9 +95,9 @@ Wonestep.fct		<- function(
       H_i.mcLev		<- diag(Time - max.lagTerms)
     }
 
-    if(use.mc.lev & !(dum.lev | fur.con.lev)){
-      H_i.off		<- H_i.off
-    }
+#    if(use.mc.lev & (dum.diff | fur.con.diff) & !(dum.lev | fur.con.lev)){
+#      H_i.off		<- H_i.off
+#    }
 
     if(use.mc.nonlin){
       H_i.mcNL		<- diag(Time - max.lagTerms - 2)
