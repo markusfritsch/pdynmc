@@ -816,7 +816,7 @@ Z_i.fct	<- function(
         }
       } else{
         if((use.mc.diff | fur.con.diff) & !(dum.diff)){
-          Z_i.dum_1.diff		<- matrix(0, ncol = ncol(Z_i.dum_4.lev), nrow = (T-max.lagTerms-1))
+          Z_i.dum_1.diff		<- matrix(0, ncol = ncol(Z_i.dum_4.lev), nrow = (Time-max.lagTerms-1))
           colnames.dum_1.diff	<- colnames(Z_i.dum_4.lev)
           if(use.mc.nonlin){
             Z_i.dum			<- rbind(Z_i.dum_1.diff, Z_i.dum_2.nl, Z_i.dum_4.lev)
