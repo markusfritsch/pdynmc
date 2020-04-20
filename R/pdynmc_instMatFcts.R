@@ -903,6 +903,8 @@ Z_i.fct	<- function(
         n.inst.dum		<- length(get(ls(pattern = "colnames.dum_4")))
       }
     }
+  } else{
+    colnames_Z_i.dum  <- NULL
   }
 
 

@@ -774,6 +774,8 @@ pdynmc		<- function(
 
 
 
+ }else{
+   colnames.dum   <- NULL
  }
 
 
@@ -1127,7 +1129,11 @@ pdynmc		<- function(
 
  resGMM$varname.y			<- varname.y
  resGMM$varnames.reg		<- varname.reg.estParam
- resGMM$varnames.dum		<- colnames.dum[colnames.dum %in% varname.reg.estParam]
+ if(include.dum){
+   resGMM$varnames.dum		<- colnames.dum[colnames.dum %in% varname.reg.estParam]
+ } else{
+   resGMM$varnames.dum    <- "no time dummies"
+ }
 
  resGMM$estimation		<- estimation
  resGMM$opt.method		<- opt.meth

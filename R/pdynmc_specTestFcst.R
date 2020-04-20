@@ -142,7 +142,11 @@ wald.fct 		<- function(
 
 
   K.tot		<- length(coef.est)
-  K.t			<- length(varname.dum)
+  if(!is.character(varname.dum)){
+    K.t			<- length(varname.dum)
+  } else{
+    K.t     <- 0
+  }
 
   if(param == "time.dum"){
     start		<- K.tot - K.t + 1
