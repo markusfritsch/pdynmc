@@ -41,5 +41,4 @@ BugReports: https://github.com/markusfritsch/pdynmc/issues
 VignetteBuilder: R.rsp
 Encoding: UTF-8
 Classification/JEL: C23, C26, C87
-RoxygenNote: 7.0.2
-
+RoxygenNote: 7.1.0
