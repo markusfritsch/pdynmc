@@ -455,7 +455,6 @@ pdynmc		<- function(
  }
  if(estimation == "iterative"){
    j.max			<- max.iter
-   }
  }
 # if(estimation == "cue"){
 #   if(!(is.null(max.iter))){
