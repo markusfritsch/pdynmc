@@ -280,79 +280,93 @@
 #'
 #' @examples
 #' ## Load data from plm package
-#' data(EmplUK, package = "plm")
-#' dat <- EmplUK
-#' dat[,c(4:7)] <- log(dat[,c(4:7)])
-#' dat <- dat[c(1:140), ]
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'    opt.meth = "none")
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'          use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'          include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'          fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'          varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'          include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'          w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'          opt.meth = "none")
+#'  summary(m1)
+#' }
 #'
 #' \donttest{
 #' ## Load data from plm package
-#' data(EmplUK, package = "plm")
-#' dat <- EmplUK
-#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Arellano and Bond (1991) estimation in Table 4, column (a1)
-#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'    opt.meth = "none")
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'          use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'          include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'          fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'          varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'          include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'          w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'          opt.meth = "none")
+#'  summary(m1)
 #'
 #' ## Arellano and Bond (1991) estimation in Table 4, column (a2)
-#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'    w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
-#'    opt.meth = "none")
+#'  m2 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'          use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'          include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'          fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'          varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'          include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'          w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
+#'          opt.meth = "none")
+#'  summary(m2)
 #'
 #' ## Arellano and Bond (1991) twostep estimation extended by nonlinear moment
 #' ## conditions
-#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = TRUE,
-#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'    w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
-#'    opt.meth = "BFGS")
+#'  m3 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'          use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = TRUE,
+#'          include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'          fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'          varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'          include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'          w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
+#'          opt.meth = "BFGS")
+#'  summary(m3)
 #'
 #' ## Arellano and Bond (1991) iterative estimation extended by nonlinear moment
 #' ## conditions
-#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = TRUE,
-#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'    w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
-#'    max.iter = 4, opt.meth = "BFGS")
+#'  m4 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'          use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = TRUE,
+#'          include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'          fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'          varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'          include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'          w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
+#'          max.iter = 4, opt.meth = "BFGS")
+#'  summary(m4)
 #'
 #' ## Arellano and Bond (1991) twostep estimation extended by linear moment
 #' ## conditions from equations in levels
-#' pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'    use.mc.diff = TRUE, use.mc.lev = TRUE, use.mc.nonlin = FALSE,
-#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'    w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
-#'    opt.meth = "none")
+#'  m5 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'          use.mc.diff = TRUE, use.mc.lev = TRUE, use.mc.nonlin = FALSE,
+#'          include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'          fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'          varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'          include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'          w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
+#'          opt.meth = "none")
+#'  summary(m5)
+#' }
 #' }
 #'
 #'
@@ -413,9 +427,9 @@ pdynmc		<- function(
 
  ,std.err				= "corrected"
 
- ,estimation			= "twostep"
- ,max.iter				= NULL
- ,iter.tol				= NULL
+ ,estimation			= "iterative"
+ ,max.iter				= 100
+ ,iter.tol				= 0.01
  ,inst.thresh			= NULL
  ,opt.meth				= "BFGS"
  ,hessian				= FALSE
@@ -440,13 +454,7 @@ pdynmc		<- function(
    max.iter			<- j.max
  }
  if(estimation == "iterative"){
-   if(!(is.null(max.iter))){
-     j.max			<- max.iter
-   } else{
-     j.max			<- 100
-   }
-   if(is.null(iter.tol)){
-     iter.tol		<- 0.01
+   j.max			<- max.iter
    }
  }
 # if(estimation == "cue"){
