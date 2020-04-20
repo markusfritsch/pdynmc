@@ -142,10 +142,14 @@ wald.fct 		<- function(
 
 
   K.tot		<- length(coef.est)
-  if(!is.character(varname.dum)){
+  if(length(varname.dum) > 1){
     K.t			<- length(varname.dum)
   } else{
-    K.t     <- 0
+    if(varname.dum == "no time dummies"){
+      K.t     <- 0
+    } else{
+      K.t     <- 1
+    }
   }
 
   if(param == "time.dum"){

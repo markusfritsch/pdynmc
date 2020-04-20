@@ -610,10 +610,14 @@ summary.pdynmc	<- function(object, ...){
   object$hansenj		<- jtest.fct(object)
 
   object$slopef		  <- wald.fct(param = "slope", object = object)
-  if(is.character(object$data$varnames.dum)){
-    object$time.dumf	<- "no times dummies included in estimation"
-  } else{
+  if(length(object$data$varnames.dum) > 1){
     object$time.dumf	<- wald.fct(param = "time.dum", object = object)
+  } else{
+    if(object$data$varnames.dum == "no time dummies"){
+      object$time.dumf	<- "no times dummies included in estimation"
+    } else{
+      object$time.dumf	<- wald.fct(param = "time.dum", object = object)
+    }
   }
 
   class(object)		<- "summary.pdynmc"
@@ -722,7 +726,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
   cat("\n", paste(sum(x$data$n.inst), " total instruments are employed to estimate ", length(x$data$varnames.reg), " parameters", "\n", sep = ""))
   cat("\nJ-Test (overid restrictions): ", paste(round(x$hansenj$statistic, digits = 2), " with ", x$hansenj$parameter, " DF, pvalue: ", if(x$hansenj$p.value < 0.001){paste("<0.001")} else{round(x$hansenj$p.value, digits = digits)}, sep = ""))
   cat("\nF-Statistic (slope coeff): ", paste(round(x$slopef$statistic, digits = 2), " with ", x$slopef$parameter, " DF, pvalue: ", if(x$slopef$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)}, sep = ""))
-  cat("\nF-Statistic (time dummies): ", if(is.character(x$time.dumf)){ "no time dummies included in estimation" } else{ paste(round(x$time.dumf$statistic, digits = 2), " with ", x$time.dumf$parameter, " DF, pvalue: ", if(x$time.dumf$p.value < 0.001){paste("<0.001")} else{round(x$time.dumf$p.value, digits = digits)}, sep = "")} )
+  cat("\nF-Statistic (time dummies): ", if(length(x$time.dumf) == 1){ "no time dummies included in estimation" } else{ paste(round(x$time.dumf$statistic, digits = 2), " with ", x$time.dumf$parameter, " DF, pvalue: ", if(x$time.dumf$p.value < 0.001){paste("<0.001")} else{round(x$time.dumf$p.value, digits = digits)}, sep = "")} )
 }
 
 
