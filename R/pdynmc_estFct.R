@@ -1026,13 +1026,15 @@ pdynmc		<- function(
 								varname = do.call(what = "c", args = list(do.call(what = "c", args = mapply(varname.reg.fur, FUN = rep, each = (lagTerms.reg.fur+1)*length(i_cases), SIMPLIFY = FALSE))) ),
 								FUN = dat.na.lag)
    }
+ } else{
+   varname.reg.estParam.fur <- NULL
  }
 
  varname.reg.estParam		 <- c(if(exists("varname.reg.estParam.y")) as.vector(varname.reg.estParam.y)			# [M:] covariates (besides the lagged dependent variable) for which to estimate parameters
 						,if(exists("varname.reg.estParam.x.end")) as.vector(varname.reg.estParam.x.end)
 						,if(exists("varname.reg.estParam.x.pre")) as.vector(varname.reg.estParam.x.pre)
 						,if(exists("varname.reg.estParam.x.ex")) as.vector(varname.reg.estParam.x.ex)
-						,if(exists("varname.reg.estParam.fur")) as.vector(varname.reg.estParam.fur) )
+						,if(exists("varname.reg.estParam.fur") & !(is.null(varname.reg.estParam.fur))) as.vector(varname.reg.estParam.fur) )
 
 
 
