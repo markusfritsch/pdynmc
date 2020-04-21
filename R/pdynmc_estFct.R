@@ -701,7 +701,7 @@ pdynmc		<- function(
    }
 
 
-   D.add	<- stats::model.matrix(form.dum.temp, data = dat)
+   D.add	<- stats::model.matrix(form.dum.temp, data = dat)[,-1]
 
    adjust.colnames.fct	<- function(
    j
@@ -713,6 +713,8 @@ pdynmc		<- function(
 
 
    colnames(D.add)		<- colnames.dum
+
+#   colnames.dum   <- colnames(D.add)
 
    dat_add				<- matrix(NA, ncol = ncol(D.add), nrow = nrow(dat))
    colnames(dat_add)		<- colnames.dum
