@@ -1,11 +1,17 @@
 
+rm(list = ls())
+
+data(EmplUK, package = "plm")
+dat <- EmplUK
+dat[,c(4:7)] <- log(dat[,c(4:7)])
+
 
 
 dat = dat
 varname.i = "firm"
 varname.t = "year"
-use.mc.diff = FALSE
-use.mc.lev = TRUE
+use.mc.diff = TRUE
+use.mc.lev = FALSE
 use.mc.nonlin = FALSE
 use.mc.nonlinAS			= NULL
 inst.stata			= FALSE
