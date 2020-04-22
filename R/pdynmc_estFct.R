@@ -957,7 +957,7 @@ pdynmc		<- function(
 
 
 
- if(include.y){
+# if(include.y){
    if(lagTerms.y > 0){
      varname.reg.estParam.y				<- do.call(what = "varname.expand", args = list(varname = varname.y, lagTerms = lagTerms.y) )
      if(length(varname.reg.estParam.y) == 1){
@@ -966,7 +966,7 @@ pdynmc		<- function(
        dat.na[, varname.reg.estParam.y]		<- mapply(lagTerms = rep(c(1:lagTerms.y), each = length(i_cases)), i = i_cases, varname = varname.y, FUN = dat.na.lag)
      }
    }
- }
+# }
 
  if(include.x){
    if(!(is.null(varname.reg.end))){

@@ -832,7 +832,7 @@ sub.clForm.fct		<- function(
   }
   if(use.mc.lev | dum.lev | fur.con.lev){
     dat.temp_3lev					<- as.matrix(data.temp[-c(1:(max.lagTerms)), ]) *
-      ( diff(data.temp[, varname.y], differences = max(2,max.lagTerms)) * is.na(diff(data.temp[, varname.y], differences = max(2,max.lagTerms))) + 1 )
+      ( diff(data.temp[, varname.y], differences = max.lagTerms) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms)) + 1 )
     colnames(dat.temp_3lev)			<- NULL
     rownames(dat.temp_3lev)			<- NULL
   }
