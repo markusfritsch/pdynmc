@@ -890,8 +890,8 @@ dat.closedFormExpand.fct		<- function(
 ){
 
   varnames.temp	<- if( !(is.null(varname.reg.instr)) | !(is.null(varname.reg.toInstr)) ){
-    c(if(varname.reg.instr){ varname.reg.estParam[!(varname.reg.estParam %in% varname.reg.instr)] }
-      ,if(varname.reg.toInstr){ varname.reg.toInstr }, varname.y )
+    c(if(!(is.null(varname.reg.instr))){ varname.reg.estParam[!(varname.reg.estParam %in% varname.reg.instr)] }
+      ,if(!(is.null(varname.reg.toInstr))){ varname.reg.toInstr }, varname.y )
   } else{ c(varname.reg.estParam, varname.y) }
 
   data.temp		<- dat.na[dat.na[, varname.i] == i, varnames.temp]
