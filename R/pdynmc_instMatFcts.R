@@ -408,17 +408,17 @@ LEV.pre.fct	<- function(
 ){
   if(use.mc.diff & !(inst.stata)){
     #     if(mc.ref.t){
-    Matrix::Diagonal(do.call(what = datLEV.pre.fct, args = list(ti = max(2,lagTerms), t.end = Time-1, lagTerms = lagTerms, varname = varname, i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+    Matrix::Diagonal(do.call(what = datLEV.pre.fct, args = list(ti = lagTerms, t.end = Time, lagTerms = lagTerms, varname = varname, i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                 #			, mc.ref.t = mc.ref.t
-                                                                , dat = dat, dat.na = dat.na, varname.i = varname.i, Time = Time)), n = Time-max(2,lagTerms))
+                                                                , dat = dat, dat.na = dat.na, varname.i = varname.i, Time = Time)), n = Time-lagTerms)
     #     }
   } else{
     #     if(mc.ref.t){
-    Matrix::t(Matrix::bdiag(mapply(ti = rep(max(2,lagTerms), times = Time-max(2,lagTerms)), t.end = (max(2,lagTerms)+1):Time, lagTerms = lagTerms, FUN = datLEV.pre.fct, varname = varname,
+    Matrix::t(Matrix::bdiag(mapply(ti = rep(lagTerms, times = Time-lagTerms), t.end = (lagTerms+1):Time, lagTerms = lagTerms, FUN = datLEV.pre.fct, varname = varname,
                                    MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                    #					, mc.ref.t = mc.ref.t
                                                    , dat = dat, dat.na = dat.na, varname.i = varname.i, Time = Time))) )*
-      as.vector(!is.na(diff(dat.na[dat.na[, varname.i] == i, varname][(max(2,lagTerms)-1):Time])))
+      as.vector(!is.na(diff(dat.na[dat.na[, varname.i] == i, varname][(lagTerms-1):Time])))
     #     } else{
     #       t(mapply(ti = Time - T.mcLev, t.end = Time, FUN = datLEV.pre.fct, varname = varname,
     #		MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
@@ -559,21 +559,21 @@ datLEV.pre.fct		<- function(
 
   if(use.mc.diff & !(inst.stata)){
 
-    (dat[dat[, varname.i] == i, varname][ti:t.end]*
-       as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - max(2,lagTerms) + 1):(t.end - max(2,lagTerms) + 1)]*
-                           dat.na[dat[, varname.i] == i, varname][(ti):(t.end)] )) -
-       dat[dat[, varname.i] == i, varname][(ti - 1):(t.end - 1)]*
-       as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - max(2,lagTerms) + 1):(t.end - max(2,lagTerms) + 1)]*
-                           dat.na[dat[, varname.i] == i, varname][(ti):(t.end)] )) ) *
+    (dat[dat[, varname.i] == i, varname][(ti+1):t.end]*
+       as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - lagTerms + 1):(t.end - lagTerms)]*
+                           dat.na[dat[, varname.i] == i, varname][(ti+1):(t.end)] )) -
+       dat[dat[, varname.i] == i, varname][(ti):(t.end - 1)]*
+       as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - lagTerms + 1):(t.end - lagTerms)]*
+                           dat.na[dat[, varname.i] == i, varname][(ti+1):(t.end)] )) ) *
       as.vector(!is.na(diff(dat.na[dat.na[, varname.i] == i, varname][(max(2,lagTerms)-1):(t.end)])))
 
   } else{
 
-    (dat[dat[, varname.i] == i, varname][ti:t.end] *
-       as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][t.end - max(2,lagTerms)+1]*
+    (dat[dat[, varname.i] == i, varname][(ti+1):t.end] *
+       as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][t.end - lagTerms]*
                            dat.na[dat[, varname.i] == i, varname][t.end] ))  -
-       dat[dat[, varname.i] == i, varname][(ti - 1):(t.end - 1)]*
-       as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][t.end - max(2,lagTerms)+1]*
+       dat[dat[, varname.i] == i, varname][(ti):(t.end - 1)]*
+       as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][t.end - lagTerms]*
                            dat.na[dat[, varname.i] == i, varname][t.end] )) ) *
       as.vector(!is.na(diff(dat.na[dat.na[, varname.i] == i, varname][(max(2,lagTerms)-1):(t.end)])))
   }
@@ -774,8 +774,8 @@ Z_i.fct	<- function(
       }
     }
     Z_i.mc.lev_end	<- do.call(what = "cbind", args = mget(ls(pattern = "Z_i.mc.lev_end")))
-    if(include.x & (ex.reg | pre.reg)){
-      Z_i.mc.lev	<- Matrix::bdiag(Z_i.mc.lev_end, Z_i.mc.lev_ex.pre)
+    if(include.x & (include.y | end.reg) & (ex.reg | pre.reg)){
+      Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end), Z_i.mc.lev_ex.pre)
     } else{
       Z_i.mc.lev	<- Z_i.mc.lev_end
     }
