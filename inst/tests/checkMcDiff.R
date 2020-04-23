@@ -1,4 +1,5 @@
 
+rm(list = ls())
 
 
 data(EmplUK, package = "plm")

@@ -1,5 +1,5 @@
 
-
+rm(list = ls())
 
 data(EmplUK, package = "plm")
 dat <- EmplUK
