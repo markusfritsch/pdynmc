@@ -827,11 +827,11 @@ Z_i.fct	<- function(
   if(include.dum){
     ind_vec.diff.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms+1) )
     ind_vec.lev.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms) )
-    ind_vec.diff.col	<- is.na(diff(dat.na[dat[, varname.i] == i , varname.y][1:Time], differences = max(2, max.lagTerms)) )
+    ind_vec.diff.col	<- is.na(diff(dat.na[dat[, varname.i] == i , varname.y][1:Time], differences = max.lagTerms+1) )
     ind_vec.lev.col	<- is.na(diff(dat.na[dat[, varname.i] == i , varname.y][1:Time], differences = max.lagTerms) )
 
     if(dum.lev){
-      Z_i.dum_4.lev				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][-c(1:max.lagTerms), ])
+      Z_i.dum_4.lev				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[if(max.lagTerms > 2){-c(1:max.lagTerms)} else{-1}]][-c(1:max.lagTerms), ])
       Z_i.dum_4.lev[ind_vec.lev.row, ]	<- 0
       Z_i.dum_4.lev[ ,ind_vec.lev.col]	<- 0
       colnames.dum_4.lev			<- colnames(Z_i.dum_4.lev)
@@ -936,17 +936,18 @@ Z_i.fct	<- function(
     colnames_Z_i.dum		<- unique(as.vector(do.call(what = "c", mget(ls(pattern = "colnames.dum_")))))
     Z_i.temp			<- cbind(Z_i.temp, as.matrix(Z_i.dum))
     if(dum.diff & dum.lev){
-      n.inst.dum			<- c(length(get(ls(pattern = "colnames.dum_1"))), length(get(ls(pattern = "colnames.dum_4"))))
+      colnames_Z_i.dum <- colnames_Z_i.dum[-1]
+      n.inst.dum			 <- c(length(get(ls(pattern = "colnames.dum_1"))) -1, length(get(ls(pattern = "colnames.dum_4"))))
     } else{
       if(dum.diff & !(dum.lev)){
-        n.inst.dum		<- length(get(ls(pattern = "colnames.dum_1")))-1
+        n.inst.dum		   <- length(get(ls(pattern = "colnames.dum_1")))
       }
       if(dum.lev & !(dum.diff)){
-        n.inst.dum		<- length(get(ls(pattern = "colnames.dum_4")))
+        n.inst.dum		 <- length(get(ls(pattern = "colnames.dum_4")))
       }
     }
   } else{
-    colnames_Z_i.dum  <- NULL
+    colnames_Z_i.dum   <- NULL
   }
 
 

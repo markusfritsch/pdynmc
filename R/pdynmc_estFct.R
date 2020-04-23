@@ -1130,7 +1130,7 @@ pdynmc		<- function(
    if((dum.lev & !(dum.diff)) | (dum.lev & dum.diff)){
      varname.reg.estParam	<- c(varname.reg.estParam, colnames.dum[colnames.dum %in% colnames.dum.Z])
    } else{
-     varname.reg.estParam	<- c(varname.reg.estParam, unlist(lapply(strsplit(x = colnames.dum.Z, split = "D."), FUN = `[[`, 2))[-1])
+     varname.reg.estParam	<- c(varname.reg.estParam, unlist(lapply(strsplit(x = colnames.dum.Z, split = "D."), FUN = `[[`, 2)))
    }
  }
 
