@@ -88,11 +88,11 @@ Wonestep.fct		<- function(
     }
 
     if(use.mc.lev | end.reg){												# [M:] part of weighting matrix is identical for 'mc.ref.t' and 'mc.ref.T'
-      H_i.mcLev_1		<- diag(Time - max(2,max.lagTerms))
+      H_i.mcLev		<- diag(Time - max(2,max.lagTerms))
     }
 
     if(dum.lev | fur.con.lev | ex.reg | pre.reg){
-      H_i.mcLev_2		<- diag(Time - max.lagTerms)
+      H_i.mcLev		<- diag(Time - max.lagTerms)
     }
 
 #    if(use.mc.lev & (dum.diff | fur.con.diff) & !(dum.lev | fur.con.lev)){
