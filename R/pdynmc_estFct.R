@@ -560,14 +560,14 @@ pdynmc		<- function(
    warning("No dummies given; 'include.dum' was therefore set to FALSE.")
  }
 
- if(!(include.dum) && (is.null(varname.dum))
+ if(!include.dum && !(is.null(varname.dum))
  ){
    suppressWarnings(rm(varname.dum))
    warning("Dummies given, while dummies are not supposed to be included; argument specifying the dummies was therefore ignored.")
  }
 
  if(include.dum){
-   if((is.null(dum.diff) & is.null(dum.lev)) | (!(dum.diff) & !(dum.lev))){
+   if((is.null(dum.diff) & is.null(dum.lev)) | (!dum.diff & !dum.lev)){
      dum.diff		<- FALSE
      dum.lev		<- TRUE
      warning("Options 'dum.diff' and 'dum.lev' not specified; 'dum.lev' was therefore set to TRUE.")
@@ -592,6 +592,44 @@ pdynmc		<- function(
    }
  }
 
+
+ if(fur.con && is.null(varname.reg.fur)
+ ){
+   fur.con		<- FALSE
+   warning("No further controls given; 'fur.con' was therefore set to FALSE.")
+ }
+
+ if(!fur.con && !(is.null(varname.reg.fur))
+ ){
+   suppressWarnings(rm(varname.dum))
+   warning("Further controls given, while further controls are not supposed to be included; argument specifying the further controls was therefore ignored.")
+ }
+
+ if(fur.con){
+   if((is.null(fur.con.diff) & is.null(fur.con.lev)) | (!fur.con.diff & !fur.con.lev)){
+     fur.con.diff		<- FALSE
+     fur.con.lev		<- TRUE
+     warning("Options 'fur.con.diff' and 'fur.con.lev' not specified; 'fur.con.lev' was therefore set to TRUE.")
+   }
+   if(fur.con.diff & is.null(fur.con.lev)){
+     fur.con.lev		<- FALSE
+     warning("Option 'fur.con.lev' not specified; option was therefore set to FALSE.")
+   }
+   if(fur.con.lev & is.null(fur.con.diff)){
+     fur.con.diff	<- FALSE
+     warning("Option 'fur.con.diff' not specified; option was therefore set to FALSE.")
+   }
+ }
+ if(!fur.con && (fur.con.diff | fur.con.lev)){
+   if(fur.con.diff){
+     fur.con.diff <- FALSE
+     warning("No dummies included; argument 'fur.con.diff' was therefore ignored")
+   }
+   if(fur.con.lev){
+     fur.con.lev <- FALSE
+     warning("No dummies included; argument 'fur.con.lev' was therefore ignored")
+   }
+ }
 
 
 # if((mc.ref.t && mc.ref.T) | (is.null(mc.ref.t) && is.null(mc.ref.T))		# [M:] check that only one reference period is set; else choose 'mc.ref.t'
@@ -1355,7 +1393,14 @@ pdynmc		<- function(
    }
    names(resGMM.vcov.j)[j]	<- paste("step", j, sep = "")
 
-   resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j))))
+   if(sum(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j))) < 0) > 0){
+     neg.ent                <- which(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j))) < 0)
+     resGMM.stderr.j[[j]]		<- sqrt(abs(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j)))))
+     warning(paste("Covariance function contains ", length(neg.ent), " negative value(s); observation index(es): \n", paste(neg.ent, collapse = ", "), sep = ""))
+     rm(neg.ent)
+   } else{
+     resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j))))
+   }
    names(resGMM.stderr.j)[j]	<- paste("step", j, sep = "")
 
 
