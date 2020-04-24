@@ -528,6 +528,32 @@ pdynmc		<- function(
    warning("Further controls given, while further controls are not supposed to be included; argument specifying the further controls was therefore ignored.")
  }
 
+ if(fur.con){
+   if((is.null(fur.con.diff) & is.null(fur.con.lev)) | (!fur.con.diff & !fur.con.lev)){
+     fur.con.diff		<- FALSE
+     fur.con.lev		<- TRUE
+     warning("Options 'fur.con.diff' and 'fur.con.lev' not specified; 'fur.con.lev' was therefore set to TRUE.")
+   }
+   if(fur.con.diff & is.null(fur.con.lev)){
+     fur.con.lev		<- FALSE
+     warning("Option 'fur.con.lev' not specified; option was therefore set to FALSE.")
+   }
+   if(fur.con.lev & is.null(fur.con.diff)){
+     fur.con.diff	<- FALSE
+     warning("Option 'fur.con.diff' not specified; option was therefore set to FALSE.")
+   }
+ }
+ if(!fur.con && (fur.con.diff | fur.con.lev)){
+   if(fur.con.diff){
+     fur.con.diff <- FALSE
+     warning("No dummies included; argument 'fur.con.diff' was therefore ignored")
+   }
+   if(fur.con.lev){
+     fur.con.lev <- FALSE
+     warning("No dummies included; argument 'fur.con.lev' was therefore ignored")
+   }
+ }
+
 
  if(include.x.instr & is.null(varname.reg.instr)
  ){
@@ -593,43 +619,8 @@ pdynmc		<- function(
  }
 
 
- if(fur.con && is.null(varname.reg.fur)
- ){
-   fur.con		<- FALSE
-   warning("No further controls given; 'fur.con' was therefore set to FALSE.")
- }
 
- if(!fur.con && !(is.null(varname.reg.fur))
- ){
-   suppressWarnings(rm(varname.dum))
-   warning("Further controls given, while further controls are not supposed to be included; argument specifying the further controls was therefore ignored.")
- }
 
- if(fur.con){
-   if((is.null(fur.con.diff) & is.null(fur.con.lev)) | (!fur.con.diff & !fur.con.lev)){
-     fur.con.diff		<- FALSE
-     fur.con.lev		<- TRUE
-     warning("Options 'fur.con.diff' and 'fur.con.lev' not specified; 'fur.con.lev' was therefore set to TRUE.")
-   }
-   if(fur.con.diff & is.null(fur.con.lev)){
-     fur.con.lev		<- FALSE
-     warning("Option 'fur.con.lev' not specified; option was therefore set to FALSE.")
-   }
-   if(fur.con.lev & is.null(fur.con.diff)){
-     fur.con.diff	<- FALSE
-     warning("Option 'fur.con.diff' not specified; option was therefore set to FALSE.")
-   }
- }
- if(!fur.con && (fur.con.diff | fur.con.lev)){
-   if(fur.con.diff){
-     fur.con.diff <- FALSE
-     warning("No dummies included; argument 'fur.con.diff' was therefore ignored")
-   }
-   if(fur.con.lev){
-     fur.con.lev <- FALSE
-     warning("No dummies included; argument 'fur.con.lev' was therefore ignored")
-   }
- }
 
 
 # if((mc.ref.t && mc.ref.T) | (is.null(mc.ref.t) && is.null(mc.ref.T))		# [M:] check that only one reference period is set; else choose 'mc.ref.t'
