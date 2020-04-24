@@ -853,7 +853,7 @@ Z_i.fct	<- function(
           Z_i.dum			<- do.call(what = Matrix::bdiag, mget(ls(pattern = "Z_i.dum_")))
         }
       } else{
-        if((use.mc.diff | fur.con.diff) & !(dum.diff)){
+        if((use.mc.diff | fur.con.diff) & !dum.diff){
           Z_i.dum_1.diff		<- matrix(0, ncol = ncol(Z_i.dum_4.lev), nrow = (Time-max.lagTerms-1))
           colnames.dum_1.diff	<- colnames(Z_i.dum_4.lev)
           if(use.mc.nonlin){
@@ -940,9 +940,9 @@ Z_i.fct	<- function(
           }
         }
       }
-    } else{
-      Z_i.temp			<- cbind(Z_i.temp, as.matrix(Z_i.dum))
     }
+    Z_i.temp			<- cbind(Z_i.temp, as.matrix(Z_i.dum))
+
     if(dum.diff & dum.lev){
       colnames_Z_i.dum <- colnames_Z_i.dum[-1]
       n.inst.dum			 <- c(length(get(ls(pattern = "colnames.dum_1"))) -1, length(get(ls(pattern = "colnames.dum_4"))))
@@ -1030,10 +1030,20 @@ Z_i.fct	<- function(
         n.inst.furCon		<- length(get(ls(pattern = "colnames.fur.con.diff")))
 
         if(dum.lev & !dum.diff){
-          Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)))
+          if(nrow(Z_i.furCon.temp) < nrow(Z_i.temp)){
+            if(use.mc.lev & !use.mc.diff){
+              Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)))
+            } else{
+              Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
+            }
+          }
         } else{
           if(nrow(Z_i.furCon.temp) < nrow(Z_i.temp)){
-            Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
+            if(use.mc.lev & !use.mc.diff){
+              Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)))
+            } else{
+              Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
+            }
           }
         }
 
@@ -1041,7 +1051,11 @@ Z_i.fct	<- function(
         Z_i.furCon.temp	<- Z_i.furCon.temp_lev
         n.inst.furCon		<- length(get(ls(pattern = "colnames.fur.con.lev")))
         if(dum.diff & !dum.lev){
-          Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
+          if(use.mc.lev & !use.mc.diff){
+            Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
+          } else{
+            Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
+          }
         } else{
           if(nrow(Z_i.furCon.temp) < nrow(Z_i.temp)){
             Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
