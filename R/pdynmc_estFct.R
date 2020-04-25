@@ -1256,7 +1256,7 @@ pdynmc		<- function(
 						,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev
 						,Z.temp = resGMM$Z.temp, n = n, Time = Time, env = env
 #						,mc.ref.t = mc.ref.t
-						, max.lagTerms = max.lagTerms, ex.reg = ex.reg, pre.reg = pre.reg, n.inst = resGMM$n.inst, inst.thresh = inst.thresh)
+						, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg, n.inst = resGMM$n.inst, inst.thresh = inst.thresh)
    resGMM.W.j[[j]]		<- W.j
    names(resGMM.W.j)[j]		<- paste("step", j, sep = "")
 
