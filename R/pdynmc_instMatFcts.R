@@ -1058,7 +1058,11 @@ Z_i.fct	<- function(
           if(use.mc.lev & !use.mc.diff){
             Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
           } else{
-            Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
+            if(include.dum){
+              Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
+            } else{
+              Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
+            }
           }
         } else{
           if(use.mc.diff & !use.mc.lev & !include.dum){
