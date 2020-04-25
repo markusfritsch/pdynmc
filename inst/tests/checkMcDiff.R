@@ -47,7 +47,6 @@ m4 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
              opt.meth = "none")
 summary(m4)
 
-
 m5 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
              use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
              include.y = TRUE, varname.y = "emp", lagTerms.y = 2,

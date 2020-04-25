@@ -10,8 +10,8 @@ dat[,c(4:7)] <- log(dat[,c(4:7)])
 dat = dat
 varname.i = "firm"
 varname.t = "year"
-use.mc.diff = TRUE
-use.mc.lev = FALSE
+use.mc.diff = FALSE
+use.mc.lev = TRUE
 use.mc.nonlin = FALSE
 use.mc.nonlinAS			= NULL
 inst.stata			= FALSE
@@ -38,12 +38,12 @@ varname.reg.toInstr		= NULL
 
 fur.con = TRUE
 fur.con.diff = TRUE
-fur.con.lev = TRUE
+fur.con.lev = FALSE
 varname.reg.fur = c("wage", "capital", "output")
 lagTerms.reg.fur = c(1,2,2)
-include.dum = TRUE
-dum.diff = TRUE
-dum.lev = FALSE
+include.dum = FALSE
+dum.diff = FALSE
+dum.lev = TRUE
 varname.dum = "year"
 
 col_tol				= 0.65
