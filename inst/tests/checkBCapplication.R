@@ -61,7 +61,7 @@ varname.i		<- "i"
 varname.t		<- "t"
 
 use.mc.diff      <- TRUE
-use.mc.lev       <- FALSE
+use.mc.lev       <- TRUE
 use.mc.nonlin    <- FALSE
 use.mc.nonlinAS	 <- NULL
 
@@ -94,8 +94,8 @@ fur.con.lev			= TRUE
 varname.reg.fur			= c("nch","nad","hage","hage2")
 lagTerms.reg.fur		= c(0,0,0,0)
 
-include.dum			= FALSE
-dum.diff				= FALSE
+include.dum			= TRUE
+dum.diff				= TRUE
 dum.lev				= FALSE
 varname.dum			<- c("week","yearquarter")
 # ,custom.dum			= NULL
