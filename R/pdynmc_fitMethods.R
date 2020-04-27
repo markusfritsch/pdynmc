@@ -33,7 +33,7 @@
 
 
 ##################################################################################
-###	Define residuals, fitted, predict, and summary methods for class 'pdynmc'
+###	Define residuals, fitted, predict, print, and summary methods for class 'pdynmc'
 ##################################################################################
 
 
