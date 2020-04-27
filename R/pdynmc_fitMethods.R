@@ -692,7 +692,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 
 #' Extract input parameters of numeric optimization.
 #'
-#' \code{optimIn.pdynmc} extracts input parameters of numeric optimization for an
+#' \code{plot.pdynmc} extracts input parameters of numeric optimization for an
 #'    object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
@@ -729,7 +729,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  optimIn.pdynmc(m1)
+#'  plot.pdynmc(m1)
 #' }
 #'
 #' \donttest{
@@ -750,12 +750,12 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "BFGS")
-#'  optimIn.pdynmc(m1)
+#'  plot.pdynmc(m1)
 #' }
 #' }
 #'
 #'
-plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, col.line = "royalblue", boxplot.coef = FALSE, ...){
+plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, col.coefRange = 1, col.coefEst = "royalblue", boxplot.coef = FALSE, ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
@@ -778,33 +778,51 @@ plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, c
         varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.reg.fur)
       }
     }
-
+  } else{
+    varnames.ind <- rep(TRUE, times = length(object$data$varnames.reg))
   }
 
   n.iter    <- object$iter
-  coef.list <- object$par.clForm[varnames.ind]
-  coef.est  <- object$coefficients
+  if(object$data$opt.method == "none"){
+    coef.list <- lapply(object$par.clForm, FUN = '[', varnames.ind)
+  } else{
+    coef.list <- lapply(object$par.optim, FUN = '[', varnames.ind)
+  }
+  coef.est  <- object$coefficients[varnames.ind]
   n.coef    <- length(coef.est)
 
   coef.mat  <- do.call(what = cbind, coef.list)
 
-  if(nrow(coef.mat == 1)){
-    coef.mat.min <- min(coef.mat)
-    coef.mat.max <- max(coef.mat)
-    plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", ...)
-    lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.line, lwd = 4, ...)
-    lines(x = c(n.coef-0.2, n.coef+0.2), y = rep(coef.est, times = 2), col = col.line, lwd = 4, lwd = 2, ...)
-  } else{
-    coef.mat <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
-    x.vec        <- 1:n.coef
-    plot(x = rep(x.vec, each = 2), y = t(coef.mat), type = "n", ...)
+  if(nrow(coef.mat) == 1){
+    if(boxplot.coef){
+      plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n")
 
-    for(i in 1:length(n.coef)){
-      lines(x = rep(x.vec[i], times = 2), y = coef.mat[i,], col = col.line, lwd = 4, ...)
-      lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.line, lwd = 2, ...)
+    } else{
+      coef.mat.min <- min(coef.mat)
+      coef.mat.max <- max(coef.mat)
+      plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n")
+      lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 4)
+      lines(x = c(n.coef-0.2, n.coef+0.2), y = rep(coef.est, times = 2), col = col.coefEst, lwd = 2)
+      axis(side = 1, c(1:n.coef))
+    }
+  } else{
+    if(boxplot.coef){
+      boxplot(t(coef.mat))
+      for(i in 1:n.coef){
+        lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2)
+      }
+    } else{
+      coef.mat <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
+      x.vec        <- 1:n.coef
+      plot(x = rep(x.vec, each = 2), y = t(coef.mat), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n")
+
+      for(i in 1:n.coef){
+        lines(x = rep(x.vec[i], times = 2), y = coef.mat[i,], col = col.coefRange, lwd = 4)
+        lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2)
+      }
+    axis(side = 1, c(1:n.coef))
     }
   }
-
 }
 
 

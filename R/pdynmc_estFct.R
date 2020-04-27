@@ -1170,7 +1170,7 @@ pdynmc		<- function(
 
  resGMM$varname.y			<- varname.y
  resGMM$varnames.reg		<- varname.reg.estParam
- resGMM$varnames.fur.con <- varname.reg.fur
+ resGMM$varnames.fur.con <- if(fur.con){varname.reg.fur} else{ NA}
  if(include.dum){
    resGMM$varnames.dum		<- colnames.dum[colnames.dum %in% varname.reg.estParam]
  } else{
