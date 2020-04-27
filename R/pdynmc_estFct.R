@@ -1170,6 +1170,7 @@ pdynmc		<- function(
 
  resGMM$varname.y			<- varname.y
  resGMM$varnames.reg		<- varname.reg.estParam
+ resGMM$varnames.fur.con <- varname.reg.fur
  if(include.dum){
    resGMM$varnames.dum		<- colnames.dum[colnames.dum %in% varname.reg.estParam]
  } else{
@@ -1518,7 +1519,7 @@ pdynmc		<- function(
 ###
 
 
-     resGMM.iter 	<- j
+#     resGMM.iter 	<- j
 
      if(opt.meth != "none"){
        if((j > 2) && ((j > j.max) | (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.par.opt.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.par.opt.j))))) < iter.tol) ) break
@@ -1529,6 +1530,7 @@ pdynmc		<- function(
 
  }
 
+ resGMM.iter    <- j
  coefGMM        <- if(resGMM$opt.method == "none"){ get(paste("step", resGMM.iter, sep = ""), resGMM.clF.j)} else{get(paste("step", resGMM.iter, sep = ""), resGMM.par.opt.j)}
  names(coefGMM) <- resGMM$varnames.reg
 
