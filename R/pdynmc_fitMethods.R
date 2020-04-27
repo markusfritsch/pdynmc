@@ -823,6 +823,8 @@ plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, c
     axis(side = 1, c(1:n.coef))
     }
   }
+
+  legend(pos = "bottomleft", col = c(col.coefEst, col.coefRange), lwd = c(2,2), lty = c(1,1), legend = c("coefficient estimate", "coefficient range"))
 }
 
 
