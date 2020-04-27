@@ -690,18 +690,30 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 
 
 
-#' Extract input parameters of numeric optimization.
+#' Plot coefficient estimates and ranges of coefficient estimates.
 #'
-#' \code{plot.pdynmc} extracts input parameters of numeric optimization for an
-#'    object of class `pdynmc`.
+#' \code{plot.pdynmc} Plot coefficient estimates and ranges of coefficient
+#'    estimates of object of class `pdynmc` (requires at twostep or
+#'    iterative GMM estimates).
 #'
 #' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which input parameters
+#' @param include.dum Include estimates of parameters corresponding to time
+#'    dummies (defaults to 'FALSE')
+#' @param include.fur.con Include estimates of parameters corresponding to
+#'    further controls (defaults to 'FALSE')
+#' @param col.coefRange Specify color for plotting range of coefficient
+#'    estimates (defaults to 'black')
+#' @param coel.coefEst Specify color for plotting coefficient estimate
+#'    (defaults to 'royalblue')
+#' @param boxplot.coef Wether to draw boxplots for coefficient estimates
+#'    (defaults to 'FALSE'); requires iterative GMM with at least 10
+#'    iterations
+#'  An integer denoting the iteration step for which input parameters
 #'    are extracted (defaults to last iteration step used for obtaining parameter
 #'    estimates).
 #' @param ... further arguments.
 #'
-#' @return Extract input parameters of numeric optimization from object of class
+#' @return Plot coefficients and coefficient range of object of class
 #'    `pdynmc`.
 #'
 #' @export
@@ -727,7 +739,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
 #'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
 #'     opt.meth = "none")
 #'  plot.pdynmc(m1)
 #' }
@@ -748,8 +760,8 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
 #'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "BFGS")
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
+#'     opt.meth = "none")
 #'  plot.pdynmc(m1)
 #' }
 #' }
@@ -795,26 +807,26 @@ plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, c
 
   if(nrow(coef.mat) == 1){
     if(boxplot.coef){
-      plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n")
+      plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xlab = "", ylab = "")
 
     } else{
       coef.mat.min <- min(coef.mat)
       coef.mat.max <- max(coef.mat)
-      plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n")
+      plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "")
       lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 4)
       lines(x = c(n.coef-0.2, n.coef+0.2), y = rep(coef.est, times = 2), col = col.coefEst, lwd = 2)
       axis(side = 1, c(1:n.coef))
     }
   } else{
     if(boxplot.coef){
-      boxplot(t(coef.mat))
+      boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "")
       for(i in 1:n.coef){
         lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2)
       }
     } else{
       coef.mat <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
       x.vec        <- 1:n.coef
-      plot(x = rep(x.vec, each = 2), y = t(coef.mat), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n")
+      plot(x = rep(x.vec, each = 2), y = t(coef.mat), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "")
 
       for(i in 1:n.coef){
         lines(x = rep(x.vec[i], times = 2), y = coef.mat[i,], col = col.coefRange, lwd = 4)
@@ -824,7 +836,7 @@ plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, c
     }
   }
 
-  legend(pos = "bottomleft", col = c(col.coefEst, col.coefRange), lwd = c(2,2), lty = c(1,1), legend = c("coefficient estimate", "coefficient range"))
+  legend("bottomleft", col = c(col.coefEst, col.coefRange), lwd = c(2,2), lty = c(1,1), legend = c("coeff. est.", "coeff. range"), bty = "n")
 }
 
 
