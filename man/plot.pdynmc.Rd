@@ -9,6 +9,7 @@
   include.dum = FALSE,
   include.fur.con = FALSE,
   col.coefRange = 1,
+  col.coefInitial = "darkgrey",
   col.coefEst = "royalblue",
   boxplot.coef = FALSE,
   ...
@@ -66,7 +67,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
     opt.meth = "none")
- plot.pdynmc(m1)
+ plot(m1)
 }
 
 \donttest{
@@ -87,7 +88,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
     opt.meth = "none")
- plot.pdynmc(m1)
+ plot(m1)
 }
 }
 

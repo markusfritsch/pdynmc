@@ -40,7 +40,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
     opt.meth = "none")
- wmat.pdynmc(m1)
+ wmat(m1)
 }
 
 \donttest{
@@ -60,7 +60,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
     opt.meth = "none")
- wmat.pdynmc(m1)
+ wmat(m1)
 }
 }
 

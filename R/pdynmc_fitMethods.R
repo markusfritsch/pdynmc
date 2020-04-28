@@ -117,7 +117,7 @@
 fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
   if(!inherits(object, what = "pdynmc")){
-    stop("use only with \"pdynmc\" objects")
+    stop("Use only with \"pdynmc\" objects.")
   }
 
   if(na.rm == TRUE){
@@ -150,14 +150,10 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'    an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which fitted values
-#'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates).
-#' @param na.rm A logical variable indicating whether missing values should be
-#'    removed from the vector of fitted values (defaults to `FALSE`).
 #' @param ... further arguments.
 #'
-#' @return Extract fitted values from object of class `pdynmc`.
+#' @return Extract coefficient estimates of time dummies from object of class
+#'    `pdynmc`.
 #'
 #' @export
 #'
@@ -215,7 +211,7 @@ dummy.coef.pdynmc		<- function(object, ...){
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
   }
-  if(object$data$varnames.dum == "no time dummies"){
+  if(length(object$data$varnames.dum) == 1 &&  object$data$varnames.dum == "no time dummies"){
     stop("No time dummies included in estimation.")
   }
 
@@ -311,7 +307,7 @@ dummy.coef.pdynmc		<- function(object, ...){
 residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
   if(!inherits(object, what = "pdynmc")){
-    stop("use only with \"pdynmc\" objects")
+    stop("Use only with \"pdynmc\" objects.")
   }
 
   if(na.rm == TRUE){
@@ -408,7 +404,7 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 vcov.pdynmc		<- function(object, step = object$iter, ...){
 
   if(!inherits(object, what = "pdynmc")){
-    stop("use only with \"pdynmc\" objects")
+    stop("Use only with \"pdynmc\" objects.")
   }
 
   vcov	<- get(paste("step", step, sep = "") , object$vcov)
@@ -512,7 +508,7 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
 
   if(!inherits(x, what = "pdynmc")){
-    stop("use only with \"pdynmc\" objects")
+    stop("Use only with \"pdynmc\" objects.")
   }
 
   cat("\nDynamic linear panel estimation", paste(" (", x$data$estimation, ")", sep = ""), sep = "")
@@ -613,7 +609,7 @@ print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
 summary.pdynmc	<- function(object, ...){
 
   if(!inherits(object, what = "pdynmc")){
-    stop("use only with \"pdynmc\" objects")
+    stop("Use only with \"pdynmc\" objects.")
   }
 
   step		<- object$iter
@@ -741,7 +737,7 @@ summary.pdynmc	<- function(object, ...){
 print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), signif.stars = getOption("show.signif.stars"), ...){
 
   if(!inherits(x, what = "summary.pdynmc")){
-    stop("use only with \"pdynmc\" objects")
+    stop("Use only with \"pdynmc\" objects.")
   }
 
 #  cat(formula(paste(x$data$varname.y, paste(x$data$varnames.reg, collapse = "+"), sep = " ~ ")))
@@ -834,7 +830,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
 #'     opt.meth = "none")
-#'  plot.pdynmc(m1)
+#'  plot(m1)
 #' }
 #'
 #' \donttest{
@@ -855,7 +851,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
 #'     opt.meth = "none")
-#'  plot.pdynmc(m1)
+#'  plot(m1)
 #' }
 #' }
 #'
@@ -1025,7 +1021,7 @@ plot.pdynmc		<- function(
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  wmat.pdynmc(m1)
+#'  wmat(m1)
 #' }
 #'
 #' \donttest{
@@ -1045,15 +1041,18 @@ plot.pdynmc		<- function(
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  wmat.pdynmc(m1)
+#'  wmat(m1)
 #' }
 #' }
 #'
 #'
 wmat.pdynmc		<- function(object, step = object$iter, ...){
 
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+
   wmat	<- get(paste("step", step, sep = "") , object$w.mat)
-  #  attr(wmat, "class")  <- "pdynmc"
   return(wmat)
 }
 
@@ -1125,7 +1124,7 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  optimIn.pdynmc(m1)
+#'  optimIn(m1)
 #' }
 #'
 #' \donttest{
@@ -1146,15 +1145,21 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "BFGS")
-#'  optimIn.pdynmc(m1)
+#'  optimIn(m1)
 #' }
 #' }
 #'
 #'
 optimIn.pdynmc		<- function(object, step = object$iter, ...){
 
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+  if(object$data$opt.method == "none"){
+    stop("No parameter inputs can be extracted (no numerical optimization carried out).")
+  }
+
   optimIn	<- get(paste("step", step, sep = "") , object$ctrl.optim)
-  #  attr(optimIn, "class")  <- "pdynmc"
   return(optimIn)
 }
 
