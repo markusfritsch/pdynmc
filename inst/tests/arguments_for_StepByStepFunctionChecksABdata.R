@@ -1,16 +1,15 @@
 
-#rm(list = ls())
-#
-#data(EmplUK, package = "plm")
-#dat <- EmplUK
-#dat[,c(4:7)] <- log(dat[,c(4:7)])
+rm(list = ls())
+
+data(EmplUK, package = "plm")
+dat <- EmplUK
+dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 
 
-#dat = dat
-dat = ds[[1]]
-varname.i = "i"
-varname.t = "t"
+dat = dat
+varname.i = "firm"
+varname.t = "year"
 use.mc.diff = TRUE
 use.mc.lev = FALSE
 use.mc.nonlin = TRUE
