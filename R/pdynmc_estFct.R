@@ -500,6 +500,12 @@ pdynmc		<- function(
 
 
 
+ if((use.mc.diff | use.mc.lev) && (length(unique(dat[, varname.t])) < 3)){
+   stop("Insufficient number of time periods to derive linear moment conditions.")
+ }
+ if(use.mc.nonlin && (length(unique(dat[, varname.t])) < 4)){
+   stop("Insufficient number of time periods to derive nonlinear moment conditions.")
+ }
 
 
 

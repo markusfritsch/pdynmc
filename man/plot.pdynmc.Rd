@@ -2,26 +2,50 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{plot.pdynmc}
 \alias{plot.pdynmc}
-\title{Extract input parameters of numeric optimization.}
+\title{Plot coefficient estimates and ranges of coefficient estimates.}
 \usage{
-\method{plot}{pdynmc}(object, ...)
+\method{plot}{pdynmc}(
+  object,
+  include.dum = FALSE,
+  include.fur.con = FALSE,
+  col.coefRange = 1,
+  col.coefEst = "royalblue",
+  boxplot.coef = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
 
+\item{include.dum}{Include estimates of parameters corresponding to time
+dummies (defaults to 'FALSE')}
+
+\item{include.fur.con}{Include estimates of parameters corresponding to
+further controls (defaults to 'FALSE')}
+
+\item{col.coefRange}{Specify color for plotting range of coefficient
+estimates (defaults to 'black')}
+
+\item{boxplot.coef}{Wether to draw boxplots for coefficient estimates
+  (defaults to 'FALSE'); requires iterative GMM with at least 10
+  iterations
+An integer denoting the iteration step for which input parameters
+  are extracted (defaults to last iteration step used for obtaining parameter
+  estimates).}
+
 \item{...}{further arguments.}
 
-\item{step}{An integer denoting the iteration step for which input parameters
-are extracted (defaults to last iteration step used for obtaining parameter
-estimates).}
+\item{coel.coefEst}{Specify color for plotting coefficient estimate
+(defaults to 'royalblue')}
 }
 \value{
-Extract input parameters of numeric optimization from object of class
+Plot coefficients and coefficient range of object of class
    `pdynmc`.
 }
 \description{
-\code{optimIn.pdynmc} extracts input parameters of numeric optimization for an
-   object of class `pdynmc`.
+\code{plot.pdynmc} Plot coefficient estimates and ranges of coefficient
+   estimates of object of class `pdynmc` (requires at twostep or
+   iterative GMM estimates).
 }
 \examples{
 ## Load data from plm package
@@ -40,9 +64,9 @@ if(!requireNamespace("plm", quietly = TRUE)){
     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+    w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
     opt.meth = "none")
- optimIn.pdynmc(m1)
+ plot.pdynmc(m1)
 }
 
 \donttest{
@@ -61,9 +85,9 @@ if(!requireNamespace("plm", quietly = TRUE)){
     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-    opt.meth = "BFGS")
- optimIn.pdynmc(m1)
+    w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
+    opt.meth = "none")
+ plot.pdynmc(m1)
 }
 }
 

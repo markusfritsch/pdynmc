@@ -144,6 +144,99 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
 
 
+#' Extract coefficient estimates of time dummies.
+#'
+#' \code{dummy.coef.pdynmc} extracts coefficient estimates of time dummies of
+#'    an object of class `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+#' @param step An integer denoting the iteration step for which fitted values
+#'    are extracted (defaults to last iteration step used for obtaining parameter
+#'    estimates).
+#' @param na.rm A logical variable indicating whether missing values should be
+#'    removed from the vector of fitted values (defaults to `FALSE`).
+#' @param ... further arguments.
+#'
+#' @return Extract fitted values from object of class `pdynmc`.
+#'
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  dummy.coef(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' ## Further code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  dummy.coef(m1)
+#' }
+#' }
+#'
+#'
+dummy.coef.pdynmc		<- function(object, ...){
+
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+  if(object$data$varnames.dum == "no time dummies"){
+    stop("No time dummies included in estimation.")
+  }
+
+  dum.pd <- object$coefficients[object$data$varnames.reg %in% object$data$varnames.dum]
+
+  return(dum.pd)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -767,7 +860,15 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #' }
 #'
 #'
-plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, col.coefRange = 1, col.coefEst = "royalblue", boxplot.coef = FALSE, ...){
+plot.pdynmc		<- function(
+  object
+  , include.dum = FALSE
+  , include.fur.con = FALSE
+  , col.coefRange = 1
+  , col.coefInitial = "darkgrey"
+  , col.coefEst = "royalblue"
+  , boxplot.coef = FALSE
+  , ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
@@ -808,13 +909,16 @@ plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, c
   if(nrow(coef.mat) == 1){
     if(boxplot.coef){
       plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xlab = "", ylab = "")
+      boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "")
+      points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 20)
 
     } else{
       coef.mat.min <- min(coef.mat)
       coef.mat.max <- max(coef.mat)
       plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "")
-      lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 4)
+      lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 2, lty = 2)
       lines(x = c(n.coef-0.2, n.coef+0.2), y = rep(coef.est, times = 2), col = col.coefEst, lwd = 2)
+      points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 20)
       axis(side = 1, c(1:n.coef))
     }
   } else{
@@ -822,22 +926,37 @@ plot.pdynmc		<- function(object, include.dum = FALSE, include.fur.con = FALSE, c
       boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "")
       for(i in 1:n.coef){
         lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2)
+        points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 20)
       }
     } else{
-      coef.mat <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
+      coef.mat.min.max <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
       x.vec        <- 1:n.coef
-      plot(x = rep(x.vec, each = 2), y = t(coef.mat), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "")
+      plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "")
 
       for(i in 1:n.coef){
-        lines(x = rep(x.vec[i], times = 2), y = coef.mat[i,], col = col.coefRange, lwd = 4)
+        lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 2, lty = 2)
         lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2)
+        points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 20)
       }
-    axis(side = 1, c(1:n.coef))
+      axis(side = 1, c(1:n.coef))
     }
   }
 
-  legend("bottomleft", col = c(col.coefEst, col.coefRange), lwd = c(2,2), lty = c(1,1), legend = c("coeff. est.", "coeff. range"), bty = "n")
+  legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(2,2,2), pch = c(NA,20,NA), lty = c(1,0,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
