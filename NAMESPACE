@@ -2,8 +2,8 @@
 
 S3method(dummy.coef,pdynmc)
 S3method(fitted,pdynmc)
-S3method(plot,coef.pdynmc)
-S3method(plot,fire.pdynmc)
+S3method(plot,pdynmc)
+S3method(plot,unba)
 S3method(print,pdynmc)
 S3method(print,summary.pdynmc)
 S3method(residuals,pdynmc)

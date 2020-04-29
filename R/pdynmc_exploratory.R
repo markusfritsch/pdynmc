@@ -7,16 +7,17 @@
 
 #' Investigate if panel data set is balanced or unbalanced.
 #'
-#' \code{data.info} Plot fitted values against residuals for an
-#'    object of class `pdynmc`.
+#' \code{data.info} Investigate if a panel data set contained
+#'    in a `data.frame` is balanced or unbalanced.
 #'
-#' @param object An object of class `pdynmc`.
+#' @param object An object of class `data.frame`.
 #' @param i.name Column name of cross-section identifier.
 #' @param t.name Column name of time-series identifier.
 #' @param ... further arguments.
 #'
-#' @return Returns information if object of class `data.frame`
-#'    is a balanced or unbalanced panel data set.
+#' @return Returns information if panel data set contained
+#'    in an object of class `data.frame` is a balanced or
+#'    unbalanced panel data set.
 #'
 #' @export
 #'
@@ -43,7 +44,7 @@
 #'
 data.info	<- function(object, i.name, t.name, ...){
   if (!is.data.frame(object))
-    stop("'data.info' applied to non data frame")
+    stop("'data.info' applied to non `data.frame`")
 
   i.set		<- sort(unique(object[, i.name]))
   t.set		<- sort(unique(object[, t.name]))
@@ -84,6 +85,97 @@ data.info	<- function(object, i.name, t.name, ...){
 
 
 
+
+#' Plot on structure of panel data set.
+#'
+#' \code{plot.unba} Plot on cross-section and longtudinal
+#'    structure of an object of class `data.frame` containing
+#'    a panel data set.
+#'
+#' @param object An object of class `data.frame`.
+#' @param i.name Column name of cross-section identifier.
+#' @param t.name Column name of time-series identifier.
+#' @param ... further arguments.
+#'
+#' @return Returns a plot for a panel data set contained in an
+#'    object of class `data.frame` that visualizes the structure
+#'    of the data. Cross-section dimension is plotted on the
+#'    ordinate, longitudinal dimension on the abscissa. Each
+#'    cross-sectional observation is represented by a bar.
+#'    Breaks in the bars represent missing longitudinal
+#'    observations.
+#'
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  plot.unba(dat, i.name = "firm", t.name = "year")
+#'
+#'  plot.unba(dat[dat$year %in% 1979:1981, ], i.name = "firm", t.name = "year")
+#' }
+#'
+#'
+plot.unba	<- function(object, i.name,	t.name, ...){
+  if (!is.data.frame(object))
+    stop("'plot.unba' applied to non `data.frame`")
+
+  i.set		<- sort(unique(object[, i.name]))
+  t.set		<- sort(unique(object[, t.name]))
+
+  periods.per.cs.obs	<- tapply(X = object[, t.name], INDEX = object[, i.name], FUN = length)
+
+  balanced	<- var(periods.per.cs.obs) == 0	# or < 2*10^(-14)
+  if (balanced)
+    stop("Plot is only suitable for unbalanced panel data.")
+
+  par.mar.def	<- par()$mar	# save plot window default configuration
+  par.xpd.def	<- par()$xpd	# save plot window default configuration
+  par(mar = c(5.1, 4.1, 4.1, 6.1), xpd = TRUE)		# adjust plot window configuration
+
+  plot(x = c(min(t.set) - 0.5, max(t.set) + 0.5), y = c(min(i.set) - 0.5, max(i.set) + 0.5),
+    type = "n", xlab = t.name, ylab = i.name, main = "Unbalanced panel structure",
+    xaxs = "i", yaxs = "i", xaxt = "n", ...)
+  axis(side = 1, at = seq(from = min(t.set) - 0.5, to = max(t.set) + 0.5, by = 1), labels = FALSE)
+  axis(side = 1, at = t.set, labels = t.set, tick = FALSE)
+
+  col.set	<- colorRampPalette(c("gold", "darkblue"))(length(table(periods.per.cs.obs)))
+
+  for(i in i.set){
+    t.i	<- object[object[, i.name] == i, t.name]
+
+    rect(
+      xleft		= t.i - 0.5,
+      ybottom	= i - 0.5,
+      xright	= t.i + 0.5,
+      ytop		= i + 0.5,
+      col		= col.set[which(names(table(periods.per.cs.obs)) == length(t.i))],
+      border	= col.set[which(names(table(periods.per.cs.obs)) == length(t.i))]
+    )
+  }
+
+  legend(
+    title = expression(T[i]), x.intersp = 0.2,
+    x = max(t.set) + 0.5, y = max(i.set),
+    legend = rev(names(table(periods.per.cs.obs))),
+    fill = rev(col.set), border = rev(col.set), bg = "white", bty = "n"
+  )
+  box()
+
+  par(mar = par.mar.def, xpd = par.xpd.def)	# return plot window default configuration
+}
 
 
 

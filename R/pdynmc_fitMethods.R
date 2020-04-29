@@ -239,7 +239,7 @@ dummy.coef.pdynmc		<- function(object, ...){
 
 #' Extract residuals.
 #'
-#' \code{residual.pdynmc} extracts residuals of an object of class
+#' \code{residuals.pdynmc} extracts residuals of an object of class
 #'    `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
@@ -781,29 +781,33 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 
 #' Plot of coefficient estimates and corresponding ranges.
 #'
-#' \code{plot.coef.pdynmc} Plot coefficient estimates and corresponding
+#' \code{plot.pdynmc} Plot coefficient estimates and corresponding
 #'    coefficient estimate ranges for objects of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`. The function requires
 #'    twostep or iterative GMM estimates.
+#' @param type Wether to plot fitted values against residuals (argument
+#'    'fire'; default) or coefficient ranges (argument 'coef.range';
+#'    this requires twostep or iterative GMM estimates.
 #' @param include.dum Include estimates of parameters corresponding to time
-#'    dummies (defaults to 'FALSE').
+#'    dummies (defaults to 'FALSE'; requires 'type = coef.range').
 #' @param include.fur.con Include estimates of parameters corresponding to
-#'    further controls (defaults to 'FALSE').
+#'    further controls (defaults to 'FALSE'; requires 'type = coef.range').
 #' @param col.coefRange Specify color for plotting range of coefficient
-#'    estimates (defaults to 'black').
+#'    estimates (defaults to 'black'; requires 'type = coef.range').
 #' @param col.coefInitial Specify color for plotting initial coefficient
-#'    estimates (defaults to 'darkgrey').
+#'    estimates (defaults to 'darkgrey'; requires 'type = coef.range').
 #' @param col.coefEst Specify color for plotting coefficient estimate
-#'    (defaults to 'royalblue').
+#'    (defaults to 'royalblue'; requires 'type = coef.range').
 #' @param boxplot.coef Wether to draw boxplots for coefficient estimates
 #'    (defaults to 'FALSE'); requires iterative GMM with at least 10
-#'    iterations.
+#'    iterations and argument 'type = coef.range'.
 #' @param ... further arguments.
 #'
-#' @return Plot coefficient estimates and coefficient estimate ranges
-#'    for object of class `pdynmc` (requires twostep or iterative GMM
-#'    estimates).
+#' @return Plot fitted values against residuals ('type = fire') or
+#'    coefficient estimates and coefficient estimate ranges
+#'    ('type = coef.range') for object of class `pdynmc`. The latter
+#'    plot requires twostep or iterative GMM estimates.
 #'
 #' @export
 #'
@@ -830,7 +834,8 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
 #'     opt.meth = "none")
-#'  plot.coef(m1)
+#'  plot(m1)
+#'  plot(m1, type = "coef.range")
 #' }
 #'
 #' \donttest{
@@ -851,13 +856,15 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
 #'     opt.meth = "none")
-#'  plot.coef(m1)
+#'  plot(m1)
+#'  plot(m1, type = "coef.range")
 #' }
 #' }
 #'
 #'
-plot.coef.pdynmc		<- function(
+plot.pdynmc		<- function(
   object,
+  type = "fire",
   include.dum = FALSE,
   include.fur.con = FALSE,
   col.coefRange = 1,
@@ -867,78 +874,96 @@ plot.coef.pdynmc		<- function(
   ...
 ){
 
-  if(!inherits(object, what = "pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
-  }
-  if(object$iter == 1){
-    stop("Only onestep estimates available; plot requires twostep or iterated GMM results.")
-  }
-  if(boxplot.coef == TRUE && object$iter < 10){
-    boxplot.coef <- FALSE
-    warning("Argument 'boxplot.coef' was ignored as coefficient boxplots are only displayed for a minimum of 10 iterations.")
+  if(type == "fire"){
+
+    if(!inherits(object, what = "pdynmc")){
+      stop("Use only with \"pdynmc\" objects.")
+    }
+
+    fitteds <- unlist(fitted(object))
+    resids  <- unlist(resid(object))
+
+    y.range	<- c(-1, 1)*max(abs(resids))
+    plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted Values", ylab = "Residuals",
+         main	= paste("Fitted Residual Plot of", substitute(object)), col = "grey60", ...)
+    abline(h = 0)
   }
 
-  if(!include.dum | !include.fur.con){
-    if(!include.dum && !include.fur.con){
-      varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.dum) & !(object$data$varnames.reg %in% object$data$varnames.reg.fur)
-    } else{
-      if(!include.dum){
-        varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.dum)
+
+  if(type == "coef.range"){
+    if(!inherits(object, what = "pdynmc")){
+      stop("Use only with \"pdynmc\" objects.")
+    }
+    if(object$iter == 1){
+      stop("Only onestep estimates available; plot requires twostep or iterated GMM results.")
+    }
+    if(boxplot.coef == TRUE && object$iter < 10){
+      boxplot.coef <- FALSE
+      warning("Argument 'boxplot.coef' was ignored as coefficient boxplots are only displayed for a minimum of 10 iterations.")
+    }
+
+    if(!include.dum | !include.fur.con){
+      if(!include.dum && !include.fur.con){
+        varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.dum) & !(object$data$varnames.reg %in% object$data$varnames.reg.fur)
       } else{
-        varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.reg.fur)
-      }
-    }
-  } else{
-    varnames.ind <- rep(TRUE, times = length(object$data$varnames.reg))
-  }
-
-  n.iter    <- object$iter
-  if(object$data$opt.method == "none"){
-    coef.list <- lapply(object$par.clForm, FUN = '[', varnames.ind)
-  } else{
-    coef.list <- lapply(object$par.optim, FUN = '[', varnames.ind)
-  }
-  coef.est  <- object$coefficients[varnames.ind]
-  n.coef    <- length(coef.est)
-
-  coef.mat  <- do.call(what = cbind, coef.list)
-
-  if(nrow(coef.mat) == 1){
-    if(boxplot.coef){
-      plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xlab = "", ylab = "", ...)
-      boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
-      points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 20)
-
-    } else{
-      coef.mat.min <- min(coef.mat)
-      coef.mat.max <- max(coef.mat)
-      plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
-      lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 2, lty = 2, ...)
-      lines(x = c(n.coef-0.2, n.coef+0.2), y = rep(coef.est, times = 2), col = col.coefEst, lwd = 2, ...)
-      points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 20, ...)
-      axis(side = 1, c(1:n.coef))
-    }
-  } else{
-    if(boxplot.coef){
-      boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "")
-      for(i in 1:n.coef){
-        lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2, ...)
-        points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 20, ...)
+        if(!include.dum){
+          varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.dum)
+        } else{
+          varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.reg.fur)
+        }
       }
     } else{
-      coef.mat.min.max <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
-      x.vec        <- 1:n.coef
-      plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
-      for(i in 1:n.coef){
-        lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 2, lty = 2, ...)
-        lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2, ...)
-        points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 20, ...)
-      }
-      axis(side = 1, c(1:n.coef))
+      varnames.ind <- rep(TRUE, times = length(object$data$varnames.reg))
     }
-  }
 
-  legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(2,2,2), pch = c(NA,20,NA), lty = c(1,0,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
+    n.iter    <- object$iter
+    if(object$data$opt.method == "none"){
+      coef.list <- lapply(object$par.clForm, FUN = '[', varnames.ind)
+    } else{
+      coef.list <- lapply(object$par.optim, FUN = '[', varnames.ind)
+    }
+    coef.est  <- object$coefficients[varnames.ind]
+    n.coef    <- length(coef.est)
+
+    coef.mat  <- do.call(what = cbind, coef.list)
+
+    if(nrow(coef.mat) == 1){
+      if(boxplot.coef){
+        plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xlab = "", ylab = "", ...)
+        boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
+        points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 20, ...)
+
+      } else{
+        coef.mat.min <- min(coef.mat)
+        coef.mat.max <- max(coef.mat)
+        plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
+        lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 2, lty = 2, ...)
+        lines(x = c(n.coef-0.2, n.coef+0.2), y = rep(coef.est, times = 2), col = col.coefEst, lwd = 2, ...)
+        points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 20, ...)
+        axis(side = 1, c(1:n.coef))
+      }
+    } else{
+      if(boxplot.coef){
+        boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
+        for(i in 1:n.coef){
+          lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2, ...)
+          points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 20, ...)
+        }
+      } else{
+        coef.mat.min.max <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
+        x.vec        <- 1:n.coef
+        plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
+        for(i in 1:n.coef){
+          lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 2, lty = 2, ...)
+          lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2, ...)
+          points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 20, ...)
+        }
+        axis(side = 1, c(1:n.coef))
+      }
+    }
+
+    legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(2,2,2), pch = c(NA,20,NA), lty = c(1,0,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
+  }
 
 }
 
@@ -952,84 +977,6 @@ plot.coef.pdynmc		<- function(
 
 
 
-
-
-#' Plot of fitted values against residuals.
-#'
-#' \code{plot.fire.pdynmc} Plot fitted values against residuals
-#'    for objects of class `pdynmc`.
-#'
-#' @param object An object of class `pdynmc`.
-#' @param ... further arguments.
-#'
-#' @return Plot fitted values against residuals for an object
-#'    of class `pdynmc`.
-#'
-#' @export
-#'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
-#' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
-#'
-#' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
-#'     opt.meth = "none")
-#'  plot.fire(m1)
-#' }
-#'
-#' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'
-#' ## Further code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
-#'     opt.meth = "none")
-#'  plot.fire(m1)
-#' }
-#' }
-#'
-#'
-plot.fire.pdynmc		<- function(object, ...){
-
-  if(!inherits(object, what = "pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
-  }
-
-  fitteds <- unlist(fitted(object))
-  resids  <- unlist(resid(object))
-
-  y.range	<- c(-1, 1)*max(abs(resids))
-  plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted Values", ylab = "Residuals",
-     main	= paste("Fitted Residual Plot of", substitute(object)), col = "grey60", ...)
-  abline(h = 0)
-}
 
 
 
@@ -1233,8 +1180,8 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
     stop("No parameter inputs can be extracted (no numerical optimization carried out).")
   }
 
-  optimIn	<- get(paste("step", step, sep = "") , object$ctrl.optim)
-  return(optimIn)
+  opt.input	<- get(paste("step", step, sep = "") , object$ctrl.optim)
+  return(opt.input)
 }
 
 

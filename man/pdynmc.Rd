@@ -284,8 +284,9 @@ An object of class `c("list","pdynmc)` with the following elements:
 \item{pvalue}{a list of vectors containing the p-values for the parameter
    estimates for each estimation step}
 
-It has `fitted`, `residuals`, `wmat`, `vcov`, `summary`, and `print.summary`
-   methods.
+It has `dum.coef`, `fitted`, `residuals`, `wmat`, `vcov`, `summary`,
+   `optimIn`, `print`, `print.summary`, `plot`, and
+   `plot.fire` methods.
 }
 \description{
 The pdynmc package provides three categories of functions that are available

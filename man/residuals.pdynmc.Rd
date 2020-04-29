@@ -22,7 +22,7 @@ removed from the vector of fitted values (defaults to `FALSE`).}
 Extract residuals from object of class `pdynmc`.
 }
 \description{
-\code{residual.pdynmc} extracts residuals of an object of class
+\code{residuals.pdynmc} extracts residuals of an object of class
    `pdynmc`.
 }
 \examples{
