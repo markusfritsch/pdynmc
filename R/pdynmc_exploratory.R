@@ -7,19 +7,32 @@
 
 #' Investigate if panel data set is balanced or unbalanced.
 #'
+<<<<<<< HEAD
 #' \code{data.info} Investigate if a panel data set contained
 #'    in a `data.frame` is balanced or unbalanced.
 #'
 #' @param object An object of class `data.frame`.
+=======
+#' \code{data.info} Plot fitted values against residuals for an
+#'    object of class `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 #' @param i.name Column name of cross-section identifier.
 #' @param t.name Column name of time-series identifier.
 #' @param ... further arguments.
 #'
+<<<<<<< HEAD
 #' @return Returns information if panel data set contained
 #'    in an object of class `data.frame` is a balanced or
 #'    unbalanced panel data set.
 #'
 #' @author Markus Fritsch, Joachim Schnurbus
+=======
+#' @return Returns information if object of class `data.frame`
+#'    is a balanced or unbalanced panel data set.
+#'
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 #' @export
 #'
 #' @seealso
@@ -43,6 +56,7 @@
 #' }
 #'
 #'
+<<<<<<< HEAD
 data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
   if (!is.data.frame(object))
     stop("Function applied to non `data.frame`.")
@@ -50,6 +64,11 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
   if(is.null(i.name) || is.null(t.name)){
     stop("Cross-section dimension and longitudinal dimension need to be specified.")
   }
+=======
+data.info	<- function(object, i.name, t.name, ...){
+  if (!is.data.frame(object))
+    stop("'data.info' applied to non data frame")
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 
   i.set		<- sort(unique(object[, i.name]))
   t.set		<- sort(unique(object[, t.name]))
@@ -91,6 +110,7 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 
 
 
+<<<<<<< HEAD
 #' Plot on structure of panel data set.
 #'
 #' \code{strucPD.plot} Plot on cross-section and longtudinal
@@ -187,6 +207,8 @@ strucPD.plot	<- function(object, i.name = NULL,	t.name = NULL, ...){
   par(mar = par.mar.def, xpd = par.xpd.def)	# return plot window default configuration
 }
 
+=======
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 
 
 

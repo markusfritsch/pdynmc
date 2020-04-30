@@ -4,10 +4,17 @@
 \alias{data.info}
 \title{Investigate if panel data set is balanced or unbalanced.}
 \usage{
+<<<<<<< HEAD
 data.info(object, i.name = NULL, t.name = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class `data.frame`.}
+=======
+data.info(object, i.name, t.name, ...)
+}
+\arguments{
+\item{object}{An object of class `pdynmc`.}
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 
 \item{i.name}{Column name of cross-section identifier.}
 
@@ -16,6 +23,7 @@ data.info(object, i.name = NULL, t.name = NULL, ...)
 \item{...}{further arguments.}
 }
 \value{
+<<<<<<< HEAD
 Returns information if panel data set contained
    in an object of class `data.frame` is a balanced or
    unbalanced panel data set.
@@ -23,6 +31,14 @@ Returns information if panel data set contained
 \description{
 \code{data.info} Investigate if a panel data set contained
    in a `data.frame` is balanced or unbalanced.
+=======
+Returns information if object of class `data.frame`
+   is a balanced or unbalanced panel data set.
+}
+\description{
+\code{data.info} Plot fitted values against residuals for an
+   object of class `pdynmc`.
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 }
 \examples{
 ## Load data from plm package
@@ -45,6 +61,9 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \seealso{
 \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 }
+<<<<<<< HEAD
 \author{
 Markus Fritsch, Joachim Schnurbus
 }
+=======
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15

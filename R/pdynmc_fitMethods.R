@@ -657,6 +657,7 @@ ninst.pdynmc		<- function(object){
 
 
 
+<<<<<<< HEAD
 #' Extract number of observations.
 #'
 #' \code{nobs.pdynmc} extracts number of observations in cross-section
@@ -667,6 +668,33 @@ ninst.pdynmc		<- function(object){
 #'
 #' @return Extracts number of observations in cross-section dimension
 #'    and longitudinal dimension of an object of class `pdynmc`.
+=======
+#' Plot of coefficient estimates and corresponding ranges.
+#'
+#' \code{plot.coef.pdynmc} Plot coefficient estimates and corresponding
+#'    coefficient estimate ranges for objects of class `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`. The function requires
+#'    twostep or iterative GMM estimates.
+#' @param include.dum Include estimates of parameters corresponding to time
+#'    dummies (defaults to 'FALSE').
+#' @param include.fur.con Include estimates of parameters corresponding to
+#'    further controls (defaults to 'FALSE').
+#' @param col.coefRange Specify color for plotting range of coefficient
+#'    estimates (defaults to 'black').
+#' @param col.coefInitial Specify color for plotting initial coefficient
+#'    estimate (defaults to 'darkgrey').
+#' @param col.coefEst Specify color for plotting coefficient estimate
+#'    (defaults to 'royalblue').
+#' @param boxplot.coef Wether to draw boxplots for coefficient estimates
+#'    (defaults to 'FALSE'); requires iterative GMM with at least 10
+#'    iterations.
+#' @param ... further arguments.
+#'
+#' @return Plot coefficient estimates and coefficient estimate ranges
+#'    for object of class `pdynmc` (requires twostep or iterative GMM
+#'    estimates).
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 #'
 #' @author Markus Fritsch
 #' @export
@@ -968,6 +996,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
 #'     opt.meth = "none")
+<<<<<<< HEAD
 #'  plot(m1)
 #'  plot(m1, type = "coef.range")
 #' }
@@ -1457,6 +1486,9 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  summary(m1, na.rm = TRUE)
+=======
+#'  plot.coef(m1)
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 #' }
 #'
 #' \donttest{
@@ -1476,12 +1508,29 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
+<<<<<<< HEAD
 #'  summary(m1)
+=======
+#'  plot.coef(m1)
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 #' }
 #' }
 #'
 #'
+<<<<<<< HEAD
 summary.pdynmc	<- function(object, ...){
+=======
+plot.coef.pdynmc		<- function(
+  object,
+  include.dum = FALSE,
+  include.fur.con = FALSE,
+  col.coefRange = 1,
+  col.coefInitial = "darkgrey",
+  col.coefEst = "royalblue",
+  boxplot.coef = FALSE,
+  ...
+){
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
@@ -1512,7 +1561,19 @@ summary.pdynmc	<- function(object, ...){
     if(object$data$varnames.dum == "no time dummies"){
       object$time.dumf	<- "no times dummies included in estimation"
     } else{
+<<<<<<< HEAD
       object$time.dumf	<- wald.fct(param = "time.dum", object = object)
+=======
+      coef.mat.min.max <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
+      x.vec        <- 1:n.coef
+      plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "")
+      for(i in 1:n.coef){
+        lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 2, lty = 2)
+        lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2)
+        points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 20)
+      }
+      axis(side = 1, c(1:n.coef))
+>>>>>>> 1d2dbc567a34f8efe2d5f7834b7ebd3c2145ff15
     }
   }
 
@@ -1532,8 +1593,82 @@ summary.pdynmc	<- function(object, ...){
 
 
 
+#' Plot of fitted values against residuals.
+#'
+#' \code{plot.fire.pdynmc} Plot fitted values against residuals
+#'    for objects of class `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+#' @param ... further arguments.
+#'
+#' @return Plot fitted values against residuals for an object
+#'    of class `pdynmc`.
+#'
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
+#'     opt.meth = "none")
+#'  plot.fire(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' ## Further code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
+#'     opt.meth = "none")
+#'  plot.fire(m1)
+#' }
+#' }
+#'
+#'
+plot.fire.pdynmc		<- function(object, ...){
 
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
 
+  fitteds <- unlist(fitted(object))
+  resids  <- unlist(resid(object))
+
+  y.range	<- c(-1, 1)*max(abs(resids))
+  plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted Values", ylab = "Residuals",
+     main	= paste("Fitted Residual Plot of", substitute(object)), col = "grey60", ...)
+  abline(h = 0)
+}
 
 
 
