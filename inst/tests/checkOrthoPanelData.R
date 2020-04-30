@@ -48,3 +48,32 @@ m1 <- pdynmc(dat = ds[[1]], varname.i = "i", varname.t = "t",
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+library(OrthoPanels)
+
+data(BES_panel, package = "OrthoPanels")
+
+
+BES.ab.model <- pdynmc(dat = BES_panel, varname.i = "n", varname.t = "t",
+                       use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+                       include.y = TRUE, varname.y = "Approve", lagTerms.y = 1,
+                       fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+                       varname.reg.fur = c("Econ", "Clegg", "Brown", "Cameron",  "NHS", "Terror", "PID", "Tax"), lagTerms.reg.fur =c(0,0,0,0,0,0,0,0),
+                       include.dum = FALSE,  dum.diff = E, dum.lev = FALSE, varname.dum = "t",
+                       w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
+                       opt.meth = "BFGS")
+
+
+
+
