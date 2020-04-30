@@ -46,25 +46,20 @@
 
 
 
-
-#' Extract fitted values.
+#' Case and Variable Names of Fitted Model.
 #'
-#' \code{fitted.pdynmc} extracts fitted values of an object of class
-#'    `pdynmc`.
+#' \code{fitted.pdynmc} extracts variable names of cross-sectional and
+#'    longitudinal identifiers of an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which fitted values
-#'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates).
-#' @param na.rm A logical variable indicating whether missing values should be
-#'    removed from the vector of fitted values (defaults to `FALSE`).
 #' @param ... further arguments.
 #'
-#' @return Extract fitted values from object of class `pdynmc`.
+#' @return A list containing tow character vectors with the variable
+#'    names of the cross-sectional and the longitudinal identifiers
+#'    from object of class `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
-#' @importFrom stats na.omit
 #'
 #' @seealso
 #'
@@ -89,7 +84,7 @@
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  fitted(m1, na.rm = TRUE)
+#'  case.names(m1)
 #' }
 #'
 #' \donttest{
@@ -110,26 +105,99 @@
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  fitted(m1, na.rm = TRUE)
+#'  case.names(m1)
 #' }
 #' }
 #'
 #'
-fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
+case.names.pdynmc <- function(object, ...){
 
-  if(!inherits(object, what = "pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
-  }
+  cn.pd <- list("cross-section id" = as.character(unique(object$data$dat.na[ , object$data$varname.i])),
+                "longitudinal id" = as.character(unique(object$data$dat.na[ , object$data$varname.t])))
 
-  if(na.rm == TRUE){
-    fit.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$fitted.values))
-  } else{
-    fit.pd	<- get(paste("step", step, sep = "") , object$fitted.values)
-  }
-  return(fit.pd)
+  return(cn.pd)
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+#' Extract coefficient estimates.
+#'
+#' \code{fitted.pdynmc} extracts coefficient estimates of an object
+#'    of class `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+#' @param ... further arguments.
+#'
+#' @return Extract coefficient estimates from object of class `pdynmc`.
+#'
+#' @author Markus Fritsch
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  coef(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' ## Further code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  coef(m1)
+#' }
+#' }
+#'
+#'
+coef.pdynmc <- function(object, ...){
+
+  coef.pd <- object$coefficients
+
+  return(coef.pd)
+}
 
 
 
@@ -237,11 +305,9 @@ dummy.coef.pdynmc		<- function(object, ...){
 
 
 
-
-
-#' Extract residuals.
+#' Extract fitted values.
 #'
-#' \code{residuals.pdynmc} extracts residuals of an object of class
+#' \code{fitted.pdynmc} extracts fitted values of an object of class
 #'    `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
@@ -252,7 +318,7 @@ dummy.coef.pdynmc		<- function(object, ...){
 #'    removed from the vector of fitted values (defaults to `FALSE`).
 #' @param ... further arguments.
 #'
-#' @return Extract residuals from object of class `pdynmc`.
+#' @return Extract fitted values from object of class `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
@@ -281,7 +347,7 @@ dummy.coef.pdynmc		<- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  residuals(m1, na.rm = TRUE)
+#'  fitted(m1, na.rm = TRUE)
 #' }
 #'
 #' \donttest{
@@ -302,23 +368,23 @@ dummy.coef.pdynmc		<- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  residuals(m1, na.rm = TRUE)
+#'  fitted(m1, na.rm = TRUE)
 #' }
 #' }
 #'
 #'
-residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
+fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
   }
 
   if(na.rm == TRUE){
-    res.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$residuals))
+    fit.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$fitted.values))
   } else{
-    res.pd	<- get(paste("step", step, sep = "") , object$residuals)
+    fit.pd	<- get(paste("step", step, sep = "") , object$fitted.values)
   }
-  return(res.pd)
+  return(fit.pd)
 }
 
 
@@ -340,18 +406,430 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
 
 
-#' Extract variance covariance matrix.
+
+
+
+
+
+
+
+
+
+
+
+#' Extract instrument matrix.
 #'
-#' \code{vcov.pdynmc} extracts variance covariance matrix of the paramter
-#'    estimates of an object of class `pdynmc`.
+#' \code{model.matrix.pdynmc} extracts explanatory variables of an object
+#'    of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which fitted values
-#'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates).
+#' @param sparse Whether to return a sparse matrix (if set to 'TRUE') or
+#'    a regular matrix (if set to 'FALSE').
+#'
+#' @return Extracts instrument matrix from an object of class `pdynmc`.
+#'
+#' @author Markus Fritsch
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  model.matrix(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  model.matrix(m1)
+#' }
+#' }
+#'
+#'
+model.matrix.pdynmc		<- function(object, sparse = TRUE){
+
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+
+  if(sparse == TRUE){
+    modmat <- object$data$Z.temp
+  } else{
+    modmat <- as.matrix(do.call(what = rbind, object$data$Z.temp))
+  }
+  return(modmat)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Extract instrument count.
+#'
+#' \code{ninst} extracts instrument count of an object.
+#'
+#' @param object An object for which the instrument count is desired.
+#'
+#' @return Extracts instrument count from an object.
+#'
+#' @author Markus Fritsch
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  ninst(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  ninst(m1)
+#' }
+#' }
+#'
+#'
+ninst <- function(object, ...){
+  UseMethod("ninst", object)
+}
+
+
+#' Extract instrument count.
+#'
+#' \code{ninst.pdynmc} extracts instrument count of an object
+#'    of class `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+#'
+#' @return Extracts instrument count from an object of class `pdynmc`.
+#'
+#' @author Markus Fritsch
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  ninst(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  ninst(m1)
+#' }
+#' }
+#'
+#'
+ninst.pdynmc		<- function(object){
+
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+
+  ninsts <- object$data$n.inst
+
+  return(ninsts)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Extract number of observations.
+#'
+#' \code{nobs.pdynmc} extracts number of observations in cross-section
+#'    dimension and longitudinal dimension of an object of class
+#'    `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+#'
+#' @return Extracts number of observations in cross-section dimension
+#'    and longitudinal dimension of an object of class `pdynmc`.
+#'
+#' @author Markus Fritsch
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  nobs(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  nobs(m1)
+#' }
+#' }
+#'
+#'
+nobs.pdynmc		<- function(object){
+
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+
+  nob.i <- object$data$n
+  nob.t <- object$data$Time
+
+  cat("Cross-section dimension ", paste("n = ", nob.i, sep = ""), "/n", sep = "")
+  cat("longitudinal dimension ", paste("n = ", nob.t, sep = ""), "/n", sep = "")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Extract input parameters of numeric optimization.
+#'
+#' \code{optimIn} extracts input parameters of numeric optimization
+#'    for an object.
+#'
+#' @param object An object for which input parameters of numeric
+#'    optimization are desired.
 #' @param ... further arguments.
 #'
-#' @return Extract variance covariance matrix of the paramter estimates from
+#' @return \code{optimIn} extracts input parameters used in numeric
+#'    optimization from object.
+#'
+#' @author Markus Fritsch
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  optimIn(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' ## Further code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "BFGS")
+#'  optimIn(m1)
+#' }
+#' }
+#'
+#'
+optimIn <- function(object, ...){
+  UseMethod("optimIn", object)
+}
+
+
+#' Extract input parameters of numeric optimization.
+#'
+#' \code{optimIn.pdynmc} extracts input parameters of numeric
+#'    optimization for an object of class `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+#' @param step An integer denoting the iteration step for which input
+#'    parameters are extracted (defaults to last iteration step used
+#'    for obtaining parameter estimates).
+#' @param ... further arguments.
+#'
+#' @return Extracts input parameters of numeric optimization from
 #'    object of class `pdynmc`.
 #'
 #' @author Markus Fritsch
@@ -380,7 +858,7 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  vcov(m1)
+#'  optimIn(m1)
 #' }
 #'
 #' \donttest{
@@ -392,6 +870,7 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'  dat <- EmplUK
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
+#' ## Further code example
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
@@ -399,381 +878,24 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  vcov(m1)
+#'     opt.meth = "BFGS")
+#'  optimIn(m1)
 #' }
 #' }
 #'
 #'
-vcov.pdynmc		<- function(object, step = object$iter, ...){
+optimIn.pdynmc		<- function(object, step = object$iter, ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
   }
-
-  vcov	<- get(paste("step", step, sep = "") , object$vcov)
-  return(vcov)
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#' Print objects of class `pdynmc`.
-#'
-#' \code{print.pdynmc} prints objects of class `pdynmc`.
-#'
-#' @param x An object of class `pdynmc`.
-#' @param digits An integer indicating the maximum number of digits to display in the object.
-#' @param ... further arguments.
-#'
-#' @return Print objects of class `pdynmc`.
-#'
-#' @author Markus Fritsch
-#' @export
-#' @importFrom stats coef
-#'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
-#' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
-#'
-#' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  m1
-#' }
-#'
-#' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  m1
-#' }
-#' }
-#'
-#'
-#'
-print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
-
-  if(!inherits(x, what = "pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
+  if(object$data$opt.method == "none"){
+    stop("No parameter inputs can be extracted (no numerical optimization carried out).")
   }
 
-  cat("\nDynamic linear panel estimation", paste(" (", x$data$estimation, ")", sep = ""), sep = "")
-  cat("\nMoment conditions: ", paste(if(x$data$diffMC){ "linear (DIF)" }, if(x$data$levMC){ " linear (LEV)" }, if(x$data$nlMC){ " nonlinear" }), sep = "")
-  cat("\nEstimation steps: ", paste(x$iter), sep = "")
-  cat("\n")
-  cat("\nCoefficients:\n")
-  print.default(format(coef(x), digits = digits), print.gap = 2L, quote = FALSE)
-  cat("\n")
+  opt.input	<- get(paste("step", step, sep = "") , object$ctrl.optim, ...)
+  return(opt.input)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#' Summary for objects of class `pdynmc`.
-#'
-#' \code{summary.pdynmc} generates the summary for objects of class `pdynmc`.
-#'
-#' @param object An object of class `pdynmc`.
-#' @param ... further arguments.
-#'
-#' @return Object of class `summary.pdynmc`.
-#'
-#' @author Markus Fritsch
-#' @export
-#'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
-#' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
-#'
-#' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  summary(m1, na.rm = TRUE)
-#' }
-#'
-#' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  summary(m1)
-#' }
-#' }
-#'
-#'
-summary.pdynmc	<- function(object, ...){
-
-  if(!inherits(object, what = "pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
-  }
-
-  step		<- object$iter
-  est			<- object$data$estimation
-  object$n.obs	<- object$data$n * object$data$n - length(object$data$dat.na[is.na(object$data$dat.na[, object$data$varname.y]), ])
-  object$unbal	<- length(object$data$dat.na[is.na(object$data$dat.na[, object$data$varname.y]), ]) > 0
-
-  coef.est		  <- as.numeric(if(object$data$opt.method == "none"){ get(paste("step", step, sep = ""), object$par.clForm)} else{get(paste("step", step, sep = ""), object$par.optim)})
-  varnames.reg	<- object$data$varnames.reg
-
-  stderr		<- get(paste("step", step, sep = ""), object$stderr)
-  zvalue		<- get(paste("step", step, sep = ""), object$zvalue)
-  pvalue		<- get(paste("step", step, sep = ""), object$pvalue)
-
-  object$coefficients			<- cbind(coef.est, stderr, zvalue, pvalue)
-  colnames(object$coefficients)	<- if(object$data$stderr.type != "corrected") {c("Estimate", "Std.Err", "z-value", "Pr(>|z|)")} else{c("Estimate", "Std.Err.rob", "z-value.rob", "Pr(>|z.rob|)")}
-  rownames(object$coefficients)	<- object$data$varnames.reg
-
-  object$hansenj		<- jtest.fct(object)
-
-  object$slopef		  <- wald.fct(param = "slope", object = object)
-  if(length(object$data$varnames.dum) > 1){
-    object$time.dumf	<- wald.fct(param = "time.dum", object = object)
-  } else{
-    if(object$data$varnames.dum == "no time dummies"){
-      object$time.dumf	<- "no times dummies included in estimation"
-    } else{
-      object$time.dumf	<- wald.fct(param = "time.dum", object = object)
-    }
-  }
-
-  class(object)		<- "summary.pdynmc"
-  return(object)
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#' Print summary for objects of class `pdynmc`.
-#'
-#' \code{print.summary.pdynmc} prints the summary for objects of class
-#'    `pdynmc`.
-#'
-#' @param x An object of class `summary.pdynmc`.
-#' @param digits An integer indicating the maximum number of digits to display in the object.
-#' @param signif.stars Argument is defined as in \code{\link{options}}.
-#' @param ... further arguments.
-#'
-#' @return Print information on objects of class `summary.pdynmc`.
-#'
-#' @author Markus Fritsch
-#' @export
-#' @importFrom stats coef
-#' @importFrom stats printCoefmat
-#'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
-#' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
-#'
-#' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  summary(m1)
-#' }
-#'
-#' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  summary(m1)
-#' }
-#' }
-#'
-#'
-print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), signif.stars = getOption("show.signif.stars"), ...){
-
-  if(!inherits(x, what = "summary.pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
-  }
-
-#  cat(formula(paste(x$data$varname.y, paste(x$data$varnames.reg, collapse = "+"), sep = " ~ ")))
-#  cat("\n")
-  cat("\nDynamic linear panel estimation", paste(" (", x$data$estimation, ")", sep = ""), sep = "")
-  cat("\nMoment conditions: ", paste(if(x$data$diffMC){paste(x$data$n.inst["inst.diff"], " linear (DIF)", sep = "") }, if(x$data$levMC){paste(" ", x$data$n.inst["inst.lev"], " linear (LEV)", sep = "") }, if(x$data$nlMC){paste(" ", x$data$n.inst[inst.nl], " nonlinear", sep = "") }), sep = "")
-  cat("\nEstimation steps: ", paste(x$iter), "\n", sep = "")
-  cat("\nCoefficients:\n")
-  printCoefmat(coef(x), digits = digits, signif.stars = signif.stars, na.print = "NA", ...)
-#  cat(paste("Total Sum of Squares ", round(x$tss, digits = digits), "\n", sep = ""))
-#  cat(paste("Residual Sum of Squares ", round(x$rss, digits = digits), "\n", sep = ""))
-  cat("\n", paste(sum(x$data$n.inst), " total instruments are employed to estimate ", length(x$data$varnames.reg), " parameters", sep = ""))
-  cat("\n", paste(if(x$data$diffMC){paste(x$data$n.inst["inst.diff"], " linear (DIF)", sep = "") }, if(x$data$levMC){paste(" ", x$data$n.inst["inst.lev"], " linear (LEV)", sep = "") }, if(x$data$nlMC){paste(" ", x$data$n.inst[inst.nl],  " nonlinear", sep = "") }, sep = ""))
-  cat("\n", paste(if(x$data$varnames.fur.con[1] == "no further controls, "){"no further controls "} else {paste(if("furCon.diff" %in% names(x$data$n.inst)){paste(x$data$n.inst["furCon.diff"], " further controls (DIF) ", sep = "")}, if("furCon.lev" %in% names(x$data$n.inst)){paste(x$data$n.inst["inst.furCon.lev"], " further controls (LEV) ", sep = "")}, sep = "")}, sep = ""))
-  cat("\n", paste(if(x$data$varnames.dum[1] == "no time dummies "){"no time dummies"} else {paste(if("dum.diff" %in% names(x$data$n.inst)){paste(x$data$n.inst["dum.diff"], " time dummies (DIF) ", sep = "")}, if("dum.lev" %in% names(x$data$n.inst)){paste(x$data$n.inst["dum.lev"], " time dummies (LEV) ", sep = "")}, sep = "")}, sep = ""))
-
-  cat("\n", "\nJ-Test (overid restrictions): ", paste(round(x$hansenj$statistic, digits = 2), " with ", x$hansenj$parameter, " DF, pvalue: ", if(x$hansenj$p.value < 0.001){paste("<0.001")} else{round(x$hansenj$p.value, digits = digits)}, sep = ""))
-  cat("\nF-Statistic (slope coeff): ", paste(round(x$slopef$statistic, digits = 2), " with ", x$slopef$parameter, " DF, pvalue: ", if(x$slopef$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)}, sep = ""))
-  cat("\nF-Statistic (time dummies): ", if(length(x$time.dumf) == 1){ "no time dummies included in estimation" } else{ paste(round(x$time.dumf$statistic, digits = 2), " with ", x$time.dumf$parameter, " DF, pvalue: ", if(x$time.dumf$p.value < 0.001){paste("<0.001")} else{round(x$time.dumf$p.value, digits = digits)}, sep = "")} )
-}
-
-
-
-
-
-
-
-
-
 
 
 
@@ -998,10 +1120,431 @@ plot.pdynmc		<- function(
 
 
 
+
+
+#' Print objects of class `pdynmc`.
+#'
+#' \code{print.pdynmc} prints objects of class `pdynmc`.
+#'
+#' @param x An object of class `pdynmc`.
+#' @param digits An integer indicating the maximum number of digits to display in the object.
+#' @param ... further arguments.
+#'
+#' @return Print objects of class `pdynmc`.
+#'
+#' @author Markus Fritsch
+#' @export
+#' @importFrom stats coef
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  m1
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  m1
+#' }
+#' }
+#'
+#'
+#'
+print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
+
+  if(!inherits(x, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+
+  cat("\nDynamic linear panel estimation", paste(" (", x$data$estimation, ")", sep = ""), sep = "")
+  cat("\nMoment conditions: ", paste(if(x$data$diffMC){ "linear (DIF)" }, if(x$data$levMC){ " linear (LEV)" }, if(x$data$nlMC){ " nonlinear" }), sep = "")
+  cat("\nEstimation steps: ", paste(x$iter), sep = "")
+  cat("\n")
+  cat("\nCoefficients:\n")
+  print.default(format(coef(x), digits = digits), print.gap = 2L, quote = FALSE)
+  cat("\n")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Print summary for objects of class `pdynmc`.
+#'
+#' \code{print.summary.pdynmc} prints the summary for objects of class
+#'    `pdynmc`.
+#'
+#' @param x An object of class `summary.pdynmc`.
+#' @param digits An integer indicating the maximum number of digits to display in the object.
+#' @param signif.stars Argument is defined as in \code{\link{options}}.
+#' @param ... further arguments.
+#'
+#' @return Print information on objects of class `summary.pdynmc`.
+#'
+#' @author Markus Fritsch
+#' @export
+#' @importFrom stats coef
+#' @importFrom stats printCoefmat
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  summary(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  summary(m1)
+#' }
+#' }
+#'
+#'
+print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), signif.stars = getOption("show.signif.stars"), ...){
+
+  if(!inherits(x, what = "summary.pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+
+  #  cat(formula(paste(x$data$varname.y, paste(x$data$varnames.reg, collapse = "+"), sep = " ~ ")))
+  #  cat("\n")
+  cat("\nDynamic linear panel estimation", paste(" (", x$data$estimation, ")", sep = ""), sep = "")
+  cat("\nMoment conditions: ", paste(if(x$data$diffMC){paste(x$data$n.inst["inst.diff"], " linear (DIF)", sep = "") }, if(x$data$levMC){paste(" ", x$data$n.inst["inst.lev"], " linear (LEV)", sep = "") }, if(x$data$nlMC){paste(" ", x$data$n.inst[inst.nl], " nonlinear", sep = "") }), sep = "")
+  cat("\nEstimation steps: ", paste(x$iter), "\n", sep = "")
+  cat("\nCoefficients:\n")
+  printCoefmat(coef(x), digits = digits, signif.stars = signif.stars, na.print = "NA", ...)
+  #  cat(paste("Total Sum of Squares ", round(x$tss, digits = digits), "\n", sep = ""))
+  #  cat(paste("Residual Sum of Squares ", round(x$rss, digits = digits), "\n", sep = ""))
+  cat("\n", paste(sum(x$data$n.inst), " total instruments are employed to estimate ", length(x$data$varnames.reg), " parameters", sep = ""))
+  cat("\n", paste(if(x$data$diffMC){paste(x$data$n.inst["inst.diff"], " linear (DIF)", sep = "") }, if(x$data$levMC){paste(" ", x$data$n.inst["inst.lev"], " linear (LEV)", sep = "") }, if(x$data$nlMC){paste(" ", x$data$n.inst[inst.nl],  " nonlinear", sep = "") }, sep = ""))
+  cat("\n", paste(if(x$data$varnames.fur.con[1] == "no further controls"){"no further controls "} else {paste(if("furCon.diff" %in% names(x$data$n.inst)){paste(x$data$n.inst["furCon.diff"], " further controls (DIF) ", sep = "")}, if("furCon.lev" %in% names(x$data$n.inst)){paste(x$data$n.inst["inst.furCon.lev"], " further controls (LEV) ", sep = "")}, sep = "")}, sep = ""))
+  cat("\n", paste(if(x$data$varnames.dum[1] == "no time dummies"){"no time dummies "} else {paste(if("dum.diff" %in% names(x$data$n.inst)){paste(x$data$n.inst["dum.diff"], " time dummies (DIF) ", sep = "")}, if("dum.lev" %in% names(x$data$n.inst)){paste(x$data$n.inst["dum.lev"], " time dummies (LEV) ", sep = "")}, sep = "")}, sep = ""))
+
+  cat("\n", "\nJ-Test (overid restrictions): ", paste(round(x$hansenj$statistic, digits = 2), " with ", x$hansenj$parameter, " DF, pvalue: ", if(x$hansenj$p.value < 0.001){paste("<0.001")} else{round(x$hansenj$p.value, digits = digits)}, sep = ""))
+  cat("\nF-Statistic (slope coeff): ", paste(round(x$slopef$statistic, digits = 2), " with ", x$slopef$parameter, " DF, pvalue: ", if(x$slopef$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)}, sep = ""))
+  cat("\nF-Statistic (time dummies): ", if(length(x$time.dumf) == 1){ "no time dummies included in estimation" } else{ paste(round(x$time.dumf$statistic, digits = 2), " with ", x$time.dumf$parameter, " DF, pvalue: ", if(x$time.dumf$p.value < 0.001){paste("<0.001")} else{round(x$time.dumf$p.value, digits = digits)}, sep = "")} )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Extract residuals.
+#'
+#' \code{residuals.pdynmc} extracts residuals from an object of class
+#'    `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+#' @param step An integer denoting the iteration step for which fitted values
+#'    are extracted (defaults to last iteration step used for obtaining parameter
+#'    estimates).
+#' @param na.rm A logical variable indicating whether missing values should be
+#'    removed from the vector of fitted values (defaults to `FALSE`).
+#' @param ... further arguments.
+#'
+#' @return Extract residuals from object of class `pdynmc`.
+#'
+#' @author Markus Fritsch
+#' @export
+#' @importFrom stats na.omit
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  residuals(m1, na.rm = TRUE)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' ## Further code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  residuals(m1, na.rm = TRUE)
+#' }
+#' }
+#'
+#'
+residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
+
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+
+  if(na.rm == TRUE){
+    res.pd	<- stats::na.omit(get(paste("step", step, sep = "") , object$residuals))
+  } else{
+    res.pd	<- get(paste("step", step, sep = "") , object$residuals)
+  }
+  return(res.pd)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Summary for objects of class `pdynmc`.
+#'
+#' \code{summary.pdynmc} generates the summary for objects of class `pdynmc`.
+#'
+#' @param object An object of class `pdynmc`.
+#' @param ... further arguments.
+#'
+#' @return Object of class `summary.pdynmc`.
+#'
+#' @author Markus Fritsch
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  summary(m1, na.rm = TRUE)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  summary(m1)
+#' }
+#' }
+#'
+#'
+summary.pdynmc	<- function(object, ...){
+
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
+
+  step		<- object$iter
+  est			<- object$data$estimation
+  object$n.obs	<- object$data$n * object$data$n - length(object$data$dat.na[is.na(object$data$dat.na[, object$data$varname.y]), ])
+  object$unbal	<- length(object$data$dat.na[is.na(object$data$dat.na[, object$data$varname.y]), ]) > 0
+
+  coef.est		  <- as.numeric(if(object$data$opt.method == "none"){ get(paste("step", step, sep = ""), object$par.clForm)} else{get(paste("step", step, sep = ""), object$par.optim)})
+  varnames.reg	<- object$data$varnames.reg
+
+  stderr		<- get(paste("step", step, sep = ""), object$stderr)
+  zvalue		<- get(paste("step", step, sep = ""), object$zvalue)
+  pvalue		<- get(paste("step", step, sep = ""), object$pvalue)
+
+  object$coefficients			<- cbind(coef.est, stderr, zvalue, pvalue)
+  colnames(object$coefficients)	<- if(object$data$stderr.type != "corrected") {c("Estimate", "Std.Err", "z-value", "Pr(>|z|)")} else{c("Estimate", "Std.Err.rob", "z-value.rob", "Pr(>|z.rob|)")}
+  rownames(object$coefficients)	<- object$data$varnames.reg
+
+  object$hansenj		<- jtest.fct(object)
+
+  object$slopef		  <- wald.fct(param = "slope", object = object)
+  if(length(object$data$varnames.dum) > 1){
+    object$time.dumf	<- wald.fct(param = "time.dum", object = object)
+  } else{
+    if(object$data$varnames.dum == "no time dummies"){
+      object$time.dumf	<- "no times dummies included in estimation"
+    } else{
+      object$time.dumf	<- wald.fct(param = "time.dum", object = object)
+    }
+  }
+
+  class(object)		<- "summary.pdynmc"
+  return(object)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #' Extract names of explanatory variables.
 #'
-#' \code{variable.names.pdynmc} extracts explanatory variables of an object
-#'    of class `pdynmc`.
+#' \code{variable.names.pdynmc} extracts explanatory variables from an
+#'    object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
 #'
@@ -1080,18 +1623,19 @@ variable.names.pdynmc		<- function(object){
 
 
 
-
-
-#' Extract instrument matrix.
+#' Extract variance covariance matrix.
 #'
-#' \code{model.matrix.pdynmc} extracts explanatory variables of an object
-#'    of class `pdynmc`.
+#' \code{vcov.pdynmc} extracts variance covariance matrix of the paramter
+#'    estimates from an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param sparse Whether to return a sparse matrix (if set to 'TRUE') or
-#'    a regular matrix (if set to 'FALSE').
+#' @param step An integer denoting the iteration step for which fitted values
+#'    are extracted (defaults to last iteration step used for obtaining parameter
+#'    estimates).
+#' @param ... further arguments.
 #'
-#' @return Extracts instrument matrix from an object of class `pdynmc`.
+#' @return Extract variance covariance matrix of the paramter estimates from
+#'    an object of class `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
@@ -1119,7 +1663,7 @@ variable.names.pdynmc		<- function(object){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  model.matrix(m1)
+#'  vcov(m1)
 #' }
 #'
 #' \donttest{
@@ -1139,188 +1683,22 @@ variable.names.pdynmc		<- function(object){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  model.matrix(m1)
+#'  vcov(m1)
 #' }
 #' }
 #'
 #'
-model.matrix.pdynmc		<- function(object, sparse = TRUE){
+vcov.pdynmc		<- function(object, step = object$iter, ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
   }
 
-  if(sparse == TRUE){
-    modmat <- object$data$Z.temp
-  } else{
-    modmat <- as.matrix(do.call(what = rbind, object$data$Z.temp))
-  }
-  return(modmat)
+  vcov	<- get(paste("step", step, sep = "") , object$vcov)
+  return(vcov)
 }
 
 
-
-
-
-
-
-
-
-
-
-#' Extract number of observations.
-#'
-#' \code{ninst.pdynmc} extracts number of observations in cross-section
-#'    dimension and longitudinal dimension of an object of class
-#'    `pdynmc`.
-#'
-#' @param object An object of class `pdynmc`.
-#'
-#' @return Extracts number of observations in cross-section dimension
-#'    and longitudinal dimension of an object of class `pdynmc`.
-#'
-#' @author Markus Fritsch
-#' @export
-#'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
-#' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
-#'
-#' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  nobs(m1)
-#' }
-#'
-#' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  nobs(m1)
-#' }
-#' }
-#'
-#'
-nobs.pdynmc		<- function(object){
-
-  if(!inherits(object, what = "pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
-  }
-
-  nob.i <- object$data$n
-  nob.t <- object$data$Time
-
-  cat("Cross-section dimension ", paste("n = ", nob.i, sep = ""), "/n", sep = "")
-  cat("longitudinal dimension ", paste("n = ", nob.t, sep = ""), "/n", sep = "")
-}
-
-
-
-
-
-
-
-
-
-#' Extract instrument count.
-#'
-#' \code{ninst.pdynmc} extracts instrument count of an object
-#'    of class `pdynmc`.
-#'
-#' @param object An object of class `pdynmc`.
-#'
-#' @return Extracts instrument count from an object of class `pdynmc`.
-#'
-#' @author Markus Fritsch
-#' @export
-#'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
-#' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
-#'
-#' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  ninst(m1)
-#' }
-#'
-#' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  ninst(m1)
-#' }
-#' }
-#'
-#'
-ninst.pdynmc		<- function(object){
-
-  if(!inherits(object, what = "pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
-  }
-
-  ninst <- object$data$n.inst
-
-  return(ninst)
-}
 
 
 
@@ -1339,7 +1717,72 @@ ninst.pdynmc		<- function(object){
 
 #' Extract weighting matrix.
 #'
-#' \code{wmat.pdynmc} extracts weighting matrix of an object of class `pdynmc`.
+#' \code{wmat} extracts weighting matrix of an object.
+#'
+#' @param object An object for which the weighting matrix is desired.
+#' @param ... further arguments.
+#'
+#' @return Extract weighting matrix from an object.
+#'
+#' @author Markus Fritsch
+#' @export
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'  dat <- dat[c(1:140), ]
+#'
+#' ## Code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  wmat(m1)
+#' }
+#'
+#' \donttest{
+#' ## Load data from plm package
+#' if(!requireNamespace("plm", quietly = TRUE)){
+#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#' } else{
+#'  data(EmplUK, package = "plm")
+#'  dat <- EmplUK
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  wmat(m1)
+#' }
+#' }
+#'
+#'
+wmat <- function(object, ...){
+  UseMethod("wmat", object)
+}
+
+
+#' Extract weighting matrix.
+#'
+#' \code{wmat.pdynmc} extracts weighting matrix from an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
 #' @param step An integer denoting the iteration step for which fitted values
@@ -1406,122 +1849,9 @@ wmat.pdynmc		<- function(object, step = object$iter, ...){
     stop("Use only with \"pdynmc\" objects.")
   }
 
-  wmat	<- get(paste("step", step, sep = "") , object$w.mat)
+  wmat	<- get(paste("step", step, sep = "") , object$w.mat, ...)
   return(wmat)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#' Extract input parameters of numeric optimization.
-#'
-#' \code{optimIn.pdynmc} extracts input parameters of numeric optimization for an
-#'    object of class `pdynmc`.
-#'
-#' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which input parameters
-#'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates).
-#' @param ... further arguments.
-#'
-#' @return Extract input parameters of numeric optimization from object of class
-#'    `pdynmc`.
-#'
-#' @author Markus Fritsch
-#' @export
-#'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
-#' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
-#'
-#' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
-#'  optimIn(m1)
-#' }
-#'
-#' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'
-#' ## Further code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "BFGS")
-#'  optimIn(m1)
-#' }
-#' }
-#'
-#'
-optimIn.pdynmc		<- function(object, step = object$iter, ...){
-
-  if(!inherits(object, what = "pdynmc")){
-    stop("Use only with \"pdynmc\" objects.")
-  }
-  if(object$data$opt.method == "none"){
-    stop("No parameter inputs can be extracted (no numerical optimization carried out).")
-  }
-
-  opt.input	<- get(paste("step", step, sep = "") , object$ctrl.optim)
-  return(opt.input)
-}
-
-
-
-
-
 
 
 

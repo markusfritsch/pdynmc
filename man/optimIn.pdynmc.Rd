@@ -4,24 +4,24 @@
 \alias{optimIn.pdynmc}
 \title{Extract input parameters of numeric optimization.}
 \usage{
-optimIn.pdynmc(object, step = object$iter, ...)
+\method{optimIn}{pdynmc}(object, step = object$iter, ...)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
 
-\item{step}{An integer denoting the iteration step for which input parameters
-are extracted (defaults to last iteration step used for obtaining parameter
-estimates).}
+\item{step}{An integer denoting the iteration step for which input
+parameters are extracted (defaults to last iteration step used
+for obtaining parameter estimates).}
 
 \item{...}{further arguments.}
 }
 \value{
-Extract input parameters of numeric optimization from object of class
-   `pdynmc`.
+Extracts input parameters of numeric optimization from
+   object of class `pdynmc`.
 }
 \description{
-\code{optimIn.pdynmc} extracts input parameters of numeric optimization for an
-   object of class `pdynmc`.
+\code{optimIn.pdynmc} extracts input parameters of numeric
+   optimization for an object of class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

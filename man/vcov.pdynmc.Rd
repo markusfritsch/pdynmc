@@ -17,11 +17,11 @@ estimates).}
 }
 \value{
 Extract variance covariance matrix of the paramter estimates from
-   object of class `pdynmc`.
+   an object of class `pdynmc`.
 }
 \description{
 \code{vcov.pdynmc} extracts variance covariance matrix of the paramter
-   estimates of an object of class `pdynmc`.
+   estimates from an object of class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

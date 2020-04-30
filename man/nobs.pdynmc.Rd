@@ -14,7 +14,7 @@ Extracts number of observations in cross-section dimension
    and longitudinal dimension of an object of class `pdynmc`.
 }
 \description{
-\code{ninst.pdynmc} extracts number of observations in cross-section
+\code{nobs.pdynmc} extracts number of observations in cross-section
    dimension and longitudinal dimension of an object of class
    `pdynmc`.
 }

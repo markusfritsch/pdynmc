@@ -1155,8 +1155,10 @@ pdynmc		<- function(
  resGMM$Z.temp		<- lapply(Z.obj, `[[`, 1)
 
  resGMM$diffMC		<- use.mc.diff
- resGMM$levMC		<- use.mc.lev
- resGMM$nlMC		<- use.mc.nonlin
+ resGMM$levMC		  <- use.mc.lev
+ resGMM$nlMC		  <- use.mc.nonlin
+ resGMM$varname.i <- varname.i
+ resGMM$varname.t <- varname.t
 
 
 
@@ -1570,12 +1572,6 @@ pdynmc		<- function(
 
 
 }
-
-
-
-
-
-
 
 
 

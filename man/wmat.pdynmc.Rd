@@ -4,7 +4,7 @@
 \alias{wmat.pdynmc}
 \title{Extract weighting matrix.}
 \usage{
-wmat.pdynmc(object, step = object$iter, ...)
+\method{wmat}{pdynmc}(object, step = object$iter, ...)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
@@ -19,7 +19,7 @@ estimates).}
 Extract weighting matrix from an object of class `pdynmc`.
 }
 \description{
-\code{wmat.pdynmc} extracts weighting matrix of an object of class `pdynmc`.
+\code{wmat.pdynmc} extracts weighting matrix from an object of class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

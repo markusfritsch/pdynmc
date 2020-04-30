@@ -13,8 +13,8 @@
 Extract explanatory variables from an object of class `pdynmc`.
 }
 \description{
-\code{variable.names.pdynmc} extracts explanatory variables of an object
-   of class `pdynmc`.
+\code{variable.names.pdynmc} extracts explanatory variables from an
+   object of class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

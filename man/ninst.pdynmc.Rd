@@ -4,7 +4,7 @@
 \alias{ninst.pdynmc}
 \title{Extract instrument count.}
 \usage{
-ninst.pdynmc(object)
+\method{ninst}{pdynmc}(object)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
