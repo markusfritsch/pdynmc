@@ -42,9 +42,26 @@ m1 <- pdynmc(dat = ds[[1]], varname.i = "i", varname.t = "t",
        include.y = TRUE, varname.y = "y", lagTerms.y = 1,
        fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
        varname.reg.fur = c("x1"), lagTerms.reg.fur =0,
-       include.dum = TRUE,  dum.diff = TRUE, dum.lev = FALSE, varname.dum = "t",
+       include.dum = FALSE,  dum.diff = FALSE, dum.lev = FALSE, varname.dum = "t",
        w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
        opt.meth = "BFGS")
 
+
+
+
+
+data(BES_panel)
+BES.opm.model<-opm(Approve ~ Econ + Clegg + Brown + Cameron + NHS + Terror + PID + Tax,
+                   data = BES_panel, index = c('n','t'), n.samp = 10000, add.time.indicators = TRUE)
+## pdynmc calculations
+## Ahn Schmidt + HNR
+BES.as.model <- pdynmc(dat = BES_panel, varname.i = "n", varname.t = "t",
+                       use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+                       include.y = TRUE, varname.y = "Approve", lagTerms.y = 1,
+                       fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+                       varname.reg.fur = c("Econ", "Clegg", "Brown", "Cameron",  "NHS", "Terror", "PID", "Tax"), lagTerms.reg.fur =c(0,0,0,0,0,0,0,0),
+                       include.dum = FALSE,  dum.diff = FALSE, dum.lev = FALSE, varname.dum = "t",
+                       w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
+                       opt.meth = "BFGS")
 
 
