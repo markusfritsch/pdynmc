@@ -2,24 +2,26 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{wmat.pdynmc}
 \alias{wmat.pdynmc}
-\title{Extract weighting matrix.}
+\title{Extract Weighting Matrix of Fitted Model.}
 \usage{
 \method{wmat}{pdynmc}(object, step = object$iter, ...)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
 
-\item{step}{An integer denoting the iteration step for which fitted values
-are extracted (defaults to last iteration step used for obtaining parameter
-estimates).}
+\item{step}{An integer denoting the iteration step for which
+fitted values are extracted (defaults to last iteration step
+used for obtaining parameter estimates).}
 
 \item{...}{further arguments.}
 }
 \value{
-Extract weighting matrix from an object of class `pdynmc`.
+Extract weighting matrix from an object of class
+   `pdynmc`.
 }
 \description{
-\code{wmat.pdynmc} extracts weighting matrix from an object of class `pdynmc`.
+\code{wmat.pdynmc} extracts weighting matrix from an object of
+   class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

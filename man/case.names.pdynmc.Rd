@@ -17,7 +17,7 @@ A list containing tow character vectors with the variable
    from object of class `pdynmc`.
 }
 \description{
-\code{fitted.pdynmc} extracts variable names of cross-sectional and
+\code{case.names} extracts variable names of cross-sectional and
    longitudinal identifiers of an object of class `pdynmc`.
 }
 \examples{

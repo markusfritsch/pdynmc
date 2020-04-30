@@ -2,12 +2,13 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{wmat}
 \alias{wmat}
-\title{Extract weighting matrix.}
+\title{Extract Weighting Matrix of Fitted Model.}
 \usage{
 wmat(object, ...)
 }
 \arguments{
-\item{object}{An object for which the weighting matrix is desired.}
+\item{object}{An object for which the weighting matrix is
+desired.}
 
 \item{...}{further arguments.}
 }

@@ -48,7 +48,7 @@
 
 #' Case and Variable Names of Fitted Model.
 #'
-#' \code{fitted.pdynmc} extracts variable names of cross-sectional and
+#' \code{case.names} extracts variable names of cross-sectional and
 #'    longitudinal identifiers of an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
@@ -130,15 +130,16 @@ case.names.pdynmc <- function(object, ...){
 
 
 
-#' Extract coefficient estimates.
+#' Extract Coefficient Estimates of Fitted Model.
 #'
-#' \code{fitted.pdynmc} extracts coefficient estimates of an object
+#' \code{coef.pdynmc} extracts coefficient estimates of an object
 #'    of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
 #' @param ... further arguments.
 #'
-#' @return Extract coefficient estimates from object of class `pdynmc`.
+#' @return Extract coefficient estimates from object of class
+#'    `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
@@ -213,16 +214,16 @@ coef.pdynmc <- function(object, ...){
 
 
 
-#' Extract coefficient estimates of time dummies.
+#' Extract Coefficient Estimates of Time Dummies of Fitted Model.
 #'
-#' \code{dummy.coef.pdynmc} extracts coefficient estimates of time dummies of
-#'    an object of class `pdynmc`.
+#' \code{dummy.coef.pdynmc} extracts coefficient estimates of
+#'    time dummies of an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
 #' @param ... further arguments.
 #'
-#' @return Extract coefficient estimates of time dummies from object of class
-#'    `pdynmc`.
+#' @return Extract coefficient estimates of time dummies from
+#'    object of class `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
@@ -305,17 +306,18 @@ dummy.coef.pdynmc		<- function(object, ...){
 
 
 
-#' Extract fitted values.
+#' Extract Fitted Values of Fitted Model.
 #'
 #' \code{fitted.pdynmc} extracts fitted values of an object of class
 #'    `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which fitted values
-#'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates).
-#' @param na.rm A logical variable indicating whether missing values should be
-#'    removed from the vector of fitted values (defaults to `FALSE`).
+#' @param step An integer denoting the iteration step for which
+#'    fitted values are extracted (defaults to last iteration step
+#'    used for obtaining parameter estimates).
+#' @param na.rm A logical variable indicating whether missing values
+#'    should be removed from the vector of fitted values (defaults
+#'    to `FALSE`).
 #' @param ... further arguments.
 #'
 #' @return Extract fitted values from object of class `pdynmc`.
@@ -417,14 +419,14 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
 
 
-#' Extract instrument matrix.
+#' Extract Instrument Matrix of Fitted Model.
 #'
-#' \code{model.matrix.pdynmc} extracts explanatory variables of an object
-#'    of class `pdynmc`.
+#' \code{model.matrix.pdynmc} extracts explanatory variables of an
+#'    object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param sparse Whether to return a sparse matrix (if set to 'TRUE') or
-#'    a regular matrix (if set to 'FALSE').
+#' @param sparse Whether to return a sparse matrix (if set to 'TRUE')
+#'    or a regular matrix (if set to 'FALSE').
 #'
 #' @return Extracts instrument matrix from an object of class `pdynmc`.
 #'
@@ -506,7 +508,7 @@ model.matrix.pdynmc		<- function(object, sparse = TRUE){
 
 
 
-#' Extract instrument count.
+#' Extract Instrument Count of Fitted Model.
 #'
 #' \code{ninst} extracts instrument count of an object.
 #'
@@ -570,10 +572,10 @@ ninst <- function(object, ...){
 }
 
 
-#' Extract instrument count.
+#' Extract Instrument Count of Fitted Model.
 #'
-#' \code{ninst.pdynmc} extracts instrument count of an object
-#'    of class `pdynmc`.
+#' \code{ninst.pdynmc} extracts instrument count of an object of
+#'    class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
 #'
@@ -657,7 +659,7 @@ ninst.pdynmc		<- function(object){
 
 
 
-#' Extract number of observations.
+#' Extract Number of Observations of Fitted Model.
 #'
 #' \code{nobs.pdynmc} extracts number of observations in cross-section
 #'    dimension and longitudinal dimension of an object of class
@@ -749,7 +751,7 @@ nobs.pdynmc		<- function(object){
 
 
 
-#' Extract input parameters of numeric optimization.
+#' Extract Input Parameters of Numeric Optimization of Fitted Model.
 #'
 #' \code{optimIn} extracts input parameters of numeric optimization
 #'    for an object.
@@ -818,7 +820,7 @@ optimIn <- function(object, ...){
 }
 
 
-#' Extract input parameters of numeric optimization.
+#' Extract Input Parameters of Numeric Optimization of Fitted Model.
 #'
 #' \code{optimIn.pdynmc} extracts input parameters of numeric
 #'    optimization for an object of class `pdynmc`.
@@ -912,7 +914,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 
 
 
-#' Plot of coefficient estimates and corresponding ranges.
+#' Plot Coefficient Estimates and Corresponding Ranges of Fitted Model.
 #'
 #' \code{plot.pdynmc} Plot coefficient estimates and corresponding
 #'    coefficient estimate ranges for objects of class `pdynmc`.
@@ -1122,12 +1124,13 @@ plot.pdynmc		<- function(
 
 
 
-#' Print objects of class `pdynmc`.
+#' Print Fitted Model Object.
 #'
 #' \code{print.pdynmc} prints objects of class `pdynmc`.
 #'
 #' @param x An object of class `pdynmc`.
-#' @param digits An integer indicating the maximum number of digits to display in the object.
+#' @param digits An integer indicating the maximum number of digits to
+#'    display in the object.
 #' @param ... further arguments.
 #'
 #' @return Print objects of class `pdynmc`.
@@ -1215,13 +1218,14 @@ print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
 
 
 
-#' Print summary for objects of class `pdynmc`.
+#' Print Summary of Fitted Model Object.
 #'
 #' \code{print.summary.pdynmc} prints the summary for objects of class
 #'    `pdynmc`.
 #'
 #' @param x An object of class `summary.pdynmc`.
-#' @param digits An integer indicating the maximum number of digits to display in the object.
+#' @param digits An integer indicating the maximum number of digits to
+#'    display in the object.
 #' @param signif.stars Argument is defined as in \code{\link{options}}.
 #' @param ... further arguments.
 #'
@@ -1320,17 +1324,18 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 
 
 
-#' Extract residuals.
+#' Extract Residuals of Fitted Model.
 #'
 #' \code{residuals.pdynmc} extracts residuals from an object of class
 #'    `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which fitted values
-#'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates).
-#' @param na.rm A logical variable indicating whether missing values should be
-#'    removed from the vector of fitted values (defaults to `FALSE`).
+#' @param step An integer denoting the iteration step for which fitted
+#'    values are extracted (defaults to last iteration step used for
+#'    obtaining parameter estimates).
+#' @param na.rm A logical variable indicating whether missing values
+#'    should be removed from the vector of fitted values (defaults to
+#'    `FALSE`).
 #' @param ... further arguments.
 #'
 #' @return Extract residuals from object of class `pdynmc`.
@@ -1421,9 +1426,10 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
 
 
-#' Summary for objects of class `pdynmc`.
+#' Summary for Fitted Model Object.
 #'
-#' \code{summary.pdynmc} generates the summary for objects of class `pdynmc`.
+#' \code{summary.pdynmc} generates the summary for objects of class
+#'    `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
 #' @param ... further arguments.
@@ -1541,14 +1547,15 @@ summary.pdynmc	<- function(object, ...){
 
 
 
-#' Extract names of explanatory variables.
+#' Extract Names of Explanatory Variables of Fitted Model.
 #'
-#' \code{variable.names.pdynmc} extracts explanatory variables from an
-#'    object of class `pdynmc`.
+#' \code{variable.names.pdynmc} extracts explanatory variables
+#'    from an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
 #'
-#' @return Extract explanatory variables from an object of class `pdynmc`.
+#' @return Extract explanatory variables from an object of class
+#'    `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
@@ -1623,19 +1630,19 @@ variable.names.pdynmc		<- function(object){
 
 
 
-#' Extract variance covariance matrix.
+#' Extract Variance Covariance Matrix of Fitted Model.
 #'
-#' \code{vcov.pdynmc} extracts variance covariance matrix of the paramter
-#'    estimates from an object of class `pdynmc`.
+#' \code{vcov.pdynmc} extracts variance covariance matrix of the
+#'    paramter estimates from an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which fitted values
-#'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates).
+#' @param step An integer denoting the iteration step for which
+#'    fitted values are extracted (defaults to last iteration step
+#'    used for obtaining parameter estimates).
 #' @param ... further arguments.
 #'
-#' @return Extract variance covariance matrix of the paramter estimates from
-#'    an object of class `pdynmc`.
+#' @return Extract variance covariance matrix of the paramter estimates
+#'    from an object of class `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
@@ -1715,11 +1722,12 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 
 
 
-#' Extract weighting matrix.
+#' Extract Weighting Matrix of Fitted Model.
 #'
 #' \code{wmat} extracts weighting matrix of an object.
 #'
-#' @param object An object for which the weighting matrix is desired.
+#' @param object An object for which the weighting matrix is
+#'    desired.
 #' @param ... further arguments.
 #'
 #' @return Extract weighting matrix from an object.
@@ -1780,17 +1788,19 @@ wmat <- function(object, ...){
 }
 
 
-#' Extract weighting matrix.
+#' Extract Weighting Matrix of Fitted Model.
 #'
-#' \code{wmat.pdynmc} extracts weighting matrix from an object of class `pdynmc`.
+#' \code{wmat.pdynmc} extracts weighting matrix from an object of
+#'    class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param step An integer denoting the iteration step for which fitted values
-#'    are extracted (defaults to last iteration step used for obtaining parameter
-#'    estimates).
+#' @param step An integer denoting the iteration step for which
+#'    fitted values are extracted (defaults to last iteration step
+#'    used for obtaining parameter estimates).
 #' @param ... further arguments.
 #'
-#' @return Extract weighting matrix from an object of class `pdynmc`.
+#' @return Extract weighting matrix from an object of class
+#'    `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export

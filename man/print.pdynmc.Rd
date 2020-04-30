@@ -2,14 +2,15 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{print.pdynmc}
 \alias{print.pdynmc}
-\title{Print objects of class `pdynmc`.}
+\title{Print Fitted Model Object.}
 \usage{
 \method{print}{pdynmc}(x, digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
 \item{x}{An object of class `pdynmc`.}
 
-\item{digits}{An integer indicating the maximum number of digits to display in the object.}
+\item{digits}{An integer indicating the maximum number of digits to
+display in the object.}
 
 \item{...}{further arguments.}
 }

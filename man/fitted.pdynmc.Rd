@@ -2,19 +2,20 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{fitted.pdynmc}
 \alias{fitted.pdynmc}
-\title{Extract fitted values.}
+\title{Extract Fitted Values of Fitted Model.}
 \usage{
 \method{fitted}{pdynmc}(object, step = object$iter, na.rm = FALSE, ...)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
 
-\item{step}{An integer denoting the iteration step for which fitted values
-are extracted (defaults to last iteration step used for obtaining parameter
-estimates).}
+\item{step}{An integer denoting the iteration step for which
+fitted values are extracted (defaults to last iteration step
+used for obtaining parameter estimates).}
 
-\item{na.rm}{A logical variable indicating whether missing values should be
-removed from the vector of fitted values (defaults to `FALSE`).}
+\item{na.rm}{A logical variable indicating whether missing values
+should be removed from the vector of fitted values (defaults
+to `FALSE`).}
 
 \item{...}{further arguments.}
 }

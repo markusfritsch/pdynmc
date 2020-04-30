@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{coef.pdynmc}
 \alias{coef.pdynmc}
-\title{Extract coefficient estimates.}
+\title{Extract Coefficient Estimates of Fitted Model.}
 \usage{
 \method{coef}{pdynmc}(object, ...)
 }
@@ -12,10 +12,11 @@
 \item{...}{further arguments.}
 }
 \value{
-Extract coefficient estimates from object of class `pdynmc`.
+Extract coefficient estimates from object of class
+   `pdynmc`.
 }
 \description{
-\code{fitted.pdynmc} extracts coefficient estimates of an object
+\code{coef.pdynmc} extracts coefficient estimates of an object
    of class `pdynmc`.
 }
 \examples{

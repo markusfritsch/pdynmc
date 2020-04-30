@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{variable.names.pdynmc}
 \alias{variable.names.pdynmc}
-\title{Extract names of explanatory variables.}
+\title{Extract Names of Explanatory Variables of Fitted Model.}
 \usage{
 \method{variable.names}{pdynmc}(object)
 }
@@ -10,11 +10,12 @@
 \item{object}{An object of class `pdynmc`.}
 }
 \value{
-Extract explanatory variables from an object of class `pdynmc`.
+Extract explanatory variables from an object of class
+   `pdynmc`.
 }
 \description{
-\code{variable.names.pdynmc} extracts explanatory variables from an
-   object of class `pdynmc`.
+\code{variable.names.pdynmc} extracts explanatory variables
+   from an object of class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

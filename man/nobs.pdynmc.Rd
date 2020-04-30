@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{nobs.pdynmc}
 \alias{nobs.pdynmc}
-\title{Extract number of observations.}
+\title{Extract Number of Observations of Fitted Model.}
 \usage{
 \method{nobs}{pdynmc}(object)
 }

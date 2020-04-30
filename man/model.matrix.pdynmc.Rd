@@ -2,22 +2,22 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{model.matrix.pdynmc}
 \alias{model.matrix.pdynmc}
-\title{Extract instrument matrix.}
+\title{Extract Instrument Matrix of Fitted Model.}
 \usage{
 \method{model.matrix}{pdynmc}(object, sparse = TRUE)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
 
-\item{sparse}{Whether to return a sparse matrix (if set to 'TRUE') or
-a regular matrix (if set to 'FALSE').}
+\item{sparse}{Whether to return a sparse matrix (if set to 'TRUE')
+or a regular matrix (if set to 'FALSE').}
 }
 \value{
 Extracts instrument matrix from an object of class `pdynmc`.
 }
 \description{
-\code{model.matrix.pdynmc} extracts explanatory variables of an object
-   of class `pdynmc`.
+\code{model.matrix.pdynmc} extracts explanatory variables of an
+   object of class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

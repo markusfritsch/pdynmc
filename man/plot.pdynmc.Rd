@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{plot.pdynmc}
 \alias{plot.pdynmc}
-\title{Plot of coefficient estimates and corresponding ranges.}
+\title{Plot Coefficient Estimates and Corresponding Ranges of Fitted Model.}
 \usage{
 \method{plot}{pdynmc}(
   object,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{dummy.coef.pdynmc}
 \alias{dummy.coef.pdynmc}
-\title{Extract coefficient estimates of time dummies.}
+\title{Extract Coefficient Estimates of Time Dummies of Fitted Model.}
 \usage{
 \method{dummy.coef}{pdynmc}(object, ...)
 }
@@ -12,12 +12,12 @@
 \item{...}{further arguments.}
 }
 \value{
-Extract coefficient estimates of time dummies from object of class
-   `pdynmc`.
+Extract coefficient estimates of time dummies from
+   object of class `pdynmc`.
 }
 \description{
-\code{dummy.coef.pdynmc} extracts coefficient estimates of time dummies of
-   an object of class `pdynmc`.
+\code{dummy.coef.pdynmc} extracts coefficient estimates of
+   time dummies of an object of class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

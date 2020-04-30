@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{ninst}
 \alias{ninst}
-\title{Extract instrument count.}
+\title{Extract Instrument Count of Fitted Model.}
 \usage{
 ninst(object, ...)
 }

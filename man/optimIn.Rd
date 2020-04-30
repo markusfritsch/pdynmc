@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{optimIn}
 \alias{optimIn}
-\title{Extract input parameters of numeric optimization.}
+\title{Extract Input Parameters of Numeric Optimization of Fitted Model.}
 \usage{
 optimIn(object, ...)
 }

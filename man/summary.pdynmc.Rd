@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{summary.pdynmc}
 \alias{summary.pdynmc}
-\title{Summary for objects of class `pdynmc`.}
+\title{Summary for Fitted Model Object.}
 \usage{
 \method{summary}{pdynmc}(object, ...)
 }
@@ -15,7 +15,8 @@
 Object of class `summary.pdynmc`.
 }
 \description{
-\code{summary.pdynmc} generates the summary for objects of class `pdynmc`.
+\code{summary.pdynmc} generates the summary for objects of class
+   `pdynmc`.
 }
 \examples{
 ## Load data from plm package

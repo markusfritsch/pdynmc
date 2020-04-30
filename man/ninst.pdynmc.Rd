@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{ninst.pdynmc}
 \alias{ninst.pdynmc}
-\title{Extract instrument count.}
+\title{Extract Instrument Count of Fitted Model.}
 \usage{
 \method{ninst}{pdynmc}(object)
 }
@@ -13,8 +13,8 @@
 Extracts instrument count from an object of class `pdynmc`.
 }
 \description{
-\code{ninst.pdynmc} extracts instrument count of an object
-   of class `pdynmc`.
+\code{ninst.pdynmc} extracts instrument count of an object of
+   class `pdynmc`.
 }
 \examples{
 ## Load data from plm package

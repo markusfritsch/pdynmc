@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_fitMethods.R
 \name{print.summary.pdynmc}
 \alias{print.summary.pdynmc}
-\title{Print summary for objects of class `pdynmc`.}
+\title{Print Summary of Fitted Model Object.}
 \usage{
 \method{print}{summary.pdynmc}(
   x,
@@ -14,7 +14,8 @@
 \arguments{
 \item{x}{An object of class `summary.pdynmc`.}
 
-\item{digits}{An integer indicating the maximum number of digits to display in the object.}
+\item{digits}{An integer indicating the maximum number of digits to
+display in the object.}
 
 \item{signif.stars}{Argument is defined as in \code{\link{options}}.}
 
