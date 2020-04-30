@@ -65,3 +65,6 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \seealso{
 \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 }
+\author{
+Markus Fritsch
+}

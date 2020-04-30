@@ -4,7 +4,7 @@
 \alias{data.info}
 \title{Investigate if panel data set is balanced or unbalanced.}
 \usage{
-data.info(object, i.name, t.name, ...)
+data.info(object, i.name = NULL, t.name = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class `data.frame`.}
@@ -44,4 +44,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
 }
 \seealso{
 \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+}
+\author{
+Markus Fritsch, Joachim Schnurbus
 }

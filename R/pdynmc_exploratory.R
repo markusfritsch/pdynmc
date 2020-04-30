@@ -19,6 +19,7 @@
 #'    in an object of class `data.frame` is a balanced or
 #'    unbalanced panel data set.
 #'
+#' @author Markus Fritsch, Joachim Schnurbus
 #' @export
 #'
 #' @seealso
@@ -42,9 +43,13 @@
 #' }
 #'
 #'
-data.info	<- function(object, i.name, t.name, ...){
+data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
   if (!is.data.frame(object))
-    stop("'data.info' applied to non `data.frame`")
+    stop("Function applied to non `data.frame`.")
+
+  if(is.null(i.name) || is.null(t.name)){
+    stop("Cross-section dimension and longitudinal dimension need to be specified.")
+  }
 
   i.set		<- sort(unique(object[, i.name]))
   t.set		<- sort(unique(object[, t.name]))
@@ -88,7 +93,7 @@ data.info	<- function(object, i.name, t.name, ...){
 
 #' Plot on structure of panel data set.
 #'
-#' \code{plot.unba} Plot on cross-section and longtudinal
+#' \code{strucPD.plot} Plot on cross-section and longtudinal
 #'    structure of an object of class `data.frame` containing
 #'    a panel data set.
 #'
@@ -105,6 +110,7 @@ data.info	<- function(object, i.name, t.name, ...){
 #'    Breaks in the bars represent missing longitudinal
 #'    observations.
 #'
+#' @author Markus Fritsch, Joachim Schnurbus
 #' @export
 #'
 #' @seealso
@@ -122,15 +128,19 @@ data.info	<- function(object, i.name, t.name, ...){
 #'  dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  plot.unba(dat, i.name = "firm", t.name = "year")
+#'  strucPD.plot(dat, i.name = "firm", t.name = "year")
 #'
-#'  plot.unba(dat[dat$year %in% 1979:1981, ], i.name = "firm", t.name = "year")
+#'  strucPD.plot(dat[dat$year %in% 1979:1981, ], i.name = "firm", t.name = "year")
 #' }
 #'
 #'
-plot.unba	<- function(object, i.name,	t.name, ...){
+strucPD.plot	<- function(object, i.name = NULL,	t.name = NULL, ...){
   if (!is.data.frame(object))
-    stop("'plot.unba' applied to non `data.frame`")
+    stop("Function 'strucPD.plot' applied to non `data.frame`.")
+
+  if(is.null(i.name) || is.null(t.name)){
+    stop("Cross-section dimension and longitudinal dimension need to be specified.")
+  }
 
   i.set		<- sort(unique(object[, i.name]))
   t.set		<- sort(unique(object[, t.name]))

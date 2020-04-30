@@ -285,8 +285,7 @@ An object of class `c("list","pdynmc)` with the following elements:
    estimates for each estimation step}
 
 It has `dum.coef`, `fitted`, `residuals`, `wmat`, `vcov`, `summary`,
-   `optimIn`, `print`, `print.summary`, `plot`, and
-   `plot.fire` methods.
+   `optimIn`, `print`, `print.summary`, and `plot` methods.
 }
 \description{
 The pdynmc package provides three categories of functions that are available

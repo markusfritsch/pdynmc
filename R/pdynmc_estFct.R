@@ -248,8 +248,7 @@
 #'    estimates for each estimation step}
 #'
 #' It has `dum.coef`, `fitted`, `residuals`, `wmat`, `vcov`, `summary`,
-#'    `optimIn`, `print`, `print.summary`, `plot`, and
-#'    `plot.fire` methods.
+#'    `optimIn`, `print`, `print.summary`, and `plot` methods.
 #'
 #' @author Markus Fritsch
 #' @export
@@ -1177,7 +1176,7 @@ pdynmc		<- function(
 
  resGMM$varname.y			<- varname.y
  resGMM$varnames.reg		<- varname.reg.estParam
- resGMM$varnames.fur.con <- if(fur.con){varname.reg.fur} else{ NA}
+ resGMM$varnames.fur.con <- if(fur.con){varname.reg.fur} else{ "no further controls"}
  if(include.dum){
    resGMM$varnames.dum		<- colnames.dum[colnames.dum %in% varname.reg.estParam]
  } else{
