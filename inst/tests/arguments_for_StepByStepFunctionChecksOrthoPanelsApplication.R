@@ -42,9 +42,9 @@ data(BES_panel)
  fur.con.lev = FALSE
  varname.reg.fur = c("Econ", "Clegg", "Brown", "Cameron",  "NHS", "Terror", "PID", "Tax")
  lagTerms.reg.fur =c(0,0,0,0,0,0,0,0)
- include.dum = TRUE
- dum.diff = TRUE
- dum.lev = FALSE
+ include.dum = FALSE
+ dum.diff = FALSE
+ dum.lev = TRUE
  varname.dum = "t"
 
   col_tol				= 0.65
@@ -56,7 +56,7 @@ data(BES_panel)
  iter.tol				= 0.01
  inst.thresh			= NULL
 
- opt.meth = "BFGS"
+ opt.meth = "none"
  hessian				= FALSE
  optCtrl				= list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol = .Machine$double.eps^(1/3),
                     starttests = TRUE, dowarn = TRUE, badval = (0.25)*.Machine$double.xmax, usenumDeriv = FALSE,

@@ -1314,11 +1314,15 @@ pdynmc		<- function(
 					,use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin
 					,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, max.lagTerms = max.lagTerms, Time = Time)
 
+   if(nrow(resGMM$Z.temp[[1]]) == 1){
+     dat.clF.temp		<- lapply(lapply(dat.temp, `[[`, 1), function(x) Matrix::t(x))
+     dep.temp			<- lapply(dat.temp, `[[`, 2)
+   } else{
+     dat.clF.temp		<- lapply(dat.temp, `[[`, 1)
+     dep.temp			<- lapply(dat.temp, `[[`, 2)
+   }
 
-   dat.clF.temp		<- lapply(dat.temp, `[[`, 1)
    dat.clF.temp.0		<- rapply(lapply(dat.clF.temp, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
-
-   dep.temp			<- lapply(dat.temp, `[[`, 2)
    dep.temp.0		<- rapply(lapply(dep.temp, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
 
 
@@ -1354,6 +1358,7 @@ pdynmc		<- function(
 #
 #   dat.clF.temp.0			<- rapply(lapply(dat.clF.temp, FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace")
 #   resGMM$dat.clF.temp.0	<- dat.clF.temp.0
+
 
    tZX				<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, dat.clF.temp.0))
    tZY				<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, dep.temp.0))

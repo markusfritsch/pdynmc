@@ -12,12 +12,12 @@ varname.i = "firm"
 varname.t = "year"
 use.mc.diff = TRUE
 use.mc.lev = FALSE
-use.mc.nonlin = TRUE
+use.mc.nonlin = FALSE
 use.mc.nonlinAS			= NULL
 inst.stata			= FALSE
 include.y = TRUE
-varname.y = "y"
-lagTerms.y = 1
+varname.y = "emp"
+lagTerms.y = 2
 maxLags.y				= NULL
 
 include.x				= FALSE
@@ -39,23 +39,23 @@ varname.reg.toInstr		= NULL
 fur.con = TRUE
 fur.con.diff = TRUE
 fur.con.lev = FALSE
-varname.reg.fur = "x1"
-lagTerms.reg.fur = 0
+varname.reg.fur = c("wage", "capital", "output")
+lagTerms.reg.fur = c(1,2,2)
 include.dum = TRUE
-dum.diff = TRUE
-dum.lev = FALSE
-varname.dum = "t"
+dum.diff = FALSE
+dum.lev = TRUE
+varname.dum = "year"
 
 col_tol				= 0.65
 w.mat = "iid.err"
 w.mat.stata			= FALSE
 std.err = "corrected"
-estimation = "onestep"
+estimation = "twostep"
 max.iter				= 100
 iter.tol				= 0.01
 inst.thresh			= NULL
 
-opt.meth = "BFGS"
+opt.meth = "none"
 hessian				= FALSE
 optCtrl				= list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol = .Machine$double.eps^(1/3),
                    starttests = TRUE, dowarn = TRUE, badval = (0.25)*.Machine$double.xmax, usenumDeriv = FALSE,
@@ -71,3 +71,5 @@ seed.input			= 42
 
 
 
+#varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#include.dum = TRUE, dum.diff = FALSE, dum.lev = TRUE

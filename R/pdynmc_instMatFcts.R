@@ -827,7 +827,12 @@ Z_i.fct	<- function(
     ind_vec.lev.col	<- is.na(diff(dat.na[dat[, varname.i] == i , varname.y][1:Time], differences = max.lagTerms) )
 
     if(dum.lev){
-      Z_i.dum_4.lev				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[if(max.lagTerms > 2){-c(1:max.lagTerms)} else{-1}]][-c(1:max.lagTerms), ])
+      if(max.lagTerms > 1){
+        Z_i.dum_4.lev				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[-c(1:(max.lagTerms-1))]][-c(1:max.lagTerms), ])
+      } else{
+        Z_i.dum_4.lev				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum][-c(1:max.lagTerms), ])
+      }
+#      Z_i.dum_4.lev				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[if(max.lagTerms > 2){-c(1:max.lagTerms)} else{-1}]][-c(1:max.lagTerms), ])
       Z_i.dum_4.lev[ind_vec.lev.row, ]	<- 0
       Z_i.dum_4.lev[ ,ind_vec.lev.col]	<- 0
       colnames.dum_4.lev			<- colnames(Z_i.dum_4.lev)
