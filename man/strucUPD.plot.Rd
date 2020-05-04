@@ -2,13 +2,14 @@
 % Please edit documentation in R/pdynmc_exploratory.R
 \name{strucUPD.plot}
 \alias{strucUPD.plot}
-\title{Plot on structure of unbalanced panel data set.}
+\title{Plot on Structure of Unbalanced Panel Data Set.}
 \usage{
 strucUPD.plot(
   object,
   i.name = NULL,
   t.name = NULL,
   col.range = c("gold", "darkblue"),
+  plot.name = "Unbalanced panel structure",
   ...
 )
 }
@@ -24,6 +25,9 @@ visualize the structure of the unbalanced panel data
 set (defaults to 'gold' and 'darkblue'); must be a
 valid argument to \link{col2rgb}.}
 
+\item{plot.name}{A vector indicating the title of the plot
+(defaults to 'Unbalanced panel structure').}
+
 \item{...}{further arguments.}
 }
 \value{
@@ -36,7 +40,7 @@ Returns a plot for an unbalanced panel data set
    bars represent missing longitudinal observations.
 }
 \description{
-\code{strucPD.plot} Plot on cross-section and longtudinal
+\code{strucUPD.plot} Plot on cross-section and longtudinal
    structure of an object of class `data.frame` containing
    an unbalanced panel data set.
 }

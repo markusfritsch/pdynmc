@@ -216,8 +216,9 @@
 #'    `custom.start.val` is set to `TRUE`).
 #' @param seed.input An integer used as seed for drawing starting values (defaults
 #'    to 42; required if custom.start.val is set to `FALSE`).
-#' @return An object of class `c("list","pdynmc)` with the following elements:
+#' @return An object of class `pdynmc` with the following elements:
 #'
+#' \item{coefficients}{a vector containing the coefficient estimates}
 #' \item{data}{a list of elements on which computation of the model fit is based}
 #' \item{dep.clF}{a list of vectors containing the dependent variable for the
 #'    cross-sectional observations}
@@ -234,10 +235,10 @@
 #'    from the closed form for the estimation steps}
 #' \item{iter}{a scalar denoting the number of iteration steps carried out to
 #'    obtain parameter estimates}
-#' \item{fitted}{a list for each estimation step that contains a list of vectors
-#'    of fitted values for each cross-sectional observation}
-#' \item{resid}{a list for each estimation step that contains a list of vectors of
-#'    residuals for each cross-sectional observation}
+#' \item{fitted.values}{a list for each estimation step that contains a list of
+#'    vectors of fitted values for each cross-sectional observation}
+#' \item{residuals}{a list for each estimation step that contains a list of vectors
+#'    of residuals for each cross-sectional observation}
 #' \item{vcov}{a list of matrices containing the variance covariance matrix of the
 #'    parameter estimates for each estimation step}
 #' \item{stderr}{a list of vectors containing the standard errors of the parameter
@@ -247,8 +248,9 @@
 #' \item{pvalue}{a list of vectors containing the p-values for the parameter
 #'    estimates for each estimation step}
 #'
-#' It has `dum.coef`, `fitted`, `residuals`, `wmat`, `vcov`, `summary`,
-#'    `optimIn`, `print`, `print.summary`, and `plot` methods.
+#' It has `case.names`, `coef`, `dum.coef`, `fitted`, `model.matrix`, `ninst`,
+#'    `nobs`, `optimIn`, `plot`, `print`,`residuals`, `summary`, `variable.names`,
+#'    `vcov`, `waldtest`, and `wmat` methods.
 #'
 #' @author Markus Fritsch
 #' @export
@@ -268,7 +270,7 @@
 #'
 #' @seealso
 #'
-#' \code{\link{wald.fct}} for Wald tests,
+#' \code{\link{waldtest}} for Wald tests,
 #' \code{\link{jtest.fct}} for the Hansen J test, and
 #' \code{\link{mtest.fct}} for serial correlation tests.
 #' \code{\link[optimx]{optimx}} for details on alternative routines and options

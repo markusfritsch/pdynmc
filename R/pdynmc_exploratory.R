@@ -5,7 +5,7 @@
 
 
 
-#' Show basic structure of panel data set.
+#' Show Basic Structure of Panel Data Set.
 #'
 #' \code{data.info} shows basic structure of a balanced/unbalanced
 #'    panel data set contained in a `data.frame`.
@@ -91,9 +91,9 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 
 
 
-#' Plot on structure of unbalanced panel data set.
+#' Plot on Structure of Unbalanced Panel Data Set.
 #'
-#' \code{strucPD.plot} Plot on cross-section and longtudinal
+#' \code{strucUPD.plot} Plot on cross-section and longtudinal
 #'    structure of an object of class `data.frame` containing
 #'    an unbalanced panel data set.
 #'
@@ -104,6 +104,8 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #'    visualize the structure of the unbalanced panel data
 #'    set (defaults to 'gold' and 'darkblue'); must be a
 #'    valid argument to \link{col2rgb}.
+#' @param plot.name A vector indicating the title of the plot
+#'    (defaults to 'Unbalanced panel structure').
 #' @param ... further arguments.
 #'
 #' @return Returns a plot for an unbalanced panel data set
@@ -138,7 +140,10 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #' }
 #'
 #'
-strucUPD.plot	<- function(object, i.name = NULL,	t.name = NULL, col.range = c("gold", "darkblue"), ...){
+strucUPD.plot	<- function(
+  object, i.name = NULL,	t.name = NULL,
+  col.range = c("gold", "darkblue"), plot.name = "Unbalanced panel structure", ...
+){
   if (!is.data.frame(object))
     stop("Function 'strucPD.plot' applied to non `data.frame`.")
 
@@ -160,7 +165,7 @@ strucUPD.plot	<- function(object, i.name = NULL,	t.name = NULL, col.range = c("g
   par(mar = c(5.1, 4.1, 4.1, 6.1), xpd = TRUE)		# adjust plot window configuration
 
   plot(x = c(min(t.set) - 0.5, max(t.set) + 0.5), y = c(min(i.set) - 0.5, max(i.set) + 0.5),
-    type = "n", xlab = t.name, ylab = i.name, main = "Unbalanced panel structure",
+    type = "n", xlab = t.name, ylab = i.name, main = plot.name,
     xaxs = "i", yaxs = "i", xaxt = "n", ...)
   axis(side = 1, at = seq(from = min(t.set) - 0.5, to = max(t.set) + 0.5, by = 1), labels = FALSE)
   axis(side = 1, at = t.set, labels = t.set, tick = FALSE)
