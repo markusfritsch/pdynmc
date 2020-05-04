@@ -41,7 +41,8 @@ estimates (defaults to 'darkgrey'; requires 'type = coef.range').}
 
 \item{boxplot.coef}{Wether to draw boxplots for coefficient estimates
 (defaults to 'FALSE'); requires iterative GMM with at least 10
-iterations and argument 'type = coef.range'.}
+iterations and argument 'type = coef.range'. Proceed with caution
+as this argument is experimental.}
 
 \item{...}{further arguments.}
 }

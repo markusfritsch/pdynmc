@@ -859,7 +859,7 @@ optimIn <- function(object, ...){
 #'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
+#'     opt.meth = "BFGS")
 #'  optimIn(m1)
 #' }
 #'
@@ -936,7 +936,8 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'    (defaults to 'royalblue'; requires 'type = coef.range').
 #' @param boxplot.coef Wether to draw boxplots for coefficient estimates
 #'    (defaults to 'FALSE'); requires iterative GMM with at least 10
-#'    iterations and argument 'type = coef.range'.
+#'    iterations and argument 'type = coef.range'. Proceed with caution
+#'    as this argument is experimental.
 #' @param ... further arguments.
 #'
 #' @return Plot fitted values against residuals ('type = fire') or
@@ -1076,7 +1077,7 @@ plot.pdynmc		<- function(
         plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
         lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 1, lty = 2, ...)
         points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 1, ...)
-        points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 20, ...)
+        points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 18, ...)
         axis(side = 1, at = c(1:n.coef), labels = paste(var.names))
       }
     } else{
@@ -1093,7 +1094,7 @@ plot.pdynmc		<- function(
         for(i in 1:n.coef){
           lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 1, lty = 2, ...)
           points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 1, ...)
-          points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 20, ...)
+          points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 18, ...)
         }
         axis(side = 1, at = c(1:n.coef), labels = paste(var.names))
       }

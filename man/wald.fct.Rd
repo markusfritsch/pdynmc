@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_specTestFcst.R
 \name{wald.fct}
 \alias{wald.fct}
-\title{Wald test.}
+\title{Wald Test.}
 \usage{
 wald.fct(param, object)
 }

@@ -31,7 +31,7 @@ services: docker
 script:
   - docker pull dxjoke/tectonic-docker
   - R CMD build . --no-build-vignettes
-  - R CMD check pdynmc_0.8.0.tar.gz --as-cran --no-build-vignettes
+  - R CMD check pdynmc_0.9.0.tar.gz --as-cran --no-build-vignettes
 
 
 

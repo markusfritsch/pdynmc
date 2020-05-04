@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_exploratory.R
 \name{data.info}
 \alias{data.info}
-\title{Show basic structure of panel data set.}
+\title{Show Basic Structure of Panel Data Set.}
 \usage{
 data.info(object, i.name = NULL, t.name = NULL, ...)
 }

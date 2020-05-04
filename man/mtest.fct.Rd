@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_specTestFcst.R
 \name{mtest.fct}
 \alias{mtest.fct}
-\title{Arellano and Bond serial correlation test.}
+\title{Arellano and Bond Serial Correlation Test.}
 \usage{
 mtest.fct(object, t.order)
 }

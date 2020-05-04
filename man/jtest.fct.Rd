@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_specTestFcst.R
 \name{jtest.fct}
 \alias{jtest.fct}
-\title{Hansen J test.}
+\title{Hansen J-Test.}
 \usage{
 jtest.fct(object)
 }
@@ -10,7 +10,7 @@ jtest.fct(object)
 \item{object}{An object of class `pdynmc`.}
 }
 \value{
-An object of class `htest` which contains the Hansen J test statistic
+An object of class `htest` which contains the Hansen J-test statistic
    and corresponding p-value for the null hypothesis that the overidentifying
    restrictions are valid.
 }

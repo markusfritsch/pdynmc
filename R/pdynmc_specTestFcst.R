@@ -44,7 +44,7 @@
 
 
 
-#' Wald test.
+#' Wald Test.
 #'
 #' \code{wald.fct} computes F test statistics and corresponding p-values for
 #'    `pdynmc` objects.
@@ -123,7 +123,9 @@ wald.fct 		<- function(
  ,object
 ){
 
-  if(!(all(inherits(object, "pdynmc")))) stop("Object needs to be of class 'pdynmc'")
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
 
   coef.est				<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)),
 						yes = get(paste("step", object$iter, sep = ""), object$par.clForm),
@@ -238,8 +240,7 @@ wald.fct 		<- function(
 
 
 
-
-#' Hansen J test.
+#' Hansen J-Test.
 #'
 #' \code{jtest.fct} tests the validity of the overidentifying restrictions.
 #'
@@ -251,7 +252,7 @@ wald.fct 		<- function(
 #'    the test statistic is weakened by many instruments.
 #'
 #' @param object An object of class `pdynmc`.
-#' @return An object of class `htest` which contains the Hansen J test statistic
+#' @return An object of class `htest` which contains the Hansen J-test statistic
 #'    and corresponding p-value for the null hypothesis that the overidentifying
 #'    restrictions are valid.
 #'
@@ -318,7 +319,9 @@ jtest.fct		<- function(
  object
 ){
 
-  if(!(all(inherits(object, "pdynmc")))) stop("Object needs to be of class 'pdynmc'")
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
 
   coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
   Szero.j		<- get(paste("step", object$iter, sep = ""), object$residuals)
@@ -372,7 +375,7 @@ jtest.fct		<- function(
 
 
 
-#' Arellano and Bond serial correlation test.
+#' Arellano and Bond Serial Correlation Test.
 #'
 #' \code{mtest.fct} tests for serial correlation in the error terms.
 #'
@@ -452,7 +455,9 @@ mtest.fct 		<- function(
  ,t.order
 ){
 
-  if(!(all(inherits(object, "pdynmc")))) stop("Object needs to be of class 'pdynmc'")
+  if(!inherits(object, what = "pdynmc")){
+    stop("Use only with \"pdynmc\" objects.")
+  }
 
   estimation	<- object$data$estimation
   Szero.j			<- get(paste("step", object$iter, sep = ""), object$residuals)
