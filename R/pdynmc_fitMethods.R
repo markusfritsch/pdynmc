@@ -730,8 +730,8 @@ nobs.pdynmc		<- function(object){
   nob.i <- object$data$n
   nob.t <- object$data$Time
 
-  cat("Cross-section dimension ", paste("n = ", nob.i, sep = ""), "/n", sep = "")
-  cat("longitudinal dimension ", paste("n = ", nob.t, sep = ""), "/n", sep = "")
+  cat("Cross-section dimension ", paste("n = ", nob.i, sep = ""), "\n", sep = "")
+  cat("longitudinal dimension ", paste("n = ", nob.t, sep = ""), "\n", sep = "")
 }
 
 
@@ -1307,6 +1307,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
   cat("\n", "\nJ-Test (overid restrictions): ", paste(round(x$hansenj$statistic, digits = 2), " with ", x$hansenj$parameter, " DF, pvalue: ", if(x$hansenj$p.value < 0.001){paste("<0.001")} else{round(x$hansenj$p.value, digits = digits)}, sep = ""))
   cat("\nF-Statistic (slope coeff): ", paste(round(x$slopef$statistic, digits = 2), " with ", x$slopef$parameter, " DF, pvalue: ", if(x$slopef$p.value < 0.001){paste("<0.001")} else{round(x$slopef$p.value, digits = digits)}, sep = ""))
   cat("\nF-Statistic (time dummies): ", if(length(x$time.dumf) == 1){ "no time dummies included in estimation" } else{ paste(round(x$time.dumf$statistic, digits = 2), " with ", x$time.dumf$parameter, " DF, pvalue: ", if(x$time.dumf$p.value < 0.001){paste("<0.001")} else{round(x$time.dumf$p.value, digits = digits)}, sep = "")} )
+  cat("\n")
 }
 
 

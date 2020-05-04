@@ -5,10 +5,10 @@
 
 
 
-#' Investigate if panel data set is balanced or unbalanced.
+#' Show basic structure of panel data set.
 #'
-#' \code{data.info} Investigate if a panel data set contained
-#'    in a `data.frame` is balanced or unbalanced.
+#' \code{data.info} shows basic structure of a balanced/unbalanced
+#'    panel data set contained in a `data.frame`.
 #'
 #' @param object An object of class `data.frame`.
 #' @param i.name Column name of cross-section identifier.
@@ -60,9 +60,9 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 
   if(balanced){
     cat(
-      paste("Balanced panel data set with ", nrow(object), " rows, ", sep = ""),
+      paste("Balanced panel data set with ", nrow(object), " rows:", sep = ""),
       "\n",
-      paste("i.e., ", length(i.set), " cross-sectional units, and ", length(t.set), " time periods (", paste(t.set, collapse = ", "), ").", sep = ""),
+      paste(length(i.set), " cross-sectional units; ", length(t.set), " time periods (", paste(t.set, collapse = ", "), ").", sep = ""),
       "\n"
     )
   } else {
@@ -91,24 +91,28 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 
 
 
-#' Plot on structure of panel data set.
+#' Plot on structure of unbalanced panel data set.
 #'
 #' \code{strucPD.plot} Plot on cross-section and longtudinal
 #'    structure of an object of class `data.frame` containing
-#'    a panel data set.
+#'    an unbalanced panel data set.
 #'
 #' @param object An object of class `data.frame`.
 #' @param i.name Column name of cross-section identifier.
 #' @param t.name Column name of time-series identifier.
+#' @param col.range A vector of at least two colors used to
+#'    visualize the structure of the unbalanced panel data
+#'    set (defaults to 'gold' and 'darkblue'); must be a
+#'    valid argument to \link{col2rgb}.
 #' @param ... further arguments.
 #'
-#' @return Returns a plot for a panel data set contained in an
-#'    object of class `data.frame` that visualizes the structure
-#'    of the data. Cross-section dimension is plotted on the
-#'    ordinate, longitudinal dimension on the abscissa. Each
-#'    cross-sectional observation is represented by a bar.
-#'    Breaks in the bars represent missing longitudinal
-#'    observations.
+#' @return Returns a plot for an unbalanced panel data set
+#'    contained in an object of class `data.frame` that
+#'    visualizes the structure of the data. Cross-section
+#'    dimension is plotted on the ordinate, longitudinal
+#'    dimension on the abscissa. Each cross-sectional
+#'    observation is represented by a bar. Breaks in the
+#'    bars represent missing longitudinal observations.
 #'
 #' @author Markus Fritsch, Joachim Schnurbus
 #' @export
@@ -125,16 +129,16 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  strucPD.plot(dat, i.name = "firm", t.name = "year")
+#'  strucUPD.plot(dat, i.name = "firm", t.name = "year")
 #'
-#'  strucPD.plot(dat[dat$year %in% 1979:1981, ], i.name = "firm", t.name = "year")
+#'  set.seed(42)
+#'  strucUPD.plot(dat[sample(x = 1:nrow(dat), size = floor(0.5*nrow(dat)), replace = FALSE), ], i.name = "firm", t.name = "year")
 #' }
 #'
 #'
-strucPD.plot	<- function(object, i.name = NULL,	t.name = NULL, ...){
+strucUPD.plot	<- function(object, i.name = NULL,	t.name = NULL, col.range = c("gold", "darkblue"), ...){
   if (!is.data.frame(object))
     stop("Function 'strucPD.plot' applied to non `data.frame`.")
 
@@ -161,7 +165,7 @@ strucPD.plot	<- function(object, i.name = NULL,	t.name = NULL, ...){
   axis(side = 1, at = seq(from = min(t.set) - 0.5, to = max(t.set) + 0.5, by = 1), labels = FALSE)
   axis(side = 1, at = t.set, labels = t.set, tick = FALSE)
 
-  col.set	<- colorRampPalette(c("gold", "darkblue"))(length(table(periods.per.cs.obs)))
+  col.set	<- colorRampPalette(col.range)(length(table(periods.per.cs.obs)))
 
   for(i in i.set){
     t.i	<- object[object[, i.name] == i, t.name]
