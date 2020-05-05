@@ -23,12 +23,13 @@ optimization are desired.}
 \examples{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
  dat[,c(4:7)] <- log(dat[,c(4:7)])
- dat <- dat[c(1:140), ]
+ dat <- dat[c(1:35), ]
 
 ## Code example
  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -38,14 +39,15 @@ if(!requireNamespace("plm", quietly = TRUE)){
     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-    opt.meth = "none")
+    opt.meth = "BFGS")
  optimIn(m1)
 }
 
 \donttest{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK

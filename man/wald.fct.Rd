@@ -23,14 +23,15 @@ An object of class `htest` which contains the F test statistic and
    `pdynmc` objects.
 }
 \details{
-The three available null hypothesis are: All time dummies are zero jointly,
-   all slope coefficients are zero jointly, all times dummies and slope
-   coefficients are zero jointly.
+The three available null hypothesis are: All time dummies are jointly zero,
+   all slope coefficients are jointly zero, all times dummies and slope
+   coefficients are jointly zero.
 }
 \examples{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
@@ -52,7 +53,8 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \donttest{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK

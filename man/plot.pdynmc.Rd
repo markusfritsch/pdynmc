@@ -5,7 +5,7 @@
 \title{Plot Coefficient Estimates and Corresponding Ranges of Fitted Model.}
 \usage{
 \method{plot}{pdynmc}(
-  object,
+  x,
   type = "fire",
   include.dum = FALSE,
   include.fur.con = FALSE,
@@ -17,7 +17,7 @@
 )
 }
 \arguments{
-\item{object}{An object of class `pdynmc`. The function requires
+\item{x}{An object of class `pdynmc`. The function requires
 twostep or iterative GMM estimates.}
 
 \item{type}{Wether to plot fitted values against residuals (argument
@@ -59,7 +59,8 @@ Plot fitted values against residuals ('type = fire') or
 \examples{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
@@ -82,7 +83,8 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \donttest{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK

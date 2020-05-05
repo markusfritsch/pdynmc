@@ -4,10 +4,12 @@
 \alias{variable.names.pdynmc}
 \title{Extract Names of Explanatory Variables of Fitted Model.}
 \usage{
-\method{variable.names}{pdynmc}(object)
+\method{variable.names}{pdynmc}(object, ...)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
+
+\item{...}{further arguments.}
 }
 \value{
 Extract explanatory variables from an object of class
@@ -20,7 +22,8 @@ Extract explanatory variables from an object of class
 \examples{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
@@ -42,7 +45,8 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \donttest{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK

@@ -8,6 +8,8 @@ ninst(object, ...)
 }
 \arguments{
 \item{object}{An object for which the instrument count is desired.}
+
+\item{...}{further arguments.}
 }
 \value{
 Extracts instrument count from an object.
@@ -18,7 +20,8 @@ Extracts instrument count from an object.
 \examples{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
@@ -40,7 +43,8 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \donttest{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
