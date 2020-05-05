@@ -287,7 +287,7 @@ An object of class `pdynmc` with the following elements:
 
 It has `case.names`, `coef`, `dum.coef`, `fitted`, `model.matrix`, `ninst`,
    `nobs`, `optimIn`, `plot`, `print`,`residuals`, `summary`, `variable.names`,
-   `vcov`, `waldtest`, and `wmat` methods.
+   `vcov`, and `wmat` methods.
 }
 \description{
 The pdynmc package provides three categories of functions that are available
@@ -330,7 +330,8 @@ The function estimates a linear dynamic panel data model of the form
 \examples{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
@@ -352,7 +353,8 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \donttest{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
@@ -424,7 +426,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \insertAllCited{}
 }
 \seealso{
-\code{\link{waldtest}} for Wald tests,
+\code{\link{wald.fct}} for Wald tests,
 \code{\link{jtest.fct}} for the Hansen J test, and
 \code{\link{mtest.fct}} for serial correlation tests.
 \code{\link[optimx]{optimx}} for details on alternative routines and options

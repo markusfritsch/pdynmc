@@ -49,9 +49,9 @@
 #' \code{wald.fct} computes F test statistics and corresponding p-values for
 #'    `pdynmc` objects.
 #'
-#' The three available null hypothesis are: All time dummies are zero jointly,
-#'    all slope coefficients are zero jointly, all times dummies and slope
-#'    coefficients are zero jointly.
+#' The three available null hypothesis are: All time dummies are jointly zero,
+#'    all slope coefficients are jointly zero, all times dummies and slope
+#'    coefficients are jointly zero.
 #'
 #' @param param A character string that denotes the null hypothesis. Choices are
 #'    time.dum (i.e., all time dummies are jointly zero), slope (i.e., all slope
@@ -76,7 +76,8 @@
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -98,7 +99,8 @@
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -184,7 +186,7 @@ wald.fct 		<- function(
   names(dof)	<- "df"
   pval		<- stats::pchisq(w.stat, df = dof, lower.tail = FALSE)
   wald		<- list(statistic = w.stat, p.value = pval, parameter = dof, method = "Wald test"
-				,data.name = paste(object$iter, "step GMM Estimation; H0: ", param, " parameters are zero jointly", sep = "")
+				,data.name = paste(object$iter, "step GMM Estimation; H0: ", param, " parameters are jointly zero", sep = "")
 				)
   class(wald) <- "htest"
   return(wald)
@@ -273,7 +275,8 @@ wald.fct 		<- function(
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -295,7 +298,8 @@ wald.fct 		<- function(
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -408,7 +412,8 @@ jtest.fct		<- function(
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -430,7 +435,8 @@ jtest.fct		<- function(
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK

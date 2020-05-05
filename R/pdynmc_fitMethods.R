@@ -60,6 +60,7 @@
 #'
 #' @author Markus Fritsch
 #' @export
+#' @importFrom stats case.names
 #'
 #' @seealso
 #'
@@ -68,7 +69,8 @@
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -90,7 +92,8 @@
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -151,7 +154,8 @@ case.names.pdynmc <- function(object, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -173,7 +177,8 @@ case.names.pdynmc <- function(object, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -227,6 +232,7 @@ coef.pdynmc <- function(object, ...){
 #'
 #' @author Markus Fritsch
 #' @export
+#' @importFrom stats dummy.coef
 #'
 #' @seealso
 #'
@@ -235,7 +241,8 @@ coef.pdynmc <- function(object, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -257,7 +264,8 @@ coef.pdynmc <- function(object, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -333,7 +341,8 @@ dummy.coef.pdynmc		<- function(object, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -355,7 +364,8 @@ dummy.coef.pdynmc		<- function(object, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -427,6 +437,7 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' @param object An object of class `pdynmc`.
 #' @param sparse Whether to return a sparse matrix (if set to 'TRUE')
 #'    or a regular matrix (if set to 'FALSE').
+#' @param ... further arguments.
 #'
 #' @return Extracts instrument matrix from an object of class `pdynmc`.
 #'
@@ -440,7 +451,8 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -462,7 +474,8 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -481,7 +494,7 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' }
 #'
 #'
-model.matrix.pdynmc		<- function(object, sparse = TRUE){
+model.matrix.pdynmc		<- function(object, sparse = TRUE, ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
@@ -490,7 +503,7 @@ model.matrix.pdynmc		<- function(object, sparse = TRUE){
   if(sparse == TRUE){
     modmat <- object$data$Z.temp
   } else{
-    modmat <- as.matrix(do.call(what = rbind, object$data$Z.temp))
+    modmat <- as.matrix(do.call(what = rbind, object$data$Z.temp, ...))
   }
   return(modmat)
 }
@@ -510,9 +523,11 @@ model.matrix.pdynmc		<- function(object, sparse = TRUE){
 
 #' Extract Instrument Count of Fitted Model.
 #'
-#' \code{ninst} extracts instrument count of an object.
+#' \code{ninst} is a generic function fo extracting the instrument
+#'    count of an object.
 #'
 #' @param object An object for which the instrument count is desired.
+#' @param ... further arguments.
 #'
 #' @return Extracts instrument count from an object.
 #'
@@ -526,7 +541,8 @@ model.matrix.pdynmc		<- function(object, sparse = TRUE){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -548,7 +564,8 @@ model.matrix.pdynmc		<- function(object, sparse = TRUE){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -578,6 +595,7 @@ ninst <- function(object, ...){
 #'    class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
+#' @param ... further arguments.
 #'
 #' @return Extracts instrument count from an object of class `pdynmc`.
 #'
@@ -591,7 +609,8 @@ ninst <- function(object, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -613,7 +632,8 @@ ninst <- function(object, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -632,7 +652,7 @@ ninst <- function(object, ...){
 #' }
 #'
 #'
-ninst.pdynmc		<- function(object){
+ninst.pdynmc		<- function(object, ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
@@ -666,12 +686,14 @@ ninst.pdynmc		<- function(object){
 #'    `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
+#' @param ... further arguments.
 #'
 #' @return Extracts number of observations in cross-section dimension
 #'    and longitudinal dimension of an object of class `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
+#' @importFrom stats nobs
 #'
 #' @seealso
 #'
@@ -680,7 +702,8 @@ ninst.pdynmc		<- function(object){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -702,7 +725,8 @@ ninst.pdynmc		<- function(object){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -721,7 +745,7 @@ ninst.pdynmc		<- function(object){
 #' }
 #'
 #'
-nobs.pdynmc		<- function(object){
+nobs.pdynmc		<- function(object, ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
@@ -753,8 +777,8 @@ nobs.pdynmc		<- function(object){
 
 #' Extract Input Parameters of Numeric Optimization of Fitted Model.
 #'
-#' \code{optimIn} extracts input parameters of numeric optimization
-#'    for an object.
+#' \code{optimIn} is a generic function for extracting input parameters
+#'    of numeric optimization for an object.
 #'
 #' @param object An object for which input parameters of numeric
 #'    optimization are desired.
@@ -773,12 +797,14 @@ nobs.pdynmc		<- function(object){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#'  dat <- dat[c(1:35), ]
+#'  dat <- subset(dat, year < 1981)
 #'
 #' ## Code example
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -788,14 +814,15 @@ nobs.pdynmc		<- function(object){
 #'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "none")
+#'     opt.meth = "BFGS")
 #'  optimIn(m1)
 #' }
 #'
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -844,12 +871,14 @@ optimIn <- function(object, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#'  dat <- dat[c(1:35), ]
+#'  dat <- subset(dat, year < 1981)
 #'
 #' ## Code example
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -866,7 +895,8 @@ optimIn <- function(object, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -919,7 +949,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' \code{plot.pdynmc} Plot coefficient estimates and corresponding
 #'    coefficient estimate ranges for objects of class `pdynmc`.
 #'
-#' @param object An object of class `pdynmc`. The function requires
+#' @param x An object of class `pdynmc`. The function requires
 #'    twostep or iterative GMM estimates.
 #' @param type Wether to plot fitted values against residuals (argument
 #'    'fire'; default) or coefficient ranges (argument 'coef.range';
@@ -947,6 +977,11 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'
 #' @author Markus Fritsch and Joachim Schnurbus
 #' @export
+#' @importFrom graphics abline
+#' @importFrom graphics axis
+#' @importFrom graphics boxplot
+#' @importFrom graphics legend
+#' @importFrom graphics lines
 #'
 #' @seealso
 #'
@@ -955,7 +990,8 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -978,7 +1014,8 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1000,7 +1037,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'
 #'
 plot.pdynmc		<- function(
-  object,
+  x,
   type = "fire",
   include.dum = FALSE,
   include.fur.con = FALSE,
@@ -1013,54 +1050,54 @@ plot.pdynmc		<- function(
 
   if(type == "fire"){
 
-    if(!inherits(object, what = "pdynmc")){
+    if(!inherits(x, what = "pdynmc")){
       stop("Use only with \"pdynmc\" objects.")
     }
 
-    fitteds <- unlist(fitted(object))
-    resids  <- unlist(resid(object))
+    fitteds <- unlist(x$fitted.values)
+    resids  <- unlist(x$residuals)
 
     y.range	<- c(-1, 1)*max(abs(resids))
     plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted Values", ylab = "Residuals",
-         main	= paste("Fitted Residual Plot of", substitute(object)), col = "grey60", ...)
+         main	= paste("Fitted Residual Plot of", substitute(x)), col = "grey60", ...)
     abline(h = 0)
   }
 
 
   if(type == "coef.range"){
-    if(!inherits(object, what = "pdynmc")){
+    if(!inherits(x, what = "pdynmc")){
       stop("Use only with \"pdynmc\" objects.")
     }
-    if(object$iter == 1){
+    if(x$iter == 1){
       stop("Only onestep estimates available; plot requires twostep or iterated GMM results.")
     }
-    if(boxplot.coef == TRUE && object$iter < 10){
+    if(boxplot.coef == TRUE && x$iter < 10){
       boxplot.coef <- FALSE
       warning("Argument 'boxplot.coef' was ignored as coefficient boxplots are only displayed for a minimum of 10 iterations.")
     }
 
     if(!include.dum | !include.fur.con){
       if(!include.dum && !include.fur.con){
-        varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.dum) & !(object$data$varnames.reg %in% object$data$varnames.reg.fur)
+        varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.dum) & !(x$data$varnames.reg %in% x$data$varnames.reg.fur)
       } else{
         if(!include.dum){
-          varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.dum)
+          varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.dum)
         } else{
-          varnames.ind <- !(object$data$varnames.reg %in% object$data$varnames.reg.fur)
+          varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.reg.fur)
         }
       }
     } else{
-      varnames.ind <- rep(TRUE, times = length(object$data$varnames.reg))
+      varnames.ind <- rep(TRUE, times = length(x$data$varnames.reg))
     }
-    var.names <- object$data$varnames.reg[varnames.ind]
+    var.names <- x$data$varnames.reg[varnames.ind]
 
-    n.iter    <- object$iter
-    if(object$data$opt.method == "none"){
-      coef.list <- lapply(object$par.clForm, FUN = '[', varnames.ind)
+    n.iter    <- x$iter
+    if(x$data$opt.method == "none"){
+      coef.list <- lapply(x$par.clForm, FUN = '[', varnames.ind)
     } else{
-      coef.list <- lapply(object$par.optim, FUN = '[', varnames.ind)
+      coef.list <- lapply(x$par.optim, FUN = '[', varnames.ind)
     }
-    coef.est  <- object$coefficients[varnames.ind]
+    coef.est  <- x$coefficients[varnames.ind]
     n.coef    <- length(coef.est)
 
     coef.mat  <- do.call(what = cbind, coef.list)
@@ -1068,39 +1105,39 @@ plot.pdynmc		<- function(
     if(nrow(coef.mat) == 1){
       if(boxplot.coef){
         plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xlab = "", ylab = "", ...)
-        points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 1, ...)
-        boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
+        graphics::points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 1, ...)
+        graphics::boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
 
       } else{
         coef.mat.min <- min(coef.mat)
         coef.mat.max <- max(coef.mat)
         plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
-        lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 1, lty = 2, ...)
-        points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 1, ...)
-        points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 18, ...)
-        axis(side = 1, at = c(1:n.coef), labels = paste(var.names))
+        graphics::lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 1, lty = 2, ...)
+        graphics::points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 1, ...)
+        graphics::points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 18, ...)
+        graphics::axis(side = 1, at = c(1:n.coef), labels = paste(var.names))
       }
     } else{
       if(boxplot.coef){
-        boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
+        graphics::boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
         for(i in 1:n.coef){
-          points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 1, ...)
-          lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2, ...)
+          graphics::points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 1, ...)
+          graphics::lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2, ...)
         }
       } else{
         coef.mat.min.max <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
         x.vec        <- 1:n.coef
         plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
         for(i in 1:n.coef){
-          lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 1, lty = 2, ...)
-          points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 1, ...)
-          points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 18, ...)
+          graphics::lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 1, lty = 2, ...)
+          graphics::points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 1, ...)
+          graphics::points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 18, ...)
         }
-        axis(side = 1, at = c(1:n.coef), labels = paste(var.names))
+        graphics::axis(side = 1, at = c(1:n.coef), labels = paste(var.names))
       }
     }
     abline(h = 0)
-    legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(NA,NA,1), pch = c(20,1,NA), lty = c(NA,NA,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
+    graphics::legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(NA,NA,1), pch = c(18,1,NA), lty = c(NA,NA,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
   }
 
 }
@@ -1147,7 +1184,8 @@ plot.pdynmc		<- function(
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1169,7 +1207,8 @@ plot.pdynmc		<- function(
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1244,7 +1283,8 @@ print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1266,7 +1306,8 @@ print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1353,7 +1394,8 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1375,7 +1417,8 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1448,7 +1491,8 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1470,7 +1514,8 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1555,12 +1600,14 @@ summary.pdynmc	<- function(object, ...){
 #'    from an object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.
+#' @param ... further arguments.
 #'
 #' @return Extract explanatory variables from an object of class
 #'    `pdynmc`.
 #'
 #' @author Markus Fritsch
 #' @export
+#' @importFrom stats variable.names
 #'
 #' @seealso
 #'
@@ -1569,7 +1616,8 @@ summary.pdynmc	<- function(object, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1591,7 +1639,8 @@ summary.pdynmc	<- function(object, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1610,7 +1659,7 @@ summary.pdynmc	<- function(object, ...){
 #' }
 #'
 #'
-variable.names.pdynmc		<- function(object){
+variable.names.pdynmc		<- function(object, ...){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
@@ -1656,7 +1705,8 @@ variable.names.pdynmc		<- function(object){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1678,7 +1728,8 @@ variable.names.pdynmc		<- function(object){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1726,7 +1777,8 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 
 #' Extract Weighting Matrix of Fitted Model.
 #'
-#' \code{wmat} extracts weighting matrix of an object.
+#' \code{wmat} is a generic function for extracting the
+#'    weighting matrix of an object.
 #'
 #' @param object An object for which the weighting matrix is
 #'    desired.
@@ -1744,7 +1796,8 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1766,7 +1819,8 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1814,7 +1868,8 @@ wmat <- function(object, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -1836,7 +1891,8 @@ wmat <- function(object, ...){
 #' \donttest{
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK

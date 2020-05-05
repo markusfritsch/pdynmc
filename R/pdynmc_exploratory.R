@@ -21,6 +21,7 @@
 #'
 #' @author Markus Fritsch, Joachim Schnurbus
 #' @export
+#' @importFrom stats var
 #'
 #' @seealso
 #'
@@ -29,7 +30,8 @@
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -56,7 +58,7 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 
   cs.obs.per.period		<- tapply(X = object[, i.name], INDEX = object[, t.name], FUN = length)
 
-  balanced	<- var(cs.obs.per.period) == 0	# or < 2*10^(-14)
+  balanced	<- stats::var(cs.obs.per.period) == 0	# or < 2*10^(-14)
 
   if(balanced){
     cat(
@@ -118,6 +120,12 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #'
 #' @author Markus Fritsch, Joachim Schnurbus
 #' @export
+#' @importFrom graphics axis
+#' @importFrom graphics box
+#' @importFrom graphics par
+#' @importFrom graphics rect
+#' @importFrom grDevices colorRampPalette
+#' @importFrom stats var
 #'
 #' @seealso
 #'
@@ -126,7 +134,8 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #' @examples
 #' ## Load data from plm package
 #' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+#'  stop("Dataset from package \"plm\" needed for this example.
+#'  Please install the package.", call. = FALSE)
 #' } else{
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
@@ -136,7 +145,9 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #'  strucUPD.plot(dat, i.name = "firm", t.name = "year")
 #'
 #'  set.seed(42)
-#'  strucUPD.plot(dat[sample(x = 1:nrow(dat), size = floor(0.5*nrow(dat)), replace = FALSE), ], i.name = "firm", t.name = "year")
+#'  strucUPD.plot(dat[sample(x = 1:nrow(dat),
+#'   size = floor(0.5*nrow(dat)), replace = FALSE), ],
+#'  i.name = "firm", t.name = "year")
 #' }
 #'
 #'
@@ -156,26 +167,26 @@ strucUPD.plot	<- function(
 
   periods.per.cs.obs	<- tapply(X = object[, t.name], INDEX = object[, i.name], FUN = length)
 
-  balanced	<- var(periods.per.cs.obs) == 0	# or < 2*10^(-14)
+  balanced	<- stats::var(periods.per.cs.obs) == 0	# or < 2*10^(-14)
   if (balanced)
     stop("Plot is only suitable for unbalanced panel data.")
 
-  par.mar.def	<- par()$mar	# save plot window default configuration
-  par.xpd.def	<- par()$xpd	# save plot window default configuration
-  par(mar = c(5.1, 4.1, 4.1, 6.1), xpd = TRUE)		# adjust plot window configuration
+  par.mar.def	<- graphics::par()$mar	# save plot window default configuration
+  par.xpd.def	<- graphics::par()$xpd	# save plot window default configuration
+  graphics::par(mar = c(5.1, 4.1, 4.1, 6.1), xpd = TRUE)		# adjust plot window configuration
 
   plot(x = c(min(t.set) - 0.5, max(t.set) + 0.5), y = c(min(i.set) - 0.5, max(i.set) + 0.5),
     type = "n", xlab = t.name, ylab = i.name, main = plot.name,
     xaxs = "i", yaxs = "i", xaxt = "n", ...)
-  axis(side = 1, at = seq(from = min(t.set) - 0.5, to = max(t.set) + 0.5, by = 1), labels = FALSE)
-  axis(side = 1, at = t.set, labels = t.set, tick = FALSE)
+  graphics::axis(side = 1, at = seq(from = min(t.set) - 0.5, to = max(t.set) + 0.5, by = 1), labels = FALSE)
+  graphics::axis(side = 1, at = t.set, labels = t.set, tick = FALSE)
 
-  col.set	<- colorRampPalette(col.range)(length(table(periods.per.cs.obs)))
+  col.set	<- grDevices::colorRampPalette(col.range)(length(table(periods.per.cs.obs)))
 
   for(i in i.set){
     t.i	<- object[object[, i.name] == i, t.name]
 
-    rect(
+    graphics::rect(
       xleft		= t.i - 0.5,
       ybottom	= i - 0.5,
       xright	= t.i + 0.5,
@@ -191,9 +202,9 @@ strucUPD.plot	<- function(
     legend = rev(names(table(periods.per.cs.obs))),
     fill = rev(col.set), border = rev(col.set), bg = "white", bty = "n"
   )
-  box()
+  graphics::box()
 
-  par(mar = par.mar.def, xpd = par.xpd.def)	# return plot window default configuration
+  graphics::par(mar = par.mar.def, xpd = par.xpd.def)	# return plot window default configuration
 }
 
 

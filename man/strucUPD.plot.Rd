@@ -47,7 +47,8 @@ Returns a plot for an unbalanced panel data set
 \examples{
 ## Load data from plm package
 if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example. Please install the package.", call. = FALSE)
+ stop("Dataset from package \"plm\" needed for this example.
+ Please install the package.", call. = FALSE)
 } else{
  data(EmplUK, package = "plm")
  dat <- EmplUK
@@ -57,7 +58,9 @@ if(!requireNamespace("plm", quietly = TRUE)){
  strucUPD.plot(dat, i.name = "firm", t.name = "year")
 
  set.seed(42)
- strucUPD.plot(dat[sample(x = 1:nrow(dat), size = floor(0.5*nrow(dat)), replace = FALSE), ], i.name = "firm", t.name = "year")
+ strucUPD.plot(dat[sample(x = 1:nrow(dat),
+  size = floor(0.5*nrow(dat)), replace = FALSE), ],
+ i.name = "firm", t.name = "year")
 }
 
 
