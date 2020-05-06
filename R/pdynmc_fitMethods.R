@@ -877,8 +877,7 @@ optimIn <- function(object, ...){
 #'  data(EmplUK, package = "plm")
 #'  dat <- EmplUK
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:35), ]
-#'  dat <- subset(dat, year < 1981)
+#'  dat <- dat[c(1:140), ]
 #'
 #' ## Code example
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -888,7 +887,7 @@ optimIn <- function(object, ...){
 #'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'     opt.meth = "BFGS")
+#'     opt.meth = "none")
 #'  optimIn(m1)
 #' }
 #'
@@ -921,12 +920,13 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
   }
-  if(object$data$opt.method == "none"){
-    stop("No parameter inputs can be extracted (no numerical optimization carried out).")
-  }
 
-  opt.input	<- get(paste("step", step, sep = "") , object$ctrl.optim, ...)
-  return(opt.input)
+  if(object$data$opt.method == "none"){
+    ret <- paste("No parameter inputs can be extracted (no numerical optimization carried out).")
+  } else {
+    ret	<- get(paste("step", step, sep = "") , object$ctrl.optim, ...)
+    return(ret)
+  }
 }
 
 
