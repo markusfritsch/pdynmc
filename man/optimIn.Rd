@@ -29,8 +29,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
  data(EmplUK, package = "plm")
  dat <- EmplUK
  dat[,c(4:7)] <- log(dat[,c(4:7)])
- dat <- dat[c(1:35), ]
- dat <- subset(dat, year < 1981)
+ dat <- dat[c(1:140), ]
 
 ## Code example
  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -40,7 +39,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-    opt.meth = "BFGS")
+    opt.meth = "none")
  optimIn(m1)
 }
 
