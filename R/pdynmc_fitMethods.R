@@ -982,6 +982,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' @importFrom graphics boxplot
 #' @importFrom graphics legend
 #' @importFrom graphics lines
+#' @importFrom graphics plot
 #'
 #' @seealso
 #'
@@ -1058,7 +1059,7 @@ plot.pdynmc		<- function(
     resids  <- unlist(x$residuals)
 
     y.range	<- c(-1, 1)*max(abs(resids))
-    plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted Values", ylab = "Residuals",
+    graphics::plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted Values", ylab = "Residuals",
          main	= paste("Fitted Residual Plot of", substitute(x)), col = "grey60", ...)
     abline(h = 0)
   }
@@ -1104,14 +1105,14 @@ plot.pdynmc		<- function(
 
     if(nrow(coef.mat) == 1){
       if(boxplot.coef){
-        plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xlab = "", ylab = "", ...)
+        graphics::plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xlab = "", ylab = "", ...)
         graphics::points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 1, ...)
         graphics::boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
 
       } else{
         coef.mat.min <- min(coef.mat)
         coef.mat.max <- max(coef.mat)
-        plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
+        graphics::plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
         graphics::lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 1, lty = 2, ...)
         graphics::points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 1, ...)
         graphics::points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 18, ...)
@@ -1127,7 +1128,7 @@ plot.pdynmc		<- function(
       } else{
         coef.mat.min.max <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
         x.vec        <- 1:n.coef
-        plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
+        graphics::plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
         for(i in 1:n.coef){
           graphics::lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 1, lty = 2, ...)
           graphics::points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 1, ...)

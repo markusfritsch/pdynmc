@@ -123,6 +123,7 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #' @importFrom graphics axis
 #' @importFrom graphics box
 #' @importFrom graphics par
+#' @importFrom graphics plot
 #' @importFrom graphics rect
 #' @importFrom grDevices colorRampPalette
 #' @importFrom stats var
