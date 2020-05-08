@@ -44,13 +44,15 @@ after_success:
       - Rscript -e 'pkgdown::build_site()'
 
 deploy:
-  - provider: pages
-        skip-cleanup: true
+  - provider: releases
+        cleanup: true
         github-token: $GITHUB_TOKEN
-        keep-history: false
-        local-dir: docs
+        keep-history: true
+        file: pdynmc.tar.gz
         on:
           branch: master
+          tags: true
+          repo: markusfritsch/pdynmc
 
 ## required to deploy to github
 #deploy:
