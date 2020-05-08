@@ -1,6 +1,6 @@
 ## pdynmc version 0.9.0
 
-HIGHLIGHTS: Update of version 0.8.0 that includes visualizations for fitted model objects (coefficient-range plots for two-step and iterated estimation and plots of fitted values vs. residuals) and panel data structure
+Update of version 0.8.0 that includes visualizations for fitted model objects (coefficient-range plots for two-step and iterated estimation and plots of fitted values vs. residuals) and panel data structure
 
 ## functions for exploratory analysis of panel data added
 * data.info: Returns information on structure of a balanced/unbalanced panel data set
