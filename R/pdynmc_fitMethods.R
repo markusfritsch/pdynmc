@@ -431,7 +431,7 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 
 #' Extract Instrument Matrix of Fitted Model.
 #'
-#' \code{model.matrix.pdynmc} extracts explanatory variables of an
+#' \code{model.matrix.pdynmc} extracts instrument matrix of an
 #'    object of class `pdynmc`.
 #'
 #' @param object An object of class `pdynmc`.

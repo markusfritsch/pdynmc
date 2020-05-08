@@ -30,10 +30,27 @@ services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
-  - R CMD build . --no-build-vignettes
+#  - R CMD build . --no-build-vignettes
+  - R CMD build . --compact-vignettes=gs+qpdf
   - travis_wait 40 R CMD check pdynmc_0.9.0.tar.gz --as-cran --no-build-vignettes
 
 
+r_github_packages:
+  - r-lib/pkgdown
+
+after_success:
+      - tar -C .. -xf $PKG_TARBALL
+      - rm -rf pdynmc.Rcheck
+      - Rscript -e 'pkgdown::build_site()'
+
+deploy:
+  - provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: false
+        local-dir: docs
+        on:
+          branch: master
 
 ## required to deploy to github
 #deploy:
