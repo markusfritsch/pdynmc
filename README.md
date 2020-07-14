@@ -13,3 +13,5 @@ conditions). One-step, two-step and iterated estimation is available.
 For inference and specification testing, Windmeijer (2005) <doi:10.1016/j.jeconom.2004.02.005> 
 corrected standard errors, serial correlation tests, tests for overidentification, 
 and Wald tests are available.
+
+See also: https://cran.r-project.org/web/packages/pdynmc/index.html
