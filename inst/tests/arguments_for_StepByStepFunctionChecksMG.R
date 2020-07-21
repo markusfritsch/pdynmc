@@ -1,13 +1,11 @@
-#
-#
-rm(list = ls())
-#
-#
-#install.packages("pdynmc")
-library(pdynmc)
-library(plm)
 
-data(EmplUK)
+
+rm(list = ls())
+
+
+
+
+data(EmplUK, package = "plm")
 
 dati			<- EmplUK
 dati			<- cbind(dati[, 1:3], dati[, 4:7])
