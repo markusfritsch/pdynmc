@@ -556,11 +556,11 @@ pdynmc		<- function(
  if(!fur.con && (fur.con.diff | fur.con.lev)){
    if(fur.con.diff){
      fur.con.diff <- FALSE
-     warning("No dummies included; argument 'fur.con.diff' was therefore ignored")
+     warning("No further controls included; argument 'fur.con.diff' was therefore ignored")
    }
    if(fur.con.lev){
      fur.con.lev <- FALSE
-     warning("No dummies included; argument 'fur.con.lev' was therefore ignored")
+     warning("No further controls included; argument 'fur.con.lev' was therefore ignored")
    }
  }
 
@@ -1026,41 +1026,37 @@ pdynmc		<- function(
      }
    }
    if(!(is.null(varname.reg.pre))){
-     if(any(lagTerms.reg.pre > 0)){
-       varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ varname.reg.pre }
-       lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ lagTerms.reg.pre }
-       if(length(varname.reg.pre) == 1){
-         varname.reg.estParam.x.pre			<- as.vector(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
-         dat.na[, varname.reg.estParam.x.pre]	<- as.vector(mapply(lagTerms = rep(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand), each = length(i_cases)),
+     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ varname.reg.pre }
+     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ lagTerms.reg.pre }
+     if(length(varname.reg.pre) == 1){
+       varname.reg.estParam.x.pre			<- as.vector(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
+       dat.na[, varname.reg.estParam.x.pre]	<- as.vector(mapply(lagTerms = rep(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand), each = length(i_cases)),
 											i = rep(i_cases, times = length(varname.reg.estParam.x.pre)),
 											varname = mapply(varname.temp, FUN = rep, each = (lagTerms.reg.pre+1)*length(i_cases) ),
 										FUN = dat.na.lag))
-       } else{
-         varname.reg.estParam.x.pre			<- do.call(what = "c", args = mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
-         dat.na[, varname.reg.estParam.x.pre]	<- mapply(lagTerms = rep(do.call(what = "c", args = mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand)), each = length(i_cases)),
+     } else{
+       varname.reg.estParam.x.pre			<- do.call(what = "c", args = mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
+       dat.na[, varname.reg.estParam.x.pre]	<- mapply(lagTerms = rep(do.call(what = "c", args = mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand)), each = length(i_cases)),
 										i = rep(i_cases, times = length(varname.reg.estParam.x.pre)),
 										varname = do.call(what = "c", args = mapply(varname.temp, FUN = rep, each = (lagTerms.reg.pre+1)*length(i_cases)) ),
 									FUN = dat.na.lag)
-       }
      }
    }
    if(!(is.null(varname.reg.ex))){
-     if(any(lagTerms.reg.ex > 0)){
-       varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ varname.reg.ex }
-       lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ lagTerms.reg.ex }
-       if(length(varname.reg.ex) == 1){
-         varname.reg.estParam.x.ex			<- as.vector(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
-         dat.na[, varname.reg.estParam.x.ex]	<- as.vector(mapply(lagTerms = rep(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand), each = length(i_cases)),
+     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ varname.reg.ex }
+     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ lagTerms.reg.ex }
+     if(length(varname.reg.ex) == 1){
+       varname.reg.estParam.x.ex			<- as.vector(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
+       dat.na[, varname.reg.estParam.x.ex]	<- as.vector(mapply(lagTerms = rep(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand), each = length(i_cases)),
 											i = rep(i_cases, times = length(varname.reg.estParam.x.ex)),
 											varname = mapply(varname.temp, FUN = rep, each = (lagTerms.reg.ex+1)*length(i_cases) ),
 										FUN = dat.na.lag))
-       } else{
-         varname.reg.estParam.x.ex			<- do.call(what = "c", args = mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
-         dat.na[, varname.reg.estParam.x.ex]	<- mapply(lagTerms = rep(do.call(what = "c", args = mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand)), each = length(i_cases)),
+     } else{
+       varname.reg.estParam.x.ex			<- do.call(what = "c", args = list(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand)) )
+       dat.na[, varname.reg.estParam.x.ex]	<- mapply(lagTerms = rep(do.call(what = "c", args = list(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand))), each = length(i_cases)),
 										i = rep(i_cases, times = length(varname.reg.estParam.x.ex)),
-										varname = do.call(what = "c", args = mapply(varname.temp, FUN = rep, each = (lagTerms.reg.ex+1)*length(i_cases)) ),
+										varname = do.call(what = "c", args = list(mapply(varname.temp, FUN = rep, each = (lagTerms.reg.ex+1)*length(i_cases)) )),
 									FUN = dat.na.lag)
-       }
      }
    }
  }
