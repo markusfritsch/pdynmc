@@ -3,6 +3,12 @@ r:
   - release
   - devel
 
+r_github_packages:
+  - r-lib/pkgdown
+
+env:
+    - PKG_TARBALL=pdynmc_0.9.1.9000.tar.gz
+
 warnings_are_errors: true
 
 cache:
@@ -35,11 +41,7 @@ script:
   - travis_wait 40 R CMD check pdynmc_0.9.0.tar.gz --as-cran --no-build-vignettes
 
 
-r_github_packages:
-  - r-lib/pkgdown
 
-env:
-    - PKG_TARBALL=pdynmc_0.9.1.9000.tar.gz
 
 after_success:
       - tar -C .. -xf $PKG_TARBALL
@@ -49,9 +51,9 @@ after_success:
 deploy:
   - provider: releases
         cleanup: true
-        github-token: $GITHUB_TOKEN
+        github_token: $GITHUB_TOKEN
         keep-history: true
-        file: pdynmc_0.9.1.9000.tar.gz
+        file: $PKG_TARBALL
         on:
           branch: master
           tags: true
@@ -68,3 +70,8 @@ deploy:
 #    branch: master
 #    tags: true
 #    repo: markusfritsch/pdynmc
+#
+#
+#---
+# the following github-repo may help:
+# https://github.com/zappingseb/RTest/blob/master/.travis.yml

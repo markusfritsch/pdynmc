@@ -39,12 +39,12 @@ m1 <- pdynmc(dat = dat, varname.i = "i", varname.t = "t",
              use.mc.diff = TRUE, use.mc.lev = TRUE, use.mc.nonlin = FALSE,
              include.y = FALSE, varname.y = "foodin", lagTerms.y = 1,
              include.x = TRUE, varname.reg.end = "lrxtot", lagTerms.reg.end = 0, maxLags.reg.end = 5,
-             varname.reg.ex	= "lrhearn", lagTerms.reg.ex = 0, maxLags.reg.ex = 5,
+             varname.reg.ex	= "lrhearn", lagTerms.reg.ex = 0, maxLags.reg.ex = 4,
              include.x.instr = TRUE, varname.reg.instr = "lrhearn", include.x.toInstr = FALSE,
-             fur.con = FALSE, fur.con.diff = FALSE, fur.con.lev = FALSE,
+             fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = TRUE,
              varname.reg.fur = c("nch","nad","hage","hage2"), lagTerms.reg.fur = c(0,0,0,0),
-             include.dum = TRUE, dum.diff = TRUE, dum.lev = TRUE, varname.dum = c("week", "yearquarter"),
-             w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+             include.dum = TRUE, dum.diff = FALSE, dum.lev = TRUE, varname.dum = c("week", "yearquarter"),
+             w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
              opt.meth = "none")
 summary(m1)
 
