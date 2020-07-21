@@ -290,10 +290,11 @@ It has `case.names`, `coef`, `dum.coef`, `fitted`, `model.matrix`, `ninst`,
    `vcov`, and `wmat` methods.
 }
 \description{
-The pdynmc package provides three categories of functions that are available
-   to the user: A function for model fitting, functions for specification
-   testing, and functions that extract and summarize particular information
-   from fitted model objects.
+The pdynmc package provides four categories of functions that are available
+   to the user: A function for model fitting, functions for visualizing
+   estimation results and panel data structures, functions for
+   specification testing, and functions that extract and summarize particular
+   information from fitted model objects.
 
 \code{pdynmc} fits a linear dynamic panel data model based on moment
    conditions with the Generalized Method of Moments (GMM).

@@ -18,7 +18,7 @@ or a regular matrix (if set to 'FALSE').}
 Extracts instrument matrix from an object of class `pdynmc`.
 }
 \description{
-\code{model.matrix.pdynmc} extracts explanatory variables of an
+\code{model.matrix.pdynmc} extracts instrument matrix of an
    object of class `pdynmc`.
 }
 \examples{
