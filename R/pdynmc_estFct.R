@@ -1008,7 +1008,7 @@ pdynmc		<- function(
 # }
 
  if(include.x){
-   if(!(is.null(varname.reg.end))){
+   if(!(is.null(varname.reg.end)) & sum(!(varname.reg.end %in% varname.reg.instr)) > 0){
      varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.end[!(varname.reg.end %in% varname.reg.instr)]} else{ varname.reg.end }
      lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.end[!(varname.reg.end %in% varname.reg.instr)]} else{ lagTerms.reg.end }
      if(length(varname.reg.end) == 1){
@@ -1025,7 +1025,7 @@ pdynmc		<- function(
 									FUN = dat.na.lag)
      }
    }
-   if(!(is.null(varname.reg.pre))){
+   if(!(is.null(varname.reg.pre)) & sum(!(varname.reg.pre %in% varname.reg.instr)) > 0){
      varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ varname.reg.pre }
      lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ lagTerms.reg.pre }
      if(length(varname.reg.pre) == 1){
@@ -1042,7 +1042,7 @@ pdynmc		<- function(
 									FUN = dat.na.lag)
      }
    }
-   if(!(is.null(varname.reg.ex))){
+   if(!(is.null(varname.reg.ex)) & sum(!(varname.reg.ex %in% varname.reg.instr)) > 0){
      varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ varname.reg.ex }
      lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ lagTerms.reg.ex }
      if(length(varname.reg.ex) == 1){
