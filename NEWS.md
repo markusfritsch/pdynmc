@@ -1,25 +1,24 @@
-## pdynmc version 0.9.1.9000
+# pdynmc version 0.9.1.9000
 
 Minor update of version 0.9.0 that fixes a bug in the estimation function, adjusts matrix calculations to achieve minor speed
 improvements, and robustifies general linear hypothesis testing functionality.
 
 
-*pdynmc*
+### pdynmc
 * fix bug that appeared when deriving moment conditions from the explanatory variables besides the lagged
 dependent variable (thanks to Massimo Giannini for pointing this out).
 * adjust matrix calculations to achieve minor speed improvements
 * adjust helper functions that allow limiting the lag range
 
 
-*wald.fct*
-*Robustify wald.fct by using generalized inverse in
-inversion of covariance matrix.
+### wald.fct
+*Robustify wald.fct by using generalized inverse in inversion of covariance matrix.
 
 
 
 
 
-## pdynmc version 0.9.0
+# pdynmc version 0.9.0
 
 Update of version 0.8.0 that includes visualizations for fitted model objects (coefficient-range plots for two-step and iterated estimation and plots of fitted values vs. residuals) and panel data structure
 

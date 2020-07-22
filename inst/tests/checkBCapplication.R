@@ -81,7 +81,7 @@ lagTerms.reg.pre	<- NULL
 maxLags.reg.pre	  <- NULL
 varname.reg.ex		<- "lrhearn"
 lagTerms.reg.ex		<- 0
-maxLags.reg.ex		<- 4
+maxLags.reg.ex		<- 5
 
 include.x.instr			<- TRUE
 varname.reg.instr		<- "lrhearn"
