@@ -4,14 +4,14 @@ Minor update of version 0.9.0 that fixes a bug in the estimation function, adjus
 improvements, and robustifies general linear hypothesis testing functionality.
 
 
-*pdynmc*
+### pdynmc
 * fix bug that appeared when deriving moment conditions from the explanatory variables besides the lagged
 dependent variable (thanks to Massimo Giannini for pointing this out).
 * adjust matrix calculations to achieve minor speed improvements
 * adjust helper functions that allow limiting the lag range
 
 
-*wald.fct*
+### wald.fct
 * Robustify wald.fct by using generalized inverse in inversion of covariance matrix.
 
 
