@@ -1069,15 +1069,15 @@ Z_i.fct	<- function(
               Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
             }
           } else{
-#            if(include.dum){
-#              if(nrow(Z_i.temp) > nrow(Z_i.furCon.temp)){
-#                Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
-#              }
-#            } else{
-#              if(nrow(Z_i.temp) > nrow(Z_i.furCon.temp)){
+            if(include.dum){
+              if(nrow(Z_i.temp) > nrow(Z_i.furCon.temp)){
+                Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
+              }
+            } else{
+              if(nrow(Z_i.temp) > nrow(Z_i.furCon.temp)){
                 Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
-#              }
-#            }
+              }
+            }
           }
         } else{
           if(use.mc.diff & !use.mc.lev & !include.dum){
