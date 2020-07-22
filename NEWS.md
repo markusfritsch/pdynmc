@@ -4,13 +4,14 @@ Minor update of version 0.9.0 that fixes a bug in the estimation function, adjus
 improvements, and robustifies general linear hypothesis testing functionality.
 
 
-## pdynmc
+*pdynmc*
 * fix bug that appeared when deriving moment conditions from the explanatory variables besides the lagged
 dependent variable (thanks to Massimo Giannini for pointing this out).
 * adjust matrix calculations to achieve minor speed improvements
+* adjust helper functions that allow limiting the lag range
 
 
-## wald.fct
+*wald.fct*
 *Robustify wald.fct by using generalized inverse in
 inversion of covariance matrix.
 
@@ -23,18 +24,18 @@ inversion of covariance matrix.
 Update of version 0.8.0 that includes visualizations for fitted model objects (coefficient-range plots for two-step and iterated estimation and plots of fitted values vs. residuals) and panel data structure
 
 
-## functions for exploratory analysis of panel data added
+### functions for exploratory analysis of panel data added
 * data.info: Returns information on structure of a balanced/unbalanced panel data set
 * strucUPD.plot: Visualizes structure of unbalanced panel data
 
 
-## generic functions added
+### generic functions added
 * ninst: Returns the number of instruments of a fitted model
 * optmIn: Returns input parameters used in numeric optimization of a fitted model
 * wmat: Returns weighting matrix of a fitted model
 
 
-## methods added
+### methods added
 * case.names.pdynmc: Returns variable names of cross-sectional and longitudinal identifiers of a fitted model
 * coef.pdynmc: Returns coefficient estimates of a fitted model
 * dummy.coef.pdynmc: Returns time dummy coefficient estimates of a fitted model

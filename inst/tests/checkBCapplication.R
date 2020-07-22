@@ -61,7 +61,7 @@ varname.i		<- "i"
 varname.t		<- "t"
 
 use.mc.diff      <- TRUE
-use.mc.lev       <- FALSE
+use.mc.lev       <- TRUE
 use.mc.nonlin    <- FALSE
 use.mc.nonlinAS	 <- NULL
 
@@ -81,7 +81,7 @@ lagTerms.reg.pre	<- NULL
 maxLags.reg.pre	  <- NULL
 varname.reg.ex		<- "lrhearn"
 lagTerms.reg.ex		<- 0
-maxLags.reg.ex		<- 5
+maxLags.reg.ex		<- 4
 
 include.x.instr			<- TRUE
 varname.reg.instr		<- "lrhearn"
@@ -89,14 +89,14 @@ include.x.toInstr		<- FALSE
 varname.reg.toInstr	<- NULL
 
 fur.con				= TRUE
-fur.con.diff			= FALSE
+fur.con.diff			= TRUE
 fur.con.lev			= TRUE
 varname.reg.fur			= c("nch","nad","hage","hage2")
 lagTerms.reg.fur		= c(0,0,0,0)
 
 include.dum			= TRUE
-dum.diff				= TRUE
-dum.lev				= FALSE
+dum.diff				= FALSE
+dum.lev				= TRUE
 varname.dum			<- c("week","yearquarter")
 # ,custom.dum			= NULL
 # ,partOut				= FALSE
@@ -109,7 +109,7 @@ w.mat.stata			= FALSE
 
 std.err				= "corrected"
 
-estimation			= "onestep"
+estimation			= "twostep"
 max.iter				= 100
 iter.tol				= 0.01
 inst.thresh			= NULL
