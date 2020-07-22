@@ -61,7 +61,7 @@ varname.i		<- "i"
 varname.t		<- "t"
 
 use.mc.diff      <- TRUE
-use.mc.lev       <- TRUE
+use.mc.lev       <- FALSE
 use.mc.nonlin    <- FALSE
 use.mc.nonlinAS	 <- NULL
 

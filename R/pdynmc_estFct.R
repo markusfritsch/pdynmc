@@ -493,7 +493,7 @@ pdynmc		<- function(
  toInstr.reg		<- !(is.null(varname.reg.toInstr))
 
 
- max.lagTerms		<- max(if(!(is.null(varname.y))){ lagTerms.y }, if(!(is.null(varname.reg.end))){ lagTerms.reg.end },
+ max.lagTerms		<- max(if(!(is.null(varname.y)) | !(is.null(lagTerms.y))){ lagTerms.y }, if(!(is.null(varname.reg.end))){ lagTerms.reg.end },
 				if(!(is.null(varname.reg.pre))){ lagTerms.reg.pre }, if(!(is.null(varname.reg.ex))){ lagTerms.reg.ex },
 				if(!(is.null(varname.reg.fur))){ lagTerms.reg.fur } )
 
@@ -853,7 +853,7 @@ pdynmc		<- function(
 
 #a) maximum number of lags available as instruments
 
- if(include.y & !(is.null(maxLags.y))){
+ if((include.y | !(is.null(lagTerms.y))) & !(is.null(maxLags.y))){
    if(maxLags.y + 2 > Time){				# [M:] maximum number of time periods of y_{it}- and x_{it}-process employed in estimation
      maxLags.y		<- Time-2
      warning(cat(paste(c("Longitudinal dimension too low. Maximum number of instruments from dependent variable to be employed in estimation",
@@ -1145,7 +1145,7 @@ pdynmc		<- function(
 					,include.dum = include.dum, dum.diff = dum.diff, dum.lev = dum.lev, colnames.dum = colnames.dum
 					,fur.con = fur.con, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, varname.reg.estParam.fur = varname.reg.estParam.fur
    					,include.x = include.x, end.reg = end.reg, varname.reg.end = varname.reg.end, pre.reg = pre.reg, varname.reg.pre = varname.reg.pre, ex.reg = ex.reg, varname.reg.ex = varname.reg.ex
-					,maxLags.y = maxLags.y, max.lagTerms = max.lagTerms, maxLags.reg.end = maxLags.reg.end, maxLags.reg.pre = maxLags.reg.pre, maxLags.reg.ex = maxLags.reg.ex, dat = dat, dat.na = dat.na)
+					,maxLags.y = maxLags.y, lagTerms.y = lagTerms.y, max.lagTerms = max.lagTerms, maxLags.reg.end = maxLags.reg.end, maxLags.reg.pre = maxLags.reg.pre, maxLags.reg.ex = maxLags.reg.ex, dat = dat, dat.na = dat.na)
 
 
  resGMM$n.inst		<- apply(Reduce(f = rbind, x = lapply(Z.obj, `[[`, 3)), FUN = max, MARGIN = 2)
