@@ -128,7 +128,7 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
 #  t.start		<- if(Time > T.mcDiff){ c((Time-T.mcDiff):(Time-lagTerms-1)) } else{ rep(1, times = Time-lagTerms-1) }
 #  t.start		<- if(Time > T.mcDiff){ c((Time-T.mcDiff):(Time)) } else{ rep(1, times = Time-lagTerms-1) }
 #  t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time - T.mcDiff), (1:(Time - T.mcDiff)))} else{0}
-  t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-T.mcDiff), (1:(Time - T.mcDiff)))} else{0}
+  t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))}
   t.end			<- t.start + (T.mcDiff-1)
 #  t.end[t.end > Time]	<- Time
 #  err.term.start	<- c((min(t.start) + lagTerms + 1):max(t.end))
