@@ -89,14 +89,14 @@ include.x.toInstr		<- FALSE
 varname.reg.toInstr	<- NULL
 
 fur.con				= TRUE
-fur.con.diff			= TRUE
+fur.con.diff			= FALSE
 fur.con.lev			= TRUE
 varname.reg.fur			= c("nch","nad","hage","hage2")
 lagTerms.reg.fur		= c(0,0,0,0)
 
 include.dum			= TRUE
-dum.diff				= FALSE
-dum.lev				= TRUE
+dum.diff				= TRUE
+dum.lev				= FALSE
 varname.dum			<- c("week","yearquarter")
 # ,custom.dum			= NULL
 # ,partOut				= FALSE
