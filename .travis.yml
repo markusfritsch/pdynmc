@@ -50,14 +50,19 @@ after_success:
 
 deploy:
   - provider: releases
-        cleanup: true
-        github_token: $GITHUB_TOKEN
-        keep-history: true
+        skip_cleanup: true
+        api_key: $GITHUB_TOKEN
         file: $PKG_TARBALL
         on:
-          branch: master
           tags: true
-          repo: markusfritsch/pdynmc
+  - provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        keep-history: true
+        local-dir: docs
+        on:
+          branch: master
+
 
 
 ## required to deploy to github
