@@ -59,19 +59,8 @@ deploy:
           tags: true
           repo: markusfritsch/pdynmc
 
+
 ## required to deploy to github
-#deploy:
-#  provider: releases
-#  cleanup: true
-#  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-#  keep_history: true
-#  file: pdynmc*.t*gz
-#  on:
-#    branch: master
-#    tags: true
-#    repo: markusfritsch/pdynmc
-#
-#
 #---
 # the following github-repo may help:
 # https://github.com/zappingseb/RTest/blob/master/.travis.yml
