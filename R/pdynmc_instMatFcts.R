@@ -682,7 +682,7 @@ Z_i.fct	<- function(
 
   if(use.mc.diff){
     #     if(mc.ref.t){
-    if(include.y | lagTerms.y){
+    if(include.y){
       Z_i.mc.diff_end.y	<- do.call(what = "cbind", args = sapply(X = varname.y, FUN = variable.fct, i = i, T.mcDiff = maxLags.y,
                                                                  lagTerms = max.lagTerms
                                                                  #						, mc.ref.t = mc.ref.t
@@ -739,7 +739,7 @@ Z_i.fct	<- function(
 
   if(use.mc.lev){
     #     if(mc.ref.t){
-    if(include.y | lagTerms.y){
+    if(include.y){
       Z_i.mc.lev_end.y	<- do.call(what = "cbind", args = sapply(X = varname.y, FUN = LEV.fct, i = i, T.mcLev = maxLags.y, lagTerms = max.lagTerms,
                                                                 use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                 #						, mc.ref.t = mc.ref.t
@@ -1069,14 +1069,10 @@ Z_i.fct	<- function(
               Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
             }
           } else{
-            if(include.dum){
-              if(nrow(Z_i.temp) > nrow(Z_i.furCon.temp)){
-                Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
-              }
+            if(use.mc.lev & use.mc.diff){
+              Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
             } else{
-              if(nrow(Z_i.temp) > nrow(Z_i.furCon.temp)){
-                Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
-              }
+              Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
             }
           }
         } else{

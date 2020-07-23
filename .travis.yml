@@ -7,7 +7,7 @@ r_github_packages:
   - r-lib/pkgdown
 
 env:
-    - PKG_TARBALL=pdynmc_0.9.1.9000.tar.gz
+    - PKG_TARBALL=pdynmc_0.9.1.tar.gz
 
 warnings_are_errors: true
 
@@ -38,7 +38,7 @@ script:
   - docker pull dxjoke/tectonic-docker
 #  - R CMD build . --no-build-vignettes
   - R CMD build . --compact-vignettes=gs+qpdf
-  - travis_wait 40 R CMD check pdynmc_0.9.1.9000.tar.gz --as-cran --no-build-vignettes
+  - travis_wait 40 R CMD check pdynmc_0.9.1.tar.gz --as-cran --no-build-vignettes
 
 
 
