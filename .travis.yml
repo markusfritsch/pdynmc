@@ -10,12 +10,12 @@ r:
 env:
     - PKG_TARBALL=pdynmc_0.9.1.tar.gz
 
-warnings_are_errors: true
+#warnings_are_errors: true
 
 cache:
   packages
-#  directories:
-#    - $HOME/.cache/Tectonic
+  directories:
+    - $HOME/.cache/Tectonic
 
 #define operating system
 os: linux
@@ -38,31 +38,38 @@ services: docker
 script:
   - docker pull dxjoke/tectonic-docker
 #  - R CMD build . --no-build-vignettes
-#  - R CMD build . --compact-vignettes=gs+qpdf
-  - R CMD check pdynmc_0.9.0.tar.gz --as-cran --no-build-vignettes
-  - travis_wait 60 R CMD check pdynmc_0.9.1.tar.gz --as-cran --no-build-vignettes
+  - R CMD build . --compact-vignettes=gs+qpdf
+  - R CMD check *tar.gz --as-cran --no-build-vignettes
+  - travis_wait 60 R CMD check *tar.gz --as-cran --no-build-vignettes
 
 
 
 
+#r_github_packages:
+#  - r-lib/pkgdown
+#
+#
 #after_success:
 #      - tar -C .. -xf $PKG_TARBALL
 #      - rm -rf pdynmc.Rcheck
 #      - Rscript -e 'pkgdown::build_site()'
 #
+#before_deploy:
+#      # Set up git user name and tag this commit
+#      - git config --local user.name markusfritsch
+#      - git config --local user.email markus.fritsch@uni-passau.de
+#      - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+#      - git tag $TRAVIS_TAG
+#
 #deploy:
-#  - provider: releases
-#        skip_cleanup: true
-#        api_key: $GITHUB_TOKEN
-#        file: $PKG_TARBALL
-#        on:
-#          tags: true
-#  - provider: pages
-#        skip_cleanup: true
-#        github_token: $GITHUB_TOKEN
-#        keep-history: true
-#        on:
-#          branch: master
+#  provider: releases
+#  api_key:
+#    secure: $GITHUB_TOKEN
+#  file: pdynmc_v0-9-1
+#  skip_cleanup: true
+#  overwrite: true
+#  on:
+#    tags: true
 
 
 
