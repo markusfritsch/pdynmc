@@ -34,13 +34,14 @@ os: linux
 
 services: docker
 
+install: travis_wait mvn install
 
 script:
   - docker pull dxjoke/tectonic-docker
   - R CMD build . --no-build-vignettes
 #  - R CMD build . --compact-vignettes=gs+qpdf
   - R CMD check *tar.gz --as-cran --no-build-vignettes
-  - travis_wait 60 R CMD check *tar.gz --as-cran --no-build-vignettes
+  - R CMD check *tar.gz --as-cran --no-build-vignettes
 
 
 addons:
