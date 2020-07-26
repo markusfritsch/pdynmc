@@ -1,4 +1,4 @@
-# pdynmc version 0.9.1.9000
+# pdynmc version 0.9.1
 
 Minor update of version 0.9.0 that fixes a bug in the estimation function, adjusts matrix calculations to achieve minor speed
 improvements, and robustifies general linear hypothesis testing functionality.
