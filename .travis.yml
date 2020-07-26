@@ -36,8 +36,9 @@ services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
-  - R CMD build . --no-build-vignettes
-#  - R CMD build . --compact-vignettes=gs+qpdf
+  - docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c "tectonic main.tex"
+#  - R CMD build . --no-build-vignettes
+  - R CMD build . --compact-vignettes=gs+qpdf
   - R CMD check *tar.gz --as-cran --no-build-vignettes
   - travis_wait 60 R CMD check *tar.gz --as-cran --no-build-vignettes
 
@@ -74,7 +75,7 @@ addons:
 #  provider: releases
 #  api_key:
 #    secure: $GITHUB_TOKEN
-#  file: pdynmc_v0-9-1
+#  file: ./$PKG_TARBALL
 #  skip_cleanup: true
 #  overwrite: true
 #  on:
