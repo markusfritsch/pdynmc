@@ -75,11 +75,13 @@ addons:
 #  provider: releases
 #  api_key:
 #    secure: $GITHUB_TOKEN
-#  file: ./$PKG_TARBALL
+#  file_glob: true
+#  file: pdynmc*.t*gz
 #  skip_cleanup: true
 #  overwrite: true
 #  on:
 #    tags: true
+#    repo: markusfritsch/pdynmc
 
 
 
