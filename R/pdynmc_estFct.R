@@ -553,7 +553,7 @@ pdynmc		<- function(
      warning("Option 'fur.con.diff' not specified; option was therefore set to FALSE.")
    }
  }
- if(!fur.con && (fur.con.diff | fur.con.lev)){
+ if(!fur.con && ( (!is.null(fur.con.diff | fur.con.lev)) | (fur.con.diff | fur.con.lev)) ){
    if(fur.con.diff){
      fur.con.diff <- FALSE
      warning("No further controls included; argument 'fur.con.diff' was therefore ignored")
