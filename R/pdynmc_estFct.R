@@ -553,7 +553,7 @@ pdynmc		<- function(
      warning("Option 'fur.con.diff' not specified; option was therefore set to FALSE.")
    }
  }
- if(!fur.con && ( (!is.null(fur.con.diff | fur.con.lev)) | (fur.con.diff | fur.con.lev)) ){
+ if(!fur.con && ( (!is.null(fur.con.diff & fur.con.lev)) | (fur.con.diff | fur.con.lev)) ){
    if(fur.con.diff){
      fur.con.diff <- FALSE
      warning("No further controls included; argument 'fur.con.diff' was therefore ignored")
@@ -617,7 +617,7 @@ pdynmc		<- function(
      warning("Option 'dum.diff' not specified; option was therefore set to FALSE.")
    }
  }
- if(!include.dum && (dum.diff | dum.lev)){
+ if(!include.dum && ( !(is.null(dum.diff & dum.lev)) | (dum.diff | dum.lev) ) ){
    if(dum.diff){
      dum.diff <- FALSE
      warning("No dummies included; argument 'dum.diff' was therefore ignored")
