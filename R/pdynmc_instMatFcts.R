@@ -980,7 +980,7 @@ Z_i.fct	<- function(
         Z_i.furCon.temp_diff				<- diff(as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][-c(1:max.lagTerms)]), differences = 1)
         Z_i.furCon.temp_diff[ind_vec.diff.row]	<- 0
 
-        colnames.fur.con.diff			        <- colnames(Z_i.furCon.temp_diff)
+        colnames.fur.con.diff			        <- varname.reg.estParam.fur
         rownames(Z_i.furCon.temp_diff)		<- NULL
         colnames(Z_i.furCon.temp_diff)		<- NULL
       } else{
@@ -999,7 +999,7 @@ Z_i.fct	<- function(
         Z_i.furCon.temp_lev				            <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time][-c(1:max.lagTerms)] )
         Z_i.furCon.temp_lev[ind_vec.lev.row]	<- 0
 
-        colnames.fur.con.lev			      <- colnames(Z_i.furCon.temp_lev)
+        colnames.fur.con.lev			      <- varname.reg.estParam.fur
         rownames(Z_i.furCon.temp_lev)		<- NULL
         colnames(Z_i.furCon.temp_lev)		<- NULL
       } else{

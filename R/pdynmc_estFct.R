@@ -528,13 +528,17 @@ pdynmc		<- function(
 
  if(fur.con && is.null(varname.reg.fur)
  ){
-   fur.con		<- FALSE
+   fur.con		  <- FALSE
+   fur.con.diff <- FALSE
+   fur.con.lev  <- FALSE
    warning("No further controls given; 'fur.con' was therefore set to FALSE.")
  }
 
  if(!(fur.con) && !(is.null(varname.reg.fur))
  ){
    suppressWarnings(rm(varname.reg.fur))
+   fur.con.diff <- FALSE
+   fur.con.lev  <- FALSE
    warning("Further controls given, while further controls are not supposed to be included; argument specifying the further controls was therefore ignored.")
  }
 
@@ -593,12 +597,16 @@ pdynmc		<- function(
  if(include.dum && is.null(varname.dum)
  ){
    include.dum		<- FALSE
+   dum.diff       <- FALSE
+   dum.lev        <- FALSE
    warning("No dummies given; 'include.dum' was therefore set to FALSE.")
  }
 
  if(!include.dum && !(is.null(varname.dum))
  ){
    suppressWarnings(rm(varname.dum))
+   dum.diff       <- FALSE
+   dum.lev        <- FALSE
    warning("Dummies given, while dummies are not supposed to be included; argument specifying the dummies was therefore ignored.")
  }
 
