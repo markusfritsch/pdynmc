@@ -143,6 +143,9 @@
 #'    but for which no parameters are estimated; defaults to `FALSE`).
 #' @param varname.reg.instr One or more character strings denoting the covariate(s)
 #'    in the data set treated as instruments in IV-estimation (defaults to `NULL`).
+#' @param inst.reg.ex.expand A logical variable that allows for using all past,
+#'    present, and future observations of `varname.reg.ex` to derive instruments
+#'    (defaults to `TRUE`).
 #' @param include.x.toInstr A logical variable that allows to instrument covariates
 #'    (i.e., include covariates for which parameters are estimated but which are
 #'    not employed in estimation; defaults to `FALSE`).
@@ -407,6 +410,7 @@ pdynmc		<- function(
 
  ,include.x.instr			= FALSE
  ,varname.reg.instr		= NULL
+ ,inst.reg.ex.expand  = TRUE
  ,include.x.toInstr		= FALSE
  ,varname.reg.toInstr		= NULL
 
@@ -593,6 +597,10 @@ pdynmc		<- function(
    warning("Further covariates to be instrumented specified, while these types of covariates are not supposed to be included; argument specifying these covariates was therefore ignored.")
  }
 
+ if(inst.reg.ex.expand & !use.mc.diff & ( (!include.x.instr & is.null(varname.reg.ex)) | (is.null(varname.reg.ex)) ) ){
+   inst.reg.ex.expand <- NULL
+   warning("No exogenous covariates given; 'inst.reg.ex.expand' was therefore ignored.")
+ }
 
  if(include.dum && is.null(varname.dum)
  ){
@@ -1152,8 +1160,8 @@ pdynmc		<- function(
 					,include.y = include.y, varname.y = varname.y, inst.stata = inst.stata
 					,include.dum = include.dum, dum.diff = dum.diff, dum.lev = dum.lev, colnames.dum = colnames.dum
 					,fur.con = fur.con, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, varname.reg.estParam.fur = varname.reg.estParam.fur
-   					,include.x = include.x, end.reg = end.reg, varname.reg.end = varname.reg.end, pre.reg = pre.reg, varname.reg.pre = varname.reg.pre, ex.reg = ex.reg, varname.reg.ex = varname.reg.ex
-					,maxLags.y = maxLags.y, lagTerms.y = lagTerms.y, max.lagTerms = max.lagTerms, maxLags.reg.end = maxLags.reg.end, maxLags.reg.pre = maxLags.reg.pre, maxLags.reg.ex = maxLags.reg.ex, dat = dat, dat.na = dat.na)
+   				,include.x = include.x, end.reg = end.reg, varname.reg.end = varname.reg.end, pre.reg = pre.reg, varname.reg.pre = varname.reg.pre, ex.reg = ex.reg, varname.reg.ex = varname.reg.ex
+					,maxLags.y = maxLags.y, lagTerms.y = lagTerms.y, max.lagTerms = max.lagTerms, maxLags.reg.end = maxLags.reg.end, maxLags.reg.pre = maxLags.reg.pre, maxLags.reg.ex = maxLags.reg.ex, inst.reg.ex.expand = inst.reg.ex.expand, dat = dat, dat.na = dat.na)
 
 
  resGMM$n.inst		<- apply(Reduce(f = rbind, x = lapply(Z.obj, `[[`, 3)), FUN = max, MARGIN = 2)

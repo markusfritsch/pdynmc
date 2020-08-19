@@ -121,6 +121,7 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
   #   ,mc.ref.t
   ,Time
   ,varname.i
+  ,inst.reg.ex.expand
   ,dat
   ,dat.na
 ){
@@ -128,8 +129,13 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
 #  t.start		<- if(Time > T.mcDiff){ c((Time-T.mcDiff):(Time-lagTerms-1)) } else{ rep(1, times = Time-lagTerms-1) }
 #  t.start		<- if(Time > T.mcDiff){ c((Time-T.mcDiff):(Time)) } else{ rep(1, times = Time-lagTerms-1) }
 #  t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time - T.mcDiff), (1:(Time - T.mcDiff)))} else{0}
-  t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
-  t.end			<- t.start + (T.mcDiff-1)
+  if(inst.reg.ex.expand){
+    t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
+    t.end			<- t.start + (T.mcDiff-1)
+  } else {
+    t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
+    t.end     <- (lagTerms+2):(Time)
+  }
 #  t.end[t.end > Time]	<- Time
 #  err.term.start	<- c((min(t.start) + lagTerms + 1):max(t.end))
   err.term.start	<- t.start
@@ -653,10 +659,9 @@ Z_i.fct	<- function(
   ,use.mc.nonlin
   ,include.y
   ,varname.y
-  ,inst.stata = inst.stata
+  ,inst.stata
   ,include.dum
   ,dum.diff
-  ,dum.diff.stata
   ,dum.lev
   ,colnames.dum
   ,fur.con
@@ -676,6 +681,7 @@ Z_i.fct	<- function(
   ,maxLags.reg.end
   ,maxLags.reg.pre
   ,maxLags.reg.ex
+  ,inst.reg.ex.expand
   ,dat
   ,dat.na
 ){
@@ -712,20 +718,21 @@ Z_i.fct	<- function(
           Z_i.mc.diff_pre	<- do.call(what = "cbind", args = mapply(FUN = variable.pre.fct, varname.reg.pre, T.mcDiff = maxLags.reg.pre
                                                                  #						, mc.ref.t = mc.ref.t
                                                                  , MoreArgs = list(i = i, Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
-                                                                                  , dat = dat, dat.na = dat.na)) )
+                                                                                   , dat = dat, dat.na = dat.na)) )
         }
       }
       if(ex.reg){
         if(length(varname.reg.ex) == 1){
           Z_i.mc.diff_ex	<- do.call(what = "cbind", args = sapply(FUN = variable.ex.fct, varname.reg.ex, i = i, T.mcDiff = maxLags.reg.ex,
-                                                                  lagTerms = max.lagTerms
+                                                                  lagTerms = max.lagTerms, inst.reg.ex.expand = inst.reg.ex.expand
                                                                   #						, mc.ref.t = mc.ref.t
                                                                   , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
         } else{
           Z_i.mc.diff_ex	<- do.call(what = "cbind", args = mapply(FUN = variable.ex.fct, varname.reg.ex, T.mcDiff = maxLags.reg.ex
                                                                 #						, mc.ref.t = mc.ref.t
                                                                 , MoreArgs = list(i = i, Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
-                                                                                , dat = dat, dat.na = dat.na)) )
+                                                                                  , inst.reg.ex.expand = inst.reg.ex.expand
+                                                                                  , dat = dat, dat.na = dat.na)) )
         }
       }
     }
