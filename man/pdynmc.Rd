@@ -31,6 +31,7 @@ pdynmc(
   maxLags.reg.ex = NULL,
   include.x.instr = FALSE,
   varname.reg.instr = NULL,
+  inst.reg.ex.expand = TRUE,
   include.x.toInstr = FALSE,
   varname.reg.toInstr = NULL,
   fur.con = FALSE,
@@ -151,6 +152,10 @@ but for which no parameters are estimated; defaults to `FALSE`).}
 
 \item{varname.reg.instr}{One or more character strings denoting the covariate(s)
 in the data set treated as instruments in IV-estimation (defaults to `NULL`).}
+
+\item{inst.reg.ex.expand}{A logical variable that allows for using all past,
+present, and future observations of `varname.reg.ex` to der instruments
+(defaults to `TRUE`).}
 
 \item{include.x.toInstr}{A logical variable that allows to instrument covariates
 (i.e., include covariates for which parameters are estimated but which are
