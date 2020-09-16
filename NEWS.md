@@ -4,7 +4,7 @@ Minor update of version 0.9.1 that adds additional functionality for setting up 
 
 
 ### pdynmc
-* Include additional option to limit expansion of the instrument set when deriving instrument from non-lagged dependent exogenous covariates.
+* Include additional option to limit expansion of the instrument set when deriving instrument from non-lagged dependent strictly exogenous covariates.
 
 
 ### print.summary.pdynmc
