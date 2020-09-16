@@ -39,12 +39,16 @@ library(data.table)
 library(foreign)
 
 
+
+
 ###	Load data
 
+#	filename <- "bc2.dta"
+filename <- "bc2small.dta"
 
-dat <- read.dta(file = "bc2.dta", convert.dates = TRUE, convert.factors = TRUE,
-         missing.type = FALSE,
-         convert.underscore = FALSE, warn.missing.labels = TRUE)
+dat <- read.dta(file = filename, convert.dates = TRUE, convert.factors = TRUE,
+	                missing.type = FALSE,
+	                convert.underscore = FALSE, warn.missing.labels = TRUE)
 
 dat$yearquarter  <- as.character(dat$yearquarter)
 dat$yearquarterA <- as.character(dat$yearquarterA)
@@ -68,7 +72,7 @@ use.mc.nonlinAS	 <- NULL
 inst.stata			= FALSE
 
 include.y   <- FALSE
-varname.y		<- "foodin"
+varname.y		<- "foodin1"
 lagTerms.y  <- 1
 maxLags.y		<- NULL
 
@@ -81,7 +85,8 @@ lagTerms.reg.pre	<- NULL
 maxLags.reg.pre	  <- NULL
 varname.reg.ex		<- "lrhearn"
 lagTerms.reg.ex		<- 0
-maxLags.reg.ex		<- 5
+maxLags.reg.ex		<- 6
+inst.reg.ex.expand   <- FALSE
 
 include.x.instr			<- TRUE
 varname.reg.instr		<- "lrhearn"
@@ -89,15 +94,15 @@ include.x.toInstr		<- FALSE
 varname.reg.toInstr	<- NULL
 
 fur.con				= TRUE
-fur.con.diff			= FALSE
-fur.con.lev			= TRUE
-varname.reg.fur			= c("nch","nad","hage","hage2")
-lagTerms.reg.fur		= c(0,0,0,0)
+fur.con.diff			= TRUE
+fur.con.lev			= FALSE
+varname.reg.fur			= c("nch")
+lagTerms.reg.fur		= c(0)
 
-include.dum			= TRUE
-dum.diff				= TRUE
+include.dum			= FALSE
+dum.diff				= FALSE
 dum.lev				= FALSE
-varname.dum			<- c("week","yearquarter")
+varname.dum			<- NULL
 # ,custom.dum			= NULL
 # ,partOut				= FALSE
 # ,estimate.int			= FALSE
@@ -129,12 +134,12 @@ seed.input			= 42
 
 
 
-dat.part <- dat[1:72,]
-dat.full <- dat
+#dat.part <- dat[1:72,]
+#dat.full <- dat
 
 
 # dat	<- dat.part
- dat	<- dat.full
+# dat	<- dat.full
 
 
 

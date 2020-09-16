@@ -1335,7 +1335,7 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
   #  cat(formula(paste(x$data$varname.y, paste(x$data$varnames.reg, collapse = "+"), sep = " ~ ")))
   #  cat("\n")
   cat("\nDynamic linear panel estimation", paste(" (", x$data$estimation, ")", sep = ""), sep = "")
-  cat("\nMoment conditions: ", paste(if(x$data$diffMC){paste(x$data$n.inst["inst.diff"], " linear (DIF)", sep = "") }, if(x$data$levMC){paste(" ", x$data$n.inst["inst.lev"], " linear (LEV)", sep = "") }, if(x$data$nlMC){paste(" ", x$data$n.inst["inst.nl"], " nonlinear", sep = "") }), sep = "")
+#  cat("\nMoment conditions: ", paste(if(x$data$diffMC){paste(x$data$n.inst["inst.diff"], " linear (DIF)", sep = "") }, if(x$data$levMC){paste(" ", x$data$n.inst["inst.lev"], " linear (LEV)", sep = "") }, if(x$data$nlMC){paste(" ", x$data$n.inst["inst.nl"], " nonlinear", sep = "") }), sep = "")
   cat("\nEstimation steps: ", paste(x$iter), "\n", sep = "")
   cat("\nCoefficients:\n")
   printCoefmat(coef(x), digits = digits, signif.stars = signif.stars, na.print = "NA", ...)
