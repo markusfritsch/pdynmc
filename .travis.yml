@@ -8,7 +8,7 @@ r:
 #  - r-lib/pkgdown
 
 env:
-    - PKG_TARBALL=pdynmc_0.9.1.tar.gz
+    - PKG_TARBALL=pdynmc_0.9.2.tar.gz
 
 #warnings_are_errors: true
 

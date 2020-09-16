@@ -1,3 +1,19 @@
+# pdynmc version 0.9.2
+
+Minor update of version 0.9.1 that adds additional functionality for setting up the instrument matrix and adjusts the instrument count displayed by the summary function.
+
+
+### pdynmc
+* Include additional option to limit expansion of the instrument set when deriving instrument from non-lagged dependent exogenous covariates.
+
+
+### print.summary.pdynmc
+* Adjust displayed instrument count.
+
+
+
+
+
 # pdynmc version 0.9.1
 
 Minor update of version 0.9.0 that fixes a bug in the estimation function, adjusts matrix calculations to achieve minor speed
