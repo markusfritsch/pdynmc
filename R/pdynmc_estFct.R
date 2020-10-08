@@ -167,9 +167,9 @@
 #' @param include.dum A logical variable indicating whether dummy variables for
 #'    the time periods are included (defaults to `FALSE`).
 #' @param dum.diff A logical variable indicating whether dummy variables are
-#'    included in the equations in first differences (defaults to `FALSE`).
+#'    included in the equations in first differences (defaults to `NULL`).
 #' @param dum.lev A logical variable indicating whether dummy variables are
-#'    included in the equations in levels (defaults to `TRUE`).
+#'    included in the equations in levels (defaults to `NULL`).
 #' @param varname.dum One or more character strings from which time dummies should
 #'    be derived (can be different from varname.t; defaults to `NULL`).
 #' @param col_tol A numeric variable in [0,1] indicating the absolute correlation
@@ -420,9 +420,9 @@ pdynmc		<- function(
  ,varname.reg.fur			= NULL
  ,lagTerms.reg.fur		= NULL
 
- ,include.dum			= TRUE
+ ,include.dum			= FALSE
  ,dum.diff				= NULL
- ,dum.lev				= TRUE
+ ,dum.lev				  = NULL
  ,varname.dum			= NULL
 # ,custom.dum			= NULL
 # ,partOut				= FALSE
