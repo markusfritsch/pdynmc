@@ -144,7 +144,7 @@
 #' @param varname.reg.instr One or more character strings denoting the covariate(s)
 #'    in the data set treated as instruments in IV-estimation (defaults to `NULL`).
 #' @param inst.reg.ex.expand A logical variable that allows for using all past,
-#'    present, and future observations of `varname.reg.ex` to der instruments
+#'    present, and future observations of `varname.reg.ex` to derive instruments
 #'    (defaults to `TRUE`).
 #' @param include.x.toInstr A logical variable that allows to instrument covariates
 #'    (i.e., include covariates for which parameters are estimated but which are
