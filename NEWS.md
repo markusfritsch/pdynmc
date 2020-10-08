@@ -1,3 +1,16 @@
+# pdynmc version 0.9.3.9000
+
+Minor update of version 0.9.2 that adjusts minor bugs in estimation function and helper function for setting up instrument matrix
+
+### pdynmc
+* Default arguments and corresponding documentation
+* Check functions
+* Checks when setting up instrument matrix
+
+
+
+
+
 # pdynmc version 0.9.2
 
 Minor update of version 0.9.1 that adds additional functionality for setting up the instrument matrix and adjusts the instrument count displayed by the summary function.
