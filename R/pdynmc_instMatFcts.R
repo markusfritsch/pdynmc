@@ -788,7 +788,11 @@ Z_i.fct	<- function(
     if(include.x & (include.y | end.reg) & (ex.reg | pre.reg)){
       Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end), Z_i.mc.lev_ex.pre)
     } else{
-      Z_i.mc.lev	<- Z_i.mc.lev_end
+      if((include.y | end.reg) & ((include.dum & dum.lev) | (fur.con & fur.con.lev))){
+        Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end))
+      } else{
+        Z_i.mc.lev	<- Z_i.mc.lev_end
+      }
     }
     #     }
     n.inst.lev	<- ncol(Z_i.mc.lev)

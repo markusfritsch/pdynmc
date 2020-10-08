@@ -633,18 +633,24 @@ pdynmc		<- function(
      warning("Option 'dum.diff' not specified; option was therefore set to FALSE.")
    }
  }
- if(!include.dum && ( !(is.null(dum.diff & dum.lev)) | (dum.diff | dum.lev) ) ){
-   if(dum.diff){
+ if(!include.dum &  (!is.null(dum.diff) | !is.null(dum.lev)) ){
+   if(!is.null(dum.diff)){
      dum.diff <- FALSE
      warning("No dummies included; argument 'dum.diff' was therefore ignored")
    }
-   if(dum.lev){
+   if(!is.null(dum.lev)){
      dum.lev <- FALSE
      warning("No dummies included; argument 'dum.lev' was therefore ignored")
    }
  }
-
-
+ if(!include.dum &  (is.null(dum.diff) | is.null(dum.lev)) ){
+   if(is.null(dum.diff)){
+     dum.diff <- FALSE
+   }
+   if(is.null(dum.lev)){
+     dum.lev <- FALSE
+   }
+ }
 
 
 

@@ -39,9 +39,9 @@ pdynmc(
   fur.con.lev = NULL,
   varname.reg.fur = NULL,
   lagTerms.reg.fur = NULL,
-  include.dum = TRUE,
+  include.dum = FALSE,
   dum.diff = NULL,
-  dum.lev = TRUE,
+  dum.lev = NULL,
   varname.dum = NULL,
   col_tol = 0.65,
   w.mat = "iid.err",
@@ -154,7 +154,7 @@ but for which no parameters are estimated; defaults to `FALSE`).}
 in the data set treated as instruments in IV-estimation (defaults to `NULL`).}
 
 \item{inst.reg.ex.expand}{A logical variable that allows for using all past,
-present, and future observations of `varname.reg.ex` to der instruments
+present, and future observations of `varname.reg.ex` to derive instruments
 (defaults to `TRUE`).}
 
 \item{include.x.toInstr}{A logical variable that allows to instrument covariates
@@ -186,10 +186,10 @@ variable names (defaults to `NULL`).}
 the time periods are included (defaults to `FALSE`).}
 
 \item{dum.diff}{A logical variable indicating whether dummy variables are
-included in the equations in first differences (defaults to `FALSE`).}
+included in the equations in first differences (defaults to `NULL`).}
 
 \item{dum.lev}{A logical variable indicating whether dummy variables are
-included in the equations in levels (defaults to `TRUE`).}
+included in the equations in levels (defaults to `NULL`).}
 
 \item{varname.dum}{One or more character strings from which time dummies should
 be derived (can be different from varname.t; defaults to `NULL`).}
