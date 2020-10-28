@@ -15,3 +15,9 @@ corrected standard errors, serial correlation tests, tests for overidentificatio
 and Wald tests are available.
 
 See also: https://cran.r-project.org/web/packages/pdynmc/index.html
+
+To install the latest development version of the package, please use:
+```{r}
+library(devtools)
+install_github("markusfritsch/pdynmc")
+```
