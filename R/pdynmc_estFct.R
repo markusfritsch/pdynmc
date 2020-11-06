@@ -538,6 +538,11 @@ pdynmc		<- function(
    warning("No further controls given; 'fur.con' was therefore set to FALSE.")
  }
 
+ if(!fur.con){
+   fur.con.diff <- FALSE
+   fur.con.lev <- FALSE
+ }
+
  if(!(fur.con) && !(is.null(varname.reg.fur))
  ){
    suppressWarnings(rm(varname.reg.fur))
@@ -561,7 +566,7 @@ pdynmc		<- function(
      warning("Option 'fur.con.diff' not specified; option was therefore set to FALSE.")
    }
  }
- if(!fur.con && ( (!is.null(fur.con.diff & fur.con.lev)) | (fur.con.diff | fur.con.lev)) ){
+ if(!fur.con && !((is.null(fur.con.diff) & is.null(fur.con.lev)) | (is.null(fur.con.diff) | is.null(fur.con.lev))) ){
    if(fur.con.diff){
      fur.con.diff <- FALSE
      warning("No further controls included; argument 'fur.con.diff' was therefore ignored")
