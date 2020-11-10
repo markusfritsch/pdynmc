@@ -1114,7 +1114,7 @@ plot.pdynmc		<- function(
         graphics::plot(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), type = "n", xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
         graphics::lines(x = rep(n.coef, times = 2), y = c(coef.mat.min, coef.mat.max), col = col.coefRange, lwd = 1, lty = 2, ...)
         graphics::points(x = n.coef, y = coef.mat[,1], col = col.coefInitial, pch = 1, ...)
-        graphics::points(x = x.vec[i], y = coef.est[i], col = col.coefEst, pch = 18, ...)
+        graphics::points(x = n.coef, y = coef.est, col = col.coefEst, pch = 18, ...)
         graphics::axis(side = 1, at = c(1:n.coef), labels = paste(var.names))
       }
     } else{
