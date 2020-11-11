@@ -175,7 +175,7 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
 dat.fct		<- function(			# function that creates instruments based on
   ti
   ,t.end
-  ,i												# [M:] renamed since 't()' is already a function
+  ,i												# renamed since 't()' is already a function
   ,lagTerms
   ,varname
   ,Time
@@ -185,13 +185,13 @@ dat.fct		<- function(			# function that creates instruments based on
   ,dat.na
 ){
   #   if(mc.ref.t){
-  dat[dat[, varname.i] == i, varname][ti:t.end]*					# [M:] if period t+1 and t+2 do not exist, t is not available as instrument
+  dat[dat[, varname.i] == i, varname][ti:t.end]*					# if period t+1 and t+2 do not exist, t is not available as instrument
     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
                          dat.na[dat.na[, varname.i] == i, varname][t.end] *
                          dat.na[dat.na[, varname.i] == i, varname][t.end+1] *
                          dat.na[dat.na[, varname.i] == i, varname][t.end+2])))
   #   } else{
-  #     dat[dat[, varname.i] == i, varname][ti]*						# [M:] if period T, T-1 and T-2 do not exist, t is not available as instrument
+  #     dat[dat[, varname.i] == i, varname][ti]*						# if period T, T-1 and T-2 do not exist, t is not available as instrument
   #     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][Time] *
   #                        dat.na[dat.na[, varname.i] == i, varname][Time-1] *
   #                        dat.na[dat.na[, varname.i] == i, varname][Time-2] *
@@ -225,7 +225,7 @@ dat.fct		<- function(			# function that creates instruments based on
 dat.fct.pre		<- function(
   ti
   ,t.end
-  ,i												# [M:] renamed since 't' is already defined
+  ,i												# renamed since 't' is already defined
   ,lagTerms
   ,varname
   ,Time
@@ -269,7 +269,7 @@ dat.fct.pre		<- function(
 #'
 dat.fct.ex		<- function(
   ti
-  ,t.end												# [M:] renamed since 't' is already defined
+  ,t.end												# renamed since 't' is already defined
   ,err.term.start
   ,i
   ,varname
