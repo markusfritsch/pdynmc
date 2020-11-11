@@ -62,9 +62,9 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
   t.set		<- 1:length(sort(as.numeric(unique(object[, t.name]))))
 
   i_cases			<- sort(as.numeric(unique(object[, i.name])))
-  i_temp			<- 1:length(i_cases)				      # [M:] reflects data structures where i does not start at i = 1
+  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
   t_cases			<- sort(as.numeric(unique(object[, t.name])))
-  t_temp			<- 1:length(unique(t_cases))			# [M:] reflects data structures where t does not start at t = 1
+  t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
 
   object[, i.name] <- as.numeric(object[, i.name])
   object[, t.name] <- as.numeric(object[, t.name])
@@ -195,9 +195,9 @@ strucUPD.plot	<- function(
   t.set		<- 1:length(sort(as.numeric(unique(object[, t.name]))))
 
   i_cases			<- sort(as.numeric(unique(object[, i.name])))
-  i_temp			<- 1:length(i_cases)				      # [M:] reflects data structures where i does not start at i = 1
+  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
   t_cases			<- sort(as.numeric(unique(object[, t.name])))
-  t_temp			<- 1:length(unique(t_cases))			# [M:] reflects data structures where t does not start at t = 1
+  t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
 
   object[, i.name] <- as.numeric(object[, i.name])
   object[, t.name] <- as.numeric(object[, t.name])
@@ -232,7 +232,7 @@ strucUPD.plot	<- function(
   graphics::axis(side = 1, at = seq(from = min(t.set) - 0.5, to = max(t.set) + 0.5, by = 1), labels = FALSE)
   graphics::axis(side = 1, at = t.set, labels = unique(object[,"t.label"]), tick = FALSE)
 
-  col.set	<- grDevices::colorRampPalette(col.range)(length(table(periods.per.cs.obs)))
+  col.set	<- grDevices::colorRampPalette(col.range)(length(if(sum(periods.per.cs.obs == 0) > 0){table(periods.per.cs.obs)[-1]} else{table(periods.per.cs.obs)} ))
 
   for(i in i.set){
     t.i	    <- as.numeric(periods.per.cs.obs[i])
@@ -256,7 +256,7 @@ strucUPD.plot	<- function(
   legend(
     title = expression(T[i]), x.intersp = 0.2,
     x = max(t.set) + 0.5, y = max(i.set),
-    legend = rev(names(table(periods.per.cs.obs))),
+    legend = rev(names(if(sum(periods.per.cs.obs == 0) > 0){table(periods.per.cs.obs)[-1]} else{table(periods.per.cs.obs)})),
     fill = rev(col.set), border = rev(col.set), bg = "white", bty = "n"
   )
   graphics::box()
