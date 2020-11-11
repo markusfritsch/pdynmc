@@ -151,19 +151,18 @@ IV-type instruments (i.e., include covariates which are used as instruments
 but for which no parameters are estimated; defaults to `FALSE`).}
 
 \item{varname.reg.instr}{One or more character strings denoting the covariate(s)
-in the data set treated as instruments in IV-estimation (defaults to `NULL`).}
+in the data set treated as instruments in estimation (defaults to `NULL`).}
 
 \item{inst.reg.ex.expand}{A logical variable that allows for using all past,
 present, and future observations of `varname.reg.ex` to derive instruments
 (defaults to `TRUE`).}
 
 \item{include.x.toInstr}{A logical variable that allows to instrument covariates
-(i.e., include covariates for which parameters are estimated but which are
-not employed in estimation; defaults to `FALSE`).}
+(i.e., covariates which are not used as instruments but for which parameters
+are estimated; defaults to `FALSE`).}
 
 \item{varname.reg.toInstr}{One or more character strings denoting the covariates
-in the data set to be instrumented (i.e., covariates which are used as
-instruments but for which no parameters are estimated; defaults to `FALSE`).}
+in the data set to be instrumented (defaults to `NULL`).}
 
 \item{fur.con}{A logical variable indicating whether further control variables
 (covariates) are included (defaults to `FALSE`).}

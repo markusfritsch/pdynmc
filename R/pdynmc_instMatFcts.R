@@ -46,7 +46,8 @@ variable.fct	<- function(			# function that creates starting and end period when
   ,dat.na
 ){
   #   if(mc.ref.t){
-  Matrix::t(Matrix::bdiag(mapply(ti = c(rep(1, times = min((Time-lagTerms-1),T.mcDiff) ), {if(length(rep(1, times = min((Time-lagTerms-1),T.mcDiff) )) < length(lagTerms:(Time-2))){2:(Time - T.mcDiff - 1)}} ), t.end = lagTerms:(Time-2), FUN = dat.fct, lagTerms = lagTerms, varname = varname,
+  Matrix::t(Matrix::bdiag(mapply(ti = c(rep(1, times = min((Time-lagTerms-1),T.mcDiff) ), {if(length(rep(1, times = min((Time-lagTerms-1),T.mcDiff) )) < length(lagTerms:(Time-2))){2:(Time - T.mcDiff - 1)}} )
+                                , t.end = lagTerms:(Time-2), FUN = dat.fct, lagTerms = lagTerms, varname = varname,
 #  Matrix::t(Matrix::bdiag(mapply(ti = c(rep(1, times = Time-lagTerms-1), {if(Time - T.mcDiff - 2 > 0){2:(Time - T.mcDiff - 1)}} ), t.end = lagTerms:(Time-2), FUN = dat.fct, lagTerms = lagTerms, varname = varname,
                                  MoreArgs = list(i = i
                                                  #			, mc.ref.t = mc.ref.t
@@ -686,6 +687,8 @@ Z_i.fct	<- function(
   ,dat.na
 ){
 
+  i <- as.numeric(i)
+
   if(use.mc.diff){
     #     if(mc.ref.t){
     if(include.y){
@@ -860,8 +863,8 @@ Z_i.fct	<- function(
         colnames(Z_i.dum_2.nl)	<- NULL
       }
       if(dum.diff){
-        Z_i.dum_1.diff			<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(max(2, max.lagTerms)+max.lagTerms):Time, ] -
-                                        rbind(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(max(2, max.lagTerms)+(max.lagTerms-1)):(Time-1), ]))
+        Z_i.dum_1.diff			<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(2+max.lagTerms):Time, ] -
+                                        rbind(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(2+(max.lagTerms-1)):(Time-1), ]))
         colnames.dum_1.diff		<- paste("D.", colnames.dum_4.lev, sep = "")
         colnames(Z_i.dum_1.diff)	<- NULL
         rownames(Z_i.dum_1.diff)	<- NULL
@@ -889,11 +892,11 @@ Z_i.fct	<- function(
     }
 
     if(dum.diff & !(dum.lev)){
-      Z_i.dum_1.diff				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(max(2, max.lagTerms)+max.lagTerms):Time, ] -
-                                       rbind(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(max(2, max.lagTerms)+(max.lagTerms-1)):(Time-1), ]))
+      Z_i.dum_1.diff				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(2+max.lagTerms):Time, ] -
+                                       rbind(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(2+(max.lagTerms-1)):(Time-1), ]))
       Z_i.dum_1.diff[ind_vec.diff.row, ]	<- 0
       Z_i.dum_1.diff[ ,ind_vec.diff.col]	<- 0
-      colnames.dum_1.diff			<- paste("D.", colnames(Z_i.dum_1.diff), sep = "")
+      colnames.dum_1.diff			    <- paste("D.", colnames(Z_i.dum_1.diff), sep = "")
       colnames(Z_i.dum_1.diff)		<- NULL
       rownames(Z_i.dum_1.diff)		<- NULL
 

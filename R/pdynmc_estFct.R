@@ -471,11 +471,8 @@ pdynmc		<- function(
 #   }
 # }
 
- if(custom.start.val == TRUE & is.null(custom.start.val)){
-   start.val		<- rep(0, times = 17)
- }
 
- if(use.mc.nonlin & opt.meth == "none"){
+   if(use.mc.nonlin & opt.meth == "none"){
    opt.met			<- "BFGS"
  }
 
@@ -712,7 +709,7 @@ pdynmc		<- function(
  dat.na			<- dat
  dat[is.na(dat.na)]	<- 0
 
-
+# i_cases		<- as.numeric(i_cases)
 
 
 
@@ -1113,7 +1110,6 @@ pdynmc		<- function(
 
 
 
-
 # varname.reg.estParam		<- do.call(what = "c", args = list(varname.reg.estParam))
 
 
@@ -1146,11 +1142,11 @@ pdynmc		<- function(
 
 
 
+ dat.na$i.label      <- dat.na[, varname.i]
+ dat.na[, varname.i] <- as.numeric(dat.na[, varname.i])
 
-
- dat					<- dat.na
+ dat					        <- dat.na
  dat[is.na(dat.na)]		<- 0
-
 
 
 
@@ -1227,11 +1223,11 @@ pdynmc		<- function(
  }
 
 
-# resGMM$param.ini			<- runif(n = nmulti*(length(varname.reg.estParam)), min = start.val.lo, max = start.val.up)
-## resGMM$param.ini			<- runif(n = nmulti*(length(varname.reg.estParam)), min = -1, max = 1)
-### resGMM$param.ini			<- matrix(data = runif(n = nmulti*(estimate.int + 1 + length(varname.reg.estParam)), min = -1, max = 1), nrow = nmulti)	#INT#
-## resGMM$param.ini			<- matrix(data = runif(n = nmulti*(length(varname.reg.estParam)), min = -1, max = 1), nrow = nmulti)
-### resGMM$param.ini			<- matrix(data = rep(0, times = length(varname.reg.estParam)) )		# [M:] Stata default
+ # resGMM$param.ini			<- runif(n = nmulti*(length(varname.reg.estParam)), min = start.val.lo, max = start.val.up)
+ ## resGMM$param.ini			<- runif(n = nmulti*(length(varname.reg.estParam)), min = -1, max = 1)
+ ### resGMM$param.ini			<- matrix(data = runif(n = nmulti*(estimate.int + 1 + length(varname.reg.estParam)), min = -1, max = 1), nrow = nmulti)	#INT#
+ ## resGMM$param.ini			<- matrix(data = runif(n = nmulti*(length(varname.reg.estParam)), min = -1, max = 1), nrow = nmulti)
+ ### resGMM$param.ini			<- matrix(data = rep(0, times = length(varname.reg.estParam)) )		# [M:] Stata default
 
 
 
@@ -1317,7 +1313,7 @@ pdynmc		<- function(
 ##          par				= param.ini[ro, ]
        par = resGMM$param.ini, fn = gmmObj.fct, method = opt.meth, control = optCtrl
        ,j = j, y_m1 = resGMM.Dat$y_m1, X_m1 = resGMM.Dat$X_m1, dy = resGMM.Dat$dy, dX = resGMM.Dat$dX
-       ,varname.reg.estParam = resGMM$varnames, n = n, Time = Time, include.y = include.y, varname.y = varname.y
+       ,varname.reg.estParam = resGMM$varnames.reg, n = n, Time = Time, include.y = include.y, varname.y = varname.y
        ,use.mc.diff = use.mc.diff, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS , use.mc.lev = use.mc.lev
        ,dum.diff = dum.diff, fur.con.diff = fur.con.diff, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg
        ,dum.lev = dum.lev, fur.con.lev = fur.con.lev
@@ -1473,7 +1469,7 @@ pdynmc		<- function(
 #          results.GMM1s		<- optimx::optimx(
           par = as.numeric(par.opt.j[c(1:length(varname.reg.estParam))]), fn = gmmObj.fct, method = opt.meth, hessian = hessian, control = optCtrl
           ,j = j, Z.temp = resGMM$Z.temp, y_m1 = resGMM.Dat$y_m1, X_m1 = resGMM.Dat$X_m1, dy = resGMM.Dat$dy, dX = resGMM.Dat$dX
-          ,varname.reg.estParam = resGMM$varnames, n = n, Time = Time, include.y = include.y, varname.y = varname.y
+          ,varname.reg.estParam = resGMM$varnames.reg, n = n, Time = Time, include.y = include.y, varname.y = varname.y
           ,use.mc.diff = use.mc.diff, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS , use.mc.lev = use.mc.lev
           ,dum.diff = dum.diff, fur.con.diff = fur.con.diff, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg
           ,dum.lev = dum.lev, fur.con.lev = fur.con.lev

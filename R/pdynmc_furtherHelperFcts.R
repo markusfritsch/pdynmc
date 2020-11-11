@@ -895,7 +895,7 @@ dat.closedFormExpand.fct		<- function(
       ,if(!(is.null(varname.reg.toInstr))){ varname.reg.toInstr }, varname.y )
   } else{ c(varname.reg.estParam, varname.y) }
 
-  data.temp		<- dat.na[dat.na[, varname.i] == i, varnames.temp]
+  data.temp		<- dat.na[dat.na[, varname.i] == as.numeric(i), varnames.temp]
 
   dat.temp		<- do.call(what = sub.clForm.fct, args = list(i = i, varname.i = varname.i, varname = varnames.temp, varname.y = varname.y
                                                           ,max.lagTerms = max.lagTerms, Time = Time, data.temp = data.temp, use.mc.diff = use.mc.diff, dum.diff = dum.diff, fur.con.diff = fur.con.diff
