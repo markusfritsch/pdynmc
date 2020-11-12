@@ -713,14 +713,14 @@ gmmObj.fct		<- function(
   S.temp.zeros			<- lapply(lapply(Sy.temp, `[[`, 1), function(x) ifelse(is.na(x), yes = 0, no = x))
 
   #  assign("Szero.j", S.temp.zeros, pos = sys.frame(which = -2))
-  assign("Szero.j", S.temp.zeros, envir = env)
+#  assign("Szero.j", S.temp.zeros, envir = env)
   #  assign("Szero.j", S.temp.zeros, pos = 1)
   #  assign("Szero.j", S.temp.zeros, envir = parent.frame())
 
   fitted.temp			<- lapply(Sy.temp, `[[`, 2)
 
   #  assign("fitted.j", fitted.temp, pos = sys.frame(which = 2))
-  assign("fitted.j", fitted.temp, envir = env)
+#  assign("fitted.j", fitted.temp, envir = env)
   #  assign("fitted.j", fitted.temp, pos = 1)
   #  assign("fitted.j", fitted.temp, envir = parent.frame())
 
