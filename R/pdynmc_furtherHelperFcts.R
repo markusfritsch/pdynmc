@@ -83,9 +83,6 @@ Wonestep.fct		<- function(
                              diag(x = 1, nrow = Time - max.lagTerms - 2, ncol = Time - max.lagTerms - 1)) -
                        cbind(rep(x = 0, times = Time - max.lagTerms - 1),
                              diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 2)) )
-      H_i.off		<- (cbind(diag(x = -1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1), 0) +
-                     cbind(rep(x = 0, times = Time - max.lagTerms - 1),
-                           diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1)) )
     }
 
     if(use.mc.lev | end.reg){												# [M:] part of weighting matrix is identical for 'mc.ref.t' and 'mc.ref.T'
@@ -110,6 +107,16 @@ Wonestep.fct		<- function(
                            cbind(Matrix::Matrix(0, nrow = nrow(H_i.mcNL), ncol = ncol(H_i.mcDiff)), H_i.mcNL, Matrix::Matrix(0, nrow = nrow(H_i.mcNL), ncol = ncol(H_i.off))),
                            cbind(t(H_i.off), Matrix::Matrix(0, nrow = nrow(H_i.mcLev), ncol = ncol(H_i.mcNL)), H_i.mcLev) )
       } else{
+#        if(!dum.diff & !fur.con.lev & (nrow(Z.temp[[1]]) - ncol(H_i.mcDiff) > Time - max.lagTerms - 1)){
+        if(nrow(Z.temp[[1]]) - ncol(H_i.mcDiff) > Time - max.lagTerms - 1){
+          H_i.off		<- (cbind(diag(x = -1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1), 0) +
+                         cbind(rep(x = 0, times = Time - max.lagTerms - 1),
+                               diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1)) )
+        } else{
+          H_i.off		<- diag(x = -1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1) +
+                       cbind(rep(x = 0, times = Time - max.lagTerms - 1),
+                             diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max(2,max.lagTerms) - 1))
+        }
         H_i.temp		<- rbind(cbind(H_i.mcDiff, H_i.off), cbind( t(H_i.off), H_i.mcLev) )
       }
     }
