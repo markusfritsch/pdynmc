@@ -230,7 +230,7 @@ strucUPD.plot	<- function(
     type = "n", xlab = t.name, ylab = i.name, main = plot.name,
     xaxs = "i", yaxs = "i", xaxt = "n", ...)
   graphics::axis(side = 1, at = seq(from = min(t.set) - 0.5, to = max(t.set) + 0.5, by = 1), labels = FALSE)
-  graphics::axis(side = 1, at = t.set, labels = unique(object[,"t.label"]), tick = FALSE)
+  graphics::axis(side = 1, at = t.set, labels = unique(object[,"t.label"])[!is.na(unique(object[,"t.label"]))], tick = FALSE)
 
   col.set	<- grDevices::colorRampPalette(col.range)(length(if(sum(periods.per.cs.obs == 0) > 0){table(periods.per.cs.obs)[-1]} else{table(periods.per.cs.obs)} ))
 
