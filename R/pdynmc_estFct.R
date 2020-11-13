@@ -487,7 +487,7 @@ pdynmc		<- function(
 
  end.reg			<- !(is.null(varname.reg.end))
  pre.reg			<- !(is.null(varname.reg.pre))
- ex.reg			<- !(is.null(varname.reg.ex))
+ ex.reg			  <- !(is.null(varname.reg.ex))
 
  instr.reg			<- !(is.null(varname.reg.instr))
  toInstr.reg		<- !(is.null(varname.reg.toInstr))
@@ -1334,7 +1334,8 @@ pdynmc		<- function(
 					,dat.na = dat.na, varname.i = varname.i, varname.reg.instr = varname.reg.instr
 					,varname.reg.toInstr = varname.reg.toInstr, varname.y = varname.y, varname.reg.estParam = varname.reg.estParam
 					,use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin
-					,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, max.lagTerms = max.lagTerms, Time = Time)
+					,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, max.lagTerms = max.lagTerms, Time = Time
+					,include.x = include.x, pre.reg = pre.reg, ex.reg = ex.reg)
 
    if(nrow(resGMM$Z.temp[[1]]) == 1){
      dat.clF.temp		<- lapply(lapply(dat.temp, `[[`, 1), function(x) Matrix::t(x))

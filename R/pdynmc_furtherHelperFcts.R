@@ -824,23 +824,35 @@ sub.clForm.fct		<- function(
   ,dum.lev
   ,fur.con.lev
   ,use.mc.nonlin
+  ,include.x
+  ,pre.reg
+  ,ex.reg
 ){
 
   if(use.mc.diff | dum.diff | fur.con.diff){
     dat.temp_1diff				<- apply(X = data.temp[-c(1:(max.lagTerms)), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
-      ( (diff(data.temp[, varname.y], differences = max.lagTerms + 1)) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms + 1)) + 1 )
+      ( (diff(data.temp[, varname.y], differences = max.lagTerms + 1)) * !is.na(diff(data.temp[, varname.y], differences = max.lagTerms + 1)) )
+#      ( (diff(data.temp[, varname.y], differences = max.lagTerms + 1)) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms + 1)) + 1 )
     colnames(dat.temp_1diff)			<- NULL
     rownames(dat.temp_1diff)			<- NULL
   }
   if(use.mc.nonlin){
     dat.temp_2nl					<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
-      ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1 )
+      ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * !is.na(diff(data.temp[, varname.y], differences = max.lagTerms + 2)) )
+#      ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1 )
     colnames(dat.temp_2nl)			<- NULL
     rownames(dat.temp_2nl)			<- NULL
   }
   if(use.mc.lev | dum.lev | fur.con.lev){
-    dat.temp_3lev					<- as.matrix(data.temp[-c(1:(max.lagTerms)), ]) *
-      ( diff(data.temp[, varname.y], differences = max.lagTerms) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms)) + 1 )
+    if(max.lagTerms == 1 & (dum.lev | fur.con.lev | (include.x & (pre.reg | ex.reg)))){
+      dat.temp_3lev					<- as.matrix(data.temp[-c(1:(max.lagTerms)), ]) *
+        ( diff(data.temp[, varname.y], differences = max.lagTerms) * !is.na(diff(data.temp[, varname.y], differences = max.lagTerms)) )
+#        ( diff(data.temp[, varname.y], differences = max.lagTerms) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms)) + 1 )
+    } else{
+      dat.temp_3lev					<- as.matrix(data.temp[-c(1:max(2,max.lagTerms)), ]) *
+        ( diff(data.temp[, varname.y], differences = max(2,max.lagTerms)) * !is.na(diff(data.temp[, varname.y], differences = max(2,max.lagTerms))) )
+#        ( diff(data.temp[, varname.y], differences = max.lagTerms) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms)) + 1 )
+    }
     colnames(dat.temp_3lev)			<- NULL
     rownames(dat.temp_3lev)			<- NULL
   }
@@ -895,6 +907,9 @@ dat.closedFormExpand.fct		<- function(
   ,fur.con.lev
   ,max.lagTerms
   ,Time
+  ,include.x
+  ,pre.reg
+  ,ex.reg
 ){
 
   varnames.temp	<- if( !(is.null(varname.reg.instr)) | !(is.null(varname.reg.toInstr)) ){
@@ -906,7 +921,8 @@ dat.closedFormExpand.fct		<- function(
 
   dat.temp		<- do.call(what = sub.clForm.fct, args = list(i = i, varname.i = varname.i, varname = varnames.temp, varname.y = varname.y
                                                           ,max.lagTerms = max.lagTerms, Time = Time, data.temp = data.temp, use.mc.diff = use.mc.diff, dum.diff = dum.diff, fur.con.diff = fur.con.diff
-                                                          ,use.mc.lev = use.mc.lev, dum.lev = dum.lev, fur.con.lev = fur.con.lev, use.mc.nonlin = use.mc.nonlin))
+                                                          ,use.mc.lev = use.mc.lev, dum.lev = dum.lev, fur.con.lev = fur.con.lev, use.mc.nonlin = use.mc.nonlin
+                                                          ,include.x = include.x, pre.reg = pre.reg, ex.reg = ex.reg))
 
   return(dat.temp)
 }
