@@ -239,8 +239,8 @@ strucUPD.plot	<- function(
 
     if(t.i > 0){
 
-      t.i.start <- min(object_b[object_b[ ,i.name] == i, t.name])
-      t.i.end   <- max(object_b[object_b[ ,i.name] == i, t.name])
+      t.i.start <- which(min(object_b[object_b[ ,i.name] == i, t.name]) == t_cases)
+      t.i.end   <- which(max(object_b[object_b[ ,i.name] == i, t.name]) == t_cases)
 
       graphics::rect(
         xleft		= t.i.start - 0.5,
@@ -248,7 +248,7 @@ strucUPD.plot	<- function(
         xright	= t.i.end + 0.5,
         ytop		= i + 0.5,
         col		= col.set[which(names(table(periods.per.cs.obs)) == t.i)],
-        border	= col.set[which(names(table(periods.per.cs.obs)) == length(t.i))]
+        border	= col.set[which(names(table(periods.per.cs.obs)) == t.i)]
       )
     }
   }
