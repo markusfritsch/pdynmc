@@ -792,7 +792,11 @@ Z_i.fct	<- function(
       Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end), Z_i.mc.lev_ex.pre)
     } else{
       if((include.y | end.reg) & ((include.dum & dum.lev) | (fur.con & fur.con.lev))){
-        Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end))
+        if(max.lagTerms == 1){
+          Z_i.mc.lev	<- rbind(0, Z_i.mc.lev_end)
+        } else{
+          Z_i.mc.lev	<- Z_i.mc.lev_end
+        }
       } else{
         Z_i.mc.lev	<- Z_i.mc.lev_end
       }
