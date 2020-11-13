@@ -951,8 +951,10 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' @param x An object of class `pdynmc`. The function requires
 #'    twostep or iterative GMM estimates.
 #' @param type Wether to plot fitted values against residuals (argument
-#'    'fire'; default) or coefficient ranges (argument 'coef.range';
-#'    this requires twostep or iterative GMM estimates.
+#'    'fire'; default), coefficient ranges (argument 'coef.range';
+#'    this requires twostep or iterative GMM estimates), path of
+#'    coefficient estimates across GMM iterations (argument 'iter.path';
+#'    this requires twostep or iterative GMM estimates).
 #' @param include.dum Include estimates of parameters corresponding to time
 #'    dummies (defaults to 'FALSE'; requires 'type = coef.range').
 #' @param include.fur.con Include estimates of parameters corresponding to
@@ -967,6 +969,23 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'    (defaults to 'FALSE'); requires iterative GMM with at least 10
 #'    iterations and argument 'type = coef.range'. Proceed with caution
 #'    as this argument is experimental.
+#' @param co Character string denoting the variable name(s) for which to
+#'    plot the path of coefficient estimate(s) across GMM iterations
+#'    (defaults to 'NULL') as given in \insertCite{HanLee2019inference};
+#'    if no coefficient name is given, plots are generated for all
+#'    coefficients; requires at least two iterations and argument
+#'    'type = iter.path'.
+#' @param add.se.approx A logical variable indicating if standard errors
+#'    should be added to the plot of the path of coefficient estimate(s)
+#'    across GMM iterations (defaults to 'NULL'); requires at least
+#'    two iterations and argument 'type = iter.path'. Proceed with
+#'    caution as this argument is experimental and errors are assumed
+#'    to be standard normal.
+#' @param conf.lev A numeric variable indicating the confidence
+#'    level for approximating standard errors in the plot of the path
+#'    of coefficient estimate(s) across GMM iterations (defaults to
+#'    0.95); requires argument 'type = iter.path' and argument
+#'    'add.se.approx = TRUE'.
 #' @param ... further arguments.
 #'
 #' @return Plot fitted values against residuals ('type = fire') or
@@ -982,10 +1001,15 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' @importFrom graphics legend
 #' @importFrom graphics lines
 #' @importFrom graphics plot
+#' @importFrom graphics points
+#' @importFrom grDevices::colorRampPalette
 #'
 #' @seealso
 #'
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @references
+#' \insertAllCited{}
 #'
 #' @examples
 #' ## Load data from plm package
@@ -1045,6 +1069,9 @@ plot.pdynmc		<- function(
   col.coefInitial = "darkgrey",
   col.coefEst = "royalblue",
   boxplot.coef = FALSE,
+  co = NULL,
+  add.se.approx = NULL,
+  conf.lev = 0.95,
   ...
 ){
 
@@ -1060,7 +1087,7 @@ plot.pdynmc		<- function(
     y.range	<- c(-1, 1)*max(abs(resids))
     graphics::plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted Values", ylab = "Residuals",
          main	= paste("Fitted Residual Plot of", substitute(x)), col = "grey60", ...)
-    abline(h = 0)
+    graphics::abline(h = 0)
   }
 
 
@@ -1139,6 +1166,135 @@ plot.pdynmc		<- function(
     abline(h = 0)
     graphics::legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(NA,NA,1), pch = c(18,1,NA), lty = c(NA,NA,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
   }
+
+
+  if(type == "iter.path"){
+
+    if(!inherits(x, what = "pdynmc")){
+      stop("Use only with \"pdynmc\" objects.")
+    }
+    if(is.null(co)){ co <- x$data$varnames.reg }
+    if(is.null(add.se.approx)){
+      plot.se  <- FALSE
+      conf.lev <- NULL
+    } else{
+      plot.se <- TRUE
+      quant   <- qnorm(p = (1 - conf.lev)/2, mean = 0, sd = 1)
+      se.est  <- x$stderr
+      se.mat  <- Reduce(rbind, se.est)[, x$data$varnames.reg %in% co]
+
+    }
+
+    col.pal <- c(col.coefInitial, col.coefEst)
+
+    coef.est <- if(sum(!is.na(x$par.optim[[x$iter]])) > 0){x$par.optim} else{x$par.clForm}
+
+    varnames.temp <- x$data$varnames.reg[x$data$varnames.reg %in% co]
+
+    coef.mat <- Reduce(rbind, coef.est)[, x$data$varnames.reg %in% co]
+
+
+    if(plot.se){
+      coef.range <- range(coef.mat + quant*se.est, coef.mat - quant*se.est)
+    } else{
+      coef.range <- range(coef.mat)
+    }
+
+    if(length(varnames.temp) > 1){
+      col.set	<- grDevices::colorRampPalette(col.pal)(length(varnames.temp))
+    } else{
+      col.set	<- col.coefEst
+      coef.mat <- as.matrix(coef.mat, ncol = 1)
+    }
+
+
+    plot(x = rep(1:nrow(coef.mat), times = ncol(coef.mat)), y	= coef.mat,
+      xlab = "Iteration", ylab	= "Estimate",
+      ylim = coef.range, type	= "n",
+      main = paste("Coefficient estimates over ", x$iter, " iterations", sep = "")
+    )
+#    abline(h = 0, col = "black")
+
+
+    for(i in 1:ncol(coef.mat)){
+
+    ###	Param of column under consideration in blue
+      graphics::lines(
+        x	= 1:nrow(coef.mat), y = coef.mat[, i],
+        type = "l", col = col.set[i]
+      )
+      graphics::points(
+        x = 1:nrow(coef.mat), y = coef.mat[, i],
+        type = "b", pch = 19, col = col.set[i]
+      )
+
+      if(plot.se){
+      ###	Pointwise confidence interval of param under consideration
+        graphics::lines(
+          x	= rep(nrow(coef.mat), 2),
+          y	= c(coef.mat[nrow(coef.mat), i] - quant*se[nrow(coef.mat), i], coefs[nrow(coef.mat), i] + quant*se[nrow(coef.mat), i]),
+          type = "l", lty = 3, col = col.set[i]
+        )
+      }
+
+
+    }
+
+
+  }
+
+
+
+
+
+
+
+#    ###	Objective function value rescaling to y.range
+#
+#    obj.values	<- objective[, "value"]
+#
+#    ordinate.min	<- min(y.range)
+#    ordinate.max	<- max(y.range)
+#
+#
+#
+#    obj.min	<- min(obj.values)
+#    obj.max	<- max(obj.values)
+#    a	<- (ordinate.min*obj.max - ordinate.max*obj.min) / (obj.max - obj.min)
+#    b	<- (ordinate.max - ordinate.min) / (obj.max - obj.min)
+#    obj.rescaled	<- a + b*obj.values
+#
+#
+#    col2.temp	<- "grey60"
+#
+#    lines(
+#      x	= 1:nrow(coefs),
+#      y	= obj.rescaled,
+#      type = "b", pch = 19, col = col2.temp
+#    )
+#
+#
+#    par.default	<- par()
+#
+#    par(col.lab = col2.temp, col.axis = col2.temp)
+#    axis(
+#      side 	= 4,
+#      at 		= c(ordinate.min, ordinate.max),
+#      labels	= round(c(obj.min, obj.max), digits = 1),
+#      col		= col2.temp,
+#      col.ticks	= col2.temp
+#    )
+#    mtext("Objective function value", side = 4, col = col2.temp)
+#
+#
+#    par()		<- par.default
+#
+#
+#
+#
+#
+
+
 
 }
 
