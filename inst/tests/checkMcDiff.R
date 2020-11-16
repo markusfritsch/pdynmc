@@ -2,9 +2,21 @@
 rm(list = ls())
 
 
+#	install.packages("pdynmc")
+library(pdynmc)
+#	install.packages("plm")
+library(plm)
+
+
 data(EmplUK, package = "plm")
 dat <- EmplUK
 dat[,c(4:7)] <- log(dat[,c(4:7)])
+
+
+data.info(dat, i.name = "firm", t.name = "year")
+
+strucUPD.plot(dat, i.name = "firm", t.name = "year")
+
 
 
 m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",

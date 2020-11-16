@@ -1467,7 +1467,8 @@ pdynmc		<- function(
 
          par.opt.j		<- optimx::optimx(
 #          results.GMM1s		<- optimx::optimx(
-          par = as.numeric(par.opt.j[c(1:length(varname.reg.estParam))]), fn = gmmObj.fct, method = opt.meth, hessian = hessian, control = optCtrl
+           par = resGMM.par.opt.j[[j-1]], fn = gmmObj.fct, method = opt.meth, hessian = hessian, control = optCtrl
+#          par = as.numeric(par.opt.j[1:length(varname.reg.estParam)]), fn = gmmObj.fct, method = opt.meth, hessian = hessian, control = optCtrl
           ,j = j, Z.temp = resGMM$Z.temp, y_m1 = resGMM.Dat$y_m1, X_m1 = resGMM.Dat$X_m1, dy = resGMM.Dat$dy, dX = resGMM.Dat$dX
           ,varname.reg.estParam = resGMM$varnames.reg, n = n, Time = Time, include.y = include.y, varname.y = varname.y
           ,use.mc.diff = use.mc.diff, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS , use.mc.lev = use.mc.lev
