@@ -1186,7 +1186,6 @@ plot.pdynmc		<- function(
     col.pal  <- c(col.coefEst, col.coefInitial)
 
     coef.est <- if(sum(!is.na(x$par.optim[[x$iter]])) > 0){ x$par.optim } else{ x$par.clForm }
-    #        varnames.temp <- x$data$varnames.reg[x$data$varnames.reg %in% co]
     coef.mat <- Reduce(rbind, coef.est)[, x$data$varnames.reg %in% co]
 
     quant <- abs(qnorm(p = (1 - conf.lev)/2, mean = 0, sd = 1))
@@ -1265,8 +1264,11 @@ plot.pdynmc		<- function(
     legend(x = "bottom", legend = co, col = col.set[1:(length(col.set) - 1)], pch = 19, lty = 1, bty = "n", horiz = TRUE)
 
   }
-
 }
+
+
+
+
 
 
 
