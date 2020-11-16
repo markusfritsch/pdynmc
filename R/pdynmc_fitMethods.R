@@ -956,11 +956,11 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'    coefficient estimates across GMM iterations (argument 'coef.path';
 #'    this requires twostep or iterative GMM estimates).
 #' @param include.dum Include estimates of parameters corresponding to time
-#'    dummies (defaults to 'FALSE'; requires 'type = coef.range').
+#'    dummies (defaults to 'black'; requires 'type = coef.range').
 #' @param include.fur.con Include estimates of parameters corresponding to
 #'    further controls (defaults to 'FALSE'; requires 'type = coef.range').
 #' @param col.coefRange Specify color for plotting range of coefficient
-#'    estimates (defaults to 'black'; requires 'type = coef.range').
+#'    estimates (defaults to 'NULL'; requires 'type = coef.range').
 #' @param col.coefInitial Specify color for plotting initial coefficient
 #'    estimates (defaults to 'darkgrey'; requires 'type = coef.range').
 #' @param col.coefEst Specify color for plotting coefficient estimate
@@ -971,16 +971,15 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'    as this argument is experimental.
 #' @param co Character string denoting the variable name(s) for which to
 #'    plot the path of coefficient estimate(s) across GMM iterations
-#'    (defaults to 'NULL') as given in \insertCite{HanLee2019inference};
-#'    if no coefficient name is given, plots are generated for all
-#'    coefficients; requires at least two iterations and argument
-#'    'type = coef.path'.
+#'    (defaults to 'NULL') as proposed in \insertCite{HanLee2019inference};
+#'    if no coefficient name is given, all coefficient paths are plotted;
+#'    requires at least two iterations and argument 'type = coef.path'.
 #' @param add.se.approx A logical variable indicating if standard errors
 #'    should be added to the plot of the path of coefficient estimate(s)
 #'    across GMM iterations (defaults to 'NULL'); requires at least
-#'    two iterations and argument 'type = coef.path'. Proceed with
-#'    caution as this argument is experimental and errors are assumed
-#'    to be standard normal.
+#'    two iterations and argument 'type = coef.path'. This option is
+#'    only available when plotting a single coefficient path (i.e.,
+#'    when 'length(co) == 1').
 #' @param conf.lev A numeric variable indicating the confidence
 #'    level for approximating standard errors in the plot of the path
 #'    of coefficient estimate(s) across GMM iterations (defaults to
@@ -1061,18 +1060,18 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'
 #'
 plot.pdynmc		<- function(
-  x,
-  type = "fire",
-  include.dum = FALSE,
-  include.fur.con = FALSE,
-  col.coefRange = 1,
-  col.coefInitial = "darkgrey",
-  col.coefEst = "royalblue",
-  boxplot.coef = FALSE,
-  co = NULL,
-  add.se.approx = NULL,
-  conf.lev = 0.95,
-  ...
+  x
+  ,type = "fire"
+  ,include.dum = FALSE
+  ,include.fur.con = FALSE
+  ,col.coefRange = 1
+  ,col.coefInitial = "darkgrey"
+  ,col.coefEst = "royalblue"
+  ,boxplot.coef = FALSE
+  ,co = NULL
+  ,add.se.approx = NULL
+  ,conf.lev = 0.95
+  ,...
 ){
 
   if(type == "fire"){
@@ -1168,133 +1167,104 @@ plot.pdynmc		<- function(
   }
 
 
-  if(type == "coef.path"){
-
-    if(!inherits(x, what = "pdynmc")){
+  if (type == "coef.path") {
+    if (!inherits(x, what = "pdynmc")) {
       stop("Use only with \"pdynmc\" objects.")
     }
-    if(is.null(co)){ co <- x$data$varnames.reg }
-    if(is.null(add.se.approx)){
-      plot.se  <- FALSE
-      conf.lev <- NULL
-    } else{
-      plot.se <- TRUE
-      quant   <- qnorm(p = (1 - conf.lev)/2, mean = 0, sd = 1)
-      se.est  <- x$stderr
-      se.mat  <- Reduce(rbind, se.est)[, x$data$varnames.reg %in% co]
-
+    if(is.null(co)) {
+      co <- x$data$varnames.reg
     }
+    if(length(co) == 1 & sum(add.se.approx, is.null(add.se.approx))){
+      add.se.approx <- TRUE
+      plot.se       <- TRUE
+    } else{
+      plot.se   <- FALSE
+      if(length(co) > 1 & sum(add.se.approx)){
+        warning("Argument 'add.se.approx' is only available when plotting one coefficient path and was set to 'FALSE'")
+      }
+    }
+    col.pal  <- c(col.coefEst, col.coefInitial)
 
-    col.pal <- c(col.coefInitial, col.coefEst)
-
-    coef.est <- if(sum(!is.na(x$par.optim[[x$iter]])) > 0){x$par.optim} else{x$par.clForm}
-
-    varnames.temp <- x$data$varnames.reg[x$data$varnames.reg %in% co]
-
+    coef.est <- if(sum(!is.na(x$par.optim[[x$iter]])) > 0){ x$par.optim } else{ x$par.clForm }
+    #        varnames.temp <- x$data$varnames.reg[x$data$varnames.reg %in% co]
     coef.mat <- Reduce(rbind, coef.est)[, x$data$varnames.reg %in% co]
 
+    quant <- abs(qnorm(p = (1 - conf.lev)/2, mean = 0, sd = 1))
+    se.est <- x$stderr
+    se.mat <- Reduce(rbind, se.est)[, x$data$varnames.reg %in% co]
 
-    if(plot.se){
-      coef.range <- range(coef.mat + quant*se.est, coef.mat - quant*se.est)
-    } else{
-      coef.range <- range(coef.mat)
-    }
-
-    if(length(varnames.temp) > 1){
-      col.set	<- grDevices::colorRampPalette(col.pal)(length(varnames.temp))
-    } else{
-      col.set	<- col.coefEst
+    if(length(co) > 1) {
+      col.set <- (grDevices::colorRampPalette(col.pal))(length(co) + 1)
+    } else {
+      col.set  <- col.pal
       coef.mat <- as.matrix(coef.mat, ncol = 1)
+      se.mat   <- as.matrix(se.mat, ncol = 1)
+    }
+    coef.range <- range(coef.mat, coef.mat[nrow(coef.mat), ] + quant * se.mat[nrow(se.mat), ], coef.mat[nrow(coef.mat), ] - quant * se.mat[nrow(se.mat), ])
+
+    ord.min	<- min(coef.range)
+    ord.max	<- max(coef.range)
+
+    ###		Objective function value (and rescaling to ordinate range)
+    if(sum(!is.na(x$par.optim[[x$iter]])) > 0){
+      objective	<- matrix(
+        data	= unlist(x[["ctrl.optim"]]),
+        nrow	= length(x[["ctrl.optim"]]),
+        byrow	= TRUE,
+        dimnames = list(NULL, names(x[["ctrl.optim"]][["step1"]]))
+      )
+      obj.values	<- objective[, "value"]
+      obj.min	<- min(obj.values)
+      obj.max	<- max(obj.values)
+
+      a  <- (ord.min*obj.max - ord.max*obj.min) / (obj.max - obj.min)
+      b  <- (ord.max - ord.min) / (obj.max - obj.min)
+      ord.limits	<- a + b*obj.values
+
+    } else{
+      obj.values <- NULL
+      ord.limits <- c(ord.min, ord.max)
     }
 
+    plot(x = rep(1:nrow(coef.mat), times = ncol(coef.mat))
+         ,y = coef.mat, xlab = "Iteration", ylab = "Estimate"
+         ,xlim = c(1, nrow(coef.mat)), ylim = coef.range, type = "n"
+         ,main = paste("Coefficient estimates over ", x$iter, " iterations", sep = ""))
 
-    plot(x = rep(1:nrow(coef.mat), times = ncol(coef.mat)), y	= coef.mat,
-      xlab = "Iteration", ylab	= "Estimate",
-      ylim = coef.range, type	= "n",
-      main = paste("Coefficient estimates over ", x$iter, " iterations", sep = "")
-    )
-#    abline(h = 0, col = "black")
-
+    if(sum(!is.na(x$par.optim[[x$iter]])) > 0){
+      graphics::lines(x = 1:nrow(coef.mat), y = obj.values,
+        type = "b", pch = 20, col = col.coefInitial
+      )
+      axis(side = 4, at = c(ord.min, ord.max),
+        labels = round(c(obj.min, obj.max), digits = 1),
+        col	= col.set[length(col.set)],
+        col.ticks	= col.set[length(col.set)],
+        col.lab = col.set[length(col.set)],
+        col.axis = col.set[length(col.set)]
+      )
+      graphics::mtext("Objective function value", side = 4, col = col.coefInitial)
+    }
 
     for(i in 1:ncol(coef.mat)){
-
-    ###	Param of column under consideration in blue
-      graphics::lines(
-        x	= 1:nrow(coef.mat), y = coef.mat[, i],
-        type = "l", col = col.set[i]
-      )
-      graphics::points(
-        x = 1:nrow(coef.mat), y = coef.mat[, i],
-        type = "b", pch = 19, col = col.set[i]
-      )
-
-      if(plot.se){
-      ###	Pointwise confidence interval of param under consideration
-        graphics::lines(
-          x	= rep(nrow(coef.mat), 2),
-          y	= c(coef.mat[nrow(coef.mat), i] - quant*se[nrow(coef.mat), i], coefs[nrow(coef.mat), i] + quant*se[nrow(coef.mat), i]),
-          type = "l", lty = 3, col = col.set[i]
-        )
-      }
-
-
+      graphics::lines(x = 1:nrow(coef.mat), y = coef.mat[, i], type = "l", col = col.set[i])
+      graphics::points(x = 1:nrow(coef.mat), y = coef.mat[, i], type = "b", pch = 19, col = col.set[i])
+    }
+    if(plot.se){
+      graphics::lines(x = rep(nrow(coef.mat), times = 2),
+                      y = c(coef.mat[nrow(coef.mat)] - quant * se.mat[nrow(coef.mat)],
+                            coef.mat[nrow(coef.mat)] + quant * se.mat[nrow(coef.mat)]),
+                      type = "l", lty = 3, col = col.set[i])
+      graphics::lines(x = c(nrow(coef.mat) - 0.25, nrow(coef.mat) + 0.25),
+                      y = rep(coef.mat[nrow(coef.mat)] - quant * se.mat[nrow(coef.mat)], times = 2),
+                      type = "l", lty = 1, col = col.set[i], lwd = 2)
+      graphics::lines(x = c(nrow(coef.mat) - 0.25, nrow(coef.mat) + 0.25),
+                      y = rep(coef.mat[nrow(coef.mat)] + quant * se.mat[nrow(coef.mat)], times = 2),
+                      type = "l", lty = 1, col = col.set[i], lwd = 2)
     }
 
+    legend(x = "bottom", legend = co, col = col.set[1:(length(col.set) - 1)], pch = 19, lty = 1, bty = "n", horiz = TRUE)
 
   }
-
-
-
-
-
-
-
-#    ###	Objective function value rescaling to y.range
-#
-#    obj.values	<- objective[, "value"]
-#
-#    ordinate.min	<- min(y.range)
-#    ordinate.max	<- max(y.range)
-#
-#
-#
-#    obj.min	<- min(obj.values)
-#    obj.max	<- max(obj.values)
-#    a	<- (ordinate.min*obj.max - ordinate.max*obj.min) / (obj.max - obj.min)
-#    b	<- (ordinate.max - ordinate.min) / (obj.max - obj.min)
-#    obj.rescaled	<- a + b*obj.values
-#
-#
-#    col2.temp	<- "grey60"
-#
-#    lines(
-#      x	= 1:nrow(coefs),
-#      y	= obj.rescaled,
-#      type = "b", pch = 19, col = col2.temp
-#    )
-#
-#
-#    par.default	<- par()
-#
-#    par(col.lab = col2.temp, col.axis = col2.temp)
-#    axis(
-#      side 	= 4,
-#      at 		= c(ordinate.min, ordinate.max),
-#      labels	= round(c(obj.min, obj.max), digits = 1),
-#      col		= col2.temp,
-#      col.ticks	= col2.temp
-#    )
-#    mtext("Objective function value", side = 4, col = col2.temp)
-#
-#
-#    par()		<- par.default
-#
-#
-#
-#
-#
-
-
 
 }
 
