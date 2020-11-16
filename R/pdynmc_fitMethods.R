@@ -956,11 +956,11 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'    coefficient estimates across GMM iterations (argument 'coef.path';
 #'    this requires twostep or iterative GMM estimates).
 #' @param include.dum Include estimates of parameters corresponding to time
-#'    dummies (defaults to 'FALSE'; requires 'type = coef.range').
+#'    dummies (defaults to 'black'; requires 'type = coef.range').
 #' @param include.fur.con Include estimates of parameters corresponding to
 #'    further controls (defaults to 'FALSE'; requires 'type = coef.range').
 #' @param col.coefRange Specify color for plotting range of coefficient
-#'    estimates (defaults to 'black'; requires 'type = coef.range').
+#'    estimates (defaults to 'NULL'; requires 'type = coef.range').
 #' @param col.coefInitial Specify color for plotting initial coefficient
 #'    estimates (defaults to 'darkgrey'; requires 'type = coef.range').
 #' @param col.coefEst Specify color for plotting coefficient estimate
@@ -1061,18 +1061,18 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'
 #'
 plot.pdynmc		<- function(
-  x,
-  type = "fire",
-  include.dum = FALSE,
-  include.fur.con = FALSE,
-  col.coefRange = 1,
-  col.coefInitial = "darkgrey",
-  col.coefEst = "royalblue",
-  boxplot.coef = FALSE,
-  co = NULL,
-  add.se.approx = NULL,
-  conf.lev = 0.95,
-  ...
+  x
+  ,type = "fire"
+  ,include.dum = FALSE
+  ,include.fur.con = FALSE
+  ,col.coefRange = 1
+  ,col.coefInitial = "darkgrey"
+  ,col.coefEst = "royalblue"
+  ,boxplot.coef = FALSE
+  ,co = NULL
+  ,add.se.approx = NULL
+  ,conf.lev = 0.95
+  ,...
 ){
 
   if(type == "fire"){
@@ -1166,6 +1166,113 @@ plot.pdynmc		<- function(
     abline(h = 0)
     graphics::legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(NA,NA,1), pch = c(18,1,NA), lty = c(NA,NA,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
   }
+
+
+  if (type == "coef.path") {
+    if (!inherits(x, what = "pdynmc")) {
+      stop("Use only with \"pdynmc\" objects.")
+    }
+    if(is.null(co)) {
+      co <- x$data$varnames.reg
+    }
+    if(length(co) == 1 & sum(add.se.approx, is.null(add.se.approx))){
+      add.se.approx <- TRUE
+      plot.se       <- TRUE
+    } else{
+      plot.se   <- FALSE
+      if(length(co) > 1 & sum(add.se.approx)){
+        warning("Argument 'add.se.approx' is only available when plotting one coefficient path and was set to 'FALSE'")
+      }
+    }
+    col.pal  <- c(col.coefEst, col.coefInitial)
+
+    coef.est <- if(sum(!is.na(x$par.optim[[x$iter]])) > 0){ x$par.optim } else{ x$par.clForm }
+    #        varnames.temp <- x$data$varnames.reg[x$data$varnames.reg %in% co]
+    coef.mat <- Reduce(rbind, coef.est)[, x$data$varnames.reg %in% co]
+
+    quant <- abs(qnorm(p = (1 - conf.lev)/2, mean = 0, sd = 1))
+    se.est <- x$stderr
+    se.mat <- Reduce(rbind, se.est)[, x$data$varnames.reg %in% co]
+
+    if(length(co) > 1) {
+      col.set <- (grDevices::colorRampPalette(col.pal))(length(co) + 1)
+    } else {
+      col.set  <- col.pal
+      coef.mat <- as.matrix(coef.mat, ncol = 1)
+      se.mat   <- as.matrix(se.mat, ncol = 1)
+    }
+    coef.range <- range(coef.mat, coef.mat[nrow(coef.mat), ] + quant * se.mat[nrow(se.mat), ], coef.mat[nrow(coef.mat), ] - quant * se.mat[nrow(se.mat), ])
+
+    ord.min	<- min(coef.range)
+    ord.max	<- max(coef.range)
+
+    ###		Objective function value (and rescaling to ordinate range)
+    if(sum(!is.na(x$par.optim[[x$iter]])) > 0){
+      objective	<- matrix(
+        data	= unlist(x[["ctrl.optim"]]),
+        nrow	= length(x[["ctrl.optim"]]),
+        byrow	= TRUE,
+        dimnames = list(NULL, names(x[["ctrl.optim"]][["step1"]]))
+      )
+      obj.values	<- objective[, "value"]
+      obj.min	<- min(obj.values)
+      obj.max	<- max(obj.values)
+
+      a  <- (ord.min*obj.max - ord.max*obj.min) / (obj.max - obj.min)
+      b  <- (ord.max - ord.min) / (obj.max - obj.min)
+      ord.limits	<- a + b*obj.values
+
+    } else{
+      obj.values <- NULL
+      ord.limits <- c(ord.min, ord.max)
+    }
+
+    plot(x = rep(1:nrow(coef.mat), times = ncol(coef.mat))
+         ,y = coef.mat, xlab = "Iteration", ylab = "Estimate"
+         ,xlim = c(1, nrow(coef.mat)), ylim = coef.range, type = "n"
+         ,main = paste("Coefficient estimates over ", x$iter, " iterations", sep = ""))
+
+    if(sum(!is.na(x$par.optim[[x$iter]])) > 0){
+      graphics::lines(x = 1:nrow(coef.mat), y = obj.values,
+        type = "b", pch = 20, col = col.coefInitial
+      )
+      axis(side = 4, at = c(ord.min, ord.max),
+        labels = round(c(obj.min, obj.max), digits = 1),
+        col	= col.set[length(col.set)],
+        col.ticks	= col.set[length(col.set)],
+        col.lab = col.set[length(col.set)],
+        col.axis = col.set[length(col.set)]
+      )
+      graphics::mtext("Objective function value", side = 4, col = col.coefInitial)
+    }
+
+    for(i in 1:ncol(coef.mat)){
+      graphics::lines(x = 1:nrow(coef.mat), y = coef.mat[, i], type = "l", col = col.set[i])
+      graphics::points(x = 1:nrow(coef.mat), y = coef.mat[, i], type = "b", pch = 19, col = col.set[i])
+    }
+    if(plot.se){
+      graphics::lines(x = rep(nrow(coef.mat), times = 2),
+                      y = c(coef.mat[nrow(coef.mat)] - quant * se.mat[nrow(coef.mat)],
+                            coef.mat[nrow(coef.mat)] + quant * se.mat[nrow(coef.mat)]),
+                      type = "l", lty = 3, col = col.set[i])
+      graphics::lines(x = c(nrow(coef.mat) - 0.25, nrow(coef.mat) + 0.25),
+                      y = rep(coef.mat[nrow(coef.mat)] - quant * se.mat[nrow(coef.mat)], times = 2),
+                      type = "l", lty = 1, col = col.set[i], lwd = 2)
+      graphics::lines(x = c(nrow(coef.mat) - 0.25, nrow(coef.mat) + 0.25),
+                      y = rep(coef.mat[nrow(coef.mat)] + quant * se.mat[nrow(coef.mat)], times = 2),
+                      type = "l", lty = 1, col = col.set[i], lwd = 2)
+    }
+
+    legend(x = "bottom", legend = co, col = col.set[1:(length(col.set) - 1)], pch = 19, lty = 1, bty = "n", horiz = TRUE)
+
+  }
+}
+
+
+
+plot(m3, type = "coef.path", add.se.approx = TRUE, co = "L1.emp")
+
+
 
 
   if(type == "coef.path"){
