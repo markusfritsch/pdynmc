@@ -953,7 +953,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' @param type Wether to plot fitted values against residuals (argument
 #'    'fire'; default), coefficient ranges (argument 'coef.range';
 #'    this requires twostep or iterative GMM estimates), path of
-#'    coefficient estimates across GMM iterations (argument 'iter.path';
+#'    coefficient estimates across GMM iterations (argument 'coef.path';
 #'    this requires twostep or iterative GMM estimates).
 #' @param include.dum Include estimates of parameters corresponding to time
 #'    dummies (defaults to 'FALSE'; requires 'type = coef.range').
@@ -974,18 +974,18 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'    (defaults to 'NULL') as given in \insertCite{HanLee2019inference};
 #'    if no coefficient name is given, plots are generated for all
 #'    coefficients; requires at least two iterations and argument
-#'    'type = iter.path'.
+#'    'type = coef.path'.
 #' @param add.se.approx A logical variable indicating if standard errors
 #'    should be added to the plot of the path of coefficient estimate(s)
 #'    across GMM iterations (defaults to 'NULL'); requires at least
-#'    two iterations and argument 'type = iter.path'. Proceed with
+#'    two iterations and argument 'type = coef.path'. Proceed with
 #'    caution as this argument is experimental and errors are assumed
 #'    to be standard normal.
 #' @param conf.lev A numeric variable indicating the confidence
 #'    level for approximating standard errors in the plot of the path
 #'    of coefficient estimate(s) across GMM iterations (defaults to
-#'    0.95); requires argument 'type = iter.path' and argument
-#'    'add.se.approx = TRUE'.
+#'    0.95; sensible values lie in the interval ]0,1[); requires
+#'    argument 'type = coef.path' and argument 'add.se.approx = TRUE'.
 #' @param ... further arguments.
 #'
 #' @return Plot fitted values against residuals ('type = fire') or
@@ -1002,7 +1002,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' @importFrom graphics lines
 #' @importFrom graphics plot
 #' @importFrom graphics points
-#' @importFrom grDevices::colorRampPalette
+#' @importFrom grDevices colorRampPalette
 #'
 #' @seealso
 #'
@@ -1168,7 +1168,7 @@ plot.pdynmc		<- function(
   }
 
 
-  if(type == "iter.path"){
+  if(type == "coef.path"){
 
     if(!inherits(x, what = "pdynmc")){
       stop("Use only with \"pdynmc\" objects.")

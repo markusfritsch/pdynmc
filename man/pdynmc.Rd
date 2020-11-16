@@ -29,9 +29,9 @@ pdynmc(
   varname.reg.ex = NULL,
   lagTerms.reg.ex = NULL,
   maxLags.reg.ex = NULL,
+  inst.reg.ex.expand = TRUE,
   include.x.instr = FALSE,
   varname.reg.instr = NULL,
-  inst.reg.ex.expand = TRUE,
   include.x.toInstr = FALSE,
   varname.reg.toInstr = NULL,
   fur.con = FALSE,
@@ -146,16 +146,16 @@ lags of the (strictly) exogenous covariate(s) used for deriving instruments.
 One integer per covariate needs to be given in the same order as the
 covariate names (defaults to `NULL`).}
 
+\item{inst.reg.ex.expand}{A logical variable that allows for using all past,
+present, and future observations of `varname.reg.ex` to derive instruments
+(defaults to `TRUE`).}
+
 \item{include.x.instr}{A logical variable that allows to include additionl
 IV-type instruments (i.e., include covariates which are used as instruments
 but for which no parameters are estimated; defaults to `FALSE`).}
 
 \item{varname.reg.instr}{One or more character strings denoting the covariate(s)
 in the data set treated as instruments in estimation (defaults to `NULL`).}
-
-\item{inst.reg.ex.expand}{A logical variable that allows for using all past,
-present, and future observations of `varname.reg.ex` to derive instruments
-(defaults to `TRUE`).}
 
 \item{include.x.toInstr}{A logical variable that allows to instrument covariates
 (i.e., covariates which are not used as instruments but for which parameters

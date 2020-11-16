@@ -406,12 +406,12 @@ pdynmc		<- function(
  ,varname.reg.ex			= NULL
  ,lagTerms.reg.ex			= NULL
  ,maxLags.reg.ex			= NULL
+ ,inst.reg.ex.expand  = TRUE
 
  ,include.x.instr			= FALSE
  ,varname.reg.instr		= NULL
- ,inst.reg.ex.expand  = TRUE
  ,include.x.toInstr		= FALSE
- ,varname.reg.toInstr		= NULL
+ ,varname.reg.toInstr	= NULL
 
  ,fur.con				= FALSE
  ,fur.con.diff			= NULL
@@ -600,7 +600,7 @@ pdynmc		<- function(
 
  if(inst.reg.ex.expand & !use.mc.diff & ( (!include.x.instr & is.null(varname.reg.ex)) | (is.null(varname.reg.ex)) ) ){
    inst.reg.ex.expand <- NULL
-   warning("No exogenous covariates given; 'inst.reg.ex.expand' was therefore ignored.")
+#   warning("No exogenous covariates given; 'inst.reg.ex.expand' was therefore ignored.")
  }
 
  if(include.dum && is.null(varname.dum)
