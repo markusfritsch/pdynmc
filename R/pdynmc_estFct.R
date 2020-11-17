@@ -1259,7 +1259,6 @@ pdynmc		<- function(
 
  env				<- as.numeric()
  par.opt.j			<- as.numeric()
- W.j				<- as.numeric()
  resGMM.W.j			<- list()
  resGMM.H.i			<- as.numeric()
  resGMM.opt.j		<- list()
@@ -1283,12 +1282,11 @@ pdynmc		<- function(
 
 # if(estimation != "cue"){
 
-   W.j				<- Wonestep.fct(w.mat = w.mat, w.mat.stata = w.mat.stata, use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin
+   resGMM.W.j[[j]]				<- Wonestep.fct(w.mat = w.mat, w.mat.stata = w.mat.stata, use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin
 						,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev
 						,Z.temp = resGMM$Z.temp, n = n, Time = Time, env = env
 #						,mc.ref.t = mc.ref.t
 						, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg, n.inst = resGMM$n.inst, inst.thresh = inst.thresh)
-   resGMM.W.j[[j]]		<- W.j
    names(resGMM.W.j)[j]		<- paste("step", j, sep = "")
 
    resGMM.H.i			<- H_i
@@ -1301,28 +1299,19 @@ pdynmc		<- function(
    if(opt.meth != "none"){
 
 
-#gmmObj.fct(j = j, param = resGMM$param.ini, y_m1 = resGMM.Dat$y_m1, X_m1 = resGMM.Dat$X_m1, dy = resGMM.Dat$dy, dX = resGMM.Dat$dX, varname.reg.estParam = varname.reg.estParam, n = n, Time = Time, include.y = include.y, varname.y = varname.y, use.mc.diff = use.mc.diff, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS, use.mc.lev = use.mc.lev, dum.diff = dum.diff, fur.con.diff = fur.con.diff, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg, dum.lev = dum.lev, fur.con.lev = fur.con.lev, Z.temp = resGMM$Z.temp, W = get(paste("step", j, sep = ""), resGMM.W.j))
-
 
 
      par.opt.j		 		<- optimx::optimx(
-#         results.GMM1s			<- optimx::optimx(
-##         results.GMM1s[[ro]]		<- optimx(			#[M:] in case of multi starts; multistarting is addressed more easily outside the function!
-##         results.GMM1s[[ro]]		<- optimr(
-##          par				= param.ini[ro]
-##          par				= param.ini[ro, ]
        par = resGMM$param.ini, fn = gmmObj.fct, method = opt.meth, control = optCtrl
        ,j = j, y_m1 = resGMM.Dat$y_m1, X_m1 = resGMM.Dat$X_m1, dy = resGMM.Dat$dy, dX = resGMM.Dat$dX
        ,varname.reg.estParam = resGMM$varnames.reg, n = n, Time = Time, include.y = include.y, varname.y = varname.y
        ,use.mc.diff = use.mc.diff, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS , use.mc.lev = use.mc.lev
        ,dum.diff = dum.diff, fur.con.diff = fur.con.diff, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg
        ,dum.lev = dum.lev, fur.con.lev = fur.con.lev
-       ,Z.temp = resGMM$Z.temp, W = W.j, env = env
+       ,Z.temp = resGMM$Z.temp, W = resGMM$W.j[[1]], env = env
 #       ,mc.ref.t = mc.ref.t, mc.ref.T = mc.ref.T, N_i = N_i
      )
 
-#     resGMM.fitted.j[[j]]		<- fitted.j
-#     resGMM.Szero.j[[j]]		<- Szero.j
    }
    resGMM.opt.j[[j]]			<- par.opt.j
    resGMM.par.opt.j[[j]]		<- as.numeric(resGMM.opt.j[[j]][1:length(varname.reg.estParam)])
@@ -1413,9 +1402,8 @@ pdynmc		<- function(
    names(resGMM.Szero.j)[j]		<- paste("step", j, sep = "")
 
 
-   resGMM.W.j[[j+1]]		<- Wtwostep.fct(Sj.0 = get(paste("step", j, sep = "") , resGMM.Szero.j), Z.temp = resGMM$Z.temp, n.inst = sum(resGMM$n.inst), inst.thresh = inst.thresh)
-   names(resGMM.W.j)[j+1]	<- paste("step", j+1, sep = "")
-
+   resGMM.W.j[[j + 1]]  <- Wtwostep.fct(Sj.0 = get(paste("step", j, sep = "") , resGMM.Szero.j), Z.temp = resGMM$Z.temp, n.inst = sum(resGMM$n.inst), inst.thresh = inst.thresh)
+   names(resGMM.W.j)[j + 1] <- paste("step", j+1, sep = "")
 
    n.obs				<- nrow(dat.na) - sum(is.na(dat.na[, varname.y]))
    resGMM.n.obs			<- n.obs
@@ -1461,8 +1449,7 @@ pdynmc		<- function(
      for(j in 2:j.max){
 
        if(j > 2){
-         W.j				<- Wtwostep.fct(Sj.0 = get(paste("step", j-1, sep = "") , resGMM.Szero.j), Z.temp = resGMM$Z.temp, n.inst = sum(resGMM$n.inst), inst.thresh = inst.thresh)
-         resGMM.W.j[[j]]		<- W.j
+         resGMM.W.j[[j]]		<- Wtwostep.fct(Sj.0 = get(paste("step", j-1, sep = "") , resGMM.Szero.j), Z.temp = resGMM$Z.temp, n.inst = sum(resGMM$n.inst), inst.thresh = inst.thresh)
          names(resGMM.W.j)[j]		<- paste("step", j, sep = "")
        }
 
@@ -1481,7 +1468,7 @@ pdynmc		<- function(
           ,use.mc.diff = use.mc.diff, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS , use.mc.lev = use.mc.lev
           ,dum.diff = dum.diff, fur.con.diff = fur.con.diff, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg
           ,dum.lev = dum.lev, fur.con.lev = fur.con.lev
-          ,W = W.j, env = env
+          ,W = resGMM.W.j[[j]], env = env
 #         ,mc.ref.t = mc.ref.t, mc.ref.T = mc.ref.T, N_i = N_i
          )
 

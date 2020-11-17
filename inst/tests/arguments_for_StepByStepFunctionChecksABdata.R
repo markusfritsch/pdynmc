@@ -21,7 +21,7 @@ varname.t = "year"
 
 use.mc.diff = TRUE
 use.mc.lev = FALSE
-use.mc.nonlin = TRUE
+use.mc.nonlin = FALSE
 use.mc.nonlinAS = NULL
 inst.stata = FALSE
 
@@ -48,7 +48,7 @@ varname.reg.toInstr = NULL
 
 fur.con = TRUE
 fur.con.diff = TRUE
-fur.con.lev = TRUE
+fur.con.lev = FALSE
 varname.reg.fur = c("wage", "capital", "output")
 lagTerms.reg.fur = c(1,2,2)
 
@@ -66,7 +66,7 @@ estimation = "onestep"
 max.iter = 100
 iter.tol = 0.01
 inst.thresh = NULL
-opt.meth = "BFGS"
+opt.meth = "none"
 hessian = FALSE
 optCtrl = list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol =
     .Machine$double.eps^(1/3), starttests = TRUE, dowarn = TRUE, badval = (0.25) *

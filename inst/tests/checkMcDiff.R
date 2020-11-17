@@ -94,7 +94,7 @@ m7 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
              fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = TRUE,
              varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
              include.dum = TRUE, dum.diff = TRUE, dum.lev = TRUE, varname.dum = "year",
-             w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+             w.mat = "iid.err", std.err = "corrected", estimation = "iterative",
              opt.meth = "none")
 summary(m7)
 
@@ -116,7 +116,7 @@ m9 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
              fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = TRUE,
              varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
              include.dum = TRUE, dum.diff = FALSE, dum.lev = TRUE, varname.dum = "year",
-             w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
+             w.mat = "iid.err", std.err = "corrected", estimation = "iterative", max.iter = 4,
              opt.meth = "BFGS")
 summary(m9)
 
