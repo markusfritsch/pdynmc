@@ -472,7 +472,7 @@ pdynmc		<- function(
 # }
 
 
-   if(use.mc.nonlin & opt.meth == "none"){
+ if(use.mc.nonlin & opt.meth == "none"){
    opt.met			<- "BFGS"
  }
 
@@ -1308,7 +1308,7 @@ pdynmc		<- function(
        ,use.mc.diff = use.mc.diff, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS , use.mc.lev = use.mc.lev
        ,dum.diff = dum.diff, fur.con.diff = fur.con.diff, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg
        ,dum.lev = dum.lev, fur.con.lev = fur.con.lev
-       ,Z.temp = resGMM$Z.temp, W = resGMM$W.j[[1]], env = env
+       ,Z.temp = resGMM$Z.temp, W = resGMM.W.j[[1]], env = env
 #       ,mc.ref.t = mc.ref.t, mc.ref.T = mc.ref.T, N_i = N_i
      )
 

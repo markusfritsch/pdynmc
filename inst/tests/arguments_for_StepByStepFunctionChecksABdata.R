@@ -66,7 +66,7 @@ estimation = "onestep"
 max.iter = 100
 iter.tol = 0.01
 inst.thresh = NULL
-opt.meth = "none"
+opt.meth = "BFGS"
 hessian = FALSE
 optCtrl = list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol =
     .Machine$double.eps^(1/3), starttests = TRUE, dowarn = TRUE, badval = (0.25) *
