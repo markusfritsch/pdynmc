@@ -1398,9 +1398,16 @@ pdynmc		<- function(
    }
    names(resGMM.clF.j)[j]		<- paste("step", j, sep = "")
 
-   resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
-   resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
-   resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+   if(opt.meth != "none"){
+     resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
+     resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
+     resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+
+   } else{
+     resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
+     resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
+     resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+   }
 
    names(resGMM.fitted.j)[j]	<- paste("step", j, sep = "")
    names(resGMM.Szero.j)[j]		<- paste("step", j, sep = "")
@@ -1497,11 +1504,17 @@ pdynmc		<- function(
        }
        names(resGMM.clF.j)[j]		<- paste("step", j, sep = "")
 
-#       if(opt.meth == "none"){
-       resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
-       resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
-       resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
-#       }
+       if(opt.meth != "none"){
+         resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
+         resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
+         resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+
+       } else{
+         resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
+         resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
+         resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+       }
+
        names(resGMM.fitted.j)[j]	<- paste("step", j, sep = "")
        names(resGMM.Szero.j)[j]	<- paste("step", j, sep = "")
 
