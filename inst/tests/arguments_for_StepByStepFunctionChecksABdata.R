@@ -21,7 +21,7 @@ varname.t = "year"
 
 use.mc.diff = TRUE
 use.mc.lev = FALSE
-use.mc.nonlin = FALSE
+use.mc.nonlin = TRUE
 use.mc.nonlinAS = NULL
 inst.stata = FALSE
 
@@ -62,8 +62,8 @@ w.mat = "iid.err"
 w.mat.stata = FALSE
 
 std.err = "corrected"
-estimation = "onestep"
-max.iter = 100
+estimation = "iterative"
+max.iter = 4
 iter.tol = 0.01
 inst.thresh = NULL
 opt.meth = "BFGS"

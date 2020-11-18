@@ -473,7 +473,8 @@ pdynmc		<- function(
 
 
  if(use.mc.nonlin & opt.meth == "none"){
-   opt.met			<- "BFGS"
+   opt.meth			<- "BFGS"
+   warning("Nonlinear optimization required to use nonlinear moment conditions; 'opt.meth' was set to 'BFGS'.")
  }
 
  if(use.mc.nonlin == TRUE & is.null(use.mc.nonlinAS)){
@@ -1560,9 +1561,9 @@ pdynmc		<- function(
 #     resGMM.iter 	<- j
 
      if(opt.meth != "none"){
-       if((j > 2) && ((j > j.max) | (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.par.opt.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.par.opt.j))))) < iter.tol) ) break
+       if((j > 2) && ((j == j.max) | (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.par.opt.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.par.opt.j))))) < iter.tol) ) break
      } else{
-       if((j > 2) && ((j > j.max) | (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.clF.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.clF.j))))) < iter.tol) ) break
+       if((j > 2) && ((j == j.max) | (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.clF.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.clF.j))))) < iter.tol) ) break
      }
    }
 
