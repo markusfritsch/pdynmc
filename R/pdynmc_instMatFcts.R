@@ -764,26 +764,27 @@ Z_i.fct	<- function(
                                                                     , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
         } else{
           Z_i.mc.lev_end.x	<- do.call(what = "cbind", args = mapply(FUN = LEV.fct, varname.reg.end, T.mcLev = maxLags.reg.end
-                                                                  , MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+                                                                  , MoreArgs = list(use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                   #						, mc.ref.t = mc.ref.t
-                                                                        , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
+                                                                        , i = i, Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
                                                                         , dat = dat, dat.na = dat.na)) )
         }
       }
       if(ex.reg | pre.reg){
-        if((length(varname.reg.ex) == 1 && !pre.reg) | (length(varname.reg.pre) == 1 && !ex.reg)){
-          Z_i.mc.lev_ex.pre	<- do.call(what = "cbind", args = sapply(FUN = LEV.pre.fct, c({if(!(is.null("varname.reg.ex"))){varname.reg.ex}}, {if(!(is.null("varname.reg.pre"))){varname.reg.pre}} ),
-                                                                     T.mcLev = c({if(!(is.null("varname.reg.ex"))){maxLags.reg.ex - 1}}, {if(!(is.null("varname.reg.pre"))){maxLags.reg.pre}} ),
-                                                                     lagTerms = max.lagTerms,
-                                                                     i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+        varname.ex.pre.temp <- c({if(!(is.null("varname.reg.ex"))){varname.reg.ex}}, {if(!(is.null("varname.reg.pre"))){varname.reg.pre}} )
+        T.mcLev.temp    <- c({if(!(is.null("varname.reg.ex"))){maxLags.reg.ex - 1}}, {if(!(is.null("varname.reg.pre"))){maxLags.reg.pre}} )
+        if(length(varname.ex.pre.temp) == 1){
+          Z_i.mc.lev_ex.pre	<- do.call(what = "cbind", args = sapply(FUN = LEV.pre.fct, i = i, varname.ex.pre.temp, T.mcLev = T.mcLev.temp
+                                                                    , use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                      #						,mc.ref.t = mc.ref.t
-                                                                     , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
+                                                                    , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
+                                                                    , dat = dat, dat.na = dat.na) )
         } else{
-          Z_i.mc.lev_ex.pre	<- do.call(what = "cbind", args = mapply(FUN = LEV.pre.fct, c({if(!(is.null("varname.reg.ex"))){varname.reg.ex}}, {if(!(is.null("varname.reg.pre"))){varname.reg.pre}} ),
-                                                                   T.mcLev = c({if(!(is.null("varname.reg.ex"))){maxLags.reg.ex - 1}}, {if(!(is.null("varname.reg.pre"))){maxLags.reg.pre}} )
-                                                                   , MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
-                                                                   #						,mc.ref.t = mc.ref.t
-                                                                   , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms, dat = dat, dat.na = dat.na)) )
+          Z_i.mc.lev_ex.pre	<- do.call(what = "cbind", args = mapply(FUN = LEV.pre.fct, varname.ex.pre.temp, T.mcLev = T.mcLev.temp
+                                                                     ,MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+                                                                                      #						,mc.ref.t = mc.ref.t
+                                                                        , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
+                                                                        , dat = dat, dat.na = dat.na)) )
         }
       }
     }

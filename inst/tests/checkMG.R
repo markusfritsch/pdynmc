@@ -1,39 +1,60 @@
 
 
-X = i_cases
-Time = Time
-varname.i = varname.i
-#					, mc.ref.t = mc.ref.t
-use.mc.diff = use.mc.diff
-use.mc.lev = use.mc.lev
-use.mc.nonlin = use.mc.nonlin
-include.y = include.y
-varname.y = varname.y
-inst.stata = inst.stata
-include.dum = include.dum
-dum.diff = dum.diff
-dum.lev = dum.lev
-colnames.dum = colnames.dum
-fur.con = fur.con
-fur.con.diff = fur.con.diff
-fur.con.lev = fur.con.lev
-varname.reg.estParam.fur = varname.reg.estParam.fur
-include.x = include.x
-end.reg = end.reg
-varname.reg.end = varname.reg.end
-pre.reg = pre.reg
-varname.reg.pre = varname.reg.pre
-ex.reg = ex.reg
-varname.reg.ex = varname.reg.ex
-maxLags.y = maxLags.y
-max.lagTerms = max.lagTerms
-maxLags.reg.end = maxLags.reg.end
-maxLags.reg.pre = maxLags.reg.pre
-maxLags.reg.ex = maxLags.reg.ex
-dat = dat
-dat.na = dat.na
+rm(list = ls())
+
+library(pdynmc)
 
 
-i = 1
-varname = varname.reg.ex
+data(EmplUK, package = "plm")
 
+dati			<- EmplUK
+dati			<- cbind(dati[, 1:3], dati[, 4:7])
+names(dati)		<- c("ireg", "t", "sector", "logy", "Sly", "mean_eta", "output")
+data.info(dati, i.name = "ireg", t.name = "t")
+# T = 9; N = 140
+
+
+
+m1 <- pdynmc(dat = dati, varname.i = "ireg", varname.t = "t"
+	,use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,  use.mc.nonlinAS = NULL, inst.stata = FALSE
+	,include.y = TRUE, varname.y = "logy", lagTerms.y = 1, maxLags.y = NULL
+	,include.x = TRUE
+	,varname.reg.end = NULL, lagTerms.reg.end = NULL, maxLags.reg.end = NULL
+	,varname.reg.pre = NULL, lagTerms.reg.pre = NULL, maxLags.reg.pre = NULL
+	,varname.reg.ex = c("Sly", "mean_eta"), lagTerms.reg.ex = c(0,0), maxLags.reg.ex = c(9,9), inst.reg.ex.expand = TRUE
+	,include.x.instr = FALSE, varname.reg.instr = NULL, include.x.toInstr = FALSE, varname.reg.toInstr = NULL
+	,fur.con = FALSE, fur.con.diff = FALSE, fur.con.lev = FALSE, varname.reg.fur = NULL, lagTerms.reg.fur = NULL
+	,include.dum = FALSE, dum.diff = NULL, dum.lev = NULL, varname.dum = NULL
+	,col_tol = 0.65, w.mat = "iid.err", w.mat.stata = FALSE, std.err = "corrected",
+	,estimation = "twostep"
+ 	,max.iter = 100, iter.tol = 0.01, inst.thresh = NULL
+	,opt.meth = "none", hessian = FALSE
+	,optCtrl = list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol = .Machine$double.eps^(1/3),
+                    starttests = TRUE, dowarn = TRUE, badval = (0.25)*.Machine$double.xmax, usenumDeriv = FALSE,
+                    reltol = 1e-12, maxit = 200, trace = TRUE,
+                    follow.on = FALSE, save.failures = TRUE, maximize = FALSE, factr = 1e7, pgtol = 0, all.methods = FALSE)
+	,custom.start.val = FALSE, start.val = NULL, start.val.lo = -1, start.val.up = 1, seed.input = 42)
+summary(m1)
+
+
+
+m2 <- pdynmc(dat = dati, varname.i = "ireg", varname.t = "t"
+	,use.mc.diff = TRUE, use.mc.lev = TRUE, use.mc.nonlin = FALSE,  use.mc.nonlinAS = NULL, inst.stata = FALSE
+	,include.y = TRUE, varname.y = "logy", lagTerms.y = 1, maxLags.y = NULL
+	,include.x = TRUE
+	,varname.reg.end = NULL, lagTerms.reg.end = NULL, maxLags.reg.end = NULL
+	,varname.reg.pre = NULL, lagTerms.reg.pre = NULL, maxLags.reg.pre = NULL
+	,varname.reg.ex = c("Sly", "mean_eta"), lagTerms.reg.ex = c(0,0), maxLags.reg.ex = c(9,9), inst.reg.ex.expand = TRUE
+	,include.x.instr = FALSE, varname.reg.instr = NULL, include.x.toInstr = FALSE, varname.reg.toInstr = NULL
+	,fur.con = FALSE, fur.con.diff = FALSE, fur.con.lev = FALSE, varname.reg.fur = NULL, lagTerms.reg.fur = NULL
+	,include.dum = FALSE, dum.diff = NULL, dum.lev = NULL, varname.dum = NULL
+	,col_tol = 0.65, w.mat = "iid.err", w.mat.stata = FALSE, std.err = "corrected",
+	,estimation = "twostep"
+ 	,max.iter = 100, iter.tol = 0.01, inst.thresh = NULL
+	,opt.meth = "none", hessian = FALSE
+	,optCtrl = list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol = .Machine$double.eps^(1/3),
+                    starttests = TRUE, dowarn = TRUE, badval = (0.25)*.Machine$double.xmax, usenumDeriv = FALSE,
+                    reltol = 1e-12, maxit = 200, trace = TRUE,
+                    follow.on = FALSE, save.failures = TRUE, maximize = FALSE, factr = 1e7, pgtol = 0, all.methods = FALSE)
+	,custom.start.val = FALSE, start.val = NULL, start.val.lo = -1, start.val.up = 1, seed.input = 42)
+summary(m2)

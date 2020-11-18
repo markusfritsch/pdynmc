@@ -8,6 +8,7 @@ rm(list = ls())
 library(data.table)
 #install.packages("foreign")
 library(foreign)
+library(pdynmc)
 
 
 
@@ -44,8 +45,8 @@ m1 <- pdynmc(dat = dat, varname.i = "i", varname.t = "t",
              include.x = TRUE, varname.reg.end = "lrxtot", lagTerms.reg.end = 0, maxLags.reg.end = 5,
              varname.reg.ex	= "lrhearn", lagTerms.reg.ex = 0, maxLags.reg.ex = 5,
              include.x.instr = TRUE, varname.reg.instr = "lrhearn", include.x.toInstr = FALSE,
-             fur.con = FALSE, fur.con.diff = FALSE, fur.con.lev = FALSE,
-             varname.reg.fur = c("nch","nad","hage","hage2"), lagTerms.reg.fur = c(0,0,0,0),
+             fur.con = FALSE, fur.con.diff = NULL, fur.con.lev = NULL,
+             varname.reg.fur = NULL, lagTerms.reg.fur = NULL,
              include.dum = TRUE, dum.diff = TRUE, dum.lev = TRUE, varname.dum = c("week", "yearquarter"),
              w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
              opt.meth = "BFGS")
@@ -57,8 +58,8 @@ m2 <- pdynmc(dat = dat, varname.i = "i", varname.t = "t",
              include.x = TRUE, varname.reg.end = "lrxtot", lagTerms.reg.end = 0, maxLags.reg.end = 5,
              varname.reg.ex	= "lrhearn", lagTerms.reg.ex = 0, maxLags.reg.ex = 5,
              include.x.instr = TRUE, varname.reg.instr = "lrhearn", include.x.toInstr = FALSE,
-             fur.con = FALSE, fur.con.diff = FALSE, fur.con.lev = FALSE,
-             varname.reg.fur = c("nch","nad","hage","hage2"), lagTerms.reg.fur = c(0,0,0,0),
+             fur.con = FALSE, fur.con.diff = NULL, fur.con.lev = NULL,
+             varname.reg.fur = NULL, lagTerms.reg.fur = NULL,
              include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = c("week", "yearquarter"),
              w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
              opt.meth = "BFGS")
@@ -70,8 +71,8 @@ m3 <- pdynmc(dat = dat, varname.i = "i", varname.t = "t",
              include.x = TRUE, varname.reg.end = "lrxtot", lagTerms.reg.end = 0, maxLags.reg.end = 5,
              varname.reg.ex	= "lrhearn", lagTerms.reg.ex = 0, maxLags.reg.ex = 5,
              include.x.instr = TRUE, varname.reg.instr = "lrhearn", include.x.toInstr = FALSE,
-             fur.con = FALSE, fur.con.diff = FALSE, fur.con.lev = FALSE,
-             varname.reg.fur = c("nch","nad","hage","hage2"), lagTerms.reg.fur = c(0,0,0,0),
+             fur.con = FALSE, fur.con.diff = NULL, fur.con.lev = NULL,
+             varname.reg.fur = NULL, lagTerms.reg.fur = NULL,
              include.dum = TRUE, dum.diff = FALSE, dum.lev = TRUE, varname.dum = c("week", "yearquarter"),
              w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
              opt.meth = "BFGS")
@@ -83,9 +84,9 @@ m4 <- pdynmc(dat = dat, varname.i = "i", varname.t = "t",
              include.x = TRUE, varname.reg.end = "lrxtot", lagTerms.reg.end = 0, maxLags.reg.end = 5,
              varname.reg.ex	= "lrhearn", lagTerms.reg.ex = 0, maxLags.reg.ex = 5,
              include.x.instr = TRUE, varname.reg.instr = "lrhearn", include.x.toInstr = FALSE,
-             fur.con = FALSE, fur.con.diff = FALSE, fur.con.lev = FALSE,
-             varname.reg.fur = c("nch","nad","hage","hage2"), lagTerms.reg.fur = c(0,0,0,0),
-             include.dum = FALSE, dum.diff = FALSE, dum.lev = FALSE, varname.dum = c("week", "yearquarter"),
+             fur.con = FALSE, fur.con.diff = NULL, fur.con.lev = NULL,
+             varname.reg.fur = NULL, lagTerms.reg.fur = NULL,
+             include.dum = FALSE, dum.diff = NULL, dum.lev = NULL, varname.dum = NULL,
              w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
              opt.meth = "BFGS")
 summary(m4)
@@ -137,7 +138,7 @@ m8 <- pdynmc(dat = dat, varname.i = "i", varname.t = "t",
              include.x.instr = TRUE, varname.reg.instr = "lrhearn", include.x.toInstr = FALSE,
              fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = TRUE,
              varname.reg.fur = c("nch","nad","hage","hage2"), lagTerms.reg.fur = c(0,0,0,0),
-             include.dum = FALSE, dum.diff = FALSE, dum.lev = FALSE, varname.dum = c("week", "yearquarter"),
+             include.dum = FALSE, dum.diff = NULL, dum.lev = NULL, varname.dum = NULL,
              w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
              opt.meth = "BFGS")
 summary(m8)
@@ -189,7 +190,7 @@ m12 <- pdynmc(dat = dat, varname.i = "i", varname.t = "t",
               include.x.instr = TRUE, varname.reg.instr = "lrhearn", include.x.toInstr = FALSE,
               fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
               varname.reg.fur = c("nch","nad","hage","hage2"), lagTerms.reg.fur = c(0,0,0,0),
-              include.dum = FALSE, dum.diff = FALSE, dum.lev = FALSE, varname.dum = c("week", "yearquarter"),
+              include.dum = FALSE, dum.diff = NULL, dum.lev = NULL, varname.dum = NULL,
               w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
               opt.meth = "BFGS")
 summary(m12)
@@ -241,10 +242,18 @@ m16 <- pdynmc(dat = dat, varname.i = "i", varname.t = "t",
               include.x.instr = TRUE, varname.reg.instr = "lrhearn", include.x.toInstr = FALSE,
               fur.con = TRUE, fur.con.diff = FALSE, fur.con.lev = TRUE,
               varname.reg.fur = c("nch","nad","hage","hage2"), lagTerms.reg.fur = c(0,0,0,0),
-              include.dum = FALSE, dum.diff = FALSE, dum.lev = FALSE, varname.dum = c("week", "yearquarter"),
+              include.dum = FALSE, dum.diff = NULL, dum.lev = NULL, varname.dum = NULL,
               w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
               opt.meth = "BFGS")
 summary(m16)
 
 
-sink()
+
+
+
+
+ls()[grepl(ls(), pattern = "m")]
+length(ls()[grepl(ls(), pattern = "m")])		# 16 configurations are estimated
+
+
+
