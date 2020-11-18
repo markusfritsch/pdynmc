@@ -25,7 +25,7 @@ m1 <- pdynmc(dat = dati, varname.i = "ireg", varname.t = "t"
 	,include.x.instr = FALSE, varname.reg.instr = NULL, include.x.toInstr = FALSE, varname.reg.toInstr = NULL
 	,fur.con = FALSE, fur.con.diff = FALSE, fur.con.lev = FALSE, varname.reg.fur = NULL, lagTerms.reg.fur = NULL
 	,include.dum = FALSE, dum.diff = NULL, dum.lev = NULL, varname.dum = NULL
-	,col_tol = 0.65, w.mat = "iid.err", w.mat.stata = FALSE, std.err = "corrected",
+	,col_tol = 0.65, w.mat = "iid.err", w.mat.stata = FALSE, std.err = "corrected"
 	,estimation = "twostep"
  	,max.iter = 100, iter.tol = 0.01, inst.thresh = NULL
 	,opt.meth = "none", hessian = FALSE

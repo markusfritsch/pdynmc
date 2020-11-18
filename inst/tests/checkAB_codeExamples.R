@@ -9,6 +9,7 @@ rm(list = ls())
  rm(EmplUK)
  dat[,c(4:7)] <- log(dat[,c(4:7)])
 
+ library(pdynmc)
 
 ## Arellano and Bond (1991) estimation in Table 4, column (a1)
  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
