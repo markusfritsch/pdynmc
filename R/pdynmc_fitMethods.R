@@ -1107,6 +1107,9 @@ plot.pdynmc		<- function(
       warning("Argument 'boxplot.coef' was ignored as coefficient boxplots are only displayed for a minimum of 10 iterations.")
     }
 
+    parMar <- par()$mar
+    par(mar=par()$mar + c(0,0,0,8), xpd=TRUE)
+
     if(!include.dum | !include.fur.con){
       if(!include.dum && !include.fur.con){
         varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.dum) & !(x$data$varnames.reg %in% x$data$varnames.reg.fur)
@@ -1167,18 +1170,42 @@ plot.pdynmc		<- function(
         graphics::axis(side = 1, at = c(1:n.coef), labels = paste(var.names))
       }
     }
-    abline(h = 0)
-    graphics::legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(NA,NA,1), pch = c(18,1,NA), lty = c(NA,NA,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
+#    abline(h = 0)
+#    graphics::legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(NA,NA,1), pch = c(18,1,NA), lty = c(NA,NA,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
+    graphics::legend(x = n.coef + 1/n.coef, y = max(coef.mat),
+                   legend = c("coeff. est.", "coeff. initial", "coeff. range"), col = c(col.coefEst, col.coefInitial, col.coefRange),
+                   lwd = c(NA,NA,1), pch = c(18,1,NA), lty = c(NA,NA,2), bty = "n", cex = 0.9, horiz = FALSE)
+    par(mar = parMar)
   }
+
+
 
 
   if (type == "coef.path") {
     if (!inherits(x, what = "pdynmc")) {
       stop("Use only with \"pdynmc\" objects.")
     }
+
+    parMar <- par()$mar
+    par(mar=par()$mar + c(0,0,0,8), xpd=TRUE)
+
     if(is.null(co)) {
-      co <- x$data$varnames.reg
+      if(!include.dum | !include.fur.con){
+        if(!include.dum && !include.fur.con){
+          varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.dum) & !(x$data$varnames.reg %in% x$data$varnames.reg.fur)
+        } else{
+          if(!include.dum){
+            varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.dum)
+          } else{
+            varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.reg.fur)
+          }
+        }
+      } else{
+        varnames.ind <- rep(TRUE, times = length(x$data$varnames.reg))
+      }
+      co <- x$data$varnames.reg[varnames.ind]
     }
+
     if(length(co) == 1 & sum(add.se.approx, is.null(add.se.approx))){
       add.se.approx <- TRUE
       plot.se       <- TRUE
@@ -1223,7 +1250,7 @@ plot.pdynmc		<- function(
 
       a  <- (ord.min*obj.max - ord.max*obj.min) / (obj.max - obj.min)
       b  <- (ord.max - ord.min) / (obj.max - obj.min)
-      ord.limits	<- a + b*obj.values
+      obj.rescaled	<- a + b*obj.values
 
     } else{
       obj.values <- NULL
@@ -1231,12 +1258,13 @@ plot.pdynmc		<- function(
     }
 
     plot(x = rep(1:nrow(coef.mat), times = ncol(coef.mat))
-         ,y = coef.mat, xlab = "Iteration", ylab = "Estimate"
-         ,xlim = c(1, nrow(coef.mat)), ylim = coef.range, type = "n"
+         ,y = coef.mat, xlab = "Iteration", ylab = "Estimate", xaxt = "n"
+         ,xlim = c(1-0.25, nrow(coef.mat)+0.25), ylim = coef.range, type = "n"
          ,main = paste("Coefficient estimates over ", x$iter, " iterations", sep = ""))
+    axis(side = 1, at = c(1:x$iter))
 
     if(sum(!is.na(x$par.optim[[x$iter]])) > 0){
-      graphics::lines(x = 1:nrow(coef.mat), y = obj.values,
+      graphics::lines(x = 1:nrow(coef.mat), y = obj.rescaled,
         type = "b", pch = 20, col = col.coefInitial
       )
       axis(side = 4, at = c(ord.min, ord.max),
@@ -1258,16 +1286,18 @@ plot.pdynmc		<- function(
                       y = c(coef.mat[nrow(coef.mat)] - quant * se.mat[nrow(coef.mat)],
                             coef.mat[nrow(coef.mat)] + quant * se.mat[nrow(coef.mat)]),
                       type = "l", lty = 3, col = col.set[i])
-      graphics::lines(x = c(nrow(coef.mat) - 0.25, nrow(coef.mat) + 0.25),
+      graphics::lines(x = c(nrow(coef.mat) - nrow(coef.mat)/20, nrow(coef.mat) + nrow(coef.mat)/20),
                       y = rep(coef.mat[nrow(coef.mat)] - quant * se.mat[nrow(coef.mat)], times = 2),
                       type = "l", lty = 1, col = col.set[i], lwd = 2)
-      graphics::lines(x = c(nrow(coef.mat) - 0.25, nrow(coef.mat) + 0.25),
+      graphics::lines(x = c(nrow(coef.mat) - nrow(coef.mat)/20, nrow(coef.mat) + nrow(coef.mat)/20),
                       y = rep(coef.mat[nrow(coef.mat)] + quant * se.mat[nrow(coef.mat)], times = 2),
                       type = "l", lty = 1, col = col.set[i], lwd = 2)
     }
 
-    legend(x = "bottom", legend = co, col = col.set[1:(length(col.set) - 1)], pch = 19, lty = 1, bty = "n", horiz = TRUE)
-
+    graphics::legend(x = nrow(coef.mat) + 1, y = ord.max,
+           legend = co, col = col.set[1:(length(col.set) - 1)],
+           pch = 19, lty = 1, bty = "n", cex = 0.9, horiz = FALSE)
+    par(mar = parMar)
   }
 }
 
