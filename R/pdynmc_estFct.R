@@ -1303,14 +1303,14 @@ pdynmc		<- function(
 
 
      par.opt.j		 		<- optimx::optimx(
-       par = resGMM$param.ini, fn = gmmObj.fct, method = opt.meth, control = optCtrl
-       ,j = j, y_m1 = resGMM.Dat$y_m1, X_m1 = resGMM.Dat$X_m1, dy = resGMM.Dat$dy, dX = resGMM.Dat$dX
+       par = resGMM$param.ini, j = j, fn = gmmObj.fct, method = opt.meth, control = optCtrl
+       ,y_m1 = resGMM.Dat$y_m1, X_m1 = resGMM.Dat$X_m1, dy = resGMM.Dat$dy, dX = resGMM.Dat$dX
        ,varname.reg.estParam = resGMM$varnames.reg, n = n, Time = Time, include.y = include.y, varname.y = varname.y
        ,use.mc.diff = use.mc.diff, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS , use.mc.lev = use.mc.lev
        ,dum.diff = dum.diff, fur.con.diff = fur.con.diff, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg
        ,dum.lev = dum.lev, fur.con.lev = fur.con.lev
        ,Z.temp = resGMM$Z.temp, W = resGMM.W.j[[1]], env = env
-#       ,mc.ref.t = mc.ref.t, mc.ref.T = mc.ref.T, N_i = N_i
+#       mc.ref.t = mc.ref.t, mc.ref.T = mc.ref.T, N_i = N_i
      )
 
    }

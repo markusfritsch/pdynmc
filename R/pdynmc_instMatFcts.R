@@ -911,7 +911,11 @@ Z_i.fct	<- function(
         colnames(Z_i.dum_2.nl)	<- NULL
       }
       if(use.mc.lev){
-        Z_i.dum_4.lev		<- matrix(0, ncol = ncol(Z_i.dum_1.diff), nrow = (Time - max.lagTerms))
+        if(fur.con.lev | ex.reg | pre.reg){
+          Z_i.dum_4.lev		<- matrix(0, ncol = ncol(Z_i.dum_1.diff), nrow = (Time - max.lagTerms))
+        } else{
+          Z_i.dum_4.lev		<- matrix(0, ncol = ncol(Z_i.dum_1.diff), nrow = (Time - max(2,max.lagTerms)))
+        }
         colnames.dum_4.lev		<- colnames(Z_i.dum_1.diff)
         colnames(Z_i.dum_4.lev)	<- NULL
       }

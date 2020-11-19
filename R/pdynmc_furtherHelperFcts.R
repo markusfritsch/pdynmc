@@ -602,8 +602,8 @@ gmmDat.fct		<- function(
 #' @keywords internal
 #'
 gmmObj.fct		<- function(
-  j
-  ,param
+  param
+  ,j
   ,y_m1
   ,X_m1
   ,dy
@@ -710,8 +710,10 @@ gmmObj.fct		<- function(
     }
 
     if(use.mc.lev & (include.y | end.reg)){
-      u.vec.3_lev		<- gmmDat.parDep$u.hat_t[(max.lagTerms):(Time-1) + (i-1)*(Time-1)]
-      y.vec.3_lev		<- gmmDat.parDep$fitted.lev[(max.lagTerms):(Time-1) + (i-1)*(Time-1)]
+      u.vec.3_lev		<- gmmDat.parDep$u.hat_t[(max(2,max.lagTerms)):(Time-1) + (i-1)*(Time-1)]
+#      u.vec.3_lev		<- gmmDat.parDep$u.hat_t[(max.lagTerms):(Time-1) + (i-1)*(Time-1)]
+      y.vec.3_lev		<- gmmDat.parDep$fitted.lev[(max(2,max.lagTerms)):(Time-1) + (i-1)*(Time-1)]
+#      y.vec.3_lev		<- gmmDat.parDep$fitted.lev[(max.lagTerms):(Time-1) + (i-1)*(Time-1)]
     }
 
     if((use.mc.lev & (include.y | end.reg) & (ex.reg | pre.reg)) | dum.lev | fur.con.lev){
