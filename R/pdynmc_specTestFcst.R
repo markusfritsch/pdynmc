@@ -336,7 +336,7 @@ jtest.fct		<- function(
 
   K.tot			<- length(coef.est)
   N				<- length(do.call(what = "c", Szero.j))
-  tzu				<- as.numeric(Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), Z.temp, Szero.j)))
+  tzu				<- as.numeric(Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), Z.temp, Szero.j, SIMPLIFY = FALSE)))
   stat			<- as.numeric(crossprod(tzu, t(crossprod(tzu, W.j))))
   names(stat)		<- "chisq"
   p				<- sum(n.inst)
