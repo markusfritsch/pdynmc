@@ -1513,7 +1513,7 @@ pdynmc		<- function(
        names(resGMM.stderr.j)[j]	<- paste("step", j, sep = "")
 
 
-       tZ.res2s				<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j)))
+       tZ.res2s				<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE))
 
        D					<- c()
 

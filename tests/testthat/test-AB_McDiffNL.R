@@ -3,7 +3,7 @@ test_that("check estimation based on linear and nonlinear moment conditions from
 
  library(plm)
  data(EmplUK, package = "plm")
- dat <- EmplUK[561:809, ]
+ dat <- EmplUK
  dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 
