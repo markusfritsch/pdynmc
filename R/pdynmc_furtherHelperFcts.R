@@ -952,6 +952,39 @@ dat.closedFormExpand.fct		<- function(
 
 
 
+#' @keywords internal
+#'
+dat.expand.fct		<- function(
+  i
+  ,dat.na
+  ,varname.i
+  ,varname.reg.instr
+  ,varname.reg.toInstr
+  ,varname.y
+  ,varname.reg.estParam
+  ,max.lagTerms
+  ,Time
+){
+
+  varnames.temp	<- if( !(is.null(varname.reg.instr)) | !(is.null(varname.reg.toInstr)) ){
+    c(if(!(is.null(varname.reg.instr))){ varname.reg.estParam[!(varname.reg.estParam %in% varname.reg.instr)] }
+      ,if(!(is.null(varname.reg.toInstr))){ varname.reg.toInstr }, varname.y )
+  } else{ c(varname.reg.estParam, varname.y) }
+
+  data.temp		<- dat.na[dat.na[, varname.i] == as.numeric(i), varnames.temp]
+
+  dat.temp		<- data.temp[-c(1:max.lagTerms), ]
+
+  reg.temp						<- as.matrix(dat.temp[, !(varnames.temp %in% varname.y)])
+  colnames(reg.temp)  <- NULL
+  rownames(reg.temp)  <- NULL
+  dep.temp						<- as.matrix(dat.temp[, varnames.temp %in% varname.y, drop = FALSE])
+  colnames(dep.temp)  <- NULL
+  rownames(dep.temp)  <- NULL
+
+  return(list(reg.temp = Matrix::Matrix(reg.temp), dep.temp = Matrix::Matrix(dep.temp)))
+}
+
 
 
 

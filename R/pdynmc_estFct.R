@@ -1267,7 +1267,9 @@ pdynmc		<- function(
  resGMM.ctrl.opt.j	<- list()
  resGMM.clF.j		<- list()
  resGMM.Szero.j		<- list()
+ resGMM.Szero2.j		<- list()
  resGMM.fitted.j		<- list()
+ resGMM.fitted2.j		<- list()
  resGMM.resid		<- list()
  resGMM.vcov.j		<- list()
  resGMM.stderr.j		<- list()
@@ -1327,16 +1329,27 @@ pdynmc		<- function(
 					,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, max.lagTerms = max.lagTerms, Time = Time
 					,include.x = include.x, pre.reg = pre.reg, ex.reg = ex.reg)
 
+   dat.res.temp <- lapply(X = i_cases, FUN = dat.expand.fct
+                          ,dat.na = dat.na, varname.i = varname.i, varname.reg.instr = varname.reg.instr
+                          ,varname.reg.toInstr = varname.reg.toInstr, varname.y = varname.y, varname.reg.estParam = varname.reg.estParam
+                          , max.lagTerms = max.lagTerms, Time = Time)
+
    if(nrow(resGMM$Z.temp[[1]]) == 1){
      dat.clF.temp		<- lapply(lapply(dat.temp, `[[`, 1), function(x) Matrix::t(x))
+     Xdat.temp    <- lapply(lapply(dat.res.temp, `[[`, 1), function(x) Matrix::t(x))
      dep.temp			<- lapply(dat.temp, `[[`, 2)
+     dep.res.temp <- lapply(dat.res.temp, `[[`, 2)
    } else{
      dat.clF.temp		<- lapply(dat.temp, `[[`, 1)
+     Xdat.temp    <- lapply(dat.res.temp, `[[`, 1)
      dep.temp			<- lapply(dat.temp, `[[`, 2)
+     dep.res.temp <- lapply(dat.res.temp, `[[`, 2)
    }
 
    dat.clF.temp.0		<- rapply(lapply(dat.clF.temp, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
-   dep.temp.0		<- rapply(lapply(dep.temp, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
+   Xdat.temp.0      <- rapply(lapply(Xdat.temp, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
+   dep.temp.0		    <- rapply(lapply(dep.temp, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
+   dep.res.temp.0		<- rapply(lapply(dep.res.temp, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
 
 
 #   if(use.mc.diff + use.mc.lev + use.mc.nonlin > 1){
@@ -1392,15 +1405,23 @@ pdynmc		<- function(
      resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
      resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
      resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+     resGMM.fitted2.j[[j]]	<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), Xdat.temp, SIMPLIFY=FALSE), FUN = as.numeric)
+     resGMM.Szero2.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dep.res.temp, Xdat.temp, SIMPLIFY=FALSE)
+     resGMM.Szero2.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero2.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
 
    } else{
      resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
      resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
      resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+     resGMM.fitted2.j[[j]]	<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), Xdat.temp, SIMPLIFY=FALSE), FUN = as.numeric)
+     resGMM.Szero2.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dep.res.temp, Xdat.temp, SIMPLIFY=FALSE)
+     resGMM.Szero2.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero2.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
    }
 
    names(resGMM.fitted.j)[j]	<- paste("step", j, sep = "")
    names(resGMM.Szero.j)[j]		<- paste("step", j, sep = "")
+   names(resGMM.fitted2.j)[j]	<- paste("step", j, sep = "")
+   names(resGMM.Szero2.j)[j]	<- paste("step", j, sep = "")
 
 
    resGMM.W.j[[j + 1]]  <- Wtwostep.fct(Sj.0 = get(paste("step", j, sep = "") , resGMM.Szero.j), Z.temp = resGMM$Z.temp, n.inst = sum(resGMM$n.inst), inst.thresh = inst.thresh)
@@ -1496,15 +1517,23 @@ pdynmc		<- function(
          resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
          resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
          resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+         resGMM.fitted2.j[[j]]	<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), Xdat.temp, SIMPLIFY=FALSE), FUN = as.numeric)
+         resGMM.Szero2.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.par.opt.j))), dep.res.temp, Xdat.temp, SIMPLIFY=FALSE)
+         resGMM.Szero2.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero2.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
 
        } else{
          resGMM.fitted.j[[j]]		<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dat.clF.temp, SIMPLIFY=FALSE), FUN = as.numeric)
          resGMM.Szero.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dep.temp, dat.clF.temp, SIMPLIFY=FALSE)
          resGMM.Szero.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
+         resGMM.fitted2.j[[j]]	<- lapply(mapply(function(x) Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), Xdat.temp, SIMPLIFY=FALSE), FUN = as.numeric)
+         resGMM.Szero2.j[[j]]		<- mapply(function(y,x) y - Matrix::tcrossprod(x, Matrix::t(get(paste("step", j, sep = ""), resGMM.clF.j))), dep.res.temp, Xdat.temp, SIMPLIFY=FALSE)
+         resGMM.Szero2.j[[j]]		<- lapply(rapply(lapply(resGMM.Szero2.j[[j]], FUN = as.matrix), f = function(x) ifelse(is.na(x), 0, x), how = "replace"), FUN = as.vector)
        }
 
        names(resGMM.fitted.j)[j]	<- paste("step", j, sep = "")
-       names(resGMM.Szero.j)[j]	<- paste("step", j, sep = "")
+       names(resGMM.Szero.j)[j]	  <- paste("step", j, sep = "")
+       names(resGMM.fitted2.j)[j]	<- paste("step", j, sep = "")
+       names(resGMM.Szero2.j)[j]	<- paste("step", j, sep = "")
 
 
        resGMM.vcov.j[[j]]		<- MASS::ginv(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX) ) ) )
@@ -1592,7 +1621,8 @@ pdynmc		<- function(
 # }
 
 
- fit 		<-  list(coefficients = coefGMM, residuals = resGMM.Szero.j, fitted.values = resGMM.fitted.j,
+ fit 		<-  list(coefficients = coefGMM, residuals.int = resGMM.Szero.j, residuals = resGMM.Szero2.j,
+   fitted.values.int = resGMM.fitted.j, fitted.values = resGMM.fitted2.j,
    par.optim = resGMM.par.opt.j, ctrl.optim = resGMM.ctrl.opt.j, par.clForm = resGMM.clF.j, iter = resGMM.iter,
    w.mat = resGMM.W.j, H_i = resGMM.H.i, vcov = resGMM.vcov.j, stderr = resGMM.stderr.j,
    zvalue = resGMM.zvalue.j, pvalue = resGMM.pvalue.j,
