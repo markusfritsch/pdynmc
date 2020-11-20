@@ -890,7 +890,11 @@ Z_i.fct	<- function(
             Z_i.dum			<- rbind(Z_i.dum_1.diff, Z_i.dum_4.lev)
           }
         } else{
-          Z_i.dum 			<- Z_i.dum_4.lev
+          if(length(ls(pattern = "Z_i.dum_")) == 1){
+            Z_i.dum 			<- Z_i.dum_4.lev
+          } else{
+            Z_i.dum 			<- do.call(what = rbind, mget(ls(pattern = "Z_i.dum_")))
+          }
         }
       }
 
@@ -1062,25 +1066,26 @@ Z_i.fct	<- function(
         n.inst.furCon		<- length(get(ls(pattern = "colnames.fur.con.diff")))
 
 #        if(dum.lev & !dum.diff){
-        if(dum.lev & !include.dum){
-          if(nrow(Z_i.furCon.temp) < nrow(Z_i.temp)){
-            if(use.mc.lev & !use.mc.diff){
+#        if(dum.lev & !include.dum){
+        if(nrow(Z_i.furCon.temp) != nrow(Z_i.temp)){
+          if(!include.dum){
+            if((use.mc.lev | use.mc.nonlin) & !use.mc.diff){
               Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)))
-            } else{
+            }
+            if(use.mc.diff & use.mc.lev){
+              Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
+            }
+            if(use.mc.diff & use.mc.nonlin){
+              Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
+            }
+          } else{
+            if((use.mc.lev | use.mc.nonlin) & !use.mc.diff){
+              Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
+            }
+            if(use.mc.diff){
               Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
             }
           }
-        } else{
-#          if(nrow(Z_i.furCon.temp) < nrow(Z_i.temp)){
-#            if(use.mc.lev & !use.mc.diff){
-#              Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)))
-#            } else{
-          if(use.mc.lev & !use.mc.diff & !include.dum){
-            Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)))
-          } else{
-            Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
-          }
-#          }
         }
 
       } else{
@@ -1102,6 +1107,13 @@ Z_i.fct	<- function(
           if(use.mc.diff & !use.mc.lev & !include.dum){
             Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
           }
+          if(!use.mc.diff & !use.mc.lev & use.mc.nonlin){
+            if(dum.lev){
+              Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
+            } else{
+              Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
+            }
+          }
           if(nrow(Z_i.furCon.temp) < nrow(Z_i.temp)){
             Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
           }
@@ -1110,9 +1122,17 @@ Z_i.fct	<- function(
     }
     if(nrow(Z_i.temp) < nrow(Z_i.furCon.temp)){
       if(use.mc.lev){
-        Z_i.temp      <- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.furCon.temp) - nrow(Z_i.temp)), Z_i.temp)
+#        if(use.mc.nonlin){
+#          Z_i.temp      <- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.furCon.temp) - nrow(Z_i.temp) + nrow(Z_i.mc.AS4)), Z_i.temp)
+#        } else{
+          Z_i.temp      <- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.furCon.temp) - nrow(Z_i.temp)), Z_i.temp)
+#        }
       } else{
-        Z_i.temp      <- rbind(Z_i.temp, matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.furCon.temp) - nrow(Z_i.temp)))
+#        if(use.mc.nonlin){
+#          Z_i.temp      <-
+#        } else{
+          Z_i.temp      <- rbind(Z_i.temp, matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.furCon.temp) - nrow(Z_i.temp)))
+#        }
       }
     }
 

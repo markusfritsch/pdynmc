@@ -19,15 +19,15 @@ dat = dat
 varname.i = "firm"
 varname.t = "year"
 
-use.mc.diff = TRUE
-use.mc.lev = TRUE
-use.mc.nonlin = FALSE
+use.mc.diff = FALSE
+use.mc.lev = FALSE
+use.mc.nonlin = TRUE
 use.mc.nonlinAS = NULL
 inst.stata = FALSE
 
 include.y = TRUE
 varname.y = "emp"
-lagTerms.y = 1
+lagTerms.y = 2
 maxLags.y = NULL
 
 include.x = FALSE
@@ -46,16 +46,16 @@ inst.reg.ex.expand = TRUE
 include.x.toInstr = FALSE
 varname.reg.toInstr = NULL
 
-fur.con = FALSE
-fur.con.diff = NULL
-fur.con.lev = NULL
-varname.reg.fur = NULL
-lagTerms.reg.fur = NULL
+fur.con = TRUE
+fur.con.diff = FALSE
+fur.con.lev = TRUE
+varname.reg.fur = c("wage", "capital", "output")
+lagTerms.reg.fur = c(1,2,2)
 
-include.dum = TRUE
-dum.diff = TRUE
-dum.lev = FALSE
-varname.dum = "year"
+include.dum = FALSE
+dum.diff = NULL
+dum.lev = NULL
+varname.dum = NULL
 
 col_tol = 0.65
 w.mat = "iid.err"
