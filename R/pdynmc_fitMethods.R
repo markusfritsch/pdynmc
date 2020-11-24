@@ -1085,13 +1085,16 @@ plot.pdynmc		<- function(
       stop("Use only with \"pdynmc\" objects.")
     }
 
-    fitteds <- unlist(x$fitted.values)
-    resids  <- unlist(x$residuals)
+    step.temp <- x$iter
+    fitteds <- unlist(x$fitted.values[[step.temp]])
+    resids  <- unlist(x$residuals[[step.temp]])
 
     y.range	<- c(-1, 1)*max(abs(resids))
-    graphics::plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted Values", ylab = "Residuals",
-         main	= paste("Fitted Residual Plot of", substitute(x)), col = "grey60", ...)
-    graphics::abline(h = 0)
+    graphics::plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted values", ylab = "Residuals",
+         main	= paste("Fitted vs. residual plot of", substitute(x)), col = "grey60", ...)
+    graphics::lines(x = c(par("usr")[1], par("usr")[2]), y = c(0,0), col = 1, lty = 2)
+#    graphics::lines(x = range(fitteds, na.rm = TRUE), y = c(0,0), col = 1, lty = 2)
+#    graphics::abline(h = 0)
   }
 
 
@@ -1153,7 +1156,7 @@ plot.pdynmc		<- function(
       }
     } else{
       if(boxplot.coef){
-        graphics::boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "", ...)
+        graphics::boxplot(t(coef.mat), xaxt = "n", xlabel = "", ylabel = "Estimate", ...)
         for(i in 1:n.coef){
           graphics::points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 1, ...)
           graphics::lines(x = c(i-0.2, i+0.2), y = rep(coef.est[i], times = 2), col = col.coefEst, lwd = 2, ...)
@@ -1161,7 +1164,7 @@ plot.pdynmc		<- function(
       } else{
         coef.mat.min.max <- cbind(apply(X = coef.mat, MARGIN = 1, FUN = min), apply(X = coef.mat, MARGIN = 1, FUN = max))
         x.vec        <- 1:n.coef
-        graphics::plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "", ...)
+        graphics::plot(x = rep(x.vec, each = 2), y = t(coef.mat.min.max), type = "n", xlim = c(0.7, n.coef+0.3), xaxt = "n", xaxt = "n", xlab = "", ylab = "Estimate", ...)
         for(i in 1:n.coef){
           graphics::lines(x = rep(x.vec[i], times = 2), y = coef.mat.min.max[i,], col = col.coefRange, lwd = 1, lty = 2, ...)
           graphics::points(x = x.vec[i], y = coef.mat[i,1], col = col.coefInitial, pch = 1, ...)
@@ -1172,8 +1175,9 @@ plot.pdynmc		<- function(
     }
 #    abline(h = 0)
 #    graphics::legend("bottomleft", col = c(col.coefEst, col.coefInitial, col.coefRange), lwd = c(NA,NA,1), pch = c(18,1,NA), lty = c(NA,NA,2), legend = c("coeff. est.", "coeff. initial", "coeff. range"), bty = "n")
-    graphics::legend(x = n.coef + 1/n.coef, y = max(coef.mat),
-                   legend = c("coeff. est.", "coeff. initial", "coeff. range"), col = c(col.coefEst, col.coefInitial, col.coefRange),
+    graphics::legend("topright", inset = c(-0.35,0),
+#      x = n.coef + 1, y = max(coef.mat),
+                   legend = c("coef. est.", "coef. initial", "coef. range"), col = c(col.coefEst, col.coefInitial, col.coefRange),
                    lwd = c(NA,NA,1), pch = c(18,1,NA), lty = c(NA,NA,2), bty = "n", cex = 0.9, horiz = FALSE)
     par(mar = parMar)
   }
@@ -1294,8 +1298,10 @@ plot.pdynmc		<- function(
                       type = "l", lty = 1, col = col.set[i], lwd = 2)
     }
 
-    graphics::legend(x = nrow(coef.mat) + 1, y = ord.max,
-           legend = co, col = col.set[1:(length(col.set) - 1)],
+    graphics::legend("topright", inset = c(-0.35,0),
+#      x = nrow(coef.mat) + 1, y = ord.max,
+           legend = if(sum(!is.na(x$par.optim[[x$iter]])) > 0){c(co, "obj.fct")} else{co},
+           col = if(sum(!is.na(x$par.optim[[x$iter]])) > 0){c(col.set, col.coefInitial)} else{col.set},
            pch = 19, lty = 1, bty = "n", cex = 0.9, horiz = FALSE)
     par(mar = parMar)
   }
