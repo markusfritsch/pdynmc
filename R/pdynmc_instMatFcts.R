@@ -46,13 +46,15 @@ variable.fct	<- function(			# function that creates starting and end period when
   ,dat.na
 ){
   #   if(mc.ref.t){
-  Matrix::t(Matrix::bdiag(mapply(ti = c(rep(1, times = min((Time-lagTerms-1),T.mcDiff) ), {if(length(rep(1, times = min((Time-lagTerms-1),T.mcDiff) )) < length(lagTerms:(Time-2))){2:(Time - T.mcDiff - 1)}} )
-                                , t.end = lagTerms:(Time-2), FUN = dat.fct, lagTerms = lagTerms, varname = varname,
-#  Matrix::t(Matrix::bdiag(mapply(ti = c(rep(1, times = Time-lagTerms-1), {if(Time - T.mcDiff - 2 > 0){2:(Time - T.mcDiff - 1)}} ), t.end = lagTerms:(Time-2), FUN = dat.fct, lagTerms = lagTerms, varname = varname,
-                                 MoreArgs = list(i = i
+
+  ti.temp   <- rep(1, times = Time-lagTerms-1) + if(Time-lagTerms-1 - T.mcDiff > 0){c(rep(0, times = T.mcDiff - lagTerms), 1:(Time - T.mcDiff - 1))} else{rep(0, times = Time-lagTerms-1)}
+  tend.temp <- lagTerms:(Time-2)
+  Matrix::t(Matrix::bdiag(mapply(ti = ti.temp, t.end = tend.temp
+                                , FUN = dat.fct, lagTerms = lagTerms, varname = varname
+                                , MoreArgs = list(i = i
                                                  #			, mc.ref.t = mc.ref.t
                                                  , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na)
-                                 , SIMPLIFY = FALSE)))
+                                , SIMPLIFY = FALSE)))
   #   } else{
   #     t(sapply(X = (Time - T.mcDiff - 1):(Time - 2), FUN = dat.fct, i = i, varname = varname))
   #   }
@@ -86,9 +88,12 @@ variable.pre.fct	<- function(			# function that creates starting and end period 
   ,dat.na
 ){
   #   if(mc.ref.t){
-#  Matrix::t(Matrix::bdiag(mapply(ti = c(rep(1, times = min((Time-lagTerms-1), T.mcDiff)), {if(Time - T.mcDiff - 2 > 0){2:(Time - T.mcDiff - 1)}} ), t.end = (lagTerms+1):(Time-1), FUN = dat.fct.pre, lagTerms = lagTerms, varname = varname,
-  Matrix::t(Matrix::bdiag(mapply(ti = (rep(1, times = (Time-lagTerms-1)) + if(Time - T.mcDiff - 2 > 0){c(rep(0, times = T.mcDiff), 1:(Time - T.mcDiff - 2))} else{0}), t.end = (lagTerms+1):(Time-1), FUN = dat.fct.pre, lagTerms = lagTerms, varname = varname,
-                                   MoreArgs = list(i = i, Time = Time
+
+  ti.temp   <- rep(1, times = Time-lagTerms-1) + if(Time-lagTerms-1 - T.mcDiff > 0){c(rep(0, times = T.mcDiff - lagTerms), 1:(Time - T.mcDiff - 1))} else{rep(0, times = Time-lagTerms-1)}
+  tend.temp <- (lagTerms+1):(Time-1)
+
+  Matrix::t(Matrix::bdiag(mapply(ti = ti.temp, t.end = tend.temp, FUN = dat.fct.pre, lagTerms = lagTerms, varname = varname
+                                   , MoreArgs = list(i = i, Time = Time
                                                  #			, mc.ref.t = mc.ref.t
                                                  , varname.i = varname.i, dat = dat, dat.na = dat.na), SIMPLIFY = FALSE)))
   #   } else{
@@ -140,8 +145,8 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
 #  t.end[t.end > Time]	<- Time
 #  err.term.start	<- c((min(t.start) + lagTerms + 1):max(t.end))
   err.term.start	<- t.start
-  Matrix::t(Matrix::bdiag(mapply(ti = t.start, t.end = t.end, err.term.start = err.term.start, FUN = dat.fct.ex, varname = varname,
-                                 MoreArgs = list(i = i, Time = Time
+  Matrix::t(Matrix::bdiag(mapply(ti = t.start, t.end = t.end, err.term.start = err.term.start, FUN = dat.fct.ex, varname = varname
+                                 , MoreArgs = list(i = i, Time = Time
                                                  #				, mc.ref.t = mc.ref.t
                                                  , varname.i = varname.i, dat = dat, dat.na = dat.na), SIMPLIFY = FALSE)))																		# [M:] use all m.c. in direction of T and cut at initial periods
   #   } else{

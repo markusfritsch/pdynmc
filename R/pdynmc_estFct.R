@@ -871,7 +871,7 @@ pdynmc		<- function(
 
 
 ###
-###	Specifying the number of lags avaialble to derive instruments and further expanding the data set
+###	Specifying the number of lags available to derive instruments and further expanding the data set
 ###
 
 
@@ -880,23 +880,21 @@ pdynmc		<- function(
  if((include.y | !(is.null(lagTerms.y))) & !(is.null(maxLags.y))){
    if(maxLags.y + 2 > Time){				# [M:] maximum number of time periods of y_{it}- and x_{it}-process employed in estimation
      maxLags.y		<- Time-2
-     warning(cat(paste(c("Longitudinal dimension too low. Maximum number of instruments from dependent variable to be employed in estimation",
-				"was therefore reduced to ", Time-2, " (= Time-2)."), sep = "\n")) )
+     warning(cat(paste(c("Longitudinal dimension too short. Maximum number of instruments from dependent variable to be employed in estimation",
+				"was reduced to ", Time-2, " (= Time-2)."), sep = "\n")) )
    }
-   if(maxLags.y < 2 & use.mc.nonlin){
-     use.mc.nonlin		<- FALSE
-     warning(paste("Number of lags of dependent variable too low to obtain nonlinear moment conditions; 'use.mc.nonlin' was therefore set to 'FALSE'."))
-   }
+
  } else{
    maxLags.y			<- Time-2
  }
+
 
  if(include.x){
    if(is.null(maxLags.reg.end)){
      try(if(length(maxLags.reg.end) != length(varname.reg.end)) stop("maximum number of lags of non-lagged-dependent endogenous covariates from which instruments should be derived needs to be specified completely"))
      if(any(maxLags.reg.end + 2 > Time)){
        maxLags.reg.end[maxLags.reg.end > Time-2]		<- Time - 2
-       warning(cat(paste(c("Longitudinal dimension too low. Maximum number of lags to obtain instruments from non-lagged-dependent endogenous covariates",
+       warning(cat(paste(c("Longitudinal dimension too short. Maximum number of lags to obtain instruments from non-lagged-dependent endogenous covariates",
 				"was reduced to ", Time-2, " (= Time-2)."), sep = "\n")) )
      }
    }
@@ -920,7 +918,7 @@ pdynmc		<- function(
    if(!(is.null(maxLags.reg.ex))){
      try(if(length(maxLags.reg.ex) != length(varname.reg.ex)) stop("maximum number of lags of non-lagged-dependent exogenous covariates from which instruments should be derived needs to be specified completely"))
      if(any(maxLags.reg.ex > Time)){
-       maxLags.reg.ex[maxLags.reg.ex > Time]		<- Time					# [M:] only required for HNR m.c. (from equ. in differences)
+       maxLags.reg.ex[maxLags.reg.ex > Time]		<- Time					# [M:] only required for HNR m.c. (from equations in differences)
        warning(cat(paste(c("Longitudinal dimension too low. Maximum number of lags to obtain instruments from non-lagged-dependent exogenous covariates",
 				"was reduced to ", Time-2, " (= Time-2)."), sep = "\n")) )
      }
@@ -932,6 +930,25 @@ pdynmc		<- function(
    }
  }
 
+
+ if(use.mc.diff){
+   minLags.d <- max(2, max.lagTerms + 1)
+   lagLimit.d.temp <- min(if(!(is.null(varname.y)) | !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
+                         if(!(is.null(varname.reg.pre))){ maxLags.reg.pre }, if(!(is.null(varname.reg.ex))){ maxLags.reg.ex } )
+   if(lagLimit.d.temp < minLags.d) stop(paste("'maxLags' set too low. Minimum number of lags required to derive moment conditions from equations in differences is ", minLags.d, ".", sep = ""))
+ }
+ if(use.mc.lev){
+   minLags.l <- max(2, max.lagTerms)
+   lagLimit.l.temp <- min(if(!(is.null(varname.y)) | !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
+                         if(!(is.null(varname.reg.pre))){ maxLags.reg.pre }, if(!(is.null(varname.reg.ex))){ maxLags.reg.ex } )
+   if(lagLimit.l.temp < minLags.l) stop(paste("'maxLags' set too low. Minimum number of lags required to derive moment conditions from equations in levels is ", minLags.l, ".", sep = ""))
+ }
+ if(use.mc.nonlin){
+   minLags.dnl <- max(3, max.lagTerms+2)
+   lagLimit.dnl.temp <- min(if(!(is.null(varname.y)) | !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
+                          if(!(is.null(varname.reg.pre))){ maxLags.reg.pre }, if(!(is.null(varname.reg.ex))){ maxLags.reg.ex } )
+   if(lagLimit.dnl.temp < minLags.dnl) stop(paste("'maxLags' set too low. Minimum number of lags required to derive nonlinear moment conditions is ", minLags.dnl, ".", sep = ""))
+ }
 
 
 

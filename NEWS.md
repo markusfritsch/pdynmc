@@ -5,9 +5,9 @@ Minor update of version 0.9.2 that adjusts minor bugs in estimation function and
 
 ### pdynmc
 * Default arguments and corresponding documentation
-* Check functions
-* Checks when setting up instrument matrix
-* Residuals and fitted values are added to pdynmc object (besides the previously available internal residuals).
+* Add check functions
+* Adjust checks when setting up instrument matrix
+* Residuals and fitted values are added to pdynmc object (besides the previously available internal residuals and fitted values).
 
 
 ### plot.pdynmc
