@@ -706,8 +706,8 @@ gmmObj.fct		<- function(
       if(use.mc.nonlinAS){
 #        u.vec.2_lev.diff	<- rep(gmmDat.parDep$u.hat_t[(Time-1) + (i-1)*(Time-1)], times = length(max.lagTerms:(Time-3) + (i-1)*(Time-2)))*
         u.vec.2_lev.diff	<- rep(gmmDat.parDep$u.hat_t[(Time-1) + (i-1)*(Time-1)], times = maxLags.y - max.lagTerms -1)*
-          gmmDat.parDep$du.hat[max.lagTerms:(Time-3) + (i-1)*(Time-2)][-(1:(maxLags.y - (max.lagTerms+2)))]
-        y.vec.2_lev.diff	<- gmmDat.parDep$fitted.diff[max.lagTerms:(Time-3) + (i-1)*(Time-2)][-(1:(maxLags.y - (max.lagTerms+2)))]
+          gmmDat.parDep$du.hat[max.lagTerms:(Time-3) + (i-1)*(Time-2)][if(maxLags.y - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLags.y - (max.lagTerms+2)+1)))}]
+        y.vec.2_lev.diff	<- gmmDat.parDep$fitted.diff[max.lagTerms:(Time-3) + (i-1)*(Time-2)][if(maxLags.y - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLags.y - (max.lagTerms+2)+1)))}]
 
       } else{
         u.vec.2_lev.diff	<- gmmDat.parDep$u.hat_t[(max.lagTerms + 2):(Time-1) + (i-1)*(Time-1)]*
@@ -865,7 +865,7 @@ sub.clForm.fct		<- function(
     if(use.mc.nonlinAS){
       dat.temp_2nl			<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
         as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
-      dat.temp_2nl      <- dat.temp_2nl[-c(1:(maxLags.y - (max.lagTerms+2))), ]
+      dat.temp_2nl      <- dat.temp_2nl[if(maxLags.y - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLags.y - (max.lagTerms+2)+1)))}, ]
     } else{
       dat.temp_2nl					<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
         as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
@@ -951,7 +951,7 @@ dat.closedFormExpand.fct		<- function(
 
   dat.temp		<- do.call(what = sub.clForm.fct, args = list(i = i, varname.i = varname.i, varname = varnames.temp, varname.y = varname.y
                                                           ,max.lagTerms = max.lagTerms, maxLags.y = maxLags.y, Time = Time, data.temp = data.temp, use.mc.diff = use.mc.diff, dum.diff = dum.diff, fur.con.diff = fur.con.diff
-                                                          ,use.mc.lev = use.mc.lev, dum.lev = dum.lev, fur.con.lev = fur.con.lev, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS
+                                                          ,use.mc.lev = use.mc.lev, dum.lev = dum.lev, fur.con.lev = fur.con.lev, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS
                                                           ,include.x = include.x, pre.reg = pre.reg, ex.reg = ex.reg))
 
   return(dat.temp)

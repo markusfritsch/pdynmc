@@ -91,7 +91,8 @@
 #'    moment conditions should be used.
 #' @param use.mc.nonlinAS A logical variable indicating whether only the nonlinear
 #'    (quadratic) moment conditions in the form proposed by
-#'    \insertCite{AhnSch1995;textual}{pdynmc} should be used (defaults to `TRUE`).
+#'    \insertCite{AhnSch1995;textual}{pdynmc} should be used (is set to `TRUE`
+#'    when nonlinear moment conditions are employed).
 #' @param inst.stata A logical variable indicating whether to use the moment
 #'    conditions from equations in levels as in Stata implementations xtabond2
 #'    \insertCite{Roo2018xtabond2;textual}{pdynmc} and xtdpdgmm
@@ -1180,7 +1181,7 @@ pdynmc		<- function(
 
  Z.obj		<- lapply(X = i_cases, FUN = Z_i.fct, Time = Time, varname.i = varname.i
 #					, mc.ref.t = mc.ref.t
-					,use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin
+					,use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS
 					,include.y = include.y, varname.y = varname.y, inst.stata = inst.stata
 					,include.dum = include.dum, dum.diff = dum.diff, dum.lev = dum.lev, colnames.dum = colnames.dum
 					,fur.con = fur.con, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, varname.reg.estParam.fur = varname.reg.estParam.fur

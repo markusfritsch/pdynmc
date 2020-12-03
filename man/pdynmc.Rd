@@ -83,7 +83,8 @@ moment conditions should be used.}
 
 \item{use.mc.nonlinAS}{A logical variable indicating whether only the nonlinear
 (quadratic) moment conditions in the form proposed by
-\insertCite{AhnSch1995;textual}{pdynmc} should be used (defaults to `TRUE`).}
+\insertCite{AhnSch1995;textual}{pdynmc} should be used (is set to `TRUE`
+when nonlinear moment conditions are employed).}
 
 \item{inst.stata}{A logical variable indicating whether to use the moment
 conditions from equations in levels as in Stata implementations xtabond2
