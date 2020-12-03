@@ -829,7 +829,11 @@ Z_i.fct	<- function(
 
   if(use.mc.nonlin){
     #     if(mc.ref.t){
-    Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) ))
+    if(use.mc.nonlinAS){
+      Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) )[-(1:(maxLags.y - (max.lagTerms+2)))])
+    } else {
+      Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) ))
+    }
 
     if(use.mc.diff & !(use.mc.lev)){
       Z_i.temp		<- Matrix::bdiag(list(Z_i.mc.diff_temp, Z_i.mc.AS4))
