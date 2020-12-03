@@ -1212,7 +1212,7 @@ pdynmc		<- function(
  }
 
 
- if(resGMM$n.inst < length(varname.reg.estParam)){
+ if(sum(resGMM$n.inst) < length(varname.reg.estParam)){
    stop(paste("Cannot estimate ", length(varname.reg.estParam), " parameters from ", sum(resGMM$n.inst)," moment conditions.", sep = ""))
  }
 
@@ -1307,11 +1307,11 @@ pdynmc		<- function(
 
 # if(estimation != "cue"){
 
-   resGMM.W.j[[j]]				<- Wonestep.fct(w.mat = w.mat, w.mat.stata = w.mat.stata, use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin
+   resGMM.W.j[[j]]				<- Wonestep.fct(w.mat = w.mat, w.mat.stata = w.mat.stata, use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS
 						,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev
 						,Z.temp = resGMM$Z.temp, n = n, Time = Time, env = env
 #						,mc.ref.t = mc.ref.t
-						, max.lagTerms = max.lagTerms, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg, n.inst = resGMM$n.inst, inst.thresh = inst.thresh)
+						, max.lagTerms = max.lagTerms, maxLags.y = maxLags.y, end.reg = end.reg, ex.reg = ex.reg, pre.reg = pre.reg, n.inst = resGMM$n.inst, inst.thresh = inst.thresh)
    names(resGMM.W.j)[j]		<- paste("step", j, sep = "")
 
    resGMM.H.i			<- H_i
@@ -1347,8 +1347,8 @@ pdynmc		<- function(
    dat.temp			<- lapply(X = i_cases, FUN = dat.closedFormExpand.fct
 					,dat.na = dat.na, varname.i = varname.i, varname.reg.instr = varname.reg.instr
 					,varname.reg.toInstr = varname.reg.toInstr, varname.y = varname.y, varname.reg.estParam = varname.reg.estParam
-					,use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin
-					,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, max.lagTerms = max.lagTerms, Time = Time
+					,use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS
+					,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, max.lagTerms = max.lagTerms, maxLags.y = maxLags.y, Time = Time
 					,include.x = include.x, pre.reg = pre.reg, ex.reg = ex.reg)
 
    dat.res.temp <- lapply(X = i_cases, FUN = dat.expand.fct

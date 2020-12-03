@@ -48,6 +48,7 @@ Wonestep.fct		<- function(
   ,use.mc.diff
   ,use.mc.lev
   ,use.mc.nonlin
+  ,use.mc.nonlinAS
   ,dum.diff
   ,dum.lev
   ,fur.con.diff
@@ -56,6 +57,7 @@ Wonestep.fct		<- function(
   ,n
   ,Time
   # ,mc.ref.t
+  ,maxLags.y
   ,max.lagTerms
   ,end.reg
   ,ex.reg
@@ -98,7 +100,11 @@ Wonestep.fct		<- function(
 #    }
 
     if(use.mc.nonlin){
-      H_i.mcNL		<- diag(Time - max.lagTerms - 2)
+      if(use.mc.nonlinAS){
+        H_i.mcNL		<- diag(maxLags.y - max.lagTerms - 1)
+      } else{
+        H_i.mcNL		<- diag(Time - max.lagTerms - 2)
+      }
     }
 
     if((use.mc.diff | dum.diff | fur.con.diff) & (use.mc.lev | dum.lev | fur.con.lev)){
@@ -698,9 +704,10 @@ gmmObj.fct		<- function(
 
     if(use.mc.nonlin){
       if(use.mc.nonlinAS){
-        u.vec.2_lev.diff	<- rep(gmmDat.parDep$u.hat_t[(Time-1) + (i-1)*(Time-1)], times = length(max.lagTerms:(Time-3) + (i-1)*(Time-2)))*
-          gmmDat.parDep$du.hat[max.lagTerms:(Time-3) + (i-1)*(Time-2)]
-        y.vec.2_lev.diff	<- gmmDat.parDep$fitted.diff[max.lagTerms:(Time-3) + (i-1)*(Time-2)]
+#        u.vec.2_lev.diff	<- rep(gmmDat.parDep$u.hat_t[(Time-1) + (i-1)*(Time-1)], times = length(max.lagTerms:(Time-3) + (i-1)*(Time-2)))*
+        u.vec.2_lev.diff	<- rep(gmmDat.parDep$u.hat_t[(Time-1) + (i-1)*(Time-1)], times = maxLags.y - max.lagTerms -1)*
+          gmmDat.parDep$du.hat[max.lagTerms:(Time-3) + (i-1)*(Time-2)][-(1:(maxLags.y - (max.lagTerms+2)))]
+        y.vec.2_lev.diff	<- gmmDat.parDep$fitted.diff[max.lagTerms:(Time-3) + (i-1)*(Time-2)][-(1:(maxLags.y - (max.lagTerms+2)))]
 
       } else{
         u.vec.2_lev.diff	<- gmmDat.parDep$u.hat_t[(max.lagTerms + 2):(Time-1) + (i-1)*(Time-1)]*
@@ -831,7 +838,8 @@ sub.clForm.fct		<- function(
   ,varname.i
   ,varname
   ,varname.y
-  ,max.lagTerms												# [M:] renamed since 't' is already defined
+  ,max.lagTerms
+  ,maxLags.y
   ,Time
   ,data.temp
   ,use.mc.diff
@@ -841,6 +849,7 @@ sub.clForm.fct		<- function(
   ,dum.lev
   ,fur.con.lev
   ,use.mc.nonlin
+  ,use.mc.nonlinAS
   ,include.x
   ,pre.reg
   ,ex.reg
@@ -853,8 +862,14 @@ sub.clForm.fct		<- function(
     rownames(dat.temp_1diff)			<- NULL
   }
   if(use.mc.nonlin){
-    dat.temp_2nl					<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
-      as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
+    if(use.mc.nonlinAS){
+      dat.temp_2nl			<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
+        as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
+      dat.temp_2nl      <- dat.temp_2nl[-c(1:(maxLags.y - (max.lagTerms+2))), ]
+    } else{
+      dat.temp_2nl					<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
+        as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
+    }
     colnames(dat.temp_2nl)			<- NULL
     rownames(dat.temp_2nl)			<- NULL
   }
@@ -914,11 +929,13 @@ dat.closedFormExpand.fct		<- function(
   ,use.mc.diff
   ,use.mc.lev
   ,use.mc.nonlin
+  ,use.mc.nonlinAS
   ,dum.diff
   ,dum.lev
   ,fur.con.diff
   ,fur.con.lev
   ,max.lagTerms
+  ,maxLags.y
   ,Time
   ,include.x
   ,pre.reg
@@ -933,8 +950,8 @@ dat.closedFormExpand.fct		<- function(
   data.temp		<- dat.na[dat.na[, varname.i] == as.numeric(i), varnames.temp]
 
   dat.temp		<- do.call(what = sub.clForm.fct, args = list(i = i, varname.i = varname.i, varname = varnames.temp, varname.y = varname.y
-                                                          ,max.lagTerms = max.lagTerms, Time = Time, data.temp = data.temp, use.mc.diff = use.mc.diff, dum.diff = dum.diff, fur.con.diff = fur.con.diff
-                                                          ,use.mc.lev = use.mc.lev, dum.lev = dum.lev, fur.con.lev = fur.con.lev, use.mc.nonlin = use.mc.nonlin
+                                                          ,max.lagTerms = max.lagTerms, maxLags.y = maxLags.y, Time = Time, data.temp = data.temp, use.mc.diff = use.mc.diff, dum.diff = dum.diff, fur.con.diff = fur.con.diff
+                                                          ,use.mc.lev = use.mc.lev, dum.lev = dum.lev, fur.con.lev = fur.con.lev, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS
                                                           ,include.x = include.x, pre.reg = pre.reg, ex.reg = ex.reg))
 
   return(dat.temp)
