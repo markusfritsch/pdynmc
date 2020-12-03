@@ -829,9 +829,9 @@ Z_i.fct	<- function(
 
   if(use.mc.nonlin){
     #     if(mc.ref.t){
-    Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) ))	# [M:] indexing adjusted
+    Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) ))
 
-    if(use.mc.diff & !(use.mc.lev)){																# [M:] changed to allow for nonlinear mc only
+    if(use.mc.diff & !(use.mc.lev)){
       Z_i.temp		<- Matrix::bdiag(list(Z_i.mc.diff_temp, Z_i.mc.AS4))
     }
     if(!(use.mc.diff) & use.mc.lev){

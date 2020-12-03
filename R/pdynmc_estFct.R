@@ -1212,6 +1212,11 @@ pdynmc		<- function(
  }
 
 
+ if(resGMM$n.inst < length(varname.reg.estParam)){
+   stop(paste("Cannot estimate ", length(varname.reg.estParam), " parameters from ", sum(resGMM$n.inst)," moment conditions.", sep = ""))
+ }
+
+
  resGMM$dat.na			<- dat.na
  resGMM$n				    <- n
  resGMM$Time				<- Time
