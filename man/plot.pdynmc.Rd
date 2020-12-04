@@ -12,6 +12,7 @@
   col.coefRange = 1,
   col.coefInitial = "darkgrey",
   col.coefEst = "royalblue",
+  omit1step = FALSE,
   boxplot.coef = FALSE,
   co = NULL,
   add.se.approx = NULL,
@@ -44,7 +45,15 @@ estimates (defaults to 'darkgrey'; requires 'type = coef.range').}
 \item{col.coefEst}{Specify color for plotting coefficient estimate
 (defaults to 'royalblue'; requires 'type = coef.range').}
 
-\item{boxplot.coef}{Wether to draw boxplots for coefficient estimates
+\item{omit1step}{Omit coefficient estimates from one-step GMM
+estimation in coefficient range plot. The argument can after
+obtaining coefficient estimates from numerical optimization
+methods to exclude the randomly drawn starting values from the
+plotted coefficient range (defaults to `FALSE`). Set to `TRUE` to
+exert the option; this argument requires iterative GMM estimates
+and argument 'type = coef.range'.}
+
+\item{boxplot.coef}{Whether to draw boxplots for coefficient estimates
 (defaults to 'FALSE'); requires iterative GMM with at least 10
 iterations and argument 'type = coef.range'. Proceed with caution
 as this argument is experimental.}

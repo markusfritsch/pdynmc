@@ -87,7 +87,7 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
     cat(
       paste("Balanced panel data set with ", nrow(object), " rows:", sep = ""),
       "\n",
-      paste(length(i.set), " cross-sectional units; ", length(t.set), " time periods (", paste(t.set, collapse = ", "), ").", sep = ""),
+      paste(length(i.set), " cross-sectional units; ", length(t.set), " time periods (", paste(t_cases, collapse = ", "), ").", sep = ""),
       "\n"
     )
   } else {
