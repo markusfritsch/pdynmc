@@ -19,7 +19,7 @@ dat = dat
 varname.i = "firm"
 varname.t = "year"
 
-use.mc.diff = FALSE
+use.mc.diff = TRUE
 use.mc.lev = FALSE
 use.mc.nonlin = TRUE
 use.mc.nonlinAS = NULL
@@ -28,7 +28,7 @@ inst.stata = FALSE
 include.y = TRUE
 varname.y = "emp"
 lagTerms.y = 2
-maxLags.y = NULL
+maxLags.y = 4
 
 include.x = FALSE
 varname.reg.end = NULL
@@ -52,17 +52,17 @@ fur.con.lev = TRUE
 varname.reg.fur = c("wage", "capital", "output")
 lagTerms.reg.fur = c(1,2,2)
 
-include.dum = FALSE
-dum.diff = NULL
-dum.lev = NULL
-varname.dum = NULL
+include.dum = TRUE
+dum.diff = TRUE
+dum.lev = FALSE
+varname.dum = "year"
 
 col_tol = 0.65
 w.mat = "iid.err"
 w.mat.stata = FALSE
 
 std.err = "corrected"
-estimation = "iterative"
+estimation = "twostep"
 max.iter = 4
 iter.tol = 0.01
 inst.thresh = NULL

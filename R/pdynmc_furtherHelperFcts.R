@@ -95,9 +95,6 @@ Wonestep.fct		<- function(
       H_i.mcLev		<- diag(Time - max.lagTerms)
     }
 
-#    if(use.mc.lev & (dum.diff | fur.con.diff) & !(dum.lev | fur.con.lev)){
-#      H_i.off		<- H_i.off
-#    }
 
     if(use.mc.nonlin){
       if(use.mc.nonlinAS){
@@ -108,16 +105,6 @@ Wonestep.fct		<- function(
     }
 
     if((use.mc.diff | dum.diff | fur.con.diff) & (use.mc.lev | dum.lev | fur.con.lev)){
-#      if(use.mc.nonlin){
-#        H_i.off     <- (cbind(diag(x = -1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1), 0) +
-#                          cbind(rep(x = 0, times = Time - max.lagTerms - 1),
-#                                diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1)) )
-#        H_i.temp		<- rbind(cbind(H_i.mcDiff, Matrix::Matrix(0, nrow = nrow(H_i.mcDiff), ncol = ncol(H_i.mcNL)), H_i.off),
-#                           cbind(Matrix::Matrix(0, nrow = nrow(H_i.mcNL), ncol = ncol(H_i.mcDiff)), H_i.mcNL, Matrix::Matrix(0, nrow = nrow(H_i.mcNL), ncol = ncol(H_i.off))),
-#                           cbind(t(H_i.off), Matrix::Matrix(0, nrow = nrow(H_i.mcLev), ncol = ncol(H_i.mcNL)), H_i.mcLev) )
-#      } else{
-#        if(!dum.diff & !fur.con.lev & (nrow(Z.temp[[1]]) - ncol(H_i.mcDiff) > Time - max.lagTerms - 1)){
-#      if((nrow(Z.temp[[1]]) - ncol(H_i.mcDiff) - if(use.mc.nonlin){ncol(H_i.mcNL)} else{0}) > Time - max.lagTerms - 1){
       if((nrow(Z.temp[[1]]) - ncol(H_i.mcDiff) - if(use.mc.nonlin){ncol(H_i.mcNL)} else{0}) > Time - max.lagTerms - 1){
         H_i.off	<- (cbind(diag(x = -1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1), 0) +
                       cbind(rep(x = 0, times = Time - max.lagTerms - 1),

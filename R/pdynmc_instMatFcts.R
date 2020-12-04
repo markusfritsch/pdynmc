@@ -831,7 +831,7 @@ Z_i.fct	<- function(
   if(use.mc.nonlin){
     #     if(mc.ref.t){
     if(use.mc.nonlinAS){
-      Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) )[if(maxLags.y - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLags.y - (max.lagTerms+2)+1)))}])
+      Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) )[if(maxLags.y - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLags.y - (max.lagTerms+2)+1)))}], nrow = Time - (max.lagTerms+2) - length((1:(Time - (max.lagTerms+2) - (maxLags.y - (max.lagTerms+2)+1)))))
     } else {
       Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) ))
     }
