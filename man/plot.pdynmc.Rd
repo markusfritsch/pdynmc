@@ -60,7 +60,7 @@ as this argument is experimental.}
 
 \item{co}{Character string denoting the variable name(s) for which to
 plot the path of coefficient estimate(s) across GMM iterations
-(defaults to 'NULL') as proposed in \insertCite{HanLee2019inference;textual}{pdynmc};
+(defaults to 'NULL') as proposed in \insertCite{HanLee2020inference;textual}{pdynmc};
 if no coefficient name is given, all coefficient paths are plotted;
 requires at least two iterations and argument 'type = coef.path'.}
 
@@ -90,7 +90,7 @@ Plot fitted values against residuals ('type = fire') or
    available plot options visualize: Fitted values versus residuals,
    coefficient ranges across GMM iterations, coefficient paths and
    objective function values across GMM iterations as proposed by
-   \insertCite{HanLee2019inference;textual}{pdynmc}.
+   \insertCite{HanLee2020inference;textual}{pdynmc}.
 }
 \examples{
 ## Load data from plm package
