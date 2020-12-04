@@ -168,10 +168,6 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #' ## Code example
 #'  strucUPD.plot(dat, i.name = "firm", t.name = "year")
 #'
-#'  set.seed(42)
-#'  strucUPD.plot(dat[sample(x = 1:nrow(dat),
-#'   size = floor(0.5*nrow(dat)), replace = FALSE), ],
-#'  i.name = "firm", t.name = "year")
 #' }
 #'
 #'

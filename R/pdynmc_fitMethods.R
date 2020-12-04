@@ -949,7 +949,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'    available plot options visualize: Fitted values versus residuals,
 #'    coefficient ranges across GMM iterations, coefficient paths and
 #'    objective function values across GMM iterations as proposed by
-#'    \insertCite{HanLee2019inference;textual}{pdynmc}.
+#'    \insertCite{HanLee2020inference;textual}{pdynmc}.
 #'
 #' @param x An object of class `pdynmc`. The function requires
 #'    twostep or iterative GMM estimates.
@@ -981,7 +981,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'    as this argument is experimental.
 #' @param co Character string denoting the variable name(s) for which to
 #'    plot the path of coefficient estimate(s) across GMM iterations
-#'    (defaults to 'NULL') as proposed in \insertCite{HanLee2019inference;textual}{pdynmc};
+#'    (defaults to 'NULL') as proposed in \insertCite{HanLee2020inference;textual}{pdynmc};
 #'    if no coefficient name is given, all coefficient paths are plotted;
 #'    requires at least two iterations and argument 'type = coef.path'.
 #' @param add.se.approx A logical variable indicating if standard errors
@@ -1012,6 +1012,7 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' @importFrom graphics plot
 #' @importFrom graphics points
 #' @importFrom grDevices colorRampPalette
+#' @importFrom stats qnorm
 #'
 #' @seealso
 #'
@@ -1234,7 +1235,7 @@ plot.pdynmc		<- function(
     col.pal <- c(col.coefEst, col.coefInitial)
     coef.est <- if(sum(!is.na(x$par.optim[[x$iter]])) > 0) { x$par.optim } else { x$par.clForm }
     coef.mat <- Reduce(rbind, coef.est)[, x$data$varnames.reg %in% co]
-    quant <- abs(qnorm(p = (1 - conf.lev)/2, mean = 0, sd = 1))
+    quant <- abs(stats::qnorm(p = (1 - conf.lev)/2, mean = 0, sd = 1))
     se.est <- x$stderr
     se.mat <- Reduce(rbind, se.est)[, x$data$varnames.reg %in% co]
     if(length(co) > 1){

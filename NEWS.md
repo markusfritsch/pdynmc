@@ -1,4 +1,4 @@
-# pdynmc version 0.9.3.9000
+# pdynmc version 0.9.3
 
 Minor update of version 0.9.2 that fixes minor bugs in estimation function and helper functions for setting up instrument and weighting matrix; additionally, coefficient path plots are added to the plot method and existing plot methods are adjusted.
 

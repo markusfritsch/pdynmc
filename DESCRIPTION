@@ -1,7 +1,7 @@
 Package: pdynmc
 Type: Package
 Title: Moment Condition Based Estimation of Linear Dynamic Panel Data Models
-Version: 0.9.3.9008
+Version: 0.9.3
 Date: 2020-12-04
 Authors@R: c(person("Markus", "Fritsch", role = c("aut", "cre"),
 		email = "Markus.Fritsch@uni-Passau.de"),
@@ -21,6 +21,7 @@ Imports: data.table (>= 1.12.2),
 	Rdpack (>= 0.11-0)
 Suggests: 
     plm (>= 2.2-0),
+    pder (>= 1.0-1),
     testthat (>= 2.3.2),
     R.rsp (>= 0.43.2)
 RdMacros: Rdpack
