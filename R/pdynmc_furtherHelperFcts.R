@@ -626,6 +626,7 @@ gmmObj.fct		<- function(
   ,dum.diff
   ,fur.con.diff
   ,max.lagTerms
+  ,maxLags.y
   ,end.reg
   ,ex.reg
   ,pre.reg
