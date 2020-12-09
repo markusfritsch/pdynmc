@@ -513,7 +513,7 @@ mtest.fct 		<- function(
   stat		<- frac.num/frac.denom
   names(stat)	<- "normal"
   pval		<- 2*stats::pnorm(abs(stat), lower.tail = FALSE)
-  mtest		<- list(statistic = stat, p.value = pval, method = paste("Arrelano and Bond (1991) serial correlation test of degree", t.order)
+  mtest		<- list(statistic = stat, p.value = pval, method = paste("Arellano and Bond (1991) serial correlation test of degree", t.order)
                  ,data.name = paste(object$iter, "step GMM Estimation; H0: no serial correlation of order ", t.order, " in the error terms", sep = "")
   )
   class(mtest)	<- "htest"

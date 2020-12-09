@@ -98,11 +98,11 @@
 #'    \insertCite{Roo2018xtabond2;textual}{pdynmc} and xtdpdgmm
 #'    \insertCite{Kri2019;textual}{pdynmc}.
 #' @param include.y A logical variable indicating whether instruments should be
-#'    derived from the lags of the response variable.
-#' @param varname.y A character string denoting the name of the response variable
+#'    derived from the lags of the dependent variable.
+#' @param varname.y A character string denoting the name of the dependent variable
 #'    in the data set.
 #' @param lagTerms.y An integer indicating the number of lags of the dependent
-#'    variable used as explanatory variables.
+#'    variable.
 #' @param maxLags.y An integer indicating the maximum number of lags of the
 #'    dependent variable from which instruments should be derived.
 #' @param include.x A logical variable indicating whether instruments should be
@@ -112,9 +112,8 @@
 #' @param varname.reg.end One or more character strings denoting the covariate(s)
 #'    in the data set to be treated as endogenous (defaults to `NULL`).
 #' @param lagTerms.reg.end One or more integers indicating the number of lags of
-#'    the endogenous covariate(s) used as explanatory variables. One integer per
-#'    covariate needs to be given in the same order as the covariate names
-#'    (defaults to `NULL`).
+#'    the endogenous covariate(s). One integer per covariate needs to be given
+#'    in the same order as the covariate names (defaults to `NULL`).
 #' @param maxLags.reg.end One or more integers indicating the maximum number of
 #'    lags of the endogenous covariate(s) used for deriving instruments. One
 #'    integer per covariate needs to be given in the same order as the covariate
@@ -122,9 +121,8 @@
 #' @param varname.reg.pre One or more character strings denoting the covariate(s)
 #'    in the data set to be treated as predetermined (defaults to `NULL`).
 #' @param lagTerms.reg.pre One or more integers indicating the number of lags of
-#'    the predetermined covariate(s) used as explanatory variables. One integer per
-#'    covariate needs to be given in the same order as the covariate name (defaults
-#'    to `NULL`).
+#'    the predetermined covariate(s). One integer per covariate needs to be given
+#'    in the same order as the covariate name (defaults to `NULL`).
 #' @param maxLags.reg.pre One or more integers indicating the maximum number of
 #'    lags of the predetermined covariate(s) used for deriving instruments. One
 #'    integer per covariate needs to be given in the same order as the covariate
@@ -132,9 +130,8 @@
 #' @param varname.reg.ex One or more character strings denoting the covariate(s)
 #'    in the data set to be treated as (strictly) exogenous (defaults to `NULL`).
 #' @param lagTerms.reg.ex One or more integers indicating the number of lags of
-#'    the (strictly) exogenous covariate(s) used as explanatory variables. One
-#'    integer per covariate needs to be given in the same order as the covariate
-#'    name (defaults to `NULL`).
+#'    the (strictly) exogenous covariate(s). One integer per covariate needs to
+#'    be given in the same order as the covariate name (defaults to `NULL`).
 #' @param maxLags.reg.ex One or more integers indicating the maximum number of
 #'    lags of the (strictly) exogenous covariate(s) used for deriving instruments.
 #'    One integer per covariate needs to be given in the same order as the
@@ -161,9 +158,8 @@
 #' @param varname.reg.fur One or more character strings denoting covariate(s) in
 #'    the data set to treat as further controls (defaults to `NULL`).
 #' @param lagTerms.reg.fur One or more integers indicating the number of lags of
-#'    the further controls to be used as explanatory variables. One integer per
-#'    further control needs to be given in the same order as the corresponding
-#'    variable names (defaults to `NULL`).
+#'    the further controls. One integer per further control needs to be given in
+#'    the same order as the corresponding variable names (defaults to `NULL`).
 #' @param include.dum A logical variable indicating whether dummy variables for
 #'    the time periods are included (defaults to `FALSE`).
 #' @param dum.diff A logical variable indicating whether dummy variables are
@@ -193,8 +189,9 @@
 #' @param iter.tol A numeric variable in [0,1] indicating the tolerance for
 #'    determining convergence of the iterative approach (defaults to `NULL`;
 #'    if estimation is set to `"iterative"`, iter.tol defaults to 0.01).
-#' @param inst.thresh An integer denoting wether to limit the total number of
-#'    instruments to be used in estimation (defaults to `NULL`).
+#' @param inst.thresh An integer denoting above which instrument count a
+#'    generalized inverse is used to invert the weighting matrix (defaults to
+#'    `NULL`).
 #' @param opt.meth A character string denoting the numerical optimization procedure.
 #'    When no nonlinear moment conditions are employed in estimation, closed form
 #'    estimates can be computed by setting the argument to `"none"` (defaults to
@@ -225,7 +222,7 @@
 #' \item{data}{a list of elements on which computation of the model fit is based}
 #' \item{dep.clF}{a list of vectors containing the dependent variable for the
 #'    cross-sectional observations}
-#' \item{dat.clF}{a list of matrices containing the explanatory variables for the
+#' \item{dat.clF}{a list of matrices containing the covariates for the
 #'    cross-sectional observations}
 #' \item{w.mat}{a list of weighting matrices for the different estimation steps}
 #' \item{H_i}{a matrix used to create the weighting matrix for the first estimation
