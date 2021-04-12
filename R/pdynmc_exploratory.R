@@ -87,12 +87,16 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
     cat(
       paste("Balanced panel data set with ", nrow(object), " rows:", sep = ""),
       "\n",
-      paste(length(i.set), " cross-sectional units; ", length(t.set), " time periods (", paste(t_cases, collapse = ", "), ").", sep = ""),
+      paste(length(i.set), " cross-sectional units and ", length(t.set), " time periods", sep = ""),
+      "\n",
+      paste("(",paste(t_cases, collapse = ", "), ").", sep = ""),
       "\n"
     )
   } else {
     cat(
-      paste("Unbalanced panel data set with ", nrow(object_b), " rows and the following time period frequencies:", sep = ""),
+      paste("Unbalanced panel data set with ", length(periods.per.cs), " time periods and ", nrow(object_b), " rows;", sep = ""),
+      "\n",
+      paste("time period frequencies:", sep = ""),
       "\n"
     )
     periods.per.cs
