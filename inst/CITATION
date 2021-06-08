@@ -7,6 +7,18 @@ bibentry(bibtype = "Article",
 	year = ("2021"),
 	doi = ("10.32614/RJ-2021-035"),
 	url = ("https://journal.r-project.org/archive/2021/RJ-2021-035/index.html"),
-	header = "To cite pdynmc in publication use:"
+	header = "To cite pdynmc in publication, please use:"
 	)
 
+
+bibentry(bibtype = "misc",
+	title = ("pdynmc -- Moment Condition Based Estimation of Linear Dynamic Panel Data Models"),
+	author = c(person("Markus", "Fritsch"),
+		person("Andrew Adrian Yu", "Pua"),
+		person("Joachim", "Schnurbus")),
+	version = ("0.9.3"),
+  date = ("2020-12-04"),
+  year = ("2020")
+	url = ("https://cran.r-project.org/web/packages/pdynmc"),
+	header = "To cite the software implementation of pdynmc in publication, please use:"
+	)
