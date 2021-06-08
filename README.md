@@ -15,6 +15,7 @@ corrected standard errors, serial correlation tests, tests for overidentificatio
 and Wald tests are available.
 
 Functions for visualizing panel data structures and modeling results obtained
+<<<<<<< HEAD
 from GMM estimation are also available. The plot methods include functions to plot
 unbalanced panel structure, coefficient ranges and coefficient paths across
 GMM iterations (the latter is implemented according to the plot shown in
@@ -23,6 +24,14 @@ Hansen and Lee, 2021 https://doi.org/10.3982/ECTA16274).
 See also: https://cran.r-project.org/web/packages/pdynmc/index.html.
 For further details on the implementation, see: Fritsch, Pua, and Schnurbus (2021) https://journal.r-project.org/archive/2021/RJ-2021-035/index.html
 
+=======
+from GMM estimation are available. The plot methods include functions to plot
+unbalanced panel structure, coefficient ranges and coefficient paths across
+GMM iterations (the latter is implemented according to the plot shown in
+Hansen and Lee, 2021 https://doi.org/10.3982/ECTA16274)
+
+See also: https://cran.r-project.org/web/packages/pdynmc/index.html
+>>>>>>> 6e6548bec3896f3bbe8a7296f726cd97ea8e3a51
 
 To install the latest development version of the package, please use:
 ```{r}
