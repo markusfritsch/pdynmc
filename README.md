@@ -14,6 +14,12 @@ For inference and specification testing, Windmeijer (2005) https://doi.org/10.10
 corrected standard errors, serial correlation tests, tests for overidentification, 
 and Wald tests are available.
 
+Functions for visualizing panel data structures and modeling results obtained
+from GMM estimation are available. The plot methods include functions to plot
+unbalanced panel structure, coefficient ranges and coefficient paths across
+GMM iterations (the latter is implemented according to the plot shown in
+Hansen and Lee, 2021 https://doi.org/10.3982/ECTA16274)
+
 See also: https://cran.r-project.org/web/packages/pdynmc/index.html
 
 To install the latest development version of the package, please use:
