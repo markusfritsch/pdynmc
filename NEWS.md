@@ -1,3 +1,16 @@
+# pdynmc version 0.9.4
+
+Minor update in which package DESCRIPTION, CITATION, and documentation is adjusted and two further package vignettes are added.
+
+### new vignettes:
+*01_pdynmc-intro
+*02_pdynmc_introLong
+*03_pdynmc-in-a-nutshell
+
+
+
+
+
 # pdynmc version 0.9.3
 
 Minor update of version 0.9.2 that fixes minor bugs in estimation function and helper functions for setting up instrument and weighting matrix; additionally, coefficient path plots are added to the plot method and existing plot methods are adjusted.

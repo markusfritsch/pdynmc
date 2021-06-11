@@ -1,5 +1,5 @@
 bibentry(bibtype = "Article",
-	title = ("pdynmc -- A Package for Estimating Linear Dynamic Panel Data Models Based on Nonlinear Moment Conditions"),
+	title = ("pdynmc: A Package for Estimating Linear Dynamic Panel Data Models Based on Nonlinear Moment Conditions"),
 	author = c(person("Markus", "Fritsch"),
 		person("Andrew Adrian Yu", "Pua"),
 		person("Joachim", "Schnurbus")),
@@ -12,13 +12,13 @@ bibentry(bibtype = "Article",
 
 
 bibentry(bibtype = "misc",
-	title = ("pdynmc -- Moment Condition Based Estimation of Linear Dynamic Panel Data Models"),
+	title = ("pdynmc: Moment Condition Based Estimation of Linear Dynamic Panel Data Models"),
 	author = c(person("Markus", "Fritsch"),
 		person("Andrew Adrian Yu", "Pua"),
 		person("Joachim", "Schnurbus")),
-	version = ("0.9.3"),
-  date = ("2020-12-04"),
-  year = ("2020")
+	version = ("0.9.4"),
+  date = ("2021-06-11"),
+  year = ("2021")
 	url = ("https://cran.r-project.org/web/packages/pdynmc"),
 	header = "To cite the software implementation of pdynmc in publication, please use:"
 	)
