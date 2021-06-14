@@ -1,8 +1,0 @@
-\documentclass{article}
-\usepackage{pdfpages}
-%\VignetteIndexEntry{pdynmc-introLong}
-
-\begin{document}
-\includepdf[pages=-, fitpaper=true]{pdynmc-introLong.pdf}
-
-\end{document}

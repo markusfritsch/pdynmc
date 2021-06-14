@@ -1,8 +1,0 @@
-\documentclass{article}
-\usepackage{pdfpages}
-%\VignetteIndexEntry{pdynmc-pres-in-a-nutshell}
-
-\begin{document}
-\includepdf[pages=-, fitpaper=true]{pdynmc-pres-in-a-nutshell.pdf}
-
-\end{document}
