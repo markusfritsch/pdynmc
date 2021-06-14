@@ -3,9 +3,9 @@
 Minor update in which package DESCRIPTION, CITATION, and documentation is adjusted and two further package vignettes are added.
 
 ### new vignettes:
-*01_pdynmc-intro
-*02_pdynmc_introLong
-*03_pdynmc-in-a-nutshell
+*pdynmc-intro
+*pdynmc_introLong
+*pdynmc-pres-in-a-nutshell
 
 
 
