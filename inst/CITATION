@@ -6,7 +6,7 @@ bibentry(bibtype = "Article",
 	journal = ("The R Journal"),
 	year = ("2021"),
 	doi = ("10.32614/RJ-2021-035"),
-	url = ("https://journal.r-project.org/archive/2021/RJ-2021-035/index.html"),
+	url = ("https://journal.r-project.org/archive/2021/RJ-2021-035"),
 	header = "To cite pdynmc in publication, please use:"
 	)
 
@@ -19,6 +19,6 @@ bibentry(bibtype = "misc",
 	version = ("0.9.4"),
   date = ("2021-06-11"),
   year = ("2021"),
-	url = ("https://cran.r-project.org/web/packages/pdynmc"),
+	url = ("https://cran.r-project.org/package=pdynmc"),
 	header = "To cite the software implementation of pdynmc in publication, please use:"
 	)
