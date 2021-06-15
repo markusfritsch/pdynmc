@@ -1,6 +1,6 @@
 # pdynmc version 0.9.4
 
-Minor update in which package DESCRIPTION, CITATION, and documentation is adjusted and two further package vignettes are added.
+Minor update of version 0.9.3 in which package DESCRIPTION, CITATION, and documentation is adjusted and two further package vignettes are added.
 
 ### new vignettes:
 *pdynmc-intro

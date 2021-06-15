@@ -6,7 +6,7 @@ bibentry(bibtype = "Article",
 	journal = ("The R Journal"),
 	year = ("2021"),
 	doi = ("10.32614/RJ-2021-035"),
-	url = ("https://journal.r-project.org/archive/2021/RJ-2021-035"),
+	url = ("https://journal.r-project.org/archive/2021/RJ-2021-035/"),
 	header = "To cite pdynmc in publication, please use:"
 	)
 

@@ -20,7 +20,7 @@ unbalanced panel structure, coefficient ranges and coefficient paths across
 GMM iterations (the latter is implemented according to the plot shown in
 Hansen and Lee, 2021 https://doi.org/10.3982/ECTA16274).
 
-See also: https://cran.r-project.org/web/packages/pdynmc/index.html
+See also: https://cran.r-project.org/web/packages/pdynmc/index.html.
 For further details on the implementation, see Fritsch, Pua, and Schnurbus (2021) https://journal.r-project.org/archive/2021/RJ-2021-035/index.html.
 
 
