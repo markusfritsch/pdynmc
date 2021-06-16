@@ -385,7 +385,8 @@ jtest.fct		<- function(
 #'
 #' The null hypothesis is that there is no serial correlation of a
 #'    particular order. The test statistic is computed as proposed by
-#'    \insertCite{AreBon1991;textual}{pdynmc}.
+#'    \insertCite{AreBon1991;textual}{pdynmc} and
+#'    \insertCite{Are2003;textual}{pdynmc}.
 #'
 #' @param object An object of class `pdynmc`.
 #' @param t.order A number denoting the order of serial correlation to test for.
