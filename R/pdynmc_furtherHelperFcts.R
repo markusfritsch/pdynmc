@@ -853,7 +853,7 @@ sub.clForm.fct		<- function(
     if(use.mc.nonlinAS){
       dat.temp_2nl			<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
         as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
-      dat.temp_2nl      <- dat.temp_2nl[if(maxLags.y - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLags.y - (max.lagTerms+2)+1)))}, ]
+      dat.temp_2nl      <- dat.temp_2nl[if(maxLagsDep - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLagsDep - (max.lagTerms+2)+1)))}, ]
     } else{
       dat.temp_2nl					<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
         as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
@@ -910,10 +910,11 @@ dat.closedFormExpand.fct		<- function(
   i
   ,dat.na
   ,varname.i
-  ,varname.reg.instr
-  ,varname.reg.toInstr
+#  ,varname.reg.instr
+#  ,varname.reg.toInstr
   ,varname.y
   ,varname.reg.estParam
+  ,varname.reg
   ,use.mc.diff
   ,use.mc.lev
   ,use.mc.nonlin
@@ -930,10 +931,7 @@ dat.closedFormExpand.fct		<- function(
   ,ex.reg
 ){
 
-  varnames.temp	<- if( !(is.null(varname.reg.instr)) | !(is.null(varname.reg.toInstr)) ){
-    c(if(!(is.null(varname.reg.instr))){ varname.reg.estParam[!(varname.reg.estParam %in% varname.reg.instr)] }
-      ,if(!(is.null(varname.reg.toInstr))){ varname.reg.toInstr }, varname.y )
-  } else{ c(varname.reg.estParam, varname.y) }
+  varnames.temp	 <- c(varname.reg.estParam, varname.y)
 
   data.temp		<- dat.na[dat.na[, varname.i] == as.numeric(i), varnames.temp]
 
@@ -963,18 +961,15 @@ dat.expand.fct		<- function(
   i
   ,dat.na
   ,varname.i
-  ,varname.reg.instr
-  ,varname.reg.toInstr
+#  ,varname.reg.instr
+#  ,varname.reg.toInstr
   ,varname.y
   ,varname.reg.estParam
   ,max.lagTerms
   ,Time
 ){
 
-  varnames.temp	<- if( !(is.null(varname.reg.instr)) | !(is.null(varname.reg.toInstr)) ){
-    c(if(!(is.null(varname.reg.instr))){ varname.reg.estParam[!(varname.reg.estParam %in% varname.reg.instr)] }
-      ,if(!(is.null(varname.reg.toInstr))){ varname.reg.toInstr }, varname.y )
-  } else{ c(varname.reg.estParam, varname.y) }
+  varnames.temp	<- c(varname.reg.estParam, varname.y)
 
   data.temp		<- dat.na[dat.na[, varname.i] == as.numeric(i), varnames.temp]
 

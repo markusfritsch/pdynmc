@@ -1047,9 +1047,12 @@ pdynmc		<- function(
 # }
 
  if(include.x){
-   if(!(is.null(varname.reg.end)) & sum(!(varname.reg.end %in% varname.reg.instr)) > 0){
-     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.end[!(varname.reg.end %in% varname.reg.instr)]} else{ varname.reg.end }
-     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.end[!(varname.reg.end %in% varname.reg.instr)]} else{ lagTerms.reg.end }
+#   if(!(is.null(varname.reg.end)) & sum(!(varname.reg.end %in% varname.reg.instr)) > 0){
+#     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.end[!(varname.reg.end %in% varname.reg.instr)]} else{ varname.reg.end }
+#     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.end[!(varname.reg.end %in% varname.reg.instr)]} else{ lagTerms.reg.end }
+   if(!is.null(varname.reg.end)){
+     varname.temp					<- varname.reg.end
+     lagTerms.temp				<- lagTerms.reg.end
      if(length(varname.reg.end) == 1){
        varname.reg.estParam.x.end			<- as.vector(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
        dat.na[, varname.reg.estParam.x.end]	<- as.vector(mapply(lagTerms = rep(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand), each = length(i_cases)),
@@ -1064,9 +1067,12 @@ pdynmc		<- function(
 									FUN = dat.na.lag)
      }
    }
-   if(!(is.null(varname.reg.pre)) & sum(!(varname.reg.pre %in% varname.reg.instr)) > 0){
-     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ varname.reg.pre }
-     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ lagTerms.reg.pre }
+#   if(!(is.null(varname.reg.pre)) & sum(!(varname.reg.pre %in% varname.reg.instr)) > 0){
+#     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ varname.reg.pre }
+#     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ lagTerms.reg.pre }
+   if(!is.null(varname.reg.pre)){
+     varname.temp					<- varname.reg.pre
+     lagTerms.temp				<- lagTerms.reg.pre
      if(length(varname.reg.pre) == 1){
        varname.reg.estParam.x.pre			<- as.vector(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
        dat.na[, varname.reg.estParam.x.pre]	<- as.vector(mapply(lagTerms = rep(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand), each = length(i_cases)),
@@ -1081,9 +1087,12 @@ pdynmc		<- function(
 									FUN = dat.na.lag)
      }
    }
-   if(!(is.null(varname.reg.ex)) & sum(!(varname.reg.ex %in% varname.reg.instr)) > 0){
-     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ varname.reg.ex }
-     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ lagTerms.reg.ex }
+#   if(!(is.null(varname.reg.ex)) & sum(!(varname.reg.ex %in% varname.reg.instr)) > 0){
+#     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ varname.reg.ex }
+#     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ lagTerms.reg.ex }
+   if(!is.null(varname.reg.ex)){
+     varname.temp					<- varname.reg.ex
+     lagTerms.temp				<- lagTerms.reg.ex
      if(length(varname.reg.ex) == 1){
        varname.reg.estParam.x.ex			<- as.vector(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
        dat.na[, varname.reg.estParam.x.ex]	<- as.vector(mapply(lagTerms = rep(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand), each = length(i_cases)),
@@ -1118,6 +1127,9 @@ pdynmc		<- function(
    varname.reg.estParam.fur <- NULL
  }
 
+
+
+
  varname.reg.estParam		 <- c(if(exists("varname.reg.estParam.y")) as.vector(varname.reg.estParam.y)			# [M:] covariates (besides the lagged dependent variable) for which to estimate parameters
 						,if(exists("varname.reg.estParam.x.end")) as.vector(varname.reg.estParam.x.end)
 						,if(exists("varname.reg.estParam.x.pre")) as.vector(varname.reg.estParam.x.pre)
@@ -1131,26 +1143,18 @@ pdynmc		<- function(
 
 
 
+ varname.reg			<- varname.reg.estParam
 
- varname.reg			<- 	c( if(!(is.null(varname.reg.end))) varname.reg.end							# [M:] covariates (besides the lagged dependent variable) to include in estimation
-							,if(!(is.null(varname.reg.pre))) varname.reg.pre
-							,if(!(is.null(varname.reg.ex))) varname.reg.ex
-							,if(!(is.null(varname.reg.estParam.fur))) as.vector(varname.reg.estParam.fur) )
-
-
-
-
-
-
- if(!(is.null(varname.reg.toInstr))){
-   if(varname.reg.toInstr != varname.y){
-     varname.reg.estParam	<- c(varname.reg.estParam, varname.reg.toInstr)				# [M:] include further (endogenous) covariates for which to estimate parameters, but from which no instruments should be derived
-   }
-   varname.reg			<- varname.reg[!(varname.reg %in% varname.reg.toInstr)]		# [M:] exclude the (endogenous) covariates for which to estimate parameters, but from which no instruments should be derived
+ if(!is.null(varname.reg.toInstr)){
+   varname.reg            <- varname.reg[!(grepl(pattern = varname.reg.toInstr, varname.reg))]
+   varname.reg.estParam   <- varname.reg.estParam[!(grepl(pattern = varname.reg.instr, varname.reg.estParam))]
  }
- #else{
- #  varname.reg.estParam		<- c(if(!(is.null(varname.reg.estParam.y))){ varname.reg.estParam.y }, varname.reg)
- #}
+
+
+
+
+
+
 
 
 
@@ -1343,16 +1347,18 @@ pdynmc		<- function(
    names(resGMM.ctrl.opt.j)[j]	<- paste("step", j, sep = "")
 
    dat.temp			<- lapply(X = i_cases, FUN = dat.closedFormExpand.fct
-					,dat.na = dat.na, varname.i = varname.i, varname.reg.instr = varname.reg.instr
-					,varname.reg.toInstr = varname.reg.toInstr, varname.y = varname.y, varname.reg.estParam = varname.reg.estParam
+					,dat.na = dat.na, varname.i = varname.i
+#					,varname.reg.instr = varname.reg.instr, varname.reg.toInstr = varname.reg.toInstr
+					,varname.y = varname.y, varname.reg.estParam = varname.reg.estParam, varname.reg = varname.reg
 					,use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS
 					,dum.diff = dum.diff, dum.lev = dum.lev, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, max.lagTerms = max.lagTerms, maxLags.y = maxLags.y, Time = Time
 					,include.x = include.x, pre.reg = pre.reg, ex.reg = ex.reg)
 
    dat.res.temp <- lapply(X = i_cases, FUN = dat.expand.fct
-                          ,dat.na = dat.na, varname.i = varname.i, varname.reg.instr = varname.reg.instr
-                          ,varname.reg.toInstr = varname.reg.toInstr, varname.y = varname.y, varname.reg.estParam = varname.reg.estParam
-                          , max.lagTerms = max.lagTerms, Time = Time)
+                          ,dat.na = dat.na, varname.i = varname.i
+#                          ,varname.reg.instr = varname.reg.instr, varname.reg.toInstr = varname.reg.toInstr
+                          ,varname.y = varname.y, varname.reg.estParam = varname.reg.estParam
+                          ,max.lagTerms = max.lagTerms, Time = Time)
 
    if(nrow(resGMM$Z.temp[[1]]) == 1){
      dat.clF.temp		<- lapply(lapply(dat.temp, `[[`, 1), function(x) Matrix::t(x))
