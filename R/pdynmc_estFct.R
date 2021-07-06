@@ -564,14 +564,18 @@ pdynmc		<- function(
  if(!fur.con && !((is.null(fur.con.diff) & is.null(fur.con.lev)) | (is.null(fur.con.diff) | is.null(fur.con.lev))) ){
    if(fur.con.diff){
      fur.con.diff <- FALSE
-     warning("No further controls included; argument 'fur.con.diff' was therefore ignored")
+     warning("No further controls included; argument 'fur.con.diff' was therefore ignored.")
    }
    if(fur.con.lev){
      fur.con.lev <- FALSE
-     warning("No further controls included; argument 'fur.con.lev' was therefore ignored")
+     warning("No further controls included; argument 'fur.con.lev' was therefore ignored.")
    }
  }
 
+
+ if( (instr.reg == 0) & (toInstr.reg == 1) ){
+   stop("No covariates given which should be used to instrument the endogenous covariate.")
+ }
 
  if(include.x.instr & is.null(varname.reg.instr)
  ){
@@ -636,11 +640,11 @@ pdynmc		<- function(
  if(!include.dum &  (!is.null(dum.diff) | !is.null(dum.lev)) ){
    if(!is.null(dum.diff)){
      dum.diff <- FALSE
-     warning("No dummies included; argument 'dum.diff' was therefore ignored")
+     warning("No dummies included; argument 'dum.diff' was therefore ignored.")
    }
    if(!is.null(dum.lev)){
      dum.lev <- FALSE
-     warning("No dummies included; argument 'dum.lev' was therefore ignored")
+     warning("No dummies included; argument 'dum.lev' was therefore ignored.")
    }
  }
  if(!include.dum &  (is.null(dum.diff) | is.null(dum.lev)) ){
@@ -651,6 +655,8 @@ pdynmc		<- function(
      dum.lev <- FALSE
    }
  }
+
+
 
 
 
@@ -1568,24 +1574,26 @@ pdynmc		<- function(
        names(resGMM.stderr.j)[j]	<- paste("step", j, sep = "")
 
 
-       tZ.res2s				<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE))
+       if(std.err == "corrected"){
+         tZ.res2s				<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE))
 
-       D					<- c()
+         D					<- c()
 
-       for(k in 1:length(varname.reg.estParam)){
-         x_ktu	<- mapply(function(x,y){
-				  z		<- Matrix::tcrossprod(x[, k], y)
-							 - z - t(z)						#[M:] Code line from R-code of 'vcovHC.pgmm'; '-z' multiplies all elements with (-1); '-t(z)' adds up the off-diagonal elements
-				}, dat.clF.temp.0, get(paste("step", j-1, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE)
-         tZtux_kZ	<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::crossprod(y,x)), resGMM$Z.temp, x_ktu, SIMPLIFY = FALSE))
-         D_k	<- Matrix::crossprod((-1)*get(paste("step", j, sep = ""), resGMM.vcov.j), Matrix::crossprod(Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX), Matrix::tcrossprod(tZtux_kZ, Matrix::tcrossprod(Matrix::t(tZ.res2s), get(paste("step", j, sep = ""), resGMM.W.j) ) ) ) )
-         D		<- cbind(D, D_k)
+         for(k in 1:length(varname.reg.estParam)){
+           x_ktu	<- mapply(function(x,y){
+				    z		<- Matrix::tcrossprod(x[, k], y)
+							   - z - t(z)						#[M:] Code line from R-code of 'vcovHC.pgmm'; '-z' multiplies all elements with (-1); '-t(z)' adds up the off-diagonal elements
+				  }, dat.clF.temp.0, get(paste("step", j-1, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE)
+           tZtux_kZ	<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::crossprod(y,x)), resGMM$Z.temp, x_ktu, SIMPLIFY = FALSE))
+           D_k	<- Matrix::crossprod((-1)*get(paste("step", j, sep = ""), resGMM.vcov.j), Matrix::crossprod(Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX), Matrix::tcrossprod(tZtux_kZ, Matrix::tcrossprod(Matrix::t(tZ.res2s), get(paste("step", j, sep = ""), resGMM.W.j) ) ) ) )
+           D		<- cbind(D, D_k)
+         }
+
+
+         resGMM.vcov.j[[j]]		<- get(paste("step", j, sep = ""), resGMM.vcov.j) + Matrix::tcrossprod(D, get(paste("step", j, sep = ""), resGMM.vcov.j)) + Matrix::tcrossprod(D, get(paste("step", j, sep = ""), resGMM.vcov.j)) + Matrix::tcrossprod(Matrix::tcrossprod(D, get(paste("step", 1, sep = ""), resGMM.vcov.j)), D)
+         resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = ""), resGMM.vcov.j))))
+
        }
-
-
-       resGMM.vcov.j[[j]]		<- get(paste("step", j, sep = ""), resGMM.vcov.j) + Matrix::tcrossprod(D, get(paste("step", j, sep = ""), resGMM.vcov.j)) + Matrix::tcrossprod(D, get(paste("step", j, sep = ""), resGMM.vcov.j)) + Matrix::tcrossprod(Matrix::tcrossprod(D, get(paste("step", 1, sep = ""), resGMM.vcov.j)), D)
-       resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = ""), resGMM.vcov.j))))
-
 
 
        if(opt.meth != "none"){

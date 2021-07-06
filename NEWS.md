@@ -1,3 +1,16 @@
+# pdynmc version 0.9.5
+
+Update of version 0.9.4 which adds further functionality and argument checks to estimation function. Additionally, the computation underlying non-robust two-step standard errors is adjusted (option accessible by changing argument "std.err" from its default to "std.err = unadjusted").
+
+### pdynmc
+* Allow lagged dependent variable to be instrumented
+* Extend checks of function arguments
+* Fix bug in computation of "unadjusted" two-step standard errors
+
+
+
+
+
 # pdynmc version 0.9.4
 
 Minor update of version 0.9.3 in which package DESCRIPTION, CITATION, and documentation is adjusted and two further package vignettes are added.
