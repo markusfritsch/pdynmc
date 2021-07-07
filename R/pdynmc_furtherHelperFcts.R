@@ -853,7 +853,7 @@ sub.clForm.fct		<- function(
     if(use.mc.nonlinAS){
       dat.temp_2nl			<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
         as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
-      dat.temp_2nl      <- dat.temp_2nl[if(maxLagsDep - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLagsDep - (max.lagTerms+2)+1)))}, ]
+      dat.temp_2nl      <- dat.temp_2nl[if(maxLags.y - (max.lagTerms+2) + 1 < Time - (max.lagTerms+2)){-(1:(Time - (max.lagTerms+2) - (maxLags.y - (max.lagTerms+2)+1)))}, ]
     } else{
       dat.temp_2nl					<- apply(X = data.temp[-c(1:(max.lagTerms), Time), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
         as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 2)) + 1) )
