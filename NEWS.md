@@ -88,7 +88,7 @@ Update of version 0.8.0 that includes visualizations for fitted model objects (c
 
 
 ### functions for exploratory analysis of panel data added
-* data.info: Returns information on structure of a balanced/unbalanced panel data set
+* data.info: Returns information on structure of a balanced/unbalanced panel dataset
 * strucUPD.plot: Visualizes structure of unbalanced panel data
 
 

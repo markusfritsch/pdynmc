@@ -5,19 +5,19 @@
 
 
 
-#' Show Basic Structure of Panel Data Set.
+#' Show Basic Structure of Panel Dataset.
 #'
 #' \code{data.info} shows basic structure of a balanced/unbalanced
-#'    panel data set contained in a `data.frame`.
+#'    panel dataset contained in a `data.frame`.
 #'
 #' @param object An object of class `data.frame`.
 #' @param i.name Column name of cross-section identifier.
 #' @param t.name Column name of time-series identifier.
 #' @param ... further arguments.
 #'
-#' @return Returns information if panel data set contained
+#' @return Returns information if panel dataset contained
 #'    in an object of class `data.frame` is a balanced or
-#'    unbalanced panel data set.
+#'    unbalanced panel dataset.
 #'
 #' @author Markus Fritsch, Joachim Schnurbus
 #' @export
@@ -85,7 +85,7 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 
   if(balanced){
     cat(
-      paste("Balanced panel data set with ", nrow(object), " rows:", sep = ""),
+      paste("Balanced panel dataset with ", nrow(object), " rows:", sep = ""),
       "\n",
       paste(length(i.set), " cross-sectional units and ", length(t.set), " time periods", sep = ""),
       "\n",
@@ -94,7 +94,7 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
     )
   } else {
     cat(
-      paste("Unbalanced panel data set with ", length(periods.per.cs), " time periods and ", nrow(object_b), " rows;", sep = ""),
+      paste("Unbalanced panel dataset with ", length(periods.per.cs), " time periods and ", nrow(object_b), " rows;", sep = ""),
       "\n",
       paste("time period frequencies:", sep = ""),
       "\n"
@@ -120,11 +120,11 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 
 
 
-#' Plot on Structure of Unbalanced Panel Data Set.
+#' Plot on Structure of Unbalanced Panel Dataset.
 #'
 #' \code{strucUPD.plot} Plot on cross-section and longtudinal
 #'    structure of an object of class `data.frame` containing
-#'    an unbalanced panel data set.
+#'    an unbalanced panel dataset.
 #'
 #' @param object An object of class `data.frame`.
 #' @param i.name Column name of cross-section identifier.
@@ -137,7 +137,7 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #'    (defaults to 'Unbalanced panel structure').
 #' @param ... further arguments.
 #'
-#' @return Returns a plot for an unbalanced panel data set
+#' @return Returns a plot for an unbalanced panel dataset
 #'    contained in an object of class `data.frame` that
 #'    visualizes the structure of the data. Cross-section
 #'    dimension is plotted on the ordinate, longitudinal

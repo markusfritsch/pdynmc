@@ -532,7 +532,7 @@ gmmDat.fct		<- function(
 
   #	Note:	(1:n)*(T - 1)	is index of all last (time period for each n) observations w.r.t. to the delta-vectors
   #	Note:	((0:(n - 1))*(T - 1)) + 1	is index of all first (time period for each n) observations w.r.t. to the delta-vectors
-  # [M: one observation is lost due to differencing --> delta vector is 'N' elements shorter than data set; 3rd to T-th period are required for each individual]
+  # [M: one observation is lost due to differencing --> delta vector is 'N' elements shorter than dataset; 3rd to T-th period are required for each individual]
 
 
   return(gmmDat)
@@ -647,7 +647,7 @@ gmmObj.fct		<- function(
 
   #	Note:	(1:n)*(T - 1)	is index of all last (time period for each n) observations w.r.t. to the delta-vectors
   #	Note:	((0:(n - 1))*(T - 1)) + 1	is index of all first (time period for each n) observations w.r.t. to the delta-vectors
-  # [M: one observation is lost due to differencing --> delta vector is 'N' elements shorter than data set; 3rd to T-th period are required for each individual]
+  # [M: one observation is lost due to differencing --> delta vector is 'N' elements shorter than dataset; 3rd to T-th period are required for each individual]
 
 
   gmmDat.parDep$fitted.diff	<- if(length(varname.reg.estParam) == 1){

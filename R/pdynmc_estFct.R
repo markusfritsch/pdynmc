@@ -80,7 +80,7 @@
 #'    \insertCite{AhnSch1995;textual}{pdynmc}.
 #'
 #' @aliases pdynmc
-#' @param dat A data set.
+#' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
 #' @param use.mc.diff A logical variable indicating whether moment conditions from
@@ -100,7 +100,7 @@
 #' @param include.y A logical variable indicating whether instruments should be
 #'    derived from the lags of the dependent variable.
 #' @param varname.y A character string denoting the name of the dependent variable
-#'    in the data set.
+#'    in the dataset.
 #' @param lagTerms.y An integer indicating the number of lags of the dependent
 #'    variable.
 #' @param maxLags.y An integer indicating the maximum number of lags of the
@@ -110,7 +110,7 @@
 #'    specifying whether the covariates are endogenous, predetermined, or
 #'    (strictly) exogenous (defaults to `FALSE`).
 #' @param varname.reg.end One or more character strings denoting the covariate(s)
-#'    in the data set to be treated as endogenous (defaults to `NULL`).
+#'    in the dataset to be treated as endogenous (defaults to `NULL`).
 #' @param lagTerms.reg.end One or more integers indicating the number of lags of
 #'    the endogenous covariate(s). One integer per covariate needs to be given
 #'    in the same order as the covariate names (defaults to `NULL`).
@@ -119,7 +119,7 @@
 #'    integer per covariate needs to be given in the same order as the covariate
 #'    names (defaults to `NULL`).
 #' @param varname.reg.pre One or more character strings denoting the covariate(s)
-#'    in the data set to be treated as predetermined (defaults to `NULL`).
+#'    in the dataset to be treated as predetermined (defaults to `NULL`).
 #' @param lagTerms.reg.pre One or more integers indicating the number of lags of
 #'    the predetermined covariate(s). One integer per covariate needs to be given
 #'    in the same order as the covariate name (defaults to `NULL`).
@@ -128,7 +128,7 @@
 #'    integer per covariate needs to be given in the same order as the covariate
 #'    names (defaults to `NULL`).
 #' @param varname.reg.ex One or more character strings denoting the covariate(s)
-#'    in the data set to be treated as (strictly) exogenous (defaults to `NULL`).
+#'    in the dataset to be treated as (strictly) exogenous (defaults to `NULL`).
 #' @param lagTerms.reg.ex One or more integers indicating the number of lags of
 #'    the (strictly) exogenous covariate(s). One integer per covariate needs to
 #'    be given in the same order as the covariate name (defaults to `NULL`).
@@ -140,7 +140,7 @@
 #'    IV-type instruments (i.e., include covariates which are used as instruments
 #'    but for which no parameters are estimated; defaults to `FALSE`).
 #' @param varname.reg.instr One or more character strings denoting the covariate(s)
-#'    in the data set treated as instruments in estimation (defaults to `NULL`).
+#'    in the dataset treated as instruments in estimation (defaults to `NULL`).
 #' @param inst.reg.ex.expand A logical variable that allows for using all past,
 #'    present, and future observations of `varname.reg.ex` to derive instruments
 #'    (defaults to `TRUE`).
@@ -148,7 +148,7 @@
 #'    (i.e., covariates which are not used as instruments but for which parameters
 #'    are estimated; defaults to `FALSE`).
 #' @param varname.reg.toInstr One or more character strings denoting the covariates
-#'    in the data set to be instrumented (defaults to `NULL`).
+#'    in the dataset to be instrumented (defaults to `NULL`).
 #' @param fur.con A logical variable indicating whether further control variables
 #'    (covariates) are included (defaults to `FALSE`).
 #' @param fur.con.diff A logical variable indicating whether to include further
@@ -156,7 +156,7 @@
 #' @param fur.con.lev A logical variable indicating whether to include further
 #'    control variables in equations from level (defaults to `NULL`).
 #' @param varname.reg.fur One or more character strings denoting covariate(s) in
-#'    the data set to treat as further controls (defaults to `NULL`).
+#'    the dataset to treat as further controls (defaults to `NULL`).
 #' @param lagTerms.reg.fur One or more integers indicating the number of lags of
 #'    the further controls. One integer per further control needs to be given in
 #'    the same order as the corresponding variable names (defaults to `NULL`).
@@ -692,7 +692,7 @@ pdynmc		<- function(
 
 
 ###
-###	Expand data set and set number of cross-section-/time-series-observations
+###	Expand dataset and set number of cross-section-/time-series-observations
 ###
 
 
@@ -875,7 +875,7 @@ pdynmc		<- function(
 
 
 ###
-###	Specifying the number of lags available to derive instruments and further expanding the data set
+###	Specifying the number of lags available to derive instruments and further expanding the dataset
 ###
 
 
@@ -1001,7 +1001,7 @@ pdynmc		<- function(
 
 
 
-#c) Expanding the lag structure and expanding the data set
+#c) Expanding the lag structure and expanding the dataset
 
 
  varname.expand	<- function(
