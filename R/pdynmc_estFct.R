@@ -1152,8 +1152,10 @@ pdynmc		<- function(
  varname.reg			<- varname.reg.estParam
 
  if(!is.null(varname.reg.toInstr)){
-   varname.reg            <- varname.reg[!(grepl(pattern = varname.reg.toInstr, varname.reg))]
+#   varname.reg            <- varname.reg[!(grepl(pattern = varname.reg.toInstr, varname.reg))]
+#   varname.reg.estParam   <- varname.reg.estParam[!(grepl(pattern = varname.reg.instr, varname.reg.estParam))]
    varname.reg.estParam   <- varname.reg.estParam[!(grepl(pattern = varname.reg.instr, varname.reg.estParam))]
+   varname.reg            <- replace(varname.reg.estParam, grepl(pattern = varname.reg.toInstr, varname.reg.estParam), varname.reg[grepl(pattern = varname.reg.instr, varname.reg)] )
  }
 
 
@@ -1422,7 +1424,21 @@ pdynmc		<- function(
    tZY				<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, dep.temp.0, SIMPLIFY = FALSE))
 
 #   tXZW1tZX.inv			<- solve(tcrossprod(crossprod(as.matrix(tZX), get(paste("step", j, sep = ""), resGMM.W.j)), t(as.matrix(tZX))))
-   tXZW1tZX.inv			<- MASS::ginv(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX)) ) )
+#   tXZW1tZX.inv			<- MASS::ginv(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX)) ) )     # differences to syminv()-function in Stata!
+#   tXZW1tZX.inv			<- pracma::pinv(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX)) ) ) # alternative generalized inverse (same result as MASS::ginv)
+#   tXZW1tZX.inv			<- VCA::MPinv(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX)) ) )   # alternative generalized inverse (same result as MASS::ginv)
+   tXZW1tZX.inv			<- matlib::Ginv(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX)) ) ) # alternative generalized inverse (different results)
+#   solve(qr(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX)) )), LAPACK = TRUE)
+
+#   ---
+#   properties of the generalized inverse
+#   ---
+#   as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX))) %*% tXZW2tZX.inv %*% as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX)))
+#   tXZW2tZX.inv %*% as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX))) %*% tXZW2tZX.inv
+#   t(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX))) %*% tXZW2tZX.inv)
+#   as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX))) %*% tXZW2tZX.inv
+#   t(tXZW2tZX.inv %*% as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX))))
+
 #   tXZW1tZY				<- Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZY))
    tYZW1tZX				<- Matrix::crossprod(tZY, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX))
 

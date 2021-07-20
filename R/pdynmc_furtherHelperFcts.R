@@ -294,19 +294,17 @@ Wonestep.fct		<- function(
 
   if(inst.thresh < sum(n.inst)){
     W1		<- MASS::ginv(as.matrix(W1.inv))
-    #   W1		<- Ginv(as.matrix(W1.inv))
+    #   W1		<- matlib::Ginv(as.matrix(W1.inv))
     #   W1		<- solve(qr(as.matrix(W1.inv)), LAPACK = TRUE)
-    #   W1.alt		<- Ginv(as.matrix(W1.inv))
     #   W1.alt2		<- solve(qr(as.matrix(W1.inv)), LAPACK = TRUE)		# [M:] ~ R-equivalent to the function used in Stata to obtain the pseudoinverse; calculations in R show that the matrix does not meet the requirements for a pseudoinverse!!
   } else{
     W1		<- MASS::ginv(as.matrix(W1.inv))
-    #   W1		<- Ginv(as.matrix(W1.inv))
+    #   W1		<- matlib::Ginv(as.matrix(W1.inv))
     #   W1		<- solve(as.matrix(W1.inv))
     #   W1.alt		<- solve(W1.inv)
-    #   W1.alt2		<- Ginv(as.matrix(W1.inv))
   }
   ########################################
-  # [M:] the 'pgmm' function uses the minimum eigenvalue to dtermine if a generalized inverse is to be used;
+  # [M:] the 'pgmm' function uses the minimum eigenvalue to determine if a generalized inverse is to be used;
   #	the following code is taken from 'pgmm':
   #-------
   # minevA2 <- min(abs(Re(eigen(A2)$values)))
