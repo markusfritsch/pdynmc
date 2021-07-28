@@ -22,7 +22,8 @@ An object of class `htest` which contains the Arellano and Bond m test
 \details{
 The null hypothesis is that there is no serial correlation of a
    particular order. The test statistic is computed as proposed by
-   \insertCite{AreBon1991;textual}{pdynmc}.
+   \insertCite{AreBon1991;textual}{pdynmc} and
+   \insertCite{Are2003;textual}{pdynmc}.
 }
 \examples{
 ## Load data from plm package

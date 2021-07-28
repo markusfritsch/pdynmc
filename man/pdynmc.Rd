@@ -66,7 +66,7 @@ pdynmc(
 )
 }
 \arguments{
-\item{dat}{A data set.}
+\item{dat}{A dataset.}
 
 \item{varname.i}{The name of the cross-section identifier.}
 
@@ -95,7 +95,7 @@ conditions from equations in levels as in Stata implementations xtabond2
 derived from the lags of the dependent variable.}
 
 \item{varname.y}{A character string denoting the name of the dependent variable
-in the data set.}
+in the dataset.}
 
 \item{lagTerms.y}{An integer indicating the number of lags of the dependent
 variable.}
@@ -109,7 +109,7 @@ specifying whether the covariates are endogenous, predetermined, or
 (strictly) exogenous (defaults to `FALSE`).}
 
 \item{varname.reg.end}{One or more character strings denoting the covariate(s)
-in the data set to be treated as endogenous (defaults to `NULL`).}
+in the dataset to be treated as endogenous (defaults to `NULL`).}
 
 \item{lagTerms.reg.end}{One or more integers indicating the number of lags of
 the endogenous covariate(s). One integer per covariate needs to be given
@@ -121,7 +121,7 @@ integer per covariate needs to be given in the same order as the covariate
 names (defaults to `NULL`).}
 
 \item{varname.reg.pre}{One or more character strings denoting the covariate(s)
-in the data set to be treated as predetermined (defaults to `NULL`).}
+in the dataset to be treated as predetermined (defaults to `NULL`).}
 
 \item{lagTerms.reg.pre}{One or more integers indicating the number of lags of
 the predetermined covariate(s). One integer per covariate needs to be given
@@ -133,7 +133,7 @@ integer per covariate needs to be given in the same order as the covariate
 names (defaults to `NULL`).}
 
 \item{varname.reg.ex}{One or more character strings denoting the covariate(s)
-in the data set to be treated as (strictly) exogenous (defaults to `NULL`).}
+in the dataset to be treated as (strictly) exogenous (defaults to `NULL`).}
 
 \item{lagTerms.reg.ex}{One or more integers indicating the number of lags of
 the (strictly) exogenous covariate(s). One integer per covariate needs to
@@ -153,14 +153,14 @@ IV-type instruments (i.e., include covariates which are used as instruments
 but for which no parameters are estimated; defaults to `FALSE`).}
 
 \item{varname.reg.instr}{One or more character strings denoting the covariate(s)
-in the data set treated as instruments in estimation (defaults to `NULL`).}
+in the dataset treated as instruments in estimation (defaults to `NULL`).}
 
 \item{include.x.toInstr}{A logical variable that allows to instrument covariates
 (i.e., covariates which are not used as instruments but for which parameters
 are estimated; defaults to `FALSE`).}
 
 \item{varname.reg.toInstr}{One or more character strings denoting the covariates
-in the data set to be instrumented (defaults to `NULL`).}
+in the dataset to be instrumented (defaults to `NULL`).}
 
 \item{fur.con}{A logical variable indicating whether further control variables
 (covariates) are included (defaults to `FALSE`).}
@@ -172,7 +172,7 @@ control variables in equations from differences (defaults to `NULL`).}
 control variables in equations from level (defaults to `NULL`).}
 
 \item{varname.reg.fur}{One or more character strings denoting covariate(s) in
-the data set to treat as further controls (defaults to `NULL`).}
+the dataset to treat as further controls (defaults to `NULL`).}
 
 \item{lagTerms.reg.fur}{One or more integers indicating the number of lags of
 the further controls. One integer per further control needs to be given in

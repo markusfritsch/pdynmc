@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_exploratory.R
 \name{data.info}
 \alias{data.info}
-\title{Show Basic Structure of Panel Data Set.}
+\title{Show Basic Structure of Panel Dataset.}
 \usage{
 data.info(object, i.name = NULL, t.name = NULL, ...)
 }
@@ -16,13 +16,13 @@ data.info(object, i.name = NULL, t.name = NULL, ...)
 \item{...}{further arguments.}
 }
 \value{
-Returns information if panel data set contained
+Returns information if panel dataset contained
    in an object of class `data.frame` is a balanced or
-   unbalanced panel data set.
+   unbalanced panel dataset.
 }
 \description{
 \code{data.info} shows basic structure of a balanced/unbalanced
-   panel data set contained in a `data.frame`.
+   panel dataset contained in a `data.frame`.
 }
 \examples{
 ## Load data from plm package

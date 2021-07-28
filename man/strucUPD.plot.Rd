@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_exploratory.R
 \name{strucUPD.plot}
 \alias{strucUPD.plot}
-\title{Plot on Structure of Unbalanced Panel Data Set.}
+\title{Plot on Structure of Unbalanced Panel Dataset.}
 \usage{
 strucUPD.plot(
   object,
@@ -31,7 +31,7 @@ valid argument to \link{col2rgb}.}
 \item{...}{further arguments.}
 }
 \value{
-Returns a plot for an unbalanced panel data set
+Returns a plot for an unbalanced panel dataset
    contained in an object of class `data.frame` that
    visualizes the structure of the data. Cross-section
    dimension is plotted on the ordinate, longitudinal
@@ -42,7 +42,7 @@ Returns a plot for an unbalanced panel data set
 \description{
 \code{strucUPD.plot} Plot on cross-section and longtudinal
    structure of an object of class `data.frame` containing
-   an unbalanced panel data set.
+   an unbalanced panel dataset.
 }
 \examples{
 ## Load data from plm package
