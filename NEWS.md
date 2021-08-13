@@ -1,4 +1,12 @@
-# pdynmc development version 0.9.5
+#pdynmc development version 0.9.6.9000
+
+Update of version 0.9.4
+
+
+
+
+
+# pdynmc version 0.9.5
 
 Update of version 0.9.4 which adds further functionality and argument checks to estimation function. Additionally, the computation underlying non-robust two-step standard errors is adjusted (option accessible by changing argument "std.err" from its default to "std.err = unadjusted") and the functions for deriving instruments from further exogenous covariates were adjusted to comply with data requirements.
 
