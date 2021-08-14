@@ -468,7 +468,7 @@ mtest.fct 		<- function(
 
   estimation	<- object$data$estimation
   Szero.j			<- get(paste("step", object$iter, sep = ""), object$residuals.int)
-  Z.temp			<- object$data$Z
+  Z.temp			<- object$data$Z.temp
   vcov.est		<- get(paste("step", object$iter, sep = ""), object$vcov)
   W.j				  <- get(paste("step", object$iter, sep = ""), object$w.mat)
 
