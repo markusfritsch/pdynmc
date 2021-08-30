@@ -53,11 +53,11 @@
 #'    all slope coefficients are jointly zero, all times dummies and slope
 #'    coefficients are jointly zero.
 #'
+#' @param object An object of class `pdynmc`.
 #' @param param A character string that denotes the null hypothesis. Choices are
 #'    time.dum (i.e., all time dummies are jointly zero), slope (i.e., all slope
 #'    coefficients are jointly zero), and all (i.e., all dummies and slope
 #'    coefficients are jointly zero).
-#' @param object An object of class `pdynmc`.
 #' @return An object of class `htest` which contains the F test statistic and
 #'    corresponding p-value for the tested null hypothesis.
 #'
@@ -115,18 +115,30 @@
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  wald.fct(param = "all", m1)
+#'  wald.fct(m1, param = "all")
 #' }
 #' }
 #'
 #'
 wald.fct 		<- function(
- param
- ,object
+ object
+ ,param
 ){
 
   if(!inherits(object, what = "pdynmc")){
     stop("Use only with \"pdynmc\" objects.")
+  }
+
+  if(param == "all"){
+    params <- "time dummy and/or slope coefficient"
+  } else{
+    if(param == "time.dum"){
+      params <- "time dummy"
+    } else{
+      if(param == "slope"){
+        params <- "slope coefficient"
+      }
+    }
   }
 
   coef.est				<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)),
@@ -186,7 +198,8 @@ wald.fct 		<- function(
   names(dof)	<- "df"
   pval		<- stats::pchisq(w.stat, df = dof, lower.tail = FALSE)
   wald		<- list(statistic = w.stat, p.value = pval, parameter = dof, method = "Wald test"
-				,data.name = paste(object$iter, "step GMM Estimation; H0: ", param, " parameters are jointly zero", sep = "")
+				,data.name = paste(object$iter, "step GMM Estimation", sep = "")
+				,alternative = paste("at least one ",  params," is not equal to zero", sep = "")
 				)
   class(wald) <- "htest"
   return(wald)
@@ -345,7 +358,8 @@ jtest.fct		<- function(
   method			<- "J-Test of Hansen"
   pval			<- stats::pchisq(stat, df = param, lower.tail = FALSE)
   jtest			<- list(statistic = stat, p.value = pval, parameter = param, method = method
-					,data.name = paste(object$iter, "step GMM Estimation; H0: overidentifying restrictions valid", sep = "")
+					,data.name = paste(object$iter, "step GMM Estimation", sep = "")
+					,alternative = paste("overidentifying restrictions invalid", sep = "")
 					)
   class(jtest)		<- "htest"
   return(jtest)
@@ -389,7 +403,8 @@ jtest.fct		<- function(
 #'    \insertCite{Are2003;textual}{pdynmc}.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param t.order A number denoting the order of serial correlation to test for.
+#' @param t.order A number denoting the order of serial correlation to test for
+#'    (defaults to `2`).
 #' @return An object of class `htest` which contains the Arellano and Bond m test
 #'    statistic and corresponding p-value for the null hypothesis that there is no
 #'    serial correlation of the given order.
@@ -459,7 +474,7 @@ jtest.fct		<- function(
 #'
 mtest.fct 		<- function(
  object
- ,t.order
+ ,t.order = 2
 ){
 
   if(!inherits(object, what = "pdynmc")){
@@ -515,7 +530,8 @@ mtest.fct 		<- function(
   names(stat)	<- "normal"
   pval		<- 2*stats::pnorm(abs(stat), lower.tail = FALSE)
   mtest		<- list(statistic = stat, p.value = pval, method = paste("Arellano and Bond (1991) serial correlation test of degree", t.order)
-                 ,data.name = paste(object$iter, "step GMM Estimation; H0: no serial correlation of order ", t.order, " in the error terms", sep = "")
+                 ,data.name = paste(object$iter, "step GMM Estimation", sep = "")
+                 ,alternative = paste("serial correlation of order ", t.order, " in the error terms", sep = "")
   )
   class(mtest)	<- "htest"
   return(mtest)

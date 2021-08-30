@@ -4,12 +4,13 @@
 \alias{mtest.fct}
 \title{Arellano and Bond Serial Correlation Test.}
 \usage{
-mtest.fct(object, t.order)
+mtest.fct(object, t.order = 2)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
 
-\item{t.order}{A number denoting the order of serial correlation to test for.}
+\item{t.order}{A number denoting the order of serial correlation to test for
+(defaults to `2`).}
 }
 \value{
 An object of class `htest` which contains the Arellano and Bond m test

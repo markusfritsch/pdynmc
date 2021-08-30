@@ -4,15 +4,15 @@
 \alias{wald.fct}
 \title{Wald Test.}
 \usage{
-wald.fct(param, object)
+wald.fct(object, param)
 }
 \arguments{
+\item{object}{An object of class `pdynmc`.}
+
 \item{param}{A character string that denotes the null hypothesis. Choices are
 time.dum (i.e., all time dummies are jointly zero), slope (i.e., all slope
 coefficients are jointly zero), and all (i.e., all dummies and slope
 coefficients are jointly zero).}
-
-\item{object}{An object of class `pdynmc`.}
 }
 \value{
 An object of class `htest` which contains the F test statistic and
@@ -69,7 +69,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
     opt.meth = "none")
- wald.fct(param = "all", m1)
+ wald.fct(m1, param = "all")
 }
 }
 
