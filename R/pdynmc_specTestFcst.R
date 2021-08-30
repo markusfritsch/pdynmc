@@ -329,7 +329,7 @@ jtest.fct		<- function(
 
   coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
   Szero.j		<- get(paste("step", object$iter, sep = ""), object$residuals.int)
-  Z.temp		<- object$data$Z
+  Z.temp		<- object$data$Z.temp
   W.j			<- get(paste("step", object$iter, sep = ""), object$w.mat)
   n.inst		<- object$data$n.inst
 
@@ -468,7 +468,7 @@ mtest.fct 		<- function(
 
   estimation	<- object$data$estimation
   Szero.j			<- get(paste("step", object$iter, sep = ""), object$residuals.int)
-  Z.temp			<- object$data$Z
+  Z.temp			<- object$data$Z.temp
   vcov.est		<- get(paste("step", object$iter, sep = ""), object$vcov)
   W.j				  <- get(paste("step", object$iter, sep = ""), object$w.mat)
 
