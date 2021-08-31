@@ -500,7 +500,7 @@ pdynmc		<- function(
 
 
 
-
+ dat        <- as.data.frame(dat)
 
 
  if((use.mc.diff | use.mc.lev) && (length(unique(dat[, varname.t])) < 3)){
@@ -694,7 +694,6 @@ pdynmc		<- function(
 ###
 ###	Expand dataset and set number of cross-section-/time-series-observations
 ###
-
 
 
  i_cases		<- sort(unique(dat[, varname.i]))

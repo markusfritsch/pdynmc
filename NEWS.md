@@ -1,6 +1,9 @@
 #pdynmc development version 0.9.6.9000
 
-Minor update of version 0.9.5 which adds commits and suggestions of github user tappek.
+Minor update of version 0.9.5 which adds commits and suggestions of github user tappek. Additionally, the compatibility of the estimation function with further input data structures is improved.
+
+### pdynmc
+* Ensure compatibility with `tibble` data frames 
 
 ### wald.fct
 * Adjust structure of function according to S3 class htest.object
