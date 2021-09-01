@@ -395,7 +395,8 @@ jtest.fct		<- function(
 
 #' Arellano and Bond Serial Correlation Test.
 #'
-#' \code{mtest.fct} tests for serial correlation in the error terms.
+#' \code{mtest.pdynmc} Methods to test for serial correlation in the error terms
+#'    for objects of class `pdynmc`.
 #'
 #' The null hypothesis is that there is no serial correlation of a
 #'    particular order. The test statistic is computed as proposed by
@@ -403,8 +404,10 @@ jtest.fct		<- function(
 #'    \insertCite{Are2003;textual}{pdynmc}.
 #'
 #' @param object An object of class `pdynmc`.
-#' @param t.order A number denoting the order of serial correlation to test for
+#' @param order A number denoting the order of serial correlation to test for
 #'    (defaults to `2`).
+#' @param ... further arguments.
+#'
 #' @return An object of class `htest` which contains the Arellano and Bond m test
 #'    statistic and corresponding p-value for the null hypothesis that there is no
 #'    serial correlation of the given order.
@@ -421,7 +424,6 @@ jtest.fct		<- function(
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @references
-#'
 #' \insertAllCited{}
 #'
 #'
@@ -445,7 +447,7 @@ jtest.fct		<- function(
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  mtest.fct(m1, t.order = 2)
+#'  mtest.fct(m1, order = 2)
 #' }
 #'
 #' \donttest{
@@ -467,14 +469,15 @@ jtest.fct		<- function(
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  mtest.fct(m1, t.order = 2)
+#'  mtest.fct(m1, order = 2)
 #' }
 #' }
 #'
 #'
 mtest.fct 		<- function(
  object
- ,t.order = 2
+ ,order = 2
+ ,...
 ){
 
   if(!inherits(object, what = "pdynmc")){
@@ -501,7 +504,7 @@ mtest.fct 		<- function(
 
 
   K.t			<- length(varname.dum) - length(varname.dum[!(varname.dum %in% varname.reg)])
-  u.hat.m_o		<- lapply(Szero.j, function(x) c(rep(0, times = t.order), x[1:(length(x)-t.order)]) )
+  u.hat.m_o		<- lapply(Szero.j, function(x) c(rep(0, times = order), x[1:(length(x)-order)]) )
 
   if(estimation == "onestep" & stderr.type == "unadjusted"){
     #    uHtu			<- lapply(lapply(Szero.j, function(x) crossprod(x,x)), function(x) as.numeric(x) * 0.2* H_i.temp * (1/ (n*T - sum(n.inst)+3) ))
@@ -529,9 +532,9 @@ mtest.fct 		<- function(
   stat		<- frac.num/frac.denom
   names(stat)	<- "normal"
   pval		<- 2*stats::pnorm(abs(stat), lower.tail = FALSE)
-  mtest		<- list(statistic = stat, p.value = pval, method = paste("Arellano and Bond (1991) serial correlation test of degree", t.order)
+  mtest		<- list(statistic = stat, p.value = pval, method = paste("Arellano and Bond (1991) serial correlation test of degree", order)
                  ,data.name = paste(object$iter, "step GMM Estimation", sep = "")
-                 ,alternative = paste("serial correlation of order ", t.order, " in the error terms", sep = "")
+                 ,alternative = paste("serial correlation of order ", order, " in the error terms", sep = "")
   )
   class(mtest)	<- "htest"
   return(mtest)

@@ -4,13 +4,15 @@
 \alias{mtest.fct}
 \title{Arellano and Bond Serial Correlation Test.}
 \usage{
-mtest.fct(object, t.order = 2)
+mtest.fct(object, order = 2, ...)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
 
-\item{t.order}{A number denoting the order of serial correlation to test for
+\item{order}{A number denoting the order of serial correlation to test for
 (defaults to `2`).}
+
+\item{...}{further arguments.}
 }
 \value{
 An object of class `htest` which contains the Arellano and Bond m test
@@ -18,7 +20,8 @@ An object of class `htest` which contains the Arellano and Bond m test
    serial correlation of the given order.
 }
 \description{
-\code{mtest.fct} tests for serial correlation in the error terms.
+\code{mtest.pdynmc} Methods to test for serial correlation in the error terms
+   for objects of class `pdynmc`.
 }
 \details{
 The null hypothesis is that there is no serial correlation of a
@@ -46,7 +49,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
     opt.meth = "none")
- mtest.fct(m1, t.order = 2)
+ mtest.fct(m1, order = 2)
 }
 
 \donttest{
@@ -68,7 +71,7 @@ if(!requireNamespace("plm", quietly = TRUE)){
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
     opt.meth = "none")
- mtest.fct(m1, t.order = 2)
+ mtest.fct(m1, order = 2)
 }
 }
 
