@@ -1,9 +1,10 @@
-# pdynmc development version 0.9.6.9000
+# pdynmc development version 0.9.6.9003
 
-Minor update of version 0.9.5 which adds commits and suggestions of github user tappek. Additionally, the compatibility of the estimation function with further input data structures is improved.
+Minor update of version 0.9.5 which adds commits and suggestions of github user tappek. Additionally, the compatibility of the estimation function with further input data structures is improved and a bug in the estimation function when multiple instruments from non-lagged dependent endogenous covariates are derived is corrected.
 
 ### pdynmc
-* Ensure compatibility with `tibble` data frames 
+* Ensure compatibility with `tibble` data frames
+* Correct bug in deriving instruments from multiple endogenous covariates
 
 ### wald.fct
 * Adjust structure of function according to S3 class htest.object

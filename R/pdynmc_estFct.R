@@ -1065,10 +1065,10 @@ pdynmc		<- function(
 											varname = mapply(varname.temp, FUN = rep, each = (lagTerms.reg.end+1)*length(i_cases) ),
 										FUN = dat.na.lag))
      } else{
-       varname.reg.estParam.x.end			<- do.call(what = "c", args = mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
-       dat.na[, varname.reg.estParam.x.end]	<- mapply(lagTerms = rep(do.call(what = "c", args = mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand)), each = length(i_cases)),
+       varname.reg.estParam.x.end			<- do.call(what = "c", args = list(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand)) )
+       dat.na[, varname.reg.estParam.x.end]	<- mapply(lagTerms = rep(do.call(what = "c", args = list(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand))), each = length(i_cases)),
 										i = rep(i_cases, times = length(varname.reg.estParam.x.end)),
-										varname = do.call(what = "c", args = mapply(varname.temp, FUN = rep, each = (lagTerms.reg.end+1)*length(i_cases)) ),
+										varname = do.call(what = "c", args = list(mapply(varname.temp, FUN = rep, each = (lagTerms.reg.end+1)*length(i_cases)) )),
 									FUN = dat.na.lag)
      }
    }
@@ -1085,10 +1085,10 @@ pdynmc		<- function(
 											varname = mapply(varname.temp, FUN = rep, each = (lagTerms.reg.pre+1)*length(i_cases) ),
 										FUN = dat.na.lag))
      } else{
-       varname.reg.estParam.x.pre			<- do.call(what = "c", args = mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand) )
-       dat.na[, varname.reg.estParam.x.pre]	<- mapply(lagTerms = rep(do.call(what = "c", args = mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand)), each = length(i_cases)),
+       varname.reg.estParam.x.pre			<- do.call(what = "c", args = list(mapply(varname = varname.temp, lagTerms = lagTerms.temp, FUN = varname.expand)) )
+       dat.na[, varname.reg.estParam.x.pre]	<- mapply(lagTerms = rep(do.call(what = "c", args = list(mapply(lagTerms.temp, varname = varname.temp, FUN = lag.expand))), each = length(i_cases)),
 										i = rep(i_cases, times = length(varname.reg.estParam.x.pre)),
-										varname = do.call(what = "c", args = mapply(varname.temp, FUN = rep, each = (lagTerms.reg.pre+1)*length(i_cases)) ),
+										varname = do.call(what = "c", args = list(mapply(varname.temp, FUN = rep, each = (lagTerms.reg.pre+1)*length(i_cases)) )),
 									FUN = dat.na.lag)
      }
    }
