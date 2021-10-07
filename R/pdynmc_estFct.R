@@ -1483,6 +1483,19 @@ pdynmc		<- function(
    if(std.err == "corrected"){
      resGMM.vcov.j[[j]]		<- Matrix::tcrossprod(Matrix::crossprod(tXZW1tZX.inv, Matrix::tcrossprod(Matrix::tcrossprod(Matrix::crossprod(tZX, get(paste("step", j, sep = "") , resGMM.W.j)), MASS::ginv(get(paste("step", j+1, sep = "") , resGMM.W.j))), Matrix::tcrossprod(Matrix::t(tZX), get(paste("step", j, sep = "") , resGMM.W.j)))), tXZW1tZX.inv)
    }
+   if(std.err == "dbl.corrected"){
+     tXZW1        <- as.matrix(Matrix::crossprod(tZX, get(paste("step", j, sep = ""), resGMM.W.j) ) )
+     W1tZres      <- Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), as.matrix(Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE) ) ) )
+     tZires       <- mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE)
+     txiZi        <- mapply(function(x,y) Matrix::crossprod(x,y), dat.clF.temp.0, resGMM$Z.temp, SIMPLIFY = FALSE)
+     tZiHZi       <- lapply(resGMM$Z.temp, function(x) Matrix::crossprod(t(Matrix::crossprod(as.matrix(x), as.matrix(resGMM.H.i))), as.matrix(x)))
+     m1i_1        <- lapply(tZires, function(x) Matrix::crossprod(t(tXZW1), as.matrix(x)) )
+     m1i_2        <- lapply(txiZi, function(x) Matrix::tcrossprod(as.matrix(x), t(W1tZres)))
+     m1i_3        <- lapply( lapply(tZiHZi, function(x) Matrix::crossprod(as.matrix(x), W1tZres)), function(x) Matrix::crossprod(t(tXZW1), as.matrix(x)) )
+     m1i          <- mapply(function(x,y,z) x+y-(1/n.obs)*z, m1i_1, m1i_2, m1i_3, SIMPLIFY = FALSE )
+     m1itm1i      <- Reduce("+", lapply(m1i, function(x) Matrix::tcrossprod(as.matrix(x),as.matrix(x)) ) )
+     resGMM.vcov.j[[j]]   <- Matrix::tcrossprod(tXZW1tZX.inv, t(Matrix::tcrossprod(m1itm1i, tXZW1tZX.inv)))
+   }
    names(resGMM.vcov.j)[j]	<- paste("step", j, sep = "")
 
    if(sum(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j))) < 0) > 0){
