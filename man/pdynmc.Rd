@@ -201,10 +201,12 @@ correlations are above the threshold; defaults to 0.65).}
 \item{w.mat.stata}{A logical variable that slightly adjusts the weighting
 matrix according to the Stata function xtdpdgmm (defaults to `FALSE`).}
 
-\item{std.err}{One of the character strings c(`"corrected"`, `"unadjusted"`).
-   The former option computes
-\insertCite{Win2005;textual}{pdynmc}
-corrected standard errors (defaults to `"corrected"`).}
+\item{std.err}{One of the character strings c(`"corrected"`, `"unadjusted"`,
+ `"dbl.corrected"`).
+ The second and third options compute corrected standard error according
+ to \insertCite{Win2005;textual}{pdynmc} and
+ \insertCite{HwangKangLee2020;textual}{pdynmc}, respectively
+(defaults to `"corrected"`).}
 
 \item{estimation}{One of the character strings c(`"onestep"`, `"twostep"`,
 `"iterative"`). Denotes the number of iterations of the parameter procedure
@@ -328,7 +330,9 @@ The function estimates a linear dynamic panel data model of the form
    for `"onestep"`, `"twostep"`, and `"iterative"` GMM estimation based on the
    moment conditions of \insertCite{HolNewRos1988;textual}{pdynmc},
    \insertCite{AreBov1995;textual}{pdynmc}, and
-   \insertCite{AhnSch1995;textual}{pdynmc}.
+   \insertCite{AhnSch1995;textual}{pdynmc}. Standard error corrections
+   according to \insertCite{Win2005;textual}{pdynmc} and
+   \insertCite{HwangKangLee2020;textual}{pdynmc} are available.
 }
 \examples{
 ## Load data from plm package
