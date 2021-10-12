@@ -1,4 +1,4 @@
-# pdynmc development version 0.9.6.9005
+# pdynmc development version 0.9.6.9006
 
 Minor update of version 0.9.5 which adds doubly corrected standard errors. Also, commits and suggestions of github user tappek are added. Additionally, the compatibility of the estimation function with further input data structures is improved and a bug in the estimation function when multiple instruments from non-lagged dependent endogenous covariates are derived is corrected.
 
