@@ -61,8 +61,8 @@ col_tol = 0.65
 w.mat = "iid.err"
 w.mat.stata = FALSE
 
-std.err = "dbl.corrected"
-estimation = "twostep"
+std.err = "corrected"
+estimation = "iterative"
 max.iter = 4
 iter.tol = 0.01
 inst.thresh = NULL

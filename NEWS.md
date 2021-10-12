@@ -4,6 +4,7 @@ Minor update of version 0.9.5 which adds doubly corrected standard errors. Also,
 
 ### pdynmc
 * Implement doubly corrected standard errors
+* Adjust computation of corrected and doubly corrected standard errors
 * Ensure compatibility with `tibble` data frames
 * Correct bug in deriving instruments from multiple endogenous covariates
 
