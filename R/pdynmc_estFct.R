@@ -1631,7 +1631,7 @@ pdynmc		<- function(
 
            if(std.err == "dbl.corrected"){
 
-             m2i_1      <- lapply(mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j)), function(x) Matrix::crossprod(t(tXZWj), x))
+             m2i_1      <- lapply(mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE), function(x) Matrix::crossprod(t(tXZWj), x))
              W2tZres2   <- Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZ.resjs)
              m2i_2      <- lapply(txiZi, function(x) Matrix::tcrossprod(x, Matrix::t(W2tZres2)) )
              m2i_3      <- lapply(ZiresjitresjiZi, function(x) Matrix::crossprod(Matrix::t(tXZWj), Matrix::crossprod(x, W2tZres2)) )
@@ -1647,8 +1647,8 @@ pdynmc		<- function(
            resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = ""), resGMM.vcov.j))))
 
          }
-       } else{
-
+       }
+       if(j > 2){
          resGMM.vcov.j[[j]]   <- (1/n.obs^2)*(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX) ))
 
          if(std.err == "corrected" | std.err == "dbl.corrected"){
@@ -1657,7 +1657,7 @@ pdynmc		<- function(
            Hmat_1     <- Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX))
            Hmat_sum_1 <- mapply(function(x,y) Matrix::crossprod(Matrix::t(x), Matrix::crossprod(tZ.resjs, Matrix::tcrossprod(get(paste("step", j, sep = ""), resGMM.W.j), y))), tziresji, txiZi, SIMPLIFY = FALSE)
            Hmat_sum_2 <- mapply(function(x,y) Matrix::t(x)*as.numeric(Matrix::crossprod(tZ.resjs, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), y))), txiZi, tziresji, SIMPLIFY = FALSE)
-           Hmat_2     <- Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), Reduce("+", mapply(function(x,y) x+y, Hmat_sum_1, Hmat_sum_2)) ) )
+           Hmat_2     <- Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), Reduce("+", mapply(function(x,y) x+y, Hmat_sum_1, Hmat_sum_2, SIMPLIFY = FALSE)) ) )
            Hmat.inv   <- MASS::ginv(as.matrix((1/n.obs^2)*Hmat_1 - (1/n.obs^3)*Hmat_2) )
 
            if(std.err == "corrected"){
