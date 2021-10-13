@@ -1611,48 +1611,41 @@ pdynmc		<- function(
        tXZWj            <- as.matrix(Matrix::crossprod(tZX, get(paste("step", j, sep = ""), resGMM.W.j) ) )
        ZiresjitresjiZi  <- mapply(function(x,y) Matrix::crossprod(x, Matrix::crossprod(y,x)), resGMM$Z.temp, lapply(get(paste("step", j, sep = ""), resGMM.Szero.j), function(x) Matrix::tcrossprod(x)), SIMPLIFY = FALSE )
 
-       if(j == 2){
-         if(std.err == "corrected" | std.err == "dbl.corrected"){
+       D					<- c()
 
-           D					<- c()
-
-           for(k in 1:length(varname.reg.estParam)){
-             x_ktu	<- mapply(function(x,y){
-				      z		<- Matrix::tcrossprod(x[, k], y)
-						  	   - z - t(z)						#[M:] Code line from R-code of 'vcovHC.pgmm'; '-z' multiplies all elements with (-1); '-t(z)' adds up the off-diagonal elements
-				    }, dat.clF.temp.0, get(paste("step", j-1, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE)
-             tZtux_kZ	<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::crossprod(y,x)), resGMM$Z.temp, x_ktu, SIMPLIFY = FALSE))
-             D_k	<- Matrix::crossprod((-1)*get(paste("step", j, sep = ""), resGMM.vcov.j), Matrix::crossprod(Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX), Matrix::tcrossprod(tZtux_kZ, Matrix::tcrossprod(Matrix::t(tZ.resjs), get(paste("step", j, sep = ""), resGMM.W.j) ) ) ) )
-             D		<- cbind(D, D_k)
-           }
-
-           if(std.err == "corrected"){
-             resGMM.vcov.j[[j]]		<- get(paste("step", j, sep = ""), resGMM.vcov.j) + Matrix::tcrossprod(D, get(paste("step", j, sep = ""), resGMM.vcov.j)) + Matrix::tcrossprod(get(paste("step", j, sep = ""), resGMM.vcov.j), D) + Matrix::tcrossprod(Matrix::tcrossprod(D, get(paste("step", 1, sep = ""), resGMM.vcov.j)), D)
-           }
-
-           if(std.err == "dbl.corrected"){
-
-             m2i_1      <- lapply(mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE), function(x) Matrix::crossprod(t(tXZWj), x))
-             W2tZres2   <- Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZ.resjs)
-             m2i_2      <- lapply(txiZi, function(x) Matrix::tcrossprod(x, Matrix::t(W2tZres2)) )
-             m2i_3      <- lapply(ZiresjitresjiZi, function(x) Matrix::crossprod(Matrix::t(tXZWj), Matrix::crossprod(x, W2tZres2)) )
-             m2i        <- mapply(function(x,y,z) dof*x+dof*y-dof*z, m2i_1, m2i_2, m2i_3, SIMPLIFY = FALSE )
-             m2itm2i    <- Reduce("+", lapply(m2i, function(x) Matrix::tcrossprod(as.matrix(x),as.matrix(x)) ) )
-             m1itm2i    <- Reduce("+", mapply(function(x,y) Matrix::tcrossprod(as.matrix(x),as.matrix(y)), m1i, m2i, SIMPLIFY = FALSE ) )
-
-             Chatb1b2hat  <- (1/dof^2)*(Matrix::crossprod(tXZW1tZX.inv, Matrix::tcrossprod(m1itm2i, tXZWjtZX.inv)))
-             Vhatb2hat    <- (1/dof^2)*(Matrix::crossprod(tXZWjtZX.inv, Matrix::tcrossprod(m2itm2i, tXZWjtZX.inv)))
-
-             resGMM.vcov.j[[j]]   <- Vhatb2hat + Matrix::tcrossprod(D, Matrix::t(Chatb1b2hat)) + Matrix::crossprod(Chatb1b2hat, Matrix::t(D)) + Matrix::tcrossprod(Matrix::tcrossprod(D, get(paste("step", j-1, sep = ""), resGMM.vcov.j)), D )
-           }
-           resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = ""), resGMM.vcov.j))))
-
-         }
+       for(k in 1:length(varname.reg.estParam)){
+         x_ktu	<- mapply(function(x,y){
+           z		<- Matrix::tcrossprod(x[, k], y)
+           - z - t(z)						#[M:] Code line from R-code of 'vcovHC.pgmm'; '-z' multiplies all elements with (-1); '-t(z)' adds up the off-diagonal elements
+         }, dat.clF.temp.0, get(paste("step", j-1, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE)
+         tZtux_kZ	<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::crossprod(y,x)), resGMM$Z.temp, x_ktu, SIMPLIFY = FALSE))
+         D_k	<- Matrix::crossprod((-1)*get(paste("step", j, sep = ""), resGMM.vcov.j), Matrix::crossprod(Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX), Matrix::tcrossprod(tZtux_kZ, Matrix::tcrossprod(Matrix::t(tZ.resjs), get(paste("step", j, sep = ""), resGMM.W.j) ) ) ) )
+         D		<- cbind(D, D_k)
        }
-       if(j > 2){
-         resGMM.vcov.j[[j]]   <- MASS::ginv(as.matrix(Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX) ) ) )
 
-         if(std.err == "corrected" | std.err == "dbl.corrected"){
+       if(std.err == "corrected"){
+         resGMM.vcov.j[[j]]		<- get(paste("step", j, sep = ""), resGMM.vcov.j) + Matrix::tcrossprod(D, get(paste("step", j, sep = ""), resGMM.vcov.j)) + Matrix::tcrossprod(get(paste("step", j, sep = ""), resGMM.vcov.j), D) + Matrix::tcrossprod(Matrix::tcrossprod(D, get(paste("step", j-1, sep = ""), resGMM.vcov.j)), D)
+       }
+
+       if(std.err == "dbl.corrected"){
+
+         if(j == 2){
+
+           m2i_1      <- lapply(mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE), function(x) Matrix::crossprod(t(tXZWj), x))
+           W2tZres2   <- Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZ.resjs)
+           m2i_2      <- lapply(txiZi, function(x) Matrix::tcrossprod(x, Matrix::t(W2tZres2)) )
+           m2i_3      <- lapply(ZiresjitresjiZi, function(x) Matrix::crossprod(Matrix::t(tXZWj), Matrix::crossprod(x, W2tZres2)) )
+           m2i        <- mapply(function(x,y,z) dof*x+dof*y-dof*z, m2i_1, m2i_2, m2i_3, SIMPLIFY = FALSE )
+           m2itm2i    <- Reduce("+", lapply(m2i, function(x) Matrix::tcrossprod(as.matrix(x),as.matrix(x)) ) )
+           m1itm2i    <- Reduce("+", mapply(function(x,y) Matrix::tcrossprod(as.matrix(x),as.matrix(y)), m1i, m2i, SIMPLIFY = FALSE ) )
+
+           Chatb1b2hat  <- (1/dof^2)*(Matrix::crossprod(tXZW1tZX.inv, Matrix::tcrossprod(m1itm2i, tXZWjtZX.inv)))
+           Vhatb2hat    <- (1/dof^2)*(Matrix::crossprod(tXZWjtZX.inv, Matrix::tcrossprod(m2itm2i, tXZWjtZX.inv)))
+
+           resGMM.vcov.j[[j]]   <- Vhatb2hat + Matrix::tcrossprod(D, Matrix::t(Chatb1b2hat)) + Matrix::crossprod(Chatb1b2hat, Matrix::t(D)) + Matrix::tcrossprod(Matrix::tcrossprod(D, get(paste("step", j-1, sep = ""), resGMM.vcov.j)), D )
+         }
+
+         if(j > 2){
 
            tziresji   <- mapply(function(x,y) Matrix::crossprod(x,y), resGMM$Z.temp, get(paste("step", j, sep = ""), resGMM.Szero.j), SIMPLIFY = FALSE)
            Hmat_1     <- Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZX))
@@ -1661,23 +1654,17 @@ pdynmc		<- function(
            Hmat_2     <- Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), Reduce("+", mapply(function(x,y) x+y, Hmat_sum_1, Hmat_sum_2, SIMPLIFY = FALSE)) ) )
            Hmat.inv   <- MASS::ginv(as.matrix((1/dof)*Hmat_1 - (1/dof)*Hmat_2) )
 
-           if(std.err == "corrected"){
-             resGMM.vcov.j[[j]]   <- (dof^2)*Matrix::crossprod(t(Hmat.inv), Matrix::tcrossprod(get(paste("step", j, sep = ""), resGMM.vcov.j), Hmat.inv) )
-#o             resGMM.vcov.j[[j]]   <- Matrix::crossprod(t(Hmat.inv), Matrix::tcrossprod((1/n.obs^2)*get(paste("step", j, sep = ""), resGMM.vcov.j), Hmat.inv) )
-           }
-           if(std.err == "dbl.corrected"){
-             mji_1    <- lapply(tziresji, function(x) Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), x)) )
-             mji_2    <- lapply(txiZi, function(x) Matrix::crossprod(Matrix::t(x), Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZ.resjs)) )
-             mji_3    <- lapply(ZiresjitresjiZi, function(x) Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), Matrix::crossprod(x, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZ.resjs)))) )
-             mji      <- mapply(function(x,y,z) x+y-z, mji_1, mji_2, mji_3, SIMPLIFY = FALSE)
+           mji_1    <- lapply(tziresji, function(x) Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), x)) )
+           mji_2    <- lapply(txiZi, function(x) Matrix::crossprod(Matrix::t(x), Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZ.resjs)) )
+           mji_3    <- lapply(ZiresjitresjiZi, function(x) Matrix::crossprod(tZX, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), Matrix::crossprod(x, Matrix::crossprod(get(paste("step", j, sep = ""), resGMM.W.j), tZ.resjs)))) )
+           mji      <- mapply(function(x,y,z) x+y-z, mji_1, mji_2, mji_3, SIMPLIFY = FALSE)
 
-             resGMM.vcov.j[[j]]   <- (1/dof^2)*Matrix::crossprod(t(Hmat.inv), Matrix::tcrossprod(Reduce("+", lapply(mji, function(x) Matrix::tcrossprod(x,x)) ), Hmat.inv) )
-           }
+           resGMM.vcov.j[[j]]   <- (1/dof^2)*Matrix::crossprod(t(Hmat.inv), Matrix::tcrossprod(Reduce("+", lapply(mji, function(x) Matrix::tcrossprod(x,x)) ), Hmat.inv) )
+
          }
-         resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = ""), resGMM.vcov.j))))
-
        }
 
+       resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = ""), resGMM.vcov.j))))
 
        if(opt.meth != "none"){
          resGMM.zvalue.j[[j]]		<- as.numeric(round(get(paste("step", j, sep = ""), resGMM.par.opt.j)/get(paste("step", j, sep = "") , resGMM.stderr.j), digits = 3))
