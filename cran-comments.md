@@ -1,13 +1,19 @@
 ## Test environments
-local Windows 10 x64 install: R 4.0.5, R 4.1.0, and R-devel (2021-08-12 r80748)
-travis-ci: ubuntu 16.04.6 LTS, R 3.6.3 R 4.0.0 and R-devel (2020-05-06 r78370)
-winbuilder: R 4.0.5, R 4.1.0, and R-devel (2021-08-09 r80724)
+local Windows 10 x64 install: R 4.0.3, R 4.1.1, and R-devel (2021-10-13 r81052)
+github actions: ubuntu 20.04.3 LTS, R 4.0.5 R 4.1.1 and R-devel (2021-10-12 r81044)
+  Microsoft Windows Server 2019 10.0.17763, R 4.1.1
+  Mac OS X 10.15.7 19H1417, R 4.1.1
+winbuilder: R 4.0.5, R 4.1.0, and R-devel (2021-10-07 r81018)
 
 
 ## R CMD check results
 There were no ERRORs, WARNINGs.
 
 There was 1 NOTE during the checks with winbuilder:
+
+Possibly mis-spelled words in DESCRIPTION:
+  Hwang (35:6)
+  Kang (35:13)
 
 Found the following (possibly) invalid URLs:
   URL: https://doi.org/10.2307/1912775
@@ -25,9 +31,8 @@ Found the following (possibly) invalid DOIs:
     Status: Forbidden
     Message: 403
 
-The DOIs in the DESCRIPTION are specified as given in the checklist. The DOIs given in the documentation are correct and correctly displayed on a local Windows 10 x64 install.
+The author names are correct. The DOIs in the DESCRIPTION are specified as given in the checklist. The DOIs given in the documentation are correct and correctly displayed on a local Windows 10 x64 install.
 
-Please note that when trying to check R-devel (2021-08-12 r80748), an error on the availability of function 'Rcpp_precious_remove' by package 'Rcpp' occurred.
 
 
 
