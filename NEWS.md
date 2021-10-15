@@ -1,6 +1,15 @@
+# pdynmc version 0.9.7.9000
+
+Update of version 0.9.6
+
+
+
+
+
 # pdynmc version 0.9.6
 
 Minor update of version 0.9.5 which adds doubly corrected standard errors. Also, commits and suggestions of github user tappek are added. Additionally, the compatibility of the estimation function with further input data structures is improved and a bug in the estimation function when multiple instruments from non-lagged dependent endogenous covariates are derived is corrected.
+
 
 ### pdynmc
 * Implement doubly corrected standard errors
@@ -8,12 +17,15 @@ Minor update of version 0.9.5 which adds doubly corrected standard errors. Also,
 * Ensure compatibility with `tibble` data frames
 * Correct bug in deriving instruments from multiple endogenous covariates
 
+
 ### wald.fct
 * Adjust structure of function according to S3 class htest.object
+
 
 ### jtest.fct
 * Adjust structure of function according to S3 class htest.object
 * Minor adjustment to avoid partial argument matching
+
 
 ### mtest.fct
 * Adjust structure of function according to S3 class htest.object
@@ -28,6 +40,7 @@ Minor update of version 0.9.5 which adds doubly corrected standard errors. Also,
 
 Minor update of version 0.9.4 which adds further functionality and argument checks to estimation function. Additionally, the computation underlying non-robust two-step standard errors is adjusted (option accessible by changing argument "std.err" from its default to "std.err = unadjusted") and the functions for deriving instruments from further exogenous covariates were adjusted to comply with data requirements.
 
+
 ### pdynmc
 * Allow lagged dependent variable to be instrumented
 * Extend checks of function arguments
@@ -41,6 +54,7 @@ Minor update of version 0.9.4 which adds further functionality and argument chec
 # pdynmc version 0.9.4
 
 Minor update of version 0.9.3 in which package DESCRIPTION, CITATION, and documentation is adjusted and two further package vignettes are added.
+
 
 ### new vignettes:
 *pdynmc-intro

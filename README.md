@@ -11,7 +11,8 @@ computation of closed form solutions (when estimation is based on linear moment
 conditions). One-step, two-step and iterated estimation is available.
 
 For inference and specification testing, Windmeijer (2005) https://doi.org/10.1016/j.jeconom.2004.02.005 -
-and doubly corrected standard errors introduced by Hwang, Kang, and Lee (2021) https://doi.org/10.1016/j.jeconom.2020.09.010, serial correlation tests, tests for overidentification, and Wald tests are available.
+and doubly corrected standard errors introduced by Hwang, Kang, and Lee (2021) https://doi.org/10.1016/j.jeconom.2020.09.010, are available. Additionally, serial correlation tests, tests for overidentification,
+and Wald tests are provided.
 
 Functions for visualizing panel data structures and modeling results obtained
 from GMM estimation are also available. The plot methods include functions to plot
