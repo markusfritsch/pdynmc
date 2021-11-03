@@ -1,8 +1,8 @@
 Package: pdynmc
 Type: Package
 Title: Moment Condition Based Estimation of Linear Dynamic Panel Data Models
-Version: 0.9.7.9000
-Date: 2021-10-15
+Version: 0.9.7.9001
+Date: 2021-11-03
 Authors@R: c(person("Markus", "Fritsch", role = c("aut", "cre"),
 		email = "Markus.Fritsch@uni-Passau.de"),
 	person("Joachim", "Schnurbus", role = c("aut"),
@@ -35,7 +35,7 @@ Description: Linear dynamic panel data modeling based on linear and
     moment conditions are employed) and the computation of closed
     form solutions (when estimation is based on linear moment
     conditions). One-step, two-step and iterated estimation is
-    available. of closed form solutions. For inference and specification
+    available. For inference and specification
     testing, Windmeijer (2005) <doi:10.1016/j.jeconom.2004.02.005>
     and doubly corrected standard errors
     (Hwang, Kang, Lee, 2021 <doi:10.1016/j.jeconom.2020.09.010>)
