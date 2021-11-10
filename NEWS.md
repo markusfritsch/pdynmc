@@ -1,6 +1,14 @@
-# pdynmc version 0.9.7.9000
+# pdynmc version 0.9.7.9002
 
-Update of version 0.9.6
+Update of version 0.9.6 which updates the functions for visualizing the panel data structure.
+
+
+### data.info
+* Adjust code for further data structures
+
+
+### struc.UPD.plot
+* Adjust code for further data structures
 
 
 
