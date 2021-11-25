@@ -136,20 +136,20 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
 #  t.start		<- if(Time > T.mcDiff){ c((Time-T.mcDiff):(Time)) } else{ rep(1, times = Time-lagTerms-1) }
 #  t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time - T.mcDiff), (1:(Time - T.mcDiff)))} else{0}
   if(inst.reg.ex.expand){
-    t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
-    t.end			<- t.start + (T.mcDiff-1)
+    ti        <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
+    t.end			<- ti + (T.mcDiff-1)
     t.req.i   <- 1:(Time-lagTerms-1)
     t.req.e   <- (1:(Time-lagTerms-1)) + (lagTerms+1)
   } else {
-    t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
+    ti   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
     t.end     <- (lagTerms+2):(Time)
     t.req.i   <- 1:(Time-lagTerms-1)
     t.req.e   <- (1:(Time-lagTerms-1)) + (lagTerms+1)
   }
 #  t.end[t.end > Time]	<- Time
 #  err.term.start	<- c((min(t.start) + lagTerms + 1):max(t.end))
-  err.term.start	<- t.start
-  Matrix::t(Matrix::bdiag(mapply(ti = t.start, t.end = t.end, err.term.start = err.term.start, t.req.i = t.req.i, t.req.e = t.req.e, FUN = dat.fct.ex, varname = varname
+  err.term.start	<- ti-1
+  Matrix::t(Matrix::bdiag(mapply(ti = ti, t.end = t.end, err.term.start = err.term.start, t.req.i = t.req.i, t.req.e = t.req.e, FUN = dat.fct.ex, varname = varname
                                  , MoreArgs = list(i = i, Time = Time
                                                  #				, mc.ref.t = mc.ref.t
                                                  , varname.i = varname.i, dat = dat, dat.na = dat.na), SIMPLIFY = FALSE)))																		# [M:] use all m.c. in direction of T and cut at initial periods
@@ -708,7 +708,7 @@ Z_i.fct	<- function(
   ,dat.na
 ){
 
-  i <- as.numeric(i)
+  i <- as.numeric(as.factor(i))
 
   if(use.mc.diff){
     #     if(mc.ref.t){

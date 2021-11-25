@@ -146,21 +146,26 @@ covariate names (defaults to `NULL`).}
 
 \item{inst.reg.ex.expand}{A logical variable that allows for using all past,
 present, and future observations of `varname.reg.ex` to derive instruments
-(defaults to `TRUE`).}
+(defaults to `TRUE`). If set to `FALSE`, only past and present time periods
+are used to derive instruments.}
 
-\item{include.x.instr}{A logical variable that allows to include additionl
+\item{include.x.instr}{A logical variable that allows to include additional
 IV-type instruments (i.e., include covariates which are used as instruments
 but for which no parameters are estimated; defaults to `FALSE`).}
 
 \item{varname.reg.instr}{One or more character strings denoting the covariate(s)
-in the dataset treated as instruments in estimation (defaults to `NULL`).}
+in the dataset treated as instruments in estimation (defaults to `NULL`).
+Note that the instrument type needs to be specified by including the names
+of the covariate(s) in any of the arguments `varname.reg.end`,
+`varname.reg.pre`, or `varname.reg.ex`.}
 
-\item{include.x.toInstr}{A logical variable that allows to instrument covariates
+\item{include.x.toInstr}{A logical variable that allows to instrument covariate(s)
 (i.e., covariates which are not used as instruments but for which parameters
 are estimated; defaults to `FALSE`).}
 
-\item{varname.reg.toInstr}{One or more character strings denoting the covariates
-in the dataset to be instrumented (defaults to `NULL`).}
+\item{varname.reg.toInstr}{One or more character strings denoting the covariate(s)
+in the dataset to be instrumented (defaults to `NULL`). Note that the names of
+the covariate(s) should not be included in any other function argument.}
 
 \item{fur.con}{A logical variable indicating whether further control variables
 (covariates) are included (defaults to `FALSE`).}
