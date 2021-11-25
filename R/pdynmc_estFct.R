@@ -705,6 +705,10 @@ pdynmc		<- function(
 ###
 
 
+ dat$i.label        <- dat[, varname.i]
+ dat[, varname.i]   <- as.numeric(as.factor(dat[, varname.i]))
+
+
  i_cases		<- sort(unique(dat[, varname.i]))
  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
  t_cases		<- sort(unique(dat[, varname.t]))
@@ -1177,9 +1181,6 @@ pdynmc		<- function(
 
 
 
-
- dat.na$i.label      <- dat.na[, varname.i]
- dat.na[, varname.i] <- as.numeric(as.factor(dat.na[, varname.i]))
 
  dat					        <- dat.na
  dat[is.na(dat.na)]		<- 0

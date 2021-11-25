@@ -12,7 +12,7 @@ library(readstata13)
 
 dat		<- read.dta13(
   file			= "D:/Work/20_Projekte/50_Linear-Dynamic-Panel-Models/50_Drafts/20_Paper/51_Educational/R/cig85_95.dta",
-  convert.factors		= FALSE,	# changed from TRUE
+  convert.factors		= TRUE,	# changed from TRUE
   generate.factors	= FALSE,
   encoding			= "UTF-8",
   fromEncoding		= NULL,
@@ -64,11 +64,11 @@ maxLags.reg.end = NULL
 varname.reg.pre = NULL
 lagTerms.reg.pre = NULL
 maxLags.reg.pre = NULL
-varname.reg.ex = "z1"
-lagTerms.reg.ex = 0
-maxLags.reg.ex = 2
+varname.reg.ex = c("z1", "z2")
+lagTerms.reg.ex = c(0,0)
+maxLags.reg.ex = c(2,2)
 include.x.instr = TRUE
-varname.reg.instr = "z1"
+varname.reg.instr = c("z1", "z2")
 inst.reg.ex.expand = FALSE
 include.x.toInstr = TRUE
 varname.reg.toInstr = "x"

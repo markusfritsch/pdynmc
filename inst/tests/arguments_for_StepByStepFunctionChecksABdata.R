@@ -28,7 +28,7 @@ inst.stata = FALSE
 include.y = TRUE
 varname.y = "emp"
 lagTerms.y = 2
-maxLags.y = 4
+maxLags.y = NULL
 
 include.x = FALSE
 varname.reg.end = NULL
@@ -47,8 +47,8 @@ include.x.toInstr = FALSE
 varname.reg.toInstr = NULL
 
 fur.con = TRUE
-fur.con.diff = FALSE
-fur.con.lev = TRUE
+fur.con.diff = TRUE
+fur.con.lev = FALSE
 varname.reg.fur = c("wage", "capital", "output")
 lagTerms.reg.fur = c(1,2,2)
 
@@ -62,7 +62,7 @@ w.mat = "iid.err"
 w.mat.stata = FALSE
 
 std.err = "corrected"
-estimation = "iterative"
+estimation = "onestep"
 max.iter = 4
 iter.tol = 0.01
 inst.thresh = NULL

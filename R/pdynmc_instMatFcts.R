@@ -708,7 +708,8 @@ Z_i.fct	<- function(
   ,dat.na
 ){
 
-  i <- as.numeric(as.factor(i))
+#  i <- as.numeric(as.factor(i))
+  i <- as.numeric(i)
 
   if(use.mc.diff){
     #     if(mc.ref.t){
