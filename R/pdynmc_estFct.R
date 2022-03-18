@@ -708,6 +708,8 @@ pdynmc		<- function(
  dat$i.label        <- dat[, varname.i]
  dat[, varname.i]   <- as.numeric(as.factor(dat[, varname.i]))
 
+ # dat$t.label        <- dat[, varname.t]
+ # dat[, varname.t]   <- as.numeric(as.factor(dat[, varname.t]))
 
  i_cases		<- sort(unique(dat[, varname.i]))
  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
@@ -803,6 +805,9 @@ pdynmc		<- function(
 
    dat[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c(varname.i, varname.t))]		<- 0
    dat.na[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c(varname.i, varname.t))]		<- NA
+
+#   dat[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c("i.label", "t.label"))]		<- 0
+#   dat.na[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c("i.label", "t.label"))]		<- NA
 
 
 
