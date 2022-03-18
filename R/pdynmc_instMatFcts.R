@@ -449,11 +449,12 @@ LEV.pre.fct	<- function(
     ti.temp   <- rep(max(2,lagTerms), times = Time-max(2,lagTerms)+1) + if(Time-max(2,lagTerms)-T.mcLev > 0){c(rep(0, times = T.mcLev), 1:(Time-max(2,lagTerms)-T.mcLev+1))} else{rep(0, times = Time-max(2,lagTerms)+1)}
     tend.temp <- max(2,lagTerms):(Time)
 
-    Matrix::t(Matrix::bdiag(mapply(ti = ti.temp, t.end = tend.temp, lagTerms = lagTerms, FUN = datLEV.pre.fct, varname = varname,
+    Matrix::bdiag(do.call(what = diag, args = list(mapply(ti = ti.temp, t.end = tend.temp, lagTerms = lagTerms, FUN = datLEV.pre.fct, varname = varname,
                                    MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                    #					, mc.ref.t = mc.ref.t
-                                                   , dat = dat, dat.na = dat.na, varname.i = varname.i, Time = Time))) )*
-      as.vector(!is.na(diff(dat.na[dat.na[, varname.i] == i, varname][(lagTerms-1):Time])))
+                                                   , dat = dat, dat.na = dat.na, varname.i = varname.i, Time = Time)) *
+      as.vector(!is.na(diff(dat.na[dat.na[, varname.i] == i, varname][(lagTerms-1):Time]))) ) ) )
+
     #     } else{
     #       t(mapply(ti = Time - T.mcLev, t.end = Time, FUN = datLEV.pre.fct, varname = varname,
     #		MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
@@ -810,19 +811,23 @@ Z_i.fct	<- function(
         }
       }
     }
-    Z_i.mc.lev_end	<- do.call(what = "cbind", args = mget(ls(pattern = "Z_i.mc.lev_end")))
-    if(include.x & (include.y | end.reg) & (ex.reg | pre.reg)){
-      Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end), Z_i.mc.lev_ex.pre)
-    } else{
-      if((include.y | end.reg) & ((include.dum & dum.lev) | (fur.con & fur.con.lev))){
-        if(max.lagTerms == 1){
-          Z_i.mc.lev	<- rbind(0, Z_i.mc.lev_end)
+    if(end.reg){
+      Z_i.mc.lev_end	<- do.call(what = "cbind", args = mget(ls(pattern = "Z_i.mc.lev_end")))
+      if(include.x & (include.y | end.reg) & (ex.reg | pre.reg)){
+        Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end), Z_i.mc.lev_ex.pre)
+      } else{
+        if((include.y | end.reg) & ((include.dum & dum.lev) | (fur.con & fur.con.lev))){
+          if(max.lagTerms == 1){
+            Z_i.mc.lev	<- rbind(0, Z_i.mc.lev_end)
+          } else{
+            Z_i.mc.lev	<- Z_i.mc.lev_end
+          }
         } else{
           Z_i.mc.lev	<- Z_i.mc.lev_end
         }
-      } else{
-        Z_i.mc.lev	<- Z_i.mc.lev_end
       }
+    } else{
+      Z_i.mc.lev	<- Z_i.mc.lev_ex.pre
     }
     #     }
     n.inst.lev	<- ncol(Z_i.mc.lev)
