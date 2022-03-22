@@ -705,11 +705,11 @@ pdynmc		<- function(
 ###
 
 
- dat$i.label        <- dat[, varname.i]
+ dat$i.label        <- as.character(dat[, varname.i])
  dat[, varname.i]   <- as.numeric(as.factor(dat[, varname.i]))
 
- # dat$t.label        <- dat[, varname.t]
- # dat[, varname.t]   <- as.numeric(as.factor(dat[, varname.t]))
+ dat$t.label        <- as.character(dat[, varname.t])
+ dat[, varname.t]   <- as.numeric(as.factor(dat[, varname.t]))
 
  i_cases		<- sort(unique(dat[, varname.i]))
  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
@@ -791,7 +791,7 @@ pdynmc		<- function(
    }
 
    colnames.dum			<- Reduce(c, lapply(do.call(what = "c", args = list(sapply(1:length(varname.dum), FUN = adjust.colnames.fct))), FUN = c))
-
+   colnames.dum     <- unique(dat$t.label)[as.numeric(colnames.dum)]
 
    colnames(D.add)		<- colnames.dum
 
@@ -1214,6 +1214,7 @@ pdynmc		<- function(
 
  resGMM$n.inst		<- apply(Reduce(f = rbind, x = lapply(Z.obj, `[[`, 3)), FUN = max, MARGIN = 2)
 
+# colnames.dum.Z		<- unique(dat$t.label)[as.numeric(as.vector(unique(Reduce(f = rbind, x = lapply(Z.obj, `[[`, 2) ) )))]
  colnames.dum.Z		<- as.vector(unique(Reduce(f = rbind, x = lapply(Z.obj, `[[`, 2) ) ))
 
  resGMM$Z.temp		<- lapply(Z.obj, `[[`, 1)
@@ -1229,7 +1230,8 @@ pdynmc		<- function(
 
  if(include.dum){
    if((dum.lev & !(dum.diff)) | (dum.lev & dum.diff)){
-     varname.reg.estParam	<- c(varname.reg.estParam, colnames.dum[colnames.dum %in% colnames.dum.Z])
+     varname.reg.estParam	<- c(varname.reg.estParam, colnames.dum)
+#     varname.reg.estParam	<- c(varname.reg.estParam, colnames.dum[colnames.dum %in% colnames.dum.Z])
    } else{
      varname.reg.estParam	<- c(varname.reg.estParam, unlist(lapply(strsplit(x = colnames.dum.Z, split = "D."), FUN = `[[`, 2)))
    }

@@ -1,4 +1,4 @@
-# pdynmc version 0.9.7.9004
+# pdynmc version 0.9.7.9005
 
 Update of version 0.9.6 which updates the estimation function and the functions for visualizing the panel data structure. The functionality for deriving instruments and estimating parameters: Covariates for which no parameters are estimated, but from which instruments are derived and covariates for which parameters for which parameters are estimated, but from which no instruments are derived. Additionally, the functions are generalized to different data structures and the documentation is updated.
 
