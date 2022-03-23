@@ -5,30 +5,10 @@ rm(list = ls())
 
 #	install.packages("pdynmc")
 library(pdynmc)
-#	install.packages("readstata13")
-library(readstata13)
 
 
-
-dat		<- read.dta13(
-  file			= "D:/Work/20_Projekte/50_Linear-Dynamic-Panel-Models/50_Drafts/20_Paper/51_Educational/R/cig85_95.dta",
-  convert.factors		= TRUE,	# changed from TRUE
-  generate.factors	= FALSE,
-  encoding			= "UTF-8",
-  fromEncoding		= NULL,
-  convert.underscore	= FALSE,
-  missing.type		= FALSE,
-  convert.dates		= TRUE,
-  replace.strl		= TRUE,
-  add.rownames		= FALSE,
-  nonint.factors		= FALSE,
-  select.rows		= NULL,
-  select.cols		= NULL,
-  strlexport		= FALSE,
-  strlpath			= "."
-)
-
-
+data(cigDemand, package = "pdynmc")
+dat <- cigDemand
 
 
 dat$y			<- log(dat$packpc)				# response variable log(Q^Cigarettes)

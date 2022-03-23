@@ -4,5 +4,11 @@ Additionally, a number of books, blogs, and forum entries on
 stackexchange proved to be very resourceful. A notable example is the
 book R Packages by Hadley Wickham and Jennifer Bryan.
 
-
+We thank several researchers for the permission to include datasets
+in the package:
+Manuel Arellano and Steve Bond for the dataset on employment of
+firms located in the UK.
+James H. Stock and Mark W. Watson for the dataset on cigarette
+consumption in the US provided to them by Jonathan Gruber of the
+Massachusetts Institute of Technology.
 

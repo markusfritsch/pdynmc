@@ -4,9 +4,9 @@ rm(list = ls())
 
 
 
- data(EmplUK, package = "plm")
- dat <- EmplUK
- rm(EmplUK)
+ data(ABdata, package = "pdynmc")
+ dat <- ABdata
+ rm(ABdata)
  dat[,c(4:7)] <- log(dat[,c(4:7)])
 
  library(pdynmc)

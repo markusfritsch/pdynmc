@@ -20,7 +20,7 @@ Update of version 0.9.6 which updates the estimation function and the functions 
 
 
 ### datasets
-* Add dataset of Arellano Bond (1991) on employment by firms located in the UK
+* Add dataset of Arellano and Bond (1991) on employment by firms located in the UK
 * Add dataset of Stock and Watson (2003) on cigarette consumption in the US
 
 

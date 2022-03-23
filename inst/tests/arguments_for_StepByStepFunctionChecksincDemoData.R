@@ -5,8 +5,6 @@ rm(list = ls())
 
 #	install.packages("pder")
 library(pder)
-#	install.packages("plm")
-library(plm)
 
 
 data("DemocracyIncome", package = "pder")

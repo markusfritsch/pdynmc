@@ -5,9 +5,9 @@ rm(list = ls())
 
 
 
-data(EmplUK, package = "plm")
+data(ABdata, package = "pdynmc")
 
-dat <- EmplUK
+dat <- ABdata
 dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 

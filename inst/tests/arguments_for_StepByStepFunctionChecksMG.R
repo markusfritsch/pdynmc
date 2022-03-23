@@ -5,9 +5,9 @@ rm(list = ls())
 
 
 
-data(EmplUK, package = "plm")
+data(ABdata, package = "pdynmc")
 
-dati			<- EmplUK
+dati			<- ABdata
 dati			<- cbind(dati[, 1:3], dati[, 4:7])
 names(dati)		<- c("ireg", "t", "sector", "logy", "Sly", "mean_eta", "output")
 data.info(dati, i.name = "ireg", t.name = "t")

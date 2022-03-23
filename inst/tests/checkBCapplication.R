@@ -8,8 +8,6 @@ rm(list = ls())
 
 
 
-#	install.packages("plm")
-library(plm)
 #	install.packages("Matrix")
 library(Matrix)
 #	install.packages("optimx")

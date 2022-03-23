@@ -5,12 +5,10 @@ rm(list = ls())
 
 #	install.packages("pdynmc")
 library(pdynmc)
-#	install.packages("plm")
-library(plm)
 
 
-data(EmplUK, package = "plm")
-dat <- EmplUK
+data(ABdata, package = "pdynmc")
+dat <- ABdata
 dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 

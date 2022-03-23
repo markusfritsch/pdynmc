@@ -5,7 +5,7 @@ rm(list = ls())
 library(pdynmc)
 
 
-data(EmplUK, package = "plm")
+data(ABdata, package = "pdynmc")
 
 dati			<- EmplUK
 dati			<- cbind(dati[, 1:3], dati[, 4:7])
