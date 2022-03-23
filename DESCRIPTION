@@ -1,7 +1,7 @@
 Package: pdynmc
 Type: Package
 Title: Moment Condition Based Estimation of Linear Dynamic Panel Data Models
-Version: 0.9.7.9006
+Version: 0.9.7.9007
 Date: 2022-03-23
 Authors@R: c(person("Markus", "Fritsch", role = c("aut", "cre"),
 		email = "Markus.Fritsch@uni-Passau.de"),
@@ -46,6 +46,8 @@ Description: Linear dynamic panel data modeling based on linear and
     and coefficient paths across GMM iterations (the latter is
     implemented according to the plot shown in
     Hansen and Lee, 2021 <doi:10.3982/ECTA16274>).
+    For a more detailed description of the functionality, please
+    see Fritsch, Pua, Schnurbus (2021) <doi:10.32614/RJ-2021-035>.
 License: GPL (>=2)
 URL: https://github.com/markusfritsch/pdynmc
 BugReports: https://github.com/markusfritsch/pdynmc/issues

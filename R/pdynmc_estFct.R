@@ -80,6 +80,8 @@
 #'    \insertCite{AhnSch1995;textual}{pdynmc}. Standard error corrections
 #'    according to \insertCite{Win2005;textual}{pdynmc} and
 #'    \insertCite{HwangKangLee2020;textual}{pdynmc} are available.
+#'    For further details, please see
+#'    \insertCite{FriPuaSch2019c;textual}{pdynmc}.
 #'
 #' @aliases pdynmc
 #' @param dat A dataset.

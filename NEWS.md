@@ -1,6 +1,6 @@
-# pdynmc version 0.9.7.9005
+# pdynmc version 0.9.7.9007
 
-Update of version 0.9.6 which updates the estimation function and the functions for visualizing the panel data structure. The functionality for deriving instruments and estimating parameters: Covariates for which no parameters are estimated, but from which instruments are derived and covariates for which parameters for which parameters are estimated, but from which no instruments are derived. Additionally, the functions are generalized to different data structures and the documentation is updated.
+Update of version 0.9.6 which updates the estimation function and the functions for visualizing the panel data structure. The functionality for deriving instruments and estimating parameters: Covariates for which no parameters are estimated, but from which instruments are derived and covariates for which parameters for which parameters are estimated, but from which no instruments are derived. Additionally, the functions are generalized to different data structures, the documentation is updated, and two datasets are added to the package.
 
 
 ### pdynmc
@@ -16,6 +16,12 @@ Update of version 0.9.6 which updates the estimation function and the functions 
 
 ### struc.UPD.plot
 * Adjust code for further data structures
+
+
+
+### datasets
+* Add dataset of Arellano Bond (1991) on employment by firms located in the UK
+* Add dataset of Stock and Watson (2003) on cigarette consumption in the US
 
 
 

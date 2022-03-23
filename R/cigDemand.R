@@ -2,8 +2,9 @@
 #'
 #' Balanced panel dataset on annual cigarette consumption in the
 #' US for the 48 continental states in the years 1985 until 1995.
-#' The dataset is used in \insertCite{;textual}{pdynmc} and
-#' \insertCite{;textual}{pdynmc}.
+#' The dataset is available from \insertCite{Stock2003;textual}{pdynmc}
+#' and used in \insertCite{SW2019;textual}{pdynmc} and
+#' \insertCite{FriPuaSch2022;textual}{pdynmc}.
 #' Gratitude is owed to Jonathan Gruber of MIT for
 #' providing the data.
 #'
