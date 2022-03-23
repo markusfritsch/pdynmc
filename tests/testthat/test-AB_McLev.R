@@ -1,9 +1,8 @@
 test_that("check estimation based on linear moment conditions from equations in levels for AB data", {
  skip_on_cran()
 
- library(plm)
- data(EmplUK, package = "plm")
- dat <- EmplUK
+ data(ABdata, package = "pdynmc")
+ dat <- ABdata
  dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 
