@@ -67,18 +67,14 @@
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -86,17 +82,12 @@
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  case.names(m1)
-#' }
+#' case.names(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -109,7 +100,6 @@
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  case.names(m1)
-#' }
 #' }
 #'
 #'
@@ -152,18 +142,14 @@ case.names.pdynmc <- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -171,17 +157,12 @@ case.names.pdynmc <- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  coef(m1)
-#' }
+#' coef(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -194,7 +175,6 @@ case.names.pdynmc <- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  coef(m1)
-#' }
 #' }
 #'
 #'
@@ -239,18 +219,14 @@ coef.pdynmc <- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -258,17 +234,12 @@ coef.pdynmc <- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  dummy.coef(m1)
-#' }
+#' dummy.coef(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -281,7 +252,6 @@ coef.pdynmc <- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  dummy.coef(m1)
-#' }
 #' }
 #'
 #'
@@ -339,18 +309,14 @@ dummy.coef.pdynmc		<- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -358,17 +324,12 @@ dummy.coef.pdynmc		<- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  fitted(m1, na.rm = TRUE)
-#' }
+#' fitted(m1, na.rm = TRUE)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -381,7 +342,6 @@ dummy.coef.pdynmc		<- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  fitted(m1, na.rm = TRUE)
-#' }
 #' }
 #'
 #'
@@ -449,18 +409,14 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -468,17 +424,12 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  model.matrix(m1)
-#' }
+#' model.matrix(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -490,7 +441,6 @@ fitted.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  model.matrix(m1)
-#' }
 #' }
 #'
 #'
@@ -539,18 +489,14 @@ model.matrix.pdynmc		<- function(object, sparse = TRUE, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -558,17 +504,12 @@ model.matrix.pdynmc		<- function(object, sparse = TRUE, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  ninst(m1)
-#' }
+#' ninst(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -580,7 +521,6 @@ model.matrix.pdynmc		<- function(object, sparse = TRUE, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  ninst(m1)
-#' }
 #' }
 #'
 #'
@@ -607,18 +547,14 @@ ninst <- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -626,17 +562,12 @@ ninst <- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  ninst(m1)
-#' }
+#' ninst(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -648,7 +579,6 @@ ninst <- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  ninst(m1)
-#' }
 #' }
 #'
 #'
@@ -700,18 +630,14 @@ ninst.pdynmc		<- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -719,17 +645,12 @@ ninst.pdynmc		<- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  nobs(m1)
-#' }
+#' nobs(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -741,7 +662,6 @@ ninst.pdynmc		<- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  nobs(m1)
-#' }
 #' }
 #'
 #'
@@ -795,18 +715,14 @@ nobs.pdynmc		<- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -814,17 +730,12 @@ nobs.pdynmc		<- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  optimIn(m1)
-#' }
+#' optimIn(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -837,7 +748,6 @@ nobs.pdynmc		<- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "BFGS")
 #'  optimIn(m1)
-#' }
 #' }
 #'
 #'
@@ -868,18 +778,14 @@ optimIn <- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -887,17 +793,12 @@ optimIn <- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  optimIn(m1)
-#' }
+#' optimIn(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -910,7 +811,6 @@ optimIn <- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "BFGS")
 #'  optimIn(m1)
-#' }
 #' }
 #'
 #'
@@ -1022,18 +922,14 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' \insertAllCited{}
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -1041,19 +937,14 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "twostep",
 #'     opt.meth = "none")
-#'  plot(m1)
-#'  plot(m1, type = "coef.range")
-#'  plot(m1, type = "coef.path")
-#' }
+#' plot(m1)
+#' plot(m1, type = "coef.range")
+#' plot(m1, type = "coef.path")
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -1068,7 +959,6 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #'  plot(m1)
 #'  plot(m1, type = "coef.range")
 #'  plot(m1, type = "coef.path")
-#' }
 #' }
 #'
 #'
@@ -1340,18 +1230,14 @@ plot.pdynmc		<- function(
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -1359,17 +1245,12 @@ plot.pdynmc		<- function(
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  m1
-#' }
+#' m1
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -1381,7 +1262,6 @@ plot.pdynmc		<- function(
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  m1
-#' }
 #' }
 #'
 #'
@@ -1439,18 +1319,14 @@ print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -1458,17 +1334,12 @@ print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  summary(m1)
-#' }
+#' summary(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -1480,7 +1351,6 @@ print.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  summary(m1)
-#' }
 #' }
 #'
 #'
@@ -1550,18 +1420,14 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -1569,17 +1435,12 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  residuals(m1, na.rm = TRUE)
-#' }
+#' residuals(m1, na.rm = TRUE)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -1592,7 +1453,6 @@ print.summary.pdynmc	<- function(x, digits = max(3, getOption("digits") - 3), si
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  residuals(m1, na.rm = TRUE)
-#' }
 #' }
 #'
 #'
@@ -1647,18 +1507,14 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -1666,17 +1522,12 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  summary(m1, na.rm = TRUE)
-#' }
+#' summary(m1, na.rm = TRUE)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -1688,7 +1539,6 @@ residuals.pdynmc		<- function(object, step = object$iter, na.rm = FALSE, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  summary(m1)
-#' }
 #' }
 #'
 #'
@@ -1772,18 +1622,14 @@ summary.pdynmc	<- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -1791,17 +1637,12 @@ summary.pdynmc	<- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  variable.names(m1)
-#' }
+#' variable.names(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -1813,7 +1654,6 @@ summary.pdynmc	<- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  variable.names(m1)
-#' }
 #' }
 #'
 #'
@@ -1861,18 +1701,14 @@ variable.names.pdynmc		<- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -1880,17 +1716,12 @@ variable.names.pdynmc		<- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  vcov(m1)
-#' }
+#' vcov(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -1902,7 +1733,6 @@ variable.names.pdynmc		<- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  vcov(m1)
-#' }
 #' }
 #'
 #'
@@ -1952,18 +1782,14 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -1971,17 +1797,12 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  wmat(m1)
-#' }
+#' wmat(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -1993,7 +1814,6 @@ vcov.pdynmc		<- function(object, step = object$iter, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  wmat(m1)
-#' }
 #' }
 #'
 #'
@@ -2024,18 +1844,14 @@ wmat <- function(object, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -2043,17 +1859,12 @@ wmat <- function(object, ...){
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  wmat(m1)
-#' }
+#' wmat(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
@@ -2065,7 +1876,6 @@ wmat <- function(object, ...){
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  wmat(m1)
-#' }
 #' }
 #'
 #'

@@ -20,18 +20,14 @@ Extract coefficient estimates of time dummies from
    time dummies of an object of class `pdynmc`.
 }
 \examples{
-## Load data from plm package
-if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example.
- Please install the package.", call. = FALSE)
-} else{
- data(EmplUK, package = "plm")
- dat <- EmplUK
- dat[,c(4:7)] <- log(dat[,c(4:7)])
- dat <- dat[c(1:140), ]
+## Load data
+data(ABdata, package = "pdynmc")
+dat <- ABdata
+dat[,c(4:7)] <- log(dat[,c(4:7)])
+dat <- dat[c(1:140), ]
 
 ## Code example
- m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -39,17 +35,12 @@ if(!requireNamespace("plm", quietly = TRUE)){
     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
     opt.meth = "none")
- dummy.coef(m1)
-}
+dummy.coef(m1)
 
 \donttest{
-## Load data from plm package
-if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example.
- Please install the package.", call. = FALSE)
-} else{
- data(EmplUK, package = "plm")
- dat <- EmplUK
+## Load data
+ data(ABdata, package = "pdynmc")
+ dat <- ABdata
  dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 ## Further code example
@@ -62,7 +53,6 @@ if(!requireNamespace("plm", quietly = TRUE)){
     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
     opt.meth = "none")
  dummy.coef(m1)
-}
 }
 
 
