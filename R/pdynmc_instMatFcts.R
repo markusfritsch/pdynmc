@@ -810,24 +810,27 @@ Z_i.fct	<- function(
                                                                         , dat = dat, dat.na = dat.na)) )
         }
       }
-    }
-    if(end.reg){
-      Z_i.mc.lev_end	<- do.call(what = "cbind", args = mget(ls(pattern = "Z_i.mc.lev_end")))
-      if(include.x & (include.y | end.reg) & (ex.reg | pre.reg)){
-        Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end), Z_i.mc.lev_ex.pre)
-      } else{
-        if((include.y | end.reg) & ((include.dum & dum.lev) | (fur.con & fur.con.lev))){
-          if(max.lagTerms == 1){
-            Z_i.mc.lev	<- rbind(0, Z_i.mc.lev_end)
+
+      if(end.reg){
+        Z_i.mc.lev_end	<- do.call(what = "cbind", args = mget(ls(pattern = "Z_i.mc.lev_end")))
+        if(include.x & (include.y | end.reg) & (ex.reg | pre.reg)){
+          Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end), Z_i.mc.lev_ex.pre)
+        } else{
+          if((include.y | end.reg) & ((include.dum & dum.lev) | (fur.con & fur.con.lev))){
+            if(max.lagTerms == 1){
+              Z_i.mc.lev	<- rbind(0, Z_i.mc.lev_end)
+            } else{
+              Z_i.mc.lev	<- Z_i.mc.lev_end
+            }
           } else{
             Z_i.mc.lev	<- Z_i.mc.lev_end
           }
-        } else{
-          Z_i.mc.lev	<- Z_i.mc.lev_end
         }
+      } else{
+        Z_i.mc.lev	<- Z_i.mc.lev_ex.pre
       }
     } else{
-      Z_i.mc.lev	<- Z_i.mc.lev_ex.pre
+      Z_i.mc.lev	<- Z_i.mc.lev_end.y
     }
     #     }
     n.inst.lev	<- ncol(Z_i.mc.lev)
