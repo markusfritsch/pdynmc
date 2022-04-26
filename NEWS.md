@@ -1,6 +1,6 @@
-# pdynmc version 0.9.8.9000
+# pdynmc version 0.9.8.9001
 
-Update of version 0.9.7
+Update of version 0.9.7 which adds the published version of the corresponding article as vignette and ensures correct rendering of the package documentation (thanks to Kevin Tappe).
 
 
 
