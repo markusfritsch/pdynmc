@@ -87,9 +87,9 @@ Minor update of version 0.9.3 in which package DESCRIPTION, CITATION, and docume
 
 
 ### new vignettes:
-*pdynmc-intro
-*pdynmc_introLong
-*pdynmc-pres-in-a-nutshell
+* pdynmc-intro
+* pdynmc_introLong
+* pdynmc-pres-in-a-nutshell
 
 
 
