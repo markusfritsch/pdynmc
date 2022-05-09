@@ -86,7 +86,7 @@ Minor update of version 0.9.4 which adds further functionality and argument chec
 Minor update of version 0.9.3 in which package DESCRIPTION, CITATION, and documentation is adjusted and two further package vignettes are added.
 
 
-### new vignettes:
+### new vignettes
 * pdynmc-intro
 * pdynmc_introLong
 * pdynmc-pres-in-a-nutshell
