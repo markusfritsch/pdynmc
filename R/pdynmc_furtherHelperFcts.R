@@ -92,7 +92,16 @@ Wonestep.fct		<- function(
     }
 
     if(dum.lev | fur.con.lev | ex.reg | pre.reg){
-      H_i.mcLev		<- diag(Time - max.lagTerms)
+      if(pre.reg|ex.reg){
+        if(max.lagTerms > 1){
+          H_i.mcLev		<- diag(Time - (max.lagTerms-1))
+        } else{
+          H_i.mcLev		<- diag(Time - (max.lagTerms))
+        }
+      } else{
+        H_i.mcLev		<- diag(Time - max.lagTerms)
+      }
+
     }
 
 
@@ -109,6 +118,9 @@ Wonestep.fct		<- function(
         H_i.off	<- (cbind(diag(x = -1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1), 0) +
                       cbind(rep(x = 0, times = Time - max.lagTerms - 1),
                                diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1)) )
+        if((pre.reg|ex.reg) & max.lagTerms > 1){
+          H_i.off <- cbind(H_i.off, 0)
+        }
       } else{
         if((nrow(Z.temp[[1]]) - ncol(H_i.mcDiff) - if(use.mc.nonlin){ncol(H_i.mcNL)} else{0}) == Time - max.lagTerms - 1){
           H_i.off	<- (diag(x = -1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1) +
@@ -192,7 +204,11 @@ Wonestep.fct		<- function(
     }
 
     if(use.mc.lev | dum.lev | fur.con.lev){												# [M:] part of weighting matrix is identical for 'mc.ref.t' and 'mc.ref.T'
-      H_i.mcLev		<- diag(Time - max.lagTerms)
+      if((pre.reg|ex.reg) & max.lagTerms > 1){
+        H_i.mcLev		<- diag(Time - (max.lagTerms-1))
+      } else{
+        H_i.mcLev		<- diag(Time - max.lagTerms)
+      }
     }
 
     if(use.mc.nonlin){
@@ -864,8 +880,14 @@ sub.clForm.fct		<- function(
       dat.temp_3lev					<- as.matrix(data.temp[-c(1:(max.lagTerms)), ]) *
         as.logical( ( diff(data.temp[, varname.y], differences = max.lagTerms) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms))) + 1 )
     } else{
-      dat.temp_3lev					<- as.matrix(data.temp[-c(1:max(2,max.lagTerms)), ]) *
-        as.logical( ( diff(data.temp[, varname.y], differences = max(2,max.lagTerms)) * is.na(diff(data.temp[, varname.y], differences = max(2,max.lagTerms))) + 1 ) )
+      if(pre.reg|ex.reg){
+        dat.temp_3lev					<- as.matrix(data.temp[-c(1:(max.lagTerms-1)), ]) *
+          as.logical( ( diff(data.temp[, varname.y], differences = (max.lagTerms-1)) * is.na(diff(data.temp[, varname.y], differences = (max.lagTerms-1))) + 1 ) )
+
+      } else{
+        dat.temp_3lev					<- as.matrix(data.temp[-c(1:max(2,max.lagTerms)), ]) *
+          as.logical( ( diff(data.temp[, varname.y], differences = max(2,max.lagTerms)) * is.na(diff(data.temp[, varname.y], differences = max(2,max.lagTerms))) + 1 ) )
+      }
     }
     colnames(dat.temp_3lev)			<- NULL
     rownames(dat.temp_3lev)			<- NULL

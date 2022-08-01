@@ -1033,7 +1033,13 @@ Z_i.fct	<- function(
   if(fur.con){
 
     ind_vec.diff.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:Time], differences = max.lagTerms+1) )
-    ind_vec.lev.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms) )
+    if(use.mc.lev & (pre.reg|ex.reg)){
+      if(max.lagTerms > 1){
+        ind_vec.lev.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms-1) )
+      } else{
+        ind_vec.lev.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms) )
+      }
+    }
 
     if(fur.con.diff){
       #       if(mc.ref.t){
@@ -1057,16 +1063,32 @@ Z_i.fct	<- function(
     if(fur.con.lev){
       #       if(mc.ref.t){
       if(length(varname.reg.estParam.fur) == 1){
-        Z_i.furCon.temp_lev				            <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time][-c(1:max.lagTerms)] )
-        Z_i.furCon.temp_lev[ind_vec.lev.row]	<- 0
+        if(use.mc.lev & (pre.reg|ex.reg)){
+          if(max.lagTerms > 1){
+            Z_i.furCon.temp_lev				            <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time][-c(1:(max.lagTerms-1))] )
+          } else{
+            Z_i.furCon.temp_lev				            <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time][-c(1:(max.lagTerms))] )
+          }
+        } else{
+          Z_i.furCon.temp_lev				            <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time][-c(1:max.lagTerms)] )
+        }
 
+        Z_i.furCon.temp_lev[ind_vec.lev.row]	<- 0
         colnames.fur.con.lev			      <- varname.reg.estParam.fur
         rownames(Z_i.furCon.temp_lev)		<- NULL
         colnames(Z_i.furCon.temp_lev)		<- NULL
       } else{
-        Z_i.furCon.temp_lev				              <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time, ][-c(1:max.lagTerms), ] )
-        Z_i.furCon.temp_lev[ind_vec.lev.row, ]	<- 0
+        if(use.mc.lev & (pre.reg|ex.reg)){
+          if(max.lagTerms > 1){
+            Z_i.furCon.temp_lev				              <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time, ][-c(1:(max.lagTerms-1)), ] )
+          } else{
+            Z_i.furCon.temp_lev				              <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time, ][-c(1:(max.lagTerms)), ] )
+          }
+        } else{
+          Z_i.furCon.temp_lev				              <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time, ][-c(1:max.lagTerms), ] )
+        }
 
+        Z_i.furCon.temp_lev[ind_vec.lev.row, ]	<- 0
         colnames.fur.con.lev			      <- colnames(Z_i.furCon.temp_lev)
         rownames(Z_i.furCon.temp_lev)		<- NULL
         colnames(Z_i.furCon.temp_lev)		<- NULL

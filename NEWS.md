@@ -1,6 +1,11 @@
-# pdynmc version 0.9.8.9001
+# pdynmc version 0.9.8.9002
 
-Update of version 0.9.7 which adds the published version of the corresponding article as vignette and ensures correct rendering of the package documentation (thanks to Kevin Tappe).
+Update of version 0.9.7 which adds the published version of the corresponding article as vignette, ensures correct rendering of the package documentation (thanks to Kevin Tappe), and corrects minor bugs in the estimation function (thanks to Github user Dazhwu). 
+
+
+### pdynmc
+* Adjust further controls part of instrument matrix when using instruments from further covariates (function arguments: `include.x`, `varname.reg.pre`, `varname.reg.ex`)
+* Adjust internal helper functions (Wonestep.fct, sub.clForm.fct) correspondingly
 
 
 

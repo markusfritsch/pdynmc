@@ -106,7 +106,8 @@
 #' @param varname.y A character string denoting the name of the dependent variable
 #'    in the dataset.
 #' @param lagTerms.y An integer indicating the number of lags of the dependent
-#'    variable.
+#'    variable. Note that setting `lagTerms.y` to zero excludes the dependent
+#'    variable from the right-hand-side of the model specification.
 #' @param maxLags.y An integer indicating the maximum number of lags of the
 #'    dependent variable from which instruments should be derived.
 #' @param include.x A logical variable indicating whether instruments should be
@@ -497,7 +498,9 @@ pdynmc		<- function(
 				if(!(is.null(varname.reg.pre))){ lagTerms.reg.pre }, if(!(is.null(varname.reg.ex))){ lagTerms.reg.ex },
 				if(!(is.null(varname.reg.fur))){ lagTerms.reg.fur } )
 
-
+ if(max.lagTerms < 1){
+   max.lagTerms <- 1
+ }
 
 
 
@@ -1017,9 +1020,9 @@ pdynmc		<- function(
   varname
   ,lagTerms
  ){
-   if(varname == varname.y){
+  if(varname == varname.y){
      varname.reg.est.temp		<- paste("L", 1:lagTerms, ".", rep(varname, times = lagTerms), sep = "")
-   } else{
+    } else{
      varname.reg.est.temp		<- paste("L", c(0:lagTerms), ".", rep(varname, times = lagTerms+1), sep = "")
    }
   return(varname.reg.est.temp)
@@ -1041,7 +1044,7 @@ pdynmc		<- function(
   ,varname
  ){
    if(varname == varname.y){
-     lag.structure.temp			<- c(1:lagTerms)
+       lag.structure.temp			<- c(1:lagTerms)
    } else{
      lag.structure.temp			<- c(0:lagTerms)
    }
