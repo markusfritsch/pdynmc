@@ -44,15 +44,15 @@ inst.reg.ex.expand = TRUE
 include.x.toInstr = FALSE
 varname.reg.toInstr = NULL
 
-fur.con = TRUE
-fur.con.diff = TRUE
-fur.con.lev = FALSE
-varname.reg.fur = c("wage", "capital", "output")
-lagTerms.reg.fur = c(1,2,2)
+fur.con = FALSE
+fur.con.diff = NULL
+fur.con.lev = NULL
+varname.reg.fur = NULL
+lagTerms.reg.fur = NULL
 
 include.dum = TRUE
 dum.diff = TRUE
-dum.lev = FALSE
+dum.lev = TRUE
 varname.dum = "year"
 
 col_tol = 0.65

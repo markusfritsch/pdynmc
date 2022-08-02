@@ -98,7 +98,8 @@ derived from the lags of the dependent variable.}
 in the dataset.}
 
 \item{lagTerms.y}{An integer indicating the number of lags of the dependent
-variable.}
+variable. Note that setting `lagTerms.y` to zero excludes the dependent
+variable from the right-hand-side of the model specification.}
 
 \item{maxLags.y}{An integer indicating the maximum number of lags of the
 dependent variable from which instruments should be derived.}

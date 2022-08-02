@@ -1036,9 +1036,9 @@ Z_i.fct	<- function(
     if(use.mc.lev & (pre.reg|ex.reg)){
       if(max.lagTerms > 1){
         ind_vec.lev.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms-1) )
-      } else{
-        ind_vec.lev.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms) )
       }
+    } else{
+      ind_vec.lev.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms) )
     }
 
     if(fur.con.diff){
