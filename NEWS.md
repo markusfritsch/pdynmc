@@ -1,4 +1,4 @@
-# pdynmc version 0.9.8.9002
+# pdynmc version 0.9.8
 
 Update of version 0.9.7 which adds functionality for excluding the lagged dependent variable from the right-hand-side of the equation. Additionally, the update adds the published version of the article as vignette, ensures correct rendering of the package documentation (thanks to Kevin Tappe), and corrects minor bugs in the estimation function (thanks to Github user Dazhwu). 
 
