@@ -1,6 +1,6 @@
-# pdynmc version 0.9.9.9000
+# pdynmc version 0.9.9.9001
 
-Update of version 0.9.8
+Update of version 0.9.8 which adjusts typo in description of `cigDemand` dataset.
 
 
 

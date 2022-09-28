@@ -22,7 +22,7 @@
 #' \item{pop}{state population}
 #' \item{packpc}{number of cigarette packs sold per capita and year}
 #' \item{income}{state personal income (total, nominal)}
-#' \item{tax}{average federal, state, and local exceise taxes on cigarettes for fiscal year in cents per pack}
+#' \item{tax}{average federal, state, and local excise taxes on cigarettes for fiscal year in cents per pack}
 #' \item{avgprs}{average price during fiscal year in cents per pack (including sales taxes)}
 #' \item{taxs}{average excise tax for fiscal year in cents per pack (including sales taxes)}
 #' }
