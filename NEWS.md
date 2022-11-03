@@ -1,6 +1,9 @@
-# pdynmc version 0.9.9.9001
+# pdynmc version 0.9.9.9002
 
-Update of version 0.9.8 which adjusts typo in description of `cigDemand` dataset.
+Update of version 0.9.8 which adjusts typo in description of `cigDemand` dataset and adds further information to summary.
+
+### pdynmc
+* Summary function adjusted to add clarification on type of estimation
 
 
 
