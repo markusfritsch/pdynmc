@@ -1,9 +1,12 @@
-# pdynmc version 0.9.9.9002
+# pdynmc version 0.9.9.9004
 
-Update of version 0.9.8 which adjusts typo in description of `cigDemand` dataset and adds further information to summary.
+Update of version 0.9.8 which adds new function for visualization of evolution of empirical density of a variable of interest over longitudinal dimension of a panel dataset. Additionally, typos in description of `cigDemand` dataset are adjusted and further information is added to summary of `pdynmc' objects.
 
 ### pdynmc
 * Summary function adjusted to add clarification on type of estimation
+
+### functions for exploratory analysis of panel data added
+*pDensTime.plot: : Visualizes empirical density of column of panel dataset
 
 
 
