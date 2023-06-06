@@ -1,4 +1,4 @@
-# pdynmc version 0.9.9.9004
+# pdynmc version 0.9.9
 
 Update of version 0.9.8 which adds new function for visualization of evolution of empirical density of a variable of interest over longitudinal dimension of a panel dataset. Additionally, typos in description of `cigDemand` dataset are adjusted and further information is added to summary of `pdynmc' objects.
 
