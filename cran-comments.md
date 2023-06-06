@@ -1,9 +1,9 @@
 ## Test environments
-local Windows 10 x64 install: R 4.1.3, R 4.2.1, and R-devel (2022-08-29 r82766 ucrt)
-github actions: ubuntu 20.04.4 LTS, R 4.1.3 R 4.1.3 and R-devel
-  Microsoft Windows Server 2022 10.0.20348, R 4.2.1
-  Mac OS X 11.6.8 20G730, R 4.2.1
-winbuilder: R 4.1.3, R 4.2.1, and R-devel (2022-08-29 r82766 ucrt)
+local Windows 10 x64 install: R 4.1.3, R 4.2.2, 4.3.0, and R-devel (2023-06-03 r84490 ucrt)
+github actions: ubuntu 22.04.2 LTS, R 4.2.3, 4.3.0 and R-devel
+  Microsoft Windows Server 2022 10.0.20348, R 4.3.0
+  Mac OS 12.6.5 20G730, R 4.3.0
+winbuilder: R 4.2.3, R 4.3.0, and R-devel (to be R-4.4.0)
 
 
 ## R CMD check results
