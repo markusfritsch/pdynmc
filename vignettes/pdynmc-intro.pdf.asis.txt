@@ -4,4 +4,4 @@
 %\VignetteKeyword{HTML}
 %\VignetteKeyword{vignette}
 %\VignetteKeyword{package}
-%\VignetteKeyword{intro}
+%\VignetteKeyword{introShort}

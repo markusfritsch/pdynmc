@@ -217,7 +217,7 @@ strucUPD.plot	<- function(
 
 
 
-#' Plot empirical density of a column of a Panel Dataset.
+#' Plot EmpiricalDdensity of a Column of a Panel Dataset over Time.
 #'
 #' \code{pDensTime.plot} Plot the empirical density
 #'    of a column of an object of class `data.frame`
