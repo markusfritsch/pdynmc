@@ -265,13 +265,17 @@ strucUPD.plot	<- function(
 #'
 #' @author Markus Fritsch, Joachim Schnurbus
 #' @export
+#' @importFrom graphics abline
 #' @importFrom graphics axis
 #' @importFrom graphics box
-#' @importFrom graphics par
+#' @importFrom graphics lines
 #' @importFrom graphics plot
-#' @importFrom graphics rect
-#' @importFrom grDevices colorRampPalette
-#' @importFrom stats var
+#' @importFrom graphics polygon
+#' @importFrom graphics text
+#' @importFrom stats density
+#' @importFrom stats median
+#' @importFrom stats quantile
+#' @importFrom stats sd
 #'
 #' @seealso
 #'

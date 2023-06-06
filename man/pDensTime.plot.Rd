@@ -78,23 +78,23 @@ dat <- ABdata
 dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 ## Minimal set of arguments
-pDensTime.plot(object = ABdata, var.name = "lemp", i.name = "firm", t.name = "year")
+pDensTime.plot(object = ABdata, var.name = "emp", i.name = "firm", t.name = "year")
 
 ## All arguments explicitly stated
-pDensTime.plot(object	= ABdata, var.name	= "lemp", i.name	= "firm", t.name	= "year",
+pDensTime.plot(object	= ABdata, var.name	= "emp", i.name	= "firm", t.name	= "year",
  aggregate.t	= NULL,	plot.quantiles	= TRUE, plot.mean_ci	= TRUE, plot.extrema	= TRUE,
  col.set		= c("gray", "navy", "darkorange1", "red"))
 
 ## Aggregation over time periods (3 time periods per group)
-pDensTime.plot(object = ABdata, var.name = "lemp", i.name = "firm", t.name = "year",
+pDensTime.plot(object = ABdata, var.name = "emp", i.name = "firm", t.name = "year",
  aggregate.t = 3)
 
 ## Employ alternative colouring scheme
-pDensTime.plot(object = ABdata, var.name = "lemp", i.name = "firm", t.name = "year",
+pDensTime.plot(object = ABdata, var.name = "emp", i.name = "firm", t.name = "year",
  col.set		= c("pink", "blue", "purple", "black"))
 
 ## Plot only density, mean, and asymptotic confidence interval
-pDensTime.plot(object = ABdata, var.name = "lemp", i.name = "firm", t.name = "year",
+pDensTime.plot(object = ABdata, var.name = "emp", i.name = "firm", t.name = "year",
  plot.quantiles	= FALSE, plot.extrema	= FALSE)
 
 }
