@@ -1,4 +1,4 @@
-# pdynmc version 0.9.10.9000
+# pdynmc version 0.9.10.9001
 
 Update of version 0.9.9
 
@@ -14,7 +14,7 @@ Update of version 0.9.8 which adds new function for visualization of evolution o
 * Summary function adjusted to add clarification on type of estimation
 
 ### functions for exploratory analysis of panel data added
-*pDensTime.plot: : Visualizes empirical density of column of panel dataset
+* pDensTime.plot: : Visualizes empirical density of column of panel dataset
 
 
 
