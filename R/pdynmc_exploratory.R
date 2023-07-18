@@ -334,7 +334,7 @@ pDensTime.plot	<- function(
   }
 
   t.lab.dst	<- unique(diff(t.lab.txt))
-  t.set	<- sort(unique(object[, t.name]))
+  t.set	    <- sort(unique(object[, t.name]))
   t.set.sc	<- sort(unique(object[, t.name]))/t.lab.dst
 
   i.set	<- sort(unique(object[, i.name]))
@@ -379,15 +379,17 @@ pDensTime.plot	<- function(
 
     plot(
       x		= t.cat.set,
+      y   = obj.tmp[,var.name][t.cat.set],
       xlim	= range(t.cat.set) + c(-0.5, 1),
-      ylim	= range(da) + c(-0.5, 1),
+      ylim	= range(obj.tmp[,var.name]) + c(-0.5, 1),
       type	= "n",
       xlab	= "time",
-      ylab	= var.name,
       xaxs	= "i",
       yaxs	= "i",
-      xaxt	= "n"
+      xaxt	= "n",
+      ...
     )
+    axis(side = 2, at = NULL, labels = y.lab.txt)
     axis(side = 1, at = t.cat.set, labels = t.cat.names)
 
     abline(v = t.cat.set, col = col.set[1])
@@ -447,14 +449,15 @@ pDensTime.plot	<- function(
 
     plot(
       x	= t.set.sc,
+      y   = obj.tmp[,var.name][t.set.sc],
       xlim	= range(t.set.sc) + c(-0.5, 1),
-      ylim	= range(da) + c(-0.5, 1),
+      ylim	= range(obj.tmp[,var.name]) + c(-0.5, 1),
       type	= "n",
       xlab	= "time",
-      ylab	= var.name,
       xaxs	= "i",
       yaxs	= "i",
-      xaxt	= "n"
+      xaxt	= "n",
+      ...
     )
     axis(side = 1, at = t.set.sc, labels = t.lab.txt)
 
