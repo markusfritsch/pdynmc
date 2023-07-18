@@ -2,7 +2,7 @@
 % Please edit documentation in R/pdynmc_exploratory.R
 \name{pDensTime.plot}
 \alias{pDensTime.plot}
-\title{Plot EmpiricalDdensity of a Column of a Panel Dataset over Time.}
+\title{Plot Empirical Density of a Column of a Panel Dataset over Time.}
 \usage{
 pDensTime.plot(
   object,
