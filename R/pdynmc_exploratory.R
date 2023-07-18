@@ -328,9 +328,19 @@ pDensTime.plot	<- function(
     stop("Cross-section dimension and longitudinal dimension need to be specified.")
   }
 
-  t.set		<- sort(unique(object[, t.name]))
-  i.set		<- sort(unique(object[, i.name]))
+  t.lab.txt	<- sort(unique(object[, t.name]))
+  if(!length(unique(diff(t.lab.txt))) == 1){
+    stop("Longitudinal dimension not equidistant.")
+  }
+
+  t.lab.dst	<- unique(diff(t.lab.txt))
+  t.set	<- sort(unique(object[, t.name]))
+  t.set.sc	<- sort(unique(object[, t.name]))/t.lab.dst
+
+  i.set	<- sort(unique(object[, i.name]))
   da		<- object[, var.name]
+  obj.tmp			<- object
+  obj.tmp[, t.name]	<- obj.tmp[, t.name]/t.lab.dst
 
 
 
@@ -340,8 +350,8 @@ pDensTime.plot	<- function(
     ###	aggregated version (to approximately aggregate.t number of time periods per group)
     ###
 
-    t.cat			<- floor((t.set - min(t.set))/aggregate.t)
-    t.cat.values	<- floor((object[, t.name] - min(object[, t.name]))/aggregate.t)
+    t.cat			<- floor((t.set.sc - min(t.set.sc))/aggregate.t) + 1
+    t.cat.values	<- floor((obj.tmp[, t.name] - min(obj.tmp[, t.name]))/aggregate.t) + 1
     if(t.cat[length(t.cat)] != t.cat[length(t.cat) - 1]){
       t.cat.values[t.cat.values == t.cat[length(t.cat)]] <- t.cat[length(t.cat) - 1]
       t.cat[length(t.cat)] <- t.cat[length(t.cat) - 1]
@@ -358,7 +368,7 @@ pDensTime.plot	<- function(
 
     dat.t.dens	<- list()
     for(el in t.cat.set){
-      dat.t.dens[[paste("t.", el, sep = "")]]	<- density(da[object[, t.name] %in% t.set[t.cat == el]])
+      dat.t.dens[[paste("t.", el, sep = "")]]	<- density(da[obj.tmp[, t.name] %in% t.set.sc[t.cat == el]])
     }
     maxy		<- function(da){max(da$y)}
     dens.max	<- max(sapply(X = dat.t.dens, FUN = maxy))
@@ -370,7 +380,7 @@ pDensTime.plot	<- function(
     plot(
       x		= t.cat.set,
       xlim	= range(t.cat.set) + c(-0.5, 1),
-      ylim	= range(da),
+      ylim	= range(da) + c(-0.5, 1),
       type	= "n",
       xlab	= "time",
       ylab	= var.name,
@@ -427,8 +437,8 @@ pDensTime.plot	<- function(
 
 
     dat.t.dens	<- list()
-    for(el in t.set){
-      dat.t.dens[[paste("t.", el, sep = "")]]	<- density(da[object[, t.name] == el])
+    for(el in t.set.sc){
+      dat.t.dens[[paste("t.", el, sep = "")]]	<- density(da[obj.tmp[, t.name] == el])
     }
     maxy		<- function(da){max(da$y)}
     dens.max	<- max(sapply(X = dat.t.dens, FUN = maxy))
@@ -436,9 +446,9 @@ pDensTime.plot	<- function(
 
 
     plot(
-      x	= t.set,
-      xlim	= range(t.set) + c(-0.5, 1),
-      ylim	= range(da),
+      x	= t.set.sc,
+      xlim	= range(t.set.sc) + c(-0.5, 1),
+      ylim	= range(da) + c(-0.5, 1),
       type	= "n",
       xlab	= "time",
       ylab	= var.name,
@@ -446,10 +456,10 @@ pDensTime.plot	<- function(
       yaxs	= "i",
       xaxt	= "n"
     )
-    axis(side = 1, at = t.set, labels = t.set)
+    axis(side = 1, at = t.set.sc, labels = t.lab.txt)
 
-    abline(v = t.set, col = col.set[1])
-    for(el in t.set){
+    abline(v = t.set.sc, col = col.set[1])
+    for(el in t.set.sc){
       polygon(
         x	= el + (dat.t.dens[[paste("t.", el, sep = "")]]$y/dens.max),
         y	= dat.t.dens[[paste("t.", el, sep = "")]]$x,
@@ -458,34 +468,34 @@ pDensTime.plot	<- function(
     }
 
     if(plot.quantiles){
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = median), col = col.set[2], type = "b", pch = 19)
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = quantile, probs = 0.25), col = col.set[2], type = "b", pch = 19, lty = 2)
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = quantile, probs = 0.75), col = col.set[2], type = "b", pch = 19, lty = 2)
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = quantile, probs = 0.05), col = col.set[2], type = "b", pch = 19, lty = 3)
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = quantile, probs = 0.95), col = col.set[2], type = "b", pch = 19, lty = 3)
-      quant.temp	<- quantile(da[object[, t.name] == min(t.set)], probs = c(0.05, 0.25, 0.5, 0.75, 0.95))
-      text(x = min(t.set) - 0.2, y = quant.temp, labels = paste("q", c("05", "25", "50", "75", "95"), sep = ""), col = rep(col.set[2], 5))
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = median), col = col.set[2], type = "b", pch = 19)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0.25), col = col.set[2], type = "b", pch = 19, lty = 2)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0.75), col = col.set[2], type = "b", pch = 19, lty = 2)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0.05), col = col.set[2], type = "b", pch = 19, lty = 3)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0.95), col = col.set[2], type = "b", pch = 19, lty = 3)
+      quant.temp	<- quantile(da[obj.tmp[, t.name] == min(t.set)], probs = c(0.05, 0.25, 0.5, 0.75, 0.95))
+      text(x = min(t.set.sc) - 0.2, y = quant.temp, labels = paste("q", c("05", "25", "50", "75", "95"), sep = ""), col = rep(col.set[2], 5))
     }
 
     if(plot.mean_ci){
       mp2s	<- function(da){mean(da) + 2*sd(da)}
       mm2s	<- function(da){mean(da) - 2*sd(da)}
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = mean), col = col.set[3], type = "b", pch = 19)
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = mp2s), col = col.set[3], type = "b", pch = 19, lty = 3)
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = mm2s), col = col.set[3], type = "b", pch = 19, lty = 3)
-      text(x = max(t.set) + 0.35, y = mean(da[object[, t.name] == max(t.set)]), labels = "Mean", col = col.set[3])
-      text(x = max(t.set) + 0.4, y = mean(da[object[, t.name] == max(t.set)]) - 2*sd(da[object[, t.name] == max(t.set)]), labels = "M-2SD", col = col.set[3])
-      text(x = max(t.set) + 0.4, y = mean(da[object[, t.name] == max(t.set)]) + 2*sd(da[object[, t.name] == max(t.set)]), labels = "M+2SD", col = col.set[3])
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = mean), col = col.set[3], type = "b", pch = 19)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = mp2s), col = col.set[3], type = "b", pch = 19, lty = 3)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = mm2s), col = col.set[3], type = "b", pch = 19, lty = 3)
+      text(x = max(t.set.sc) + 0.35, y = mean(da[obj.tmp[, t.name] == max(t.set)]), labels = "Mean", col = col.set[3])
+      text(x = max(t.set.sc) + 0.4, y = mean(da[obj.tmp[, t.name] == max(t.set)]) - 2*sd(da[obj.tmp[, t.name] == max(t.set)]), labels = "M-2SD", col = col.set[3])
+      text(x = max(t.set.sc) + 0.4, y = mean(da[obj.tmp[, t.name] == max(t.set)]) + 2*sd(da[obj.tmp[, t.name] == max(t.set)]), labels = "M+2SD", col = col.set[3])
     }
 
     if(plot.extrema){
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = quantile, probs = 0), col = col.set[4], type = "l", pch = 19, lty = 1)
-      lines(x = t.set, y = tapply(X = da, INDEX = object[, t.name], FUN = quantile, probs = 1), col = col.set[4], type = "l", pch = 19, lty = 1)
-      quant.temp	<- quantile(da[object[, t.name] == min(t.set)], probs = 0:1)
-      text(x = min(t.set) - 0.2, y = quant.temp, labels = c("Min", "Max"), col = rep(col.set[4], 2))
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0), col = col.set[4], type = "l", pch = 19, lty = 1)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 1), col = col.set[4], type = "l", pch = 19, lty = 1)
+      quant.temp	<- quantile(da[obj.tmp[, t.name] == min(t.set)], probs = 0:1)
+      text(x = min(t.set.sc) - 0.2, y = quant.temp, labels = c("Min", "Max"), col = rep(col.set[4], 2))
     }
 
-    axis(side = 3, at = t.set, labels = paste("N=", tapply(X = da, INDEX = object[, t.name], FUN = length), sep = ""))
+    axis(side = 3, at = t.set.sc, labels = paste("N=", tapply(X = da, INDEX = obj.tmp[, t.name], FUN = length), sep = ""))
     box()
 
   }

@@ -1,9 +1,10 @@
 # pdynmc version 0.9.10.9002
 
-Update of version 0.9.9
+Update of version 0.9.9 that generalizes functionality of functions for exploratory analysis of panel data
 
 ### pDensTime.plot
 * `...` argument added to function
+* adjust scaling of abscissa for general time periods
 
 
 
