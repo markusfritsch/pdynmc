@@ -1,7 +1,9 @@
-# pdynmc version 0.9.10.9001
+# pdynmc version 0.9.10.9002
 
 Update of version 0.9.9
 
+### pDensTime.plot
+* `...` argument added to function
 
 
 
