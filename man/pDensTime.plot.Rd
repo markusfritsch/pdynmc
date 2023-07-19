@@ -49,11 +49,12 @@ value (per time period/group) should be plotted
 (as specified by `col.set[4]'; defaults to 'TRUE').}
 
 \item{col.set}{Vector of length 4 with entries of
-  data type `character' used to visualize the entities
-  of `pDensTime.plot' (see `Details'); must be a
-  valid argument to `col2rgb'; defaults to
-  `c("gray", "navy", "darkorange1", "red")'.
-@param ... further arguments.}
+data type `character' used to visualize the entities
+of `pDensTime.plot' (see `Details'); must be a
+valid argument to `col2rgb'; defaults to
+`c("gray", "navy", "darkorange1", "red")'.}
+
+\item{...}{further arguments.}
 }
 \value{
 Returns a plot that visualizes the empirical

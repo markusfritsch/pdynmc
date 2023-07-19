@@ -251,7 +251,7 @@ strucUPD.plot	<- function(
 #'    of `pDensTime.plot' (see `Details'); must be a
 #'    valid argument to `col2rgb'; defaults to
 #'    `c("gray", "navy", "darkorange1", "red")'.
-#'  @param ... further arguments.
+#' @param ... further arguments.
 #'
 #' @return Returns a plot that visualizes the empirical
 #'    density for a column of a panel dataset
