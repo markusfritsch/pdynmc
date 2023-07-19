@@ -389,7 +389,6 @@ pDensTime.plot	<- function(
       xaxt	= "n",
       ...
     )
-    axis(side = 2, at = NULL, labels = y.lab.txt)
     axis(side = 1, at = t.cat.set, labels = t.cat.names)
 
     abline(v = t.cat.set, col = col.set[1])
