@@ -990,7 +990,8 @@ plot.pdynmc		<- function(
 
     y.range	<- c(-1, 1)*max(abs(resids))
     graphics::plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted values", ylab = "Residuals",
-         main	= paste("Fitted vs. residual plot of", substitute(x)), col = "grey60", ...)
+#         main	= paste("Fitted vs. residual plot of", substitute(x))
+         , col = "grey60", ...)
     graphics::lines(x = c(par("usr")[1], par("usr")[2]), y = c(0,0), col = 1, lty = 2)
 #    graphics::lines(x = range(fitteds, na.rm = TRUE), y = c(0,0), col = 1, lty = 2)
 #    graphics::abline(h = 0)
