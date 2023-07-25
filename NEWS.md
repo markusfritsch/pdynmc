@@ -1,6 +1,9 @@
-# pdynmc version 0.9.10.9002
+# pdynmc version 0.9.10.9004
 
 Update of version 0.9.9 that generalizes functionality of functions for exploratory analysis of panel data
+
+### pdynmc
+* adjust check-related bug when instrumenting endogenous covariates
 
 ### pDensTime.plot
 * `...` argument added to function

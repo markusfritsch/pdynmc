@@ -117,16 +117,13 @@ the endogenous covariate(s). One integer per covariate needs to be given
 in the same order as the covariate names (defaults to `NULL`).}
 
 \item{maxLags.reg.end}{One or more integers indicating the maximum number of
-lags of the endogenous covariate(s) used for deriving instruments. One
-integer per covariate needs to be given in the same order as the covariate
-names (defaults to `NULL`).}
+lags of the endogenous covariate(s) used for deriving instruments.}
 
 \item{varname.reg.pre}{One or more character strings denoting the covariate(s)
 in the dataset to be treated as predetermined (defaults to `NULL`).}
 
 \item{lagTerms.reg.pre}{One or more integers indicating the number of lags of
-the predetermined covariate(s). One integer per covariate needs to be given
-in the same order as the covariate name (defaults to `NULL`).}
+the predetermined covariate(s).}
 
 \item{maxLags.reg.pre}{One or more integers indicating the maximum number of
 lags of the predetermined covariate(s) used for deriving instruments. One
@@ -141,9 +138,7 @@ the (strictly) exogenous covariate(s). One integer per covariate needs to
 be given in the same order as the covariate name (defaults to `NULL`).}
 
 \item{maxLags.reg.ex}{One or more integers indicating the maximum number of
-lags of the (strictly) exogenous covariate(s) used for deriving instruments.
-One integer per covariate needs to be given in the same order as the
-covariate names (defaults to `NULL`).}
+lags of the (strictly) exogenous covariate(s) used for deriving instruments.}
 
 \item{inst.reg.ex.expand}{A logical variable that allows for using all past,
 present, and future observations of `varname.reg.ex` to derive instruments

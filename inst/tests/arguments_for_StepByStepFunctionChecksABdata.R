@@ -25,13 +25,13 @@ inst.stata = FALSE
 
 include.y = TRUE
 varname.y = "emp"
-lagTerms.y = 2
+lagTerms.y = 1
 maxLags.y = NULL
 
-include.x = FALSE
-varname.reg.end = NULL
-lagTerms.reg.end = NULL
-maxLags.reg.end = NULL
+include.x = TRUE
+varname.reg.end = c("wage","capital")
+lagTerms.reg.end = c(0,0)
+maxLags.reg.end = c(3,3)
 varname.reg.pre = NULL
 lagTerms.reg.pre = NULL
 maxLags.reg.pre = NULL
@@ -51,7 +51,7 @@ varname.reg.fur = NULL
 lagTerms.reg.fur = NULL
 
 include.dum = TRUE
-dum.diff = TRUE
+dum.diff = FALSE
 dum.lev = TRUE
 varname.dum = "year"
 
