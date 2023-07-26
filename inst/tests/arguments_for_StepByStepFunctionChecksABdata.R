@@ -51,6 +51,7 @@ varname.reg.fur = NULL
 lagTerms.reg.fur = NULL
 
 include.dum = TRUE
+#custom.dum = TRUE
 dum.diff = FALSE
 dum.lev = TRUE
 varname.dum = "year"

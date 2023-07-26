@@ -1,6 +1,6 @@
 # pdynmc version 0.9.10.9004
 
-Update of version 0.9.9 that generalizes functionality of functions for exploratory analysis of panel data
+Update of version 0.9.9 that generalizes functionality of functions for exploratory analysis of panel data. Additionally, bug fixed are provided for the estimation function.
 
 ### pdynmc
 * adjust check-related bug when instrumenting endogenous covariates
@@ -9,6 +9,7 @@ Update of version 0.9.9 that generalizes functionality of functions for explorat
 * `...` argument added to function
 * adjust scaling of abscissa for general time periods
 * allow for user defined axis labels
+
 
 
 
