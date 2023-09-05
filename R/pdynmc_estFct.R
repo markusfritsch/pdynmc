@@ -83,7 +83,7 @@
 #'    For further details, please see
 #'    \insertCite{FriPuaSch2019c;textual}{pdynmc}.
 #'
-#' @aliases pdynmc
+#' @aliases pdynmc-package
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
