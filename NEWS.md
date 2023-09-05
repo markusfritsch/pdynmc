@@ -1,6 +1,6 @@
-# pdynmc version 0.9.10.9004
+# pdynmc version 0.9.10.9005
 
-Update of version 0.9.9 that generalizes functionality of functions for exploratory analysis of panel data. Additionally, bug fixed are provided for the estimation function.
+Update of version 0.9.9 that generalizes functionality of functions for exploratory analysis of panel data. Additionally, bug fixes are provided for the estimation function and the documentation of the package is adjusted according to the new CRAN recommendation.
 
 ### pdynmc
 * adjust check-related bug when instrumenting endogenous covariates
