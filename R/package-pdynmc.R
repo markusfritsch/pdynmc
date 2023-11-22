@@ -9,6 +9,7 @@
 #'
 #' @docType package
 #' @name pdynmc
+#' @aliases pdynmc-package
 NULL
 
 ## NULL
