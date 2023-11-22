@@ -825,7 +825,9 @@ pdynmc		<- function(
      }
 #     paste(var.cor)
 
-
+#replace function 'corSparse()' as 'qlcMatrix'-package is moved to from CRAN to archive
+#check:
+#https://stackoverflow.com/questions/5888287/running-cor-or-any-variant-over-a-sparse-matrix-in-r
 
 
 #   if(partOut){
