@@ -1056,7 +1056,6 @@ corSparse <- function(X, Y = NULL, cov = FALSE) {
   }
 }
 
-
 # function 'corSparse' copied from R package 'qlcMatrix', which was scheduled to be archived 2023-11-29
 #
 # Pearson correlation matrix between columns of X, Y
@@ -1069,6 +1068,10 @@ corSparse <- function(X, Y = NULL, cov = FALSE) {
 # with sample correction n/(n-1) this leads to sd^2 = ( X^2 - n*mu^2 ) / (n-1)
 #
 # Note that results larger than 1e4 x 1e4 will become very slow, because the resulting matrix is not sparse anymore.
-
+#
+#Further alternative:
+#replace function 'corSparse()' from 'qlcMatrix'-package based on the following post (according to
+#function documentation, the implementation is a slightly modified version of the post):
+#https://stackoverflow.com/questions/5888287/running-cor-or-any-variant-over-a-sparse-matrix-in-r
 
 

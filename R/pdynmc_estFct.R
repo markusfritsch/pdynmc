@@ -269,7 +269,6 @@
 #' @importFrom Matrix t
 #' @importFrom Matrix tcrossprod
 #' @importFrom optimx optimx
-#' @importFrom qlcMatrix corSparse
 #' @importFrom Rdpack reprompt
 #' @importFrom stats as.formula
 #' @importFrom stats model.matrix
@@ -819,15 +818,11 @@ pdynmc		<- function(
      for(k in 1:ncol(D.temp)){													#[M:] not helpful in obtaining results analoguous to Stata and pdgmm
        eigen.temp		<- eigen(crossprod(D.temp, D.temp))$values
        if(max(eigen.temp)/min(eigen.temp) < det_tol.low | max(eigen.temp)/min(eigen.temp) > det_tol.up){
-         var.cor		<- c(var.cor, colnames(D.temp)[which.max(colSums(abs(qlcMatrix::corSparse(D.temp))))])
-         D.temp		<- D.temp[, -which.max(colSums(abs(qlcMatrix::corSparse(D.temp))))]
+         var.cor		<- c(var.cor, colnames(D.temp)[which.max(colSums(abs(corSparse(D.temp))))])
+         D.temp		<- D.temp[, -which.max(colSums(abs(corSparse(D.temp))))]
        }
      }
 #     paste(var.cor)
-
-#replace function 'corSparse()' as 'qlcMatrix'-package is moved to from CRAN to archive
-#check:
-#https://stackoverflow.com/questions/5888287/running-cor-or-any-variant-over-a-sparse-matrix-in-r
 
 
 #   if(partOut){

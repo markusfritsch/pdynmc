@@ -10,6 +10,9 @@ Update of version 0.9.9 that generalizes functionality of functions for explorat
 * adjust scaling of abscissa for general time periods
 * allow for user defined axis labels
 
+### corSparse
+* new internal helper function copied from package 'qlcMatrix', which is scheduled to be archived
+
 
 
 

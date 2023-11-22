@@ -3,6 +3,7 @@
 \docType{package}
 \name{pdynmc}
 \alias{pdynmc}
+\alias{pdynmc-package}
 \title{pdynmc: A package for moment conditions based estimation of linear dynamic
    panel data models}
 \usage{
