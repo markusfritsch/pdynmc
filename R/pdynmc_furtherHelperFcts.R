@@ -1027,15 +1027,16 @@ dat.expand.fct		<- function(
 
 #' @keywords internal
 #'
+#' @importFrom methods as
 corSparse <- function(X, Y = NULL, cov = FALSE) {
 
-  X <- as(X,"dgCMatrix")
+  X <- methods::as(X,"dgCMatrix")
   n <- nrow(X)
   muX <- colMeans(X)
 
   if (!is.null(Y)) {
     stopifnot( nrow(X) == nrow(Y) )
-    Y <- as(Y,"dgCMatrix")
+    Y <- methods::as(Y,"dgCMatrix")
     muY <- colMeans(Y)
     covmat <- ( as.matrix(crossprod(X,Y)) - n*tcrossprod(muX,muY) ) / (n-1)
     sdvecX <- sqrt( (colSums(X^2) - n*muX^2) / (n-1) )
@@ -1074,4 +1075,19 @@ corSparse <- function(X, Y = NULL, cov = FALSE) {
 #function documentation, the implementation is a slightly modified version of the post):
 #https://stackoverflow.com/questions/5888287/running-cor-or-any-variant-over-a-sparse-matrix-in-r
 
+
+
+
+
+
+
+#' @keywords internal
+#' @aliases testduplicate-package
+"_PACKAGE"
+
+# The following block is used by usethis to automatically manage
+# roxygen namespace tags. Modify with care!
+## usethis namespace: start
+## usethis namespace: end
+NULL
 

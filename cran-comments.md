@@ -1,5 +1,5 @@
 ## Test environments
-local Windows 10 x64 install: R 4.1.3, R 4.2.2, 4.3.0, and R-devel (2023-06-03 r84490 ucrt)
+local Windows 11 x64 install: R 4.1.3, R 4.2.2, 4.3.0, 4.3.2, and R-devel (2023-06-03 r84490 ucrt)
 github actions: ubuntu 22.04.2 LTS, R 4.2.3, 4.3.0 and R-devel
   Microsoft Windows Server 2022 10.0.20348, R 4.3.0
   Mac OS 12.6.5 20G730, R 4.3.0
