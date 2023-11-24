@@ -1,4 +1,4 @@
-# pdynmc version 0.9.10.9006
+# pdynmc version 0.9.10
 
 Update of version 0.9.9 that generalizes functionality of functions for exploratory analysis of panel data. The function `corSparse` from package 'qlcMatrix' was added as internal helper function, as the aforementioned package was scheduled to be moved from CRAN to the archive by 2023-11-29. Additionally, bug fixes are provided for the estimation function and the documentation of the package is adjusted according to the new CRAN recommendation.
 
