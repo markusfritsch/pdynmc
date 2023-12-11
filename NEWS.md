@@ -1,6 +1,6 @@
-# pdynmc version 0.9.11.9000
+# pdynmc version 0.9.11.9001
 
-Update of version 0.9.10
+Update of version 0.9.10 that allows for user-specified dummy matrix in estimation function.
 
 
 
