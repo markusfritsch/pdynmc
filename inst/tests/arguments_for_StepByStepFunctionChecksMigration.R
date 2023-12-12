@@ -48,6 +48,7 @@ lagTerms.reg.fur	= NULL
 include.dum			= TRUE
 dum.diff				= FALSE
 dum.lev				  = TRUE
+#varname.dum			= c("year0")
 varname.dum			= c("dest_year", "year0")
 
 col_tol				= 0.65

@@ -764,26 +764,47 @@ pdynmc		<- function(
    if(length(varname.dum) == 1){
      dat[, varname.dum]		<- as.character(dat[, varname.dum])
      form.dum.temp		<- stats::as.formula(paste(varname.y, paste(varname.dum, " -1", collapse = "+"), sep = " ~ "))
+     D.add	<- stats::model.matrix(form.dum.temp, data = dat)[,-1]
    } else{
      dat	<- cbind(dat[, !(colnames(dat) %in% varname.dum)], as.data.frame(lapply(dat, as.character), stringsAsFactors = FALSE)[, varname.dum])
      dat	<- dat[, colnames(dat)]
      form.dum.temp		<- stats::as.formula(paste(varname.y, paste(paste(varname.dum, collapse = "+"), "-1", sep = ""), sep = " ~ "))
+     D.add	<- stats::model.matrix(form.dum.temp, data = dat)
    }
 
 
-   D.add	<- stats::model.matrix(form.dum.temp, data = dat)[,-1]
 
    adjust.colnames.fct	<- function(
-   j
+   j, var
    ){
-     cols.dum.temp		<- gsub(pattern = varname.dum[j], replacement = "", x = colnames(D.add)[grepl(pattern = varname.dum[j], x = colnames(D.add))])
+     cols.dum.temp		<- gsub(pattern = var[j], replacement = "", x = colnames(D.add)[grepl(pattern = var[j], x = colnames(D.add))])
    }
 
-   colnames.dum			<- Reduce(c, lapply(do.call(what = "c", args = list(sapply(1:length(varname.dum), FUN = adjust.colnames.fct))), FUN = c))
-   colnames.dum     <- unique(dat$t.label)[as.numeric(colnames.dum)]
+   if(length(varname.dum) == 1){
+     colnames.dum			<- Reduce(c, lapply(do.call(what = "c", args = list(sapply(j = 1:length(varname.dum), var = varname.dum, FUN = adjust.colnames.fct))), FUN = c))
+     colnames.dum     <- unique(dat$t.label)[as.numeric(colnames.dum)]
 
-   colnames(D.add)		<- colnames.dum
-
+     colnames(D.add)		<- colnames.dum
+   } else{
+     for(i in 1:length(varname.dum)){
+       dum.tmp          <- varname.dum[i]
+       colnames.dum.tmp <- Reduce(c, lapply(do.call(what = "c", args = list(sapply(j = 1:length(dum.tmp), var = dum.tmp, FUN = adjust.colnames.fct))), FUN = c))
+       if(i == 1){
+         if(dum.tmp == varname.t){
+           colnames.dum     <- unique(dat$t.label)[as.numeric(colnames.dum)]
+         } else{
+           colnames.dum     <- colnames.dum
+         }
+       } else{
+         if(dum.tmp == varname.t){
+           colnames.dum     <- c(colnames.dum, unique(dat$t.label)[as.numeric(colnames.dum.tmp)])
+         } else{
+           colnames.dum     <- c(colnames.dum, colnames.dum.tmp)
+         }
+       }
+     }
+     colnames(D.add)		<- colnames.dum
+   }
 #   colnames.dum   <- colnames(D.add)
 
    dat_add				<- matrix(NA, ncol = ncol(D.add), nrow = nrow(dat))
