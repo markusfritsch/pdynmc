@@ -48,7 +48,7 @@ lagTerms.reg.fur	= NULL
 include.dum			= TRUE
 dum.diff				= FALSE
 dum.lev				  = TRUE
-varname.dum			= c("year_orig", "dest_year", "year0")
+varname.dum			= c("dest_year", "year0")
 
 col_tol				= 0.65
 
@@ -63,6 +63,17 @@ iter.tol				= 0.01
 inst.thresh			= NULL
 opt.meth = "none"
 
+hessian				= FALSE
+optCtrl				= list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol = .Machine$double.eps^(1/3),
+                   starttests = TRUE, dowarn = TRUE, badval = (0.25)*.Machine$double.xmax, usenumDeriv = FALSE,
+                   reltol = 1e-12, maxit = 200, trace = TRUE,
+                   follow.on = FALSE, save.failures = TRUE, maximize = FALSE, factr = 1e7, pgtol = 0, all.methods = FALSE)
+# ,nmulti				= 1
+custom.start.val		= FALSE
+start.val				= NULL
+start.val.lo			= -1
+start.val.up			= 1
+seed.input			= 42
 
 
 
