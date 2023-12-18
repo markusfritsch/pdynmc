@@ -1212,6 +1212,55 @@ checkArgs		<- function(
 
 
 
+###
+### Helper functions for expanding lag structure and dataset
+###
+
+
+#' @keywords internal
+#'
+varname.expand	<- function(
+    varname
+    ,lagTerms
+){
+  if(varname == varname.y){
+    varname.reg.est.temp		<- paste("L", 1:lagTerms, ".", rep(varname, times = lagTerms), sep = "")
+  } else{
+    varname.reg.est.temp		<- paste("L", c(0:lagTerms), ".", rep(varname, times = lagTerms+1), sep = "")
+  }
+  return(varname.reg.est.temp)
+}
+
+
+#' @keywords internal
+#'
+#' @importFrom data.table shift
+dat.na.lag		<- function(
+    i
+    ,varname
+    ,lagTerms
+){
+  dat.na.lag.temp				<- data.table::shift(dat.na[dat.na[, varname.i] == i, varname], n = lagTerms, type = "lag")
+  return(dat.na.lag.temp)
+}
+
+
+#' @keywords internal
+#'
+lag.expand		<- function(
+    lagTerms
+    ,varname
+){
+  if(varname == varname.y){
+    lag.structure.temp			<- c(1:lagTerms)
+  } else{
+    lag.structure.temp			<- c(0:lagTerms)
+  }
+  return(lag.structure.temp)
+}
+
+
+
 
 
 
@@ -1224,6 +1273,10 @@ checkArgs		<- function(
 
 #' @keywords internal
 #'
+#' @importFrom Matrix colMeans
+#' @importFrom Matrix colSums
+#' @importFrom Matrix crossprod
+#' @importFrom Matrix tcrossprod
 #' @importFrom methods as
 corSparse <- function(X, Y = NULL, cov = FALSE){
 
