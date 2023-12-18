@@ -412,6 +412,7 @@ dat.fct.ex		<- function(
 LEV.fct	<- function(
   varname
   ,i
+  ,inst.collapse
   ,T.mcLev
   ,lagTerms
   ,use.mc.diff
@@ -428,9 +429,15 @@ LEV.fct	<- function(
     ti.temp   <- max(2,lagTerms)
     tend.temp <- Time-1
 
-    Matrix::Diagonal(do.call(what = datLEV.fct, args = list(ti = ti.temp, t.end = tend.temp, i = i, varname = varname, lagTerms = lagTerms, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+    if(inst.collapse){
+      do.call(what = datLEV.fct, args = list(ti = ti.temp, t.end = tend.temp, i = i, varname = varname, lagTerms = lagTerms, use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                             #				, mc.ref.t = mc.ref.t
-                                                            , dat.na = dat.na, dat = dat, varname.i = varname.i, Time = Time)), n = Time-max(2,lagTerms))
+                                                            , dat.na = dat.na, dat = dat, varname.i = varname.i, Time = Time))
+    } else{
+      Matrix::Diagonal(do.call(what = datLEV.fct, args = list(ti = ti.temp, t.end = tend.temp, i = i, varname = varname, lagTerms = lagTerms, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+                                                              #				, mc.ref.t = mc.ref.t
+                                                              , dat.na = dat.na, dat = dat, varname.i = varname.i, Time = Time)), n = Time-max(2,lagTerms))
+    }
     #     }
   } else{
     #     if(mc.ref.t){
@@ -442,6 +449,9 @@ LEV.fct	<- function(
                                                    #					, mc.ref.t = mc.ref.t
                                                    , dat.na = dat.na, dat = dat, varname.i = varname.i, Time = Time)) ))*
       as.vector(!is.na(diff(dat.na[dat.na[, varname.i] == i, varname][(max(2,lagTerms)-1):(Time-1)])))
+
+    #note: function not adjusted for 'collapsing' when no moment conditions from equations in differences are present
+    #
     #     } else{
     #       t(mapply(ti = Time - T.mcLev, t.end = Time - 1, FUN = datLEV.fct, i = i, varname = varname,
     #		MoreArgs = list(use.mc.diff = use.mc.diff, inst.stata = inst.stata, mc.ref.t = mc.ref.t, dat.na = dat.na, dat = dat, varname.i = varname.i, Time = Time)))
@@ -487,6 +497,7 @@ LEV.fct	<- function(
 LEV.pre.fct	<- function(
   varname
   ,i
+  ,inst.collapse
   ,T.mcLev
   ,lagTerms
   ,use.mc.diff
@@ -502,9 +513,15 @@ LEV.pre.fct	<- function(
     ti.temp   <- max(2,lagTerms)
     tend.temp <- Time
 
-    Matrix::Diagonal(do.call(what = datLEV.pre.fct, args = list(ti = ti.temp, t.end = tend.temp, lagTerms = lagTerms, varname = varname, i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+    if(inst.collapse){
+      do.call(what = datLEV.pre.fct, args = list(ti = ti.temp, t.end = tend.temp, lagTerms = lagTerms, varname = varname, i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+                                                                  #			, mc.ref.t = mc.ref.t
+                                                                  , dat = dat, dat.na = dat.na, varname.i = varname.i, Time = Time))
+    } else{
+      Matrix::Diagonal(do.call(what = datLEV.pre.fct, args = list(ti = ti.temp, t.end = tend.temp, lagTerms = lagTerms, varname = varname, i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                 #			, mc.ref.t = mc.ref.t
                                                                 , dat = dat, dat.na = dat.na, varname.i = varname.i, Time = Time)), n = Time-max(2,lagTerms)+1)
+    }
     #     }
   } else{
     #     if(mc.ref.t){
@@ -517,6 +534,8 @@ LEV.pre.fct	<- function(
                                                    , dat = dat, dat.na = dat.na, varname.i = varname.i, Time = Time)) *
       as.vector(!is.na(diff(dat.na[dat.na[, varname.i] == i, varname][(lagTerms-1):Time]))) ) ) )
 
+    #note: function not adjusted for 'collapsing' when no moment conditions from equations in differences are present
+    #
     #     } else{
     #       t(mapply(ti = Time - T.mcLev, t.end = Time, FUN = datLEV.pre.fct, varname = varname,
     #		MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
