@@ -1,8 +1,9 @@
 # pdynmc version 0.9.11.9001
 
-Update of version 0.9.10 that allows for user-specified dummy matrix in estimation function.
+Update of version 0.9.10 that allows for user-specified dummy matrix in estimation function. For this purpose, the internal helper function `corSparse` which was adopted from package 'qlcMatrix' in a previous function update was adjusted.
 
-
+### corSparse
+* function updated for checking for collinearities in dummy part of instrument matrix
 
 
 

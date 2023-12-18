@@ -1032,20 +1032,20 @@ corSparse <- function(X, Y = NULL, cov = FALSE) {
 
   X <- methods::as(X,"dgCMatrix")
   n <- nrow(X)
-  muX <- colMeans(X)
+  muX <- Matrix::colMeans(X)
 
   if (!is.null(Y)) {
     stopifnot( nrow(X) == nrow(Y) )
     Y <- methods::as(Y,"dgCMatrix")
-    muY <- colMeans(Y)
-    covmat <- ( as.matrix(crossprod(X,Y)) - n*tcrossprod(muX,muY) ) / (n-1)
-    sdvecX <- sqrt( (colSums(X^2) - n*muX^2) / (n-1) )
-    sdvecY <- sqrt( (colSums(Y^2) - n*muY^2) / (n-1) )
-    cormat <- covmat/tcrossprod(sdvecX,sdvecY)
+    muY <- Matrix::colMeans(Y)
+    covmat <- ( as.matrix(Matrix::crossprod(X,Y)) - n*Matrix::tcrossprod(muX,muY) ) / (n-1)
+    sdvecX <- sqrt( (Matrix::colSums(X^2) - n*muX^2) / (n-1) )
+    sdvecY <- sqrt( (Matrix::colSums(Y^2) - n*muY^2) / (n-1) )
+    cormat <- covmat/Matrix::tcrossprod(sdvecX,sdvecY)
   } else {
-    covmat <- ( as.matrix(crossprod(X)) - n*tcrossprod(muX) ) / (n-1)
+    covmat <- ( as.matrix(Matrix::crossprod(X)) - n*Matrix::tcrossprod(muX) ) / (n-1)
     sdvec <- sqrt(diag(covmat))
-    cormat <- covmat/tcrossprod(sdvec)
+    cormat <- covmat/Matrix::tcrossprod(sdvec)
   }
 
   if (cov) {

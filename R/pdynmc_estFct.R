@@ -775,36 +775,32 @@ pdynmc		<- function(
 
 
    adjust.colnames.fct	<- function(
-   j, var
+   j
    ){
-     cols.dum.temp		<- gsub(pattern = var[j], replacement = "", x = colnames(D.add)[grepl(pattern = var[j], x = colnames(D.add))])
+     cols.dum.temp		<- gsub(pattern = varname.dum[j], replacement = "", x = colnames(D.add)[grepl(pattern = varname.dum[j], x = colnames(D.add))])
    }
 
-   if(length(varname.dum) == 1){
-     colnames.dum			<- Reduce(c, lapply(do.call(what = "c", args = list(sapply(j = 1:length(varname.dum), var = varname.dum, FUN = adjust.colnames.fct))), FUN = c))
-     colnames.dum     <- unique(dat$t.label)[as.numeric(colnames.dum)]
+   for(i in 1:length(varname.dum)){
+     dum.tmp          <- varname.dum[i]
+     colnames.dum.tmp <- Reduce(c, lapply(do.call(what = "c", args = list(sapply(i, FUN = adjust.colnames.fct))), FUN = c))
 
-     colnames(D.add)		<- colnames.dum
-   } else{
-     for(i in 1:length(varname.dum)){
-       dum.tmp          <- varname.dum[i]
-       colnames.dum.tmp <- Reduce(c, lapply(do.call(what = "c", args = list(sapply(j = 1:length(dum.tmp), var = dum.tmp, FUN = adjust.colnames.fct))), FUN = c))
-       if(i == 1){
-         if(dum.tmp == varname.t){
-           colnames.dum     <- unique(dat$t.label)[as.numeric(colnames.dum)]
-         } else{
-           colnames.dum     <- colnames.dum
-         }
+     if(i == 1){
+       if(dum.tmp == varname.t){
+         colnames.dum     <- unique(dat$t.label)[as.numeric(colnames.dum.tmp)]
        } else{
-         if(dum.tmp == varname.t){
-           colnames.dum     <- c(colnames.dum, unique(dat$t.label)[as.numeric(colnames.dum.tmp)])
-         } else{
-           colnames.dum     <- c(colnames.dum, colnames.dum.tmp)
-         }
+         colnames.dum     <- colnames.dum.tmp
+       }
+     } else{
+       if(dum.tmp == varname.t){
+         colnames.dum     <- c(colnames.dum, unique(dat$t.label)[as.numeric(colnames.dum.tmp)])
+       } else{
+         colnames.dum     <- c(colnames.dum, colnames.dum.tmp)
        }
      }
-     colnames(D.add)		<- colnames.dum
    }
+
+   colnames(D.add)		<- colnames.dum
+
 #   colnames.dum   <- colnames(D.add)
 
    dat_add				<- matrix(NA, ncol = ncol(D.add), nrow = nrow(dat))
@@ -814,7 +810,7 @@ pdynmc		<- function(
    dat.na[, colnames.dum]	<- D.add
 
    dat[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c(varname.i, varname.t))]		<- 0
-   dat.na[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c(varname.i, varname.t))]		<- NA
+   dat.na[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c(varname.i, varname.t, colnames.dum))]		<- NA
 
 #   dat[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c("i.label", "t.label"))]		<- 0
 #   dat.na[is.na(dat.na[, varname.y]), !(colnames(dat) %in% c("i.label", "t.label"))]		<- NA
