@@ -517,25 +517,12 @@ pdynmc		<- function(
           include.dum, varname.dum, dum.diff, dum.lev)
 
 
-
-
 # if((mc.ref.t && mc.ref.T) | (is.null(mc.ref.t) && is.null(mc.ref.T))		# [M:] check that only one reference period is set; else choose 'mc.ref.t'
 # ){
 #   mc.ref.t		<- TRUE
 #   mc.ref.T		<- FALSE
 #   warning("Only one of 'mc.ref.t' and 'mc.ref.T' is allowed to be TRUE; 'mc.ref.T' was therefore set to FALSE.")
 # }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1102,7 +1089,7 @@ pdynmc		<- function(
  Z.obj		<- lapply(X = i_cases, FUN = Z_i.fct, Time = Time, varname.i = varname.i
 #					, mc.ref.t = mc.ref.t
 					,use.mc.diff = use.mc.diff, use.mc.lev = use.mc.lev, use.mc.nonlin = use.mc.nonlin, use.mc.nonlinAS = use.mc.nonlinAS
-					,include.y = include.y, varname.y = varname.y, inst.stata = inst.stata
+					,include.y = include.y, varname.y = varname.y, inst.collapse = inst.collapse, inst.stata = inst.stata
 					,include.dum = include.dum, dum.diff = dum.diff, dum.lev = dum.lev, colnames.dum = colnames.dum
 					,fur.con = fur.con, fur.con.diff = fur.con.diff, fur.con.lev = fur.con.lev, varname.reg.estParam.fur = varname.reg.estParam.fur
    				,include.x = include.x, end.reg = end.reg, varname.reg.end = varname.reg.end, pre.reg = pre.reg, varname.reg.pre = varname.reg.pre, ex.reg = ex.reg, varname.reg.ex = varname.reg.ex

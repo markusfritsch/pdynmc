@@ -37,6 +37,7 @@
 variable.fct	<- function(			# function that creates starting and end period when deriving instruments from data for endogenous variables
   varname
   ,i
+  ,inst.collapse
   ,T.mcDiff
   ,lagTerms
   #   ,mc.ref.t
@@ -49,12 +50,22 @@ variable.fct	<- function(			# function that creates starting and end period when
 
   ti.temp   <- rep(1, times = Time-lagTerms-1) + if(Time-lagTerms-1 - T.mcDiff > 0){c(rep(0, times = T.mcDiff - lagTerms), 1:(Time - T.mcDiff - 1))} else{rep(0, times = Time-lagTerms-1)}
   tend.temp <- lagTerms:(Time-2)
-  Matrix::t(Matrix::bdiag(mapply(ti = ti.temp, t.end = tend.temp
+
+  if(inst.collapse){
+    Matrix::t(suppressWarnings(Matrix::Matrix(mapply(ti = ti.temp, t.end = tend.temp
+                                   , FUN = dat.fct, lagTerms = lagTerms, varname = varname
+                                   , MoreArgs = list(i = i, inst.collapse = inst.collapse
+                                                     #			, mc.ref.t = mc.ref.t
+                                                     , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na)
+                                   ), "dgCMatrix", sparse = TRUE)))
+  } else{
+    Matrix::t(Matrix::bdiag(mapply(ti = ti.temp, t.end = tend.temp
                                 , FUN = dat.fct, lagTerms = lagTerms, varname = varname
-                                , MoreArgs = list(i = i
+                                , MoreArgs = list(i = i, inst.collapse = inst.collapse
                                                  #			, mc.ref.t = mc.ref.t
                                                  , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na)
                                 , SIMPLIFY = FALSE)))
+  }
   #   } else{
   #     t(sapply(X = (Time - T.mcDiff - 1):(Time - 2), FUN = dat.fct, i = i, varname = varname))
   #   }
@@ -81,6 +92,7 @@ variable.pre.fct	<- function(			# function that creates starting and end period 
   ,lagTerms
   ,T.mcDiff
   ,i
+  ,inst.collapse
   #   ,mc.ref.t
   ,Time
   ,varname.i
@@ -92,10 +104,18 @@ variable.pre.fct	<- function(			# function that creates starting and end period 
   ti.temp   <- rep(1, times = Time-lagTerms-1) + if(Time-lagTerms-1 - T.mcDiff > 0){c(rep(0, times = T.mcDiff - lagTerms), 1:(Time - T.mcDiff - 1))} else{rep(0, times = Time-lagTerms-1)}
   tend.temp <- (lagTerms+1):(Time-1)
 
-  Matrix::t(Matrix::bdiag(mapply(ti = ti.temp, t.end = tend.temp, FUN = dat.fct.pre, lagTerms = lagTerms, varname = varname
-                                   , MoreArgs = list(i = i, Time = Time
+  if(inst.collapse){
+    Matrix::t(suppressWarnings(Matrix::Matrix(mapply(ti = ti.temp, t.end = tend.temp, FUN = dat.fct.pre, lagTerms = lagTerms, varname = varname
+                                   , MoreArgs = list(i = i, inst.collapse = inst.collapse, Time = Time
+                                                     #			, mc.ref.t = mc.ref.t
+                                                     , varname.i = varname.i, dat = dat, dat.na = dat.na)
+                                    ), "dgCMatrix", sparse = TRUE)))
+  } else{
+    Matrix::t(Matrix::bdiag(mapply(ti = ti.temp, t.end = tend.temp, FUN = dat.fct.pre, lagTerms = lagTerms, varname = varname
+                                   , MoreArgs = list(i = i, inst.collapse = inst.collapse, Time = Time
                                                  #			, mc.ref.t = mc.ref.t
                                                  , varname.i = varname.i, dat = dat, dat.na = dat.na), SIMPLIFY = FALSE)))
+  }
   #   } else{
   #     t(sapply(X = (Time - T.mcDiff - 1):(Time - 1), FUN = dat.fct.pre, i = i, varname = varname))
   #   }
@@ -124,6 +144,7 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
   ,lagTerms
   ,T.mcDiff
   ,i
+  ,inst.collapse
   #   ,mc.ref.t
   ,Time
   ,varname.i
@@ -135,24 +156,39 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
 #  t.start		<- if(Time > T.mcDiff){ c((Time-T.mcDiff):(Time-lagTerms-1)) } else{ rep(1, times = Time-lagTerms-1) }
 #  t.start		<- if(Time > T.mcDiff){ c((Time-T.mcDiff):(Time)) } else{ rep(1, times = Time-lagTerms-1) }
 #  t.start   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time - T.mcDiff), (1:(Time - T.mcDiff)))} else{0}
-  if(inst.reg.ex.expand){
-    ti        <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
-    t.end			<- ti + (T.mcDiff-1)
-    t.req.i   <- 1:(Time-lagTerms-1)
-    t.req.e   <- (1:(Time-lagTerms-1)) + (lagTerms+1)
-  } else {
+  if(inst.collapse){
     ti   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
     t.end     <- (lagTerms+2):(Time)
     t.req.i   <- 1:(Time-lagTerms-1)
     t.req.e   <- (1:(Time-lagTerms-1)) + (lagTerms+1)
-  }
+
+    err.term.start	<- ti-1
+    Matrix::t(suppressWarnings(Matrix::Matrix(mapply(ti = ti, t.end = t.end, err.term.start = err.term.start, t.req.i = t.req.i, t.req.e = t.req.e, FUN = dat.fct.ex, varname = varname
+                                   , MoreArgs = list(i = i, inst.collapse = inst.collapse, Time = Time
+                                                     #				, mc.ref.t = mc.ref.t
+                                                     , varname.i = varname.i, dat = dat, dat.na = dat.na)
+                                    ), "dgCMatrix", sparse = TRUE)))
+
+  } else{
+    if(inst.reg.ex.expand){
+      ti        <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
+      t.end			<- ti + (T.mcDiff-1)
+      t.req.i   <- 1:(Time-lagTerms-1)
+      t.req.e   <- (1:(Time-lagTerms-1)) + (lagTerms+1)
+    } else {
+      ti   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
+      t.end     <- (lagTerms+2):(Time)
+      t.req.i   <- 1:(Time-lagTerms-1)
+      t.req.e   <- (1:(Time-lagTerms-1)) + (lagTerms+1)
+    }
 #  t.end[t.end > Time]	<- Time
 #  err.term.start	<- c((min(t.start) + lagTerms + 1):max(t.end))
-  err.term.start	<- ti-1
-  Matrix::t(Matrix::bdiag(mapply(ti = ti, t.end = t.end, err.term.start = err.term.start, t.req.i = t.req.i, t.req.e = t.req.e, FUN = dat.fct.ex, varname = varname
-                                 , MoreArgs = list(i = i, Time = Time
+    err.term.start	<- ti-1
+    Matrix::t(Matrix::bdiag(mapply(ti = ti, t.end = t.end, err.term.start = err.term.start, t.req.i = t.req.i, t.req.e = t.req.e, FUN = dat.fct.ex, varname = varname
+                                 , MoreArgs = list(i = i, inst.collapse = inst.collapse, Time = Time
                                                  #				, mc.ref.t = mc.ref.t
                                                  , varname.i = varname.i, dat = dat, dat.na = dat.na), SIMPLIFY = FALSE)))																		# [M:] use all m.c. in direction of T and cut at initial periods
+  }
   #   } else{
   #    t(sapply(X = (Time - T.mcDiff - 1):(Time), FUN = dat.fct.ex, i = i, varname = varname, ...))
   #   }
@@ -188,6 +224,7 @@ dat.fct		<- function(			# function that creates instruments based on
   ,i												# renamed since 't()' is already a function
   ,lagTerms
   ,varname
+  ,inst.collapse
   ,Time
   #   ,mc.ref.t
   ,varname.i
@@ -195,11 +232,19 @@ dat.fct		<- function(			# function that creates instruments based on
   ,dat.na
 ){
   #   if(mc.ref.t){
-  dat[dat[, varname.i] == i, varname][ti:t.end]*					# if period t+1 and t+2 do not exist, t is not available as instrument
-    (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
+  if(inst.collapse){
+    c(rev(dat[dat[, varname.i] == i, varname][ti:t.end]*					# if period t+1 and t+2 do not exist, t is not available as instrument
+      (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
+                           dat.na[dat.na[, varname.i] == i, varname][t.end] *
+                           dat.na[dat.na[, varname.i] == i, varname][t.end+1] *
+                           dat.na[dat.na[, varname.i] == i, varname][t.end+2])))), rep(0, times = Time-2-lagTerms+1-t.end))
+  } else{
+    dat[dat[, varname.i] == i, varname][ti:t.end]*					# if period t+1 and t+2 do not exist, t is not available as instrument
+      (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
                          dat.na[dat.na[, varname.i] == i, varname][t.end] *
                          dat.na[dat.na[, varname.i] == i, varname][t.end+1] *
                          dat.na[dat.na[, varname.i] == i, varname][t.end+2])))
+  }
   #   } else{
   #     dat[dat[, varname.i] == i, varname][ti]*						# if period T, T-1 and T-2 do not exist, t is not available as instrument
   #     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][Time] *
@@ -236,6 +281,7 @@ dat.fct.pre		<- function(
   ti
   ,t.end
   ,i												# renamed since 't' is already defined
+  ,inst.collapse
   ,lagTerms
   ,varname
   ,Time
@@ -245,10 +291,17 @@ dat.fct.pre		<- function(
   ,dat.na
 ){
   #   if(mc.ref.t){
-  dat[dat[, varname.i] == i, varname][ti:t.end]*
-    (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
+  if(inst.collapse){
+    c(rev(dat[dat[, varname.i] == i, varname][ti:t.end]*
+      (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
+                           dat.na[dat.na[, varname.i] == i, varname][t.end] *
+                           dat.na[dat.na[, varname.i] == i, varname][t.end+1])))), rep(0, times = Time-1-lagTerms+1-t.end))
+  } else{
+    dat[dat[, varname.i] == i, varname][ti:t.end]*
+      (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
                          dat.na[dat.na[, varname.i] == i, varname][t.end] *
                          dat.na[dat.na[, varname.i] == i, varname][t.end+1])))
+  }
   #   } else{
   #     dat[dat[, varname.i] == i, varname][ti]*
   #     (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][Time] *
@@ -284,6 +337,7 @@ dat.fct.ex		<- function(
   ,t.req.e
   ,err.term.start
   ,i
+  ,inst.collapse
   ,varname
   ,Time
   #   ,mc.ref.t
@@ -292,11 +346,19 @@ dat.fct.ex		<- function(
   ,dat.na
 ){
   #   if(mc.ref.t){
-  dat[dat[, varname.i] == i, varname][ti:t.end]*
-    (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][ti:t.end] *
+  if(inst.collapse){
+    c(rev(dat[dat[, varname.i] == i, varname][ti:t.end]*
+      (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][ti:t.end] *
+                           dat.na[dat.na[, varname.i] == i, varname][rep((err.term.start+2), times = length(ti:t.end))])))*
+      as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][rep(t.req.i, times = length(ti:t.end))]))*
+      as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][rep(t.req.e, times = length(ti:t.end))]))), rep(0, times = Time-1-lagTerms-length(ti:t.end)))
+  } else{
+    dat[dat[, varname.i] == i, varname][ti:t.end]*
+      (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][ti:t.end] *
                          dat.na[dat.na[, varname.i] == i, varname][rep((err.term.start+2), times = length(ti:t.end))])))*
-    as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][rep(t.req.i, times = length(ti:t.end))]))*
-    as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][rep(t.req.e, times = length(ti:t.end))]))
+      as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][rep(t.req.i, times = length(ti:t.end))]))*
+      as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][rep(t.req.e, times = length(ti:t.end))]))
+  }
 #    (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][ti:t.end] *
 #                        dat.na[dat.na[, varname.i] == i, varname][rep((err.term.start+2), times = length(ti:t.end))])))
   #                         dat.na[dat.na[, varname.i] == i, varname][rep((err.term.start-2), times = length(ti:t.end))])))
@@ -682,6 +744,7 @@ Z_i.fct	<- function(
   ,use.mc.nonlinAS
   ,include.y
   ,varname.y
+  ,inst.collapse
   ,inst.stata
   ,include.dum
   ,dum.diff
@@ -715,8 +778,9 @@ Z_i.fct	<- function(
   if(use.mc.diff){
     #     if(mc.ref.t){
     if(include.y){
-      Z_i.mc.diff_end.y	<- do.call(what = "cbind", args = sapply(X = varname.y, FUN = variable.fct, i = i, T.mcDiff = maxLags.y,
-                                                                 lagTerms = max.lagTerms
+      Z_i.mc.diff_end.y	<- do.call(what = "cbind", args = sapply(X = varname.y, FUN = variable.fct, i = i,
+                                                                 inst.collapse = inst.collapse,
+                                                                 T.mcDiff = maxLags.y, lagTerms = max.lagTerms
                                                                  #						, mc.ref.t = mc.ref.t
                                                                  , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
     }
