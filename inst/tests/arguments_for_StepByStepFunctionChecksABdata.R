@@ -21,6 +21,7 @@ use.mc.diff = TRUE
 use.mc.lev = FALSE
 use.mc.nonlin = FALSE
 use.mc.nonlinAS = NULL
+inst.collapse = TRUE
 inst.stata = FALSE
 
 include.y = TRUE
@@ -29,6 +30,9 @@ lagTerms.y = 1
 maxLags.y = NULL
 
 include.x = TRUE
+#varname.reg.end = c("wage")
+#lagTerms.reg.end = c(0)
+#maxLags.reg.end = c(3)
 varname.reg.end = c("wage","capital")
 lagTerms.reg.end = c(0,0)
 maxLags.reg.end = c(3,3)

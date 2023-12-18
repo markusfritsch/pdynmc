@@ -1021,6 +1021,7 @@ dat.expand.fct		<- function(
 ### Helper function to check arguments of estimation function
 ###
 
+if(FALSE){
 
 #' @keywords internal
 #'
@@ -1062,6 +1063,7 @@ checkArgs		<- function(
 
  if(include.x && (is.null(varname.reg.end) & is.null(varname.reg.pre) & is.null(varname.reg.ex))
  ){
+ #  assign(x = include.x, value = "FALSE", envir = pdynmc::pdynmc)
    include.x		<- FALSE
    warning("Covariates (and types) from which additional instruments should be derived not given; 'include.x' was therefore set to FALSE.")
  }
@@ -1206,7 +1208,7 @@ checkArgs		<- function(
 
 }
 
-
+}
 
 
 
@@ -1216,6 +1218,8 @@ checkArgs		<- function(
 ### Helper functions for expanding lag structure and dataset
 ###
 
+
+if(FALSE){
 
 #' @keywords internal
 #'
@@ -1259,7 +1263,7 @@ lag.expand		<- function(
   return(lag.structure.temp)
 }
 
-
+}
 
 
 

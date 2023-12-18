@@ -57,7 +57,7 @@ variable.fct	<- function(			# function that creates starting and end period when
                                    , MoreArgs = list(i = i, inst.collapse = inst.collapse
                                                      #			, mc.ref.t = mc.ref.t
                                                      , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na)
-                                   ), "dgCMatrix", sparse = TRUE)))
+                                   , SIMPLIFY = TRUE), "dgCMatrix", sparse = TRUE)))
   } else{
     Matrix::t(Matrix::bdiag(mapply(ti = ti.temp, t.end = tend.temp
                                 , FUN = dat.fct, lagTerms = lagTerms, varname = varname
@@ -237,7 +237,7 @@ dat.fct		<- function(			# function that creates instruments based on
       (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
                            dat.na[dat.na[, varname.i] == i, varname][t.end] *
                            dat.na[dat.na[, varname.i] == i, varname][t.end+1] *
-                           dat.na[dat.na[, varname.i] == i, varname][t.end+2])))), rep(0, times = Time-2-lagTerms+1-t.end))
+                           dat.na[dat.na[, varname.i] == i, varname][t.end+2])))), rep(0, times = Time-length(ti:t.end)-lagTerms-1))
   } else{
     dat[dat[, varname.i] == i, varname][ti:t.end]*					# if period t+1 and t+2 do not exist, t is not available as instrument
       (as.numeric(!is.na(dat.na[dat.na[, varname.i] == i, varname][t.end-lagTerms+1] *
@@ -806,40 +806,46 @@ Z_i.fct	<- function(
     if(include.x){
       if(end.reg){
         if(length(varname.reg.end) == 1){
-          Z_i.mc.diff_end.x	<- do.call(what = "cbind", args = sapply(FUN = variable.fct, varname.reg.end, i = i, T.mcDiff = maxLags.reg.end,
-                                                                     lagTerms = max.lagTerms
+          Z_i.mc.diff_end.x	<- do.call(what = "cbind", args = sapply(FUN = variable.fct, varname.reg.end, i = i,
+                                                                     inst.collapse = inst.collapse,
+                                                                     T.mcDiff = maxLags.reg.end, lagTerms = max.lagTerms
                                                                      #						, mc.ref.t = mc.ref.t
                                                                      , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
         } else{
           Z_i.mc.diff_end.x	<- do.call(what = "cbind", args = mapply(FUN = variable.fct, varname.reg.end, T.mcDiff = maxLags.reg.end
                                                                    #						, mc.ref.t = mc.ref.t
-                                                                   , MoreArgs = list(i = i, Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
+                                                                   , MoreArgs = list(i = i, inst.collapse = inst.collapse
+                                                                                     , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
                                                                                      , dat = dat, dat.na = dat.na)) )
         }
       }
       if(pre.reg){
         if(length(varname.reg.pre) == 1){
-          Z_i.mc.diff_pre	<- do.call(what = "cbind", args = sapply(FUN = variable.pre.fct, varname.reg.pre, i = i, T.mcDiff = maxLags.reg.pre,
-                                                                   lagTerms = max.lagTerms
+          Z_i.mc.diff_pre	<- do.call(what = "cbind", args = sapply(FUN = variable.pre.fct, varname.reg.pre, i = i, inst.collapse = inst.collapse,
+                                                                   T.mcDiff = maxLags.reg.pre, lagTerms = max.lagTerms
                                                                    #						, mc.ref.t = mc.ref.t
                                                                    , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
         } else{
           Z_i.mc.diff_pre	<- do.call(what = "cbind", args = mapply(FUN = variable.pre.fct, varname.reg.pre, T.mcDiff = maxLags.reg.pre
                                                                  #						, mc.ref.t = mc.ref.t
-                                                                 , MoreArgs = list(i = i, Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
+                                                                 , MoreArgs = list(i = i, inst.collapse = inst.collapse
+                                                                                   , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
                                                                                    , dat = dat, dat.na = dat.na)) )
         }
       }
       if(ex.reg){
         if(length(varname.reg.ex) == 1){
-          Z_i.mc.diff_ex	<- do.call(what = "cbind", args = sapply(FUN = variable.ex.fct, varname.reg.ex, i = i, T.mcDiff = maxLags.reg.ex,
+          Z_i.mc.diff_ex	<- do.call(what = "cbind", args = sapply(FUN = variable.ex.fct, varname.reg.ex, i = i,
+                                                                  inst.collapse = inst.collapse,
+                                                                  T.mcDiff = maxLags.reg.ex,
                                                                   lagTerms = max.lagTerms, inst.reg.ex.expand = inst.reg.ex.expand
                                                                   #						, mc.ref.t = mc.ref.t
                                                                   , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
         } else{
           Z_i.mc.diff_ex	<- do.call(what = "cbind", args = mapply(FUN = variable.ex.fct, varname.reg.ex, T.mcDiff = maxLags.reg.ex
                                                                 #						, mc.ref.t = mc.ref.t
-                                                                , MoreArgs = list(i = i, Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
+                                                                , MoreArgs = list(i = i, inst.collapse = inst.collapse
+                                                                                  , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
                                                                                   , inst.reg.ex.expand = inst.reg.ex.expand
                                                                                   , dat = dat, dat.na = dat.na)) )
         }
@@ -856,7 +862,8 @@ Z_i.fct	<- function(
   if(use.mc.lev){
     #     if(mc.ref.t){
     if(include.y){
-      Z_i.mc.lev_end.y	<- do.call(what = "cbind", args = sapply(X = varname.y, FUN = LEV.fct, i = i, T.mcLev = maxLags.y, lagTerms = max.lagTerms,
+      Z_i.mc.lev_end.y	<- do.call(what = "cbind", args = sapply(X = varname.y, FUN = LEV.fct, i = i, inst.collapse = inst.collapse,
+                                                                T.mcLev = maxLags.y, lagTerms = max.lagTerms,
                                                                 use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                 #						, mc.ref.t = mc.ref.t
                                                                 , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
@@ -864,7 +871,8 @@ Z_i.fct	<- function(
     if(include.x){
       if(end.reg){
         if(length(varname.reg.end) == 1){
-          Z_i.mc.lev_end.x	<- do.call(what = "cbind", args = sapply(FUN = LEV.fct, i = i, varname.reg.end, T.mcLev = maxLags.reg.end, lagTerms = max.lagTerms,
+          Z_i.mc.lev_end.x	<- do.call(what = "cbind", args = sapply(FUN = LEV.fct, i = i, inst.collapse = inst.collapse,
+                                                                    varname.reg.end, T.mcLev = maxLags.reg.end, lagTerms = max.lagTerms,
                                                                     use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                     #						, mc.ref.t = mc.ref.t
                                                                     , Time = Time, varname.i = varname.i, dat = dat, dat.na = dat.na) )
@@ -872,7 +880,8 @@ Z_i.fct	<- function(
           Z_i.mc.lev_end.x	<- do.call(what = "cbind", args = mapply(FUN = LEV.fct, varname.reg.end, T.mcLev = maxLags.reg.end
                                                                   , MoreArgs = list(use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                   #						, mc.ref.t = mc.ref.t
-                                                                        , i = i, Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
+                                                                        , i = i, inst.collapse = inst.collapse
+                                                                        , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
                                                                         , dat = dat, dat.na = dat.na)) )
         }
       }
@@ -880,14 +889,16 @@ Z_i.fct	<- function(
         varname.ex.pre.temp <- c({if(!(is.null("varname.reg.ex"))){varname.reg.ex}}, {if(!(is.null("varname.reg.pre"))){varname.reg.pre}} )
         T.mcLev.temp    <- c({if(!(is.null("varname.reg.ex"))){maxLags.reg.ex - 1}}, {if(!(is.null("varname.reg.pre"))){maxLags.reg.pre}} )
         if(length(varname.ex.pre.temp) == 1){
-          Z_i.mc.lev_ex.pre	<- do.call(what = "cbind", args = sapply(FUN = LEV.pre.fct, i = i, varname.ex.pre.temp, T.mcLev = T.mcLev.temp
+          Z_i.mc.lev_ex.pre	<- do.call(what = "cbind", args = sapply(FUN = LEV.pre.fct, i = i, inst.collapse = inst.collapse
+                                                                    , varname.ex.pre.temp, T.mcLev = T.mcLev.temp
                                                                     , use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                      #						,mc.ref.t = mc.ref.t
                                                                     , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
                                                                     , dat = dat, dat.na = dat.na) )
         } else{
           Z_i.mc.lev_ex.pre	<- do.call(what = "cbind", args = mapply(FUN = LEV.pre.fct, varname.ex.pre.temp, T.mcLev = T.mcLev.temp
-                                                                     ,MoreArgs = list(i = i, use.mc.diff = use.mc.diff, inst.stata = inst.stata
+                                                                     ,MoreArgs = list(i = i, inst.collapse = inst.collapse
+                                                                        , use.mc.diff = use.mc.diff, inst.stata = inst.stata
                                                                                       #						,mc.ref.t = mc.ref.t
                                                                         , Time = Time, varname.i = varname.i, lagTerms = max.lagTerms
                                                                         , dat = dat, dat.na = dat.na)) )

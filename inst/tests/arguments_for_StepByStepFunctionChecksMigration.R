@@ -18,6 +18,8 @@ use.mc.diff         = TRUE
 use.mc.lev          = FALSE
 use.mc.nonlin       = FALSE
 use.mc.nonlinAS			= NULL
+inst.collapse       = TRUE
+inst.stata          = FALSE
 
 
 include.y       = TRUE
@@ -25,7 +27,7 @@ varname.y				= "lflow"
 lagTerms.y			= 1
 maxLags.y				= NULL
 
-include.x				= FALSE
+include.x				= TRUE
 varname.reg.end			= NULL
 lagTerms.reg.end		= NULL
 maxLags.reg.end			= NULL
