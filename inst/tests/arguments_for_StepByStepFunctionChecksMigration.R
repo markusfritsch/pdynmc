@@ -7,9 +7,12 @@ setwd("D:/Work/20_Projekte/450_Migration/migFlowsAndDrivers/data")
 
 dat	<- readRDS(file = "../data/migData.rds")
 dat	<- dat[!is.na(dat$prcp), ]
+#dat <- NULL
 
 varname.i = "orig_dest"
+#varname.i = NULL
 varname.t = "year0"
+#varname.t = NULL
 
 use.mc.diff         = TRUE
 use.mc.lev          = FALSE
@@ -48,6 +51,7 @@ lagTerms.reg.fur	= NULL
 include.dum			= TRUE
 dum.diff				= FALSE
 dum.lev				  = TRUE
+#varname.dum			= NULL
 #varname.dum			= c("year0")
 varname.dum			= c("dest_year", "year0")
 
