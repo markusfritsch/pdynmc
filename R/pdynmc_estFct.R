@@ -451,7 +451,6 @@ pdynmc		<- function(
 ){
 
 
-
  if(is.null(dat)) stop ("No dataset provided.")
 
  if(is.null(varname.i) | is.null(varname.t)) stop("Cross-section dimension and/or time series dimension not specified.")
@@ -923,77 +922,77 @@ pdynmc		<- function(
 
 
  if(include.x){
-#   if(!is.null(maxLags.reg.end)){
-#     try(if(length(maxLags.reg.end) != length(varname.reg.end)) stop("maximum number of lags of non-lagged-dependent endogenous covariates from which instruments should be derived needs to be specified completely"))
-#     if(any(maxLags.reg.end + 2 > Time)){
-#       maxLags.reg.end[maxLags.reg.end > Time-2]		<- Time - 2
-#       warning(paste(c("Longitudinal dimension too short. Maximum number of lags to obtain instruments from non-lagged-dependent endogenous covariates",
-#				"was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
-#     }
-#   }
-#   if(!is.null(varname.reg.end) & is.null(maxLags.reg.end)){
-#     maxLags.reg.end						<- rep(Time-2, times = length(varname.reg.end))
-#     warning(paste("Number of lags of the non-lagged dependent endogenous covariates from which instruments should be derived not specified. Number was set to ", Time-2, " (= Time-2) for the ", length(varname.reg.end), " endogenous covariates.", sep = ""))
-#   }
-#   if(!is.null(maxLags.reg.pre)){
-#     try(if(length(maxLags.reg.pre) != length(varname.reg.pre)) stop("maximum number of lags of non-lagged-dependent predetermined covariates from which instruments should be derived needs to be specified completely."))
-#     if(any(maxLags.reg.pre + 1 > Time)){
-#       maxLags.reg.pre[maxLags.reg.pre > Time-1]		<- Time - 1
-#       warning(paste(c("Longitudinal dimension too low. Maximum number of lags to obtain instruments from non-lagged-dependent predetermined covariates",
-#                       "was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
-#     }
-#   }
-#   if(!is.null(varname.reg.pre) & is.null(maxLags.reg.pre)){
-#     maxLags.reg.pre						<- rep(Time-1, times = length(varname.reg.pre))
-#     warning(paste("Number of lags of non-lagged dependent predetermined covariates from which instruments should be derived not specified (completely).",
-#                   "Number was set to ", Time-1, " (= Time-1) for the ", length(varname.reg.pre), " predetermined covariates.", sep = "\n") )
-#   }
-#   if(!is.null(maxLags.reg.ex)){
-#     try(if(length(maxLags.reg.ex) != length(varname.reg.ex)) stop("maximum number of lags of non-lagged-dependent exogenous covariates from which instruments should be derived needs to be specified completely"))
-#     if(any(maxLags.reg.ex > Time)){
-#       maxLags.reg.ex[maxLags.reg.ex > Time]		<- Time					# [M:] only required for HNR m.c. (from equations in differences)
-#       warning(paste(c("Longitudinal dimension too low. Maximum number of lags to obtain instruments from non-lagged-dependent exogenous covariates",
-#                       "was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
-#     }
-#   }
-#   if(!is.null(varname.reg.ex) & is.null(maxLags.reg.ex)){
-#     maxLags.reg.ex						<- rep(Time, times = length(varname.reg.ex))
-#     warning(paste("Number of lags of non-lagged dependent exogenous covariates from which instruments should be derived not specified.",
-#                   "Number was set to ", Time, " (= Time) for the ", length(varname.reg.ex), " exogenous covariates.", sep = "\n") )
-#   }
-   if(!is.null(varname.reg.end)){
-     if(length(maxLags.reg.end) != length(varname.reg.end)){
-       maxLags.reg.end		<- rep(Time - 2, times = length(varname.reg.end))
-       warning(paste("Number of lags of the non-lagged dependent endogenous covariates from which instruments should be derived not specified (completely). Number was set to ", Time-2, " (= Time-2) for the ", length(varname.reg.end), " endogenous covariates.", sep = ""))
-     }
+   if(!is.null(maxLags.reg.end)){
+     try(if(length(maxLags.reg.end) != length(varname.reg.end)) stop("maximum number of lags of non-lagged-dependent endogenous covariates from which instruments should be derived needs to be specified completely"))
      if(any(maxLags.reg.end + 2 > Time)){
        maxLags.reg.end[maxLags.reg.end > Time-2]		<- Time - 2
        warning(paste(c("Longitudinal dimension too short. Maximum number of lags to obtain instruments from non-lagged-dependent endogenous covariates",
-                       "was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
+				"was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
      }
    }
-   if(!is.null(varname.reg.pre)){
-     if(length(maxLags.reg.pre) != length(varname.reg.pre)){
-       maxLags.reg.pre		<- rep(Time-1, times = length(varname.reg.pre))
-       warning(paste("Number of lags of the non-lagged dependent predetermined covariates from which instruments should be derived not specified (completely). Number was set to ", Time-1, " (= Time-1) for the ", length(varname.reg.pre), " predetermined covariates.", sep = ""))
-     }
+   if(!is.null(varname.reg.end) & is.null(maxLags.reg.end)){
+     maxLags.reg.end						<- rep(Time-2, times = length(varname.reg.end))
+     warning(paste("Number of lags of the non-lagged dependent endogenous covariates from which instruments should be derived not specified. Number was set to ", Time-2, " (= Time-2) for the ", length(varname.reg.end), " endogenous covariates.", sep = ""))
+   }
+   if(!is.null(maxLags.reg.pre)){
+     try(if(length(maxLags.reg.pre) != length(varname.reg.pre)) stop("maximum number of lags of non-lagged-dependent predetermined covariates from which instruments should be derived needs to be specified completely."))
      if(any(maxLags.reg.pre + 1 > Time)){
        maxLags.reg.pre[maxLags.reg.pre > Time-1]		<- Time - 1
        warning(paste(c("Longitudinal dimension too low. Maximum number of lags to obtain instruments from non-lagged-dependent predetermined covariates",
-				"was reduced to ", Time-1, " (= Time-1)."), sep = "\n") )
+                       "was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
      }
    }
+   if(!is.null(varname.reg.pre) & is.null(maxLags.reg.pre)){
+     maxLags.reg.pre						<- rep(Time-1, times = length(varname.reg.pre))
+     warning(paste("Number of lags of non-lagged dependent predetermined covariates from which instruments should be derived not specified (completely).",
+                   "Number was set to ", Time-1, " (= Time-1) for the ", length(varname.reg.pre), " predetermined covariates.", sep = "\n") )
+   }
    if(!is.null(maxLags.reg.ex)){
-     if(length(maxLags.reg.ex) != length(varname.reg.ex)){
-       maxLags.reg.ex		<- rep(Time, times = length(varname.reg.ex))
-       warning(paste("Number of lags of the non-lagged dependent exogenous covariates from which instruments should be derived not specified (completely). Number was set to ", Time, " (= Time) for the ", length(varname.reg.ex), " exogenous covariates.", sep = ""))
-     }
+     try(if(length(maxLags.reg.ex) != length(varname.reg.ex)) stop("maximum number of lags of non-lagged-dependent exogenous covariates from which instruments should be derived needs to be specified completely"))
      if(any(maxLags.reg.ex > Time)){
        maxLags.reg.ex[maxLags.reg.ex > Time]		<- Time					# [M:] only required for HNR m.c. (from equations in differences)
        warning(paste(c("Longitudinal dimension too low. Maximum number of lags to obtain instruments from non-lagged-dependent exogenous covariates",
-				"was reduced to ", Time, " (= Time)."), sep = "\n") )
+                       "was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
      }
    }
+   if(!is.null(varname.reg.ex) & is.null(maxLags.reg.ex)){
+     maxLags.reg.ex						<- rep(Time, times = length(varname.reg.ex))
+     warning(paste("Number of lags of non-lagged dependent exogenous covariates from which instruments should be derived not specified.",
+                   "Number was set to ", Time, " (= Time) for the ", length(varname.reg.ex), " exogenous covariates.", sep = "\n") )
+   }
+#   if(!is.null(varname.reg.end)){
+#     if(length(maxLags.reg.end) != length(varname.reg.end)){
+#       maxLags.reg.end		<- rep(Time - 2, times = length(varname.reg.end))
+#       warning(paste("Number of lags of the non-lagged dependent endogenous covariates from which instruments should be derived not specified (completely). Number was set to ", Time-2, " (= Time-2) for the ", length(varname.reg.end), " endogenous covariates.", sep = ""))
+#     }
+#     if(any(maxLags.reg.end + 2 > Time)){
+#       maxLags.reg.end[maxLags.reg.end > Time-2]		<- Time - 2
+#       warning(paste(c("Longitudinal dimension too short. Maximum number of lags to obtain instruments from non-lagged-dependent endogenous covariates",
+#                       "was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
+#     }
+#   }
+#   if(!is.null(varname.reg.pre)){
+#     if(length(maxLags.reg.pre) != length(varname.reg.pre)){
+#       maxLags.reg.pre		<- rep(Time-1, times = length(varname.reg.pre))
+#       warning(paste("Number of lags of the non-lagged dependent predetermined covariates from which instruments should be derived not specified (completely). Number was set to ", Time-1, " (= Time-1) for the ", length(varname.reg.pre), " predetermined covariates.", sep = ""))
+#     }
+#     if(any(maxLags.reg.pre + 1 > Time)){
+#       maxLags.reg.pre[maxLags.reg.pre > Time-1]		<- Time - 1
+#       warning(paste(c("Longitudinal dimension too low. Maximum number of lags to obtain instruments from non-lagged-dependent predetermined covariates",
+#				"was reduced to ", Time-1, " (= Time-1)."), sep = "\n") )
+#     }
+#   }
+#   if(!is.null(maxLags.reg.ex)){
+#     if(length(maxLags.reg.ex) != length(varname.reg.ex)){
+#       maxLags.reg.ex		<- rep(Time, times = length(varname.reg.ex))
+#       warning(paste("Number of lags of the non-lagged dependent exogenous covariates from which instruments should be derived not specified (completely). Number was set to ", Time, " (= Time) for the ", length(varname.reg.ex), " exogenous covariates.", sep = ""))
+#     }
+#     if(any(maxLags.reg.ex > Time)){
+#       maxLags.reg.ex[maxLags.reg.ex > Time]		<- Time					# [M:] only required for HNR m.c. (from equations in differences)
+#       warning(paste(c("Longitudinal dimension too low. Maximum number of lags to obtain instruments from non-lagged-dependent exogenous covariates",
+#				"was reduced to ", Time, " (= Time)."), sep = "\n") )
+#     }
+#   }
  }
 
 
