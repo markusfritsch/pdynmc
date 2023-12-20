@@ -18,7 +18,7 @@ varname.i = "firm"
 varname.t = "year"
 
 use.mc.diff = TRUE
-use.mc.lev = FALSE
+use.mc.lev = TRUE
 use.mc.nonlin = FALSE
 use.mc.nonlinAS = NULL
 #inst.collapse = FALSE
