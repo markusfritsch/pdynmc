@@ -176,7 +176,7 @@ variable.ex.fct	<- function(			# function that creates starting and end period w
       t.req.i   <- 1:(Time-lagTerms-1)
       t.req.e   <- (1:(Time-lagTerms-1)) + (lagTerms+1)
     } else {
-      ti   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
+      ti.temp   <- rep(1, times = Time-lagTerms-1) + if(Time-T.mcDiff > 0){c(rep(0, times = Time-lagTerms-1-(Time-T.mcDiff)), (1:(Time - T.mcDiff)))} else{0}
       t.end     <- (lagTerms+2):(Time)
       t.req.i   <- 1:(Time-lagTerms-1)
       t.req.e   <- (1:(Time-lagTerms-1)) + (lagTerms+1)
