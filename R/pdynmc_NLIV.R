@@ -8,9 +8,10 @@
 
 #' Function for closed form nonlinear IV-estimator - T-version.
 #'
-#' \code{NLIV.T} computes closed form solution for lag parameter of linear
-#'    dynamic AR(1) panel data model based on original \insertCite{AhnSch1995;textual}{pdynmc}
-#'    moment conditions.
+#' \code{NLIV.T} Computes closed form solution for lag parameter of linear
+#'    dynamic AR(1) panel data model according to the estimator proposed by
+#'    \insertCite{FriPuaSch2024;textual}{pdynmc} based on original
+#'    \insertCite{AhnSch1995;textual}{pdynmc} moment conditions.
 #'
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
@@ -30,12 +31,11 @@
 #'
 #' @examples
 #' ## Load data
-#' data(ABdata, package = "pdynmc")
-#' dat <- ABdata
-#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' data(cigDemand, package = "pdynmc")
+#' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV.T(dat = dat, varname.i = "firm", varname.t = "year", varname.y = "emp")
+#' m1 <- NLIV.T(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
 NLIV.T	<- function (
@@ -45,18 +45,25 @@ NLIV.T	<- function (
   varname.y
 ){
 
-  if(!data.table::is.data.table(dat)){data.table::setDT(x = dat)}
+  tPer			<- unique(as.numeric(dat[[varname.t]]))
+  dat.tmp			<- data.table(cbind(dat[[varname.i]],
+                                rep(1:length(tPer), times = length(unique(dat[[varname.i]]))),
+                                dat[[varname.y]]))
+  colnames(dat.tmp)	<- c(varname.i, varname.t, varname.y)
+  dat.tmp[[varname.t]]	<- as.numeric(dat.tmp[[varname.t]])
+  dat.tmp[[varname.y]]	<- as.numeric(dat.tmp[[varname.y]])
 
-  data.table::setorderv(dat, cols = c(varname.i, varname.t))
+  T				<- max(dat.tmp[[varname.t]])
 
-T	<- max(as.numeric(dat[[varname.t]]))
+  if(!data.table::is.data.table(dat.tmp)){data.table::setDT(x = dat.tmp)}
 
-  dat[, "y"]	<- dat[[varname.y]]
-  y.T			<- dat[i = dat[[varname.t]] == T, j = y]
-  y.Tm1		<- dat[i = dat[[varname.t]] == T - 1, j = y]
-  y.Tm2		<- dat[i = dat[[varname.t]] == T - 2, j = y]
-  y.2			<- dat[i = dat[[varname.t]] == 2, j = y]
-  y.1			<- dat[i = dat[[varname.t]] == 1, j = y]
+  data.table::setorderv(dat.tmp, cols = c(varname.i, varname.t))
+
+  y.T			<- dat.tmp[i = dat.tmp[[varname.t]] == T, j = get(varname.y)]
+  y.Tm1		<- dat.tmp[i = dat.tmp[[varname.t]] == T - 1, j = get(varname.y)]
+  y.Tm2		<- dat.tmp[i = dat.tmp[[varname.t]] == T - 2, j = get(varname.y)]
+  y.2			<- dat.tmp[i = dat.tmp[[varname.t]] == 2, j = get(varname.y)]
+  y.1			<- dat.tmp[i = dat.tmp[[varname.t]] == 1, j = get(varname.y)]
 
   A	<- sum(unlist(y.Tm1*(y.Tm2 - y.1)))
   B	<- -sum(unlist( y.Tm1*(y.Tm1 - y.2) + y.T*(y.Tm2 - y.1) ))
@@ -85,9 +92,10 @@ T	<- max(as.numeric(dat[[varname.t]]))
 
 #' Function for closed form nonlinear IV-estimator - t-version.
 #'
-#' \code{NLIV.t} computes closed form solution for lag parameter of linear
-#'    dynamic AR(1) panel data model based on an alternative version of the
-#'    \insertCite{AhnSch1995;textual}{pdynmc} moment conditions.
+#' \code{NLIV.t} Computes closed form solution for lag parameter of linear
+#'    dynamic AR(1) panel data model according to the estimator proposed by
+#'    \insertCite{FriPuaSch2024;textual}{pdynmc} based on an alternative
+#'    version of the \insertCite{AhnSch1995;textual}{pdynmc} moment conditions.
 #'
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
@@ -107,12 +115,11 @@ T	<- max(as.numeric(dat[[varname.t]]))
 #'
 #' @examples
 #' ## Load data
-#' data(ABdata, package = "pdynmc")
-#' dat <- ABdata
-#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' data(cigDemand, package = "pdynmc")
+#' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV.t(dat = dat, varname.i = "firm", varname.t = "year", varname.y = "emp")
+#' m1 <- NLIV.t(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
 NLIV.t	<- function (
@@ -166,8 +173,7 @@ NLIV.t	<- function (
 #' Function for closed form estimator of Han and Phillips (2010).
 #'
 #' \code{HP2010} computes closed form estimator for lag parameter of linear
-#'    dynamic AR(1) panel data model as described in
-#'    \insertCite{HanPhi2010;textual}{pdynmc}.
+#'    dynamic AR(1) panel data model of \insertCite{HanPhi2010;textual}{pdynmc}.
 #'
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
@@ -187,12 +193,11 @@ NLIV.t	<- function (
 #'
 #' @examples
 #' ## Load data
-#' data(ABdata, package = "pdynmc")
-#' dat <- ABdata
-#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' data(cigDemand, package = "pdynmc")
+#' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV.t(dat = dat, varname.i = "firm", varname.t = "year", varname.y = "emp")
+#' m1 <- HP2020(dat = dat, varname.i = "state", varname.t = "year", varname.y = "pckpc")
 #'
 #'
 HP2010	<- function (
@@ -228,72 +233,4 @@ HP2010	<- function (
 
 
 
-############################################################################################################
-### Function for DGPs of Gorgens, Han, & Xue (AES, 2019)
-############################################################################################################
 
-
-
-dat.create.GHX	<- function(
-    alpha_0,
-    n,
-    T,
-    mean_y0_c,
-    cova_y0_c,
-    vari_v,
-    weight_c = FALSE,
-    seed
-){
-  set.seed(seed)
-
-  dat.indices		<- data.frame(
-    i		= rep(1:n, each = T),
-    t		= rep(1:T, times = n)
-  )
-
-  if(cova_y0_c[1, 1] == 0 & cova_y0_c[2, 2] == 0){
-    y_0	<- rep(x = mean_y0_c[1], times = n)
-    c		<- rep(x = mean_y0_c[2], times = n)
-  }
-  if(cova_y0_c[1, 1] == 0 & cova_y0_c[2, 2] != 0){
-    y_0	<- rep(x = mean_y0_c[1], times = n)
-    c		<- rnorm(n = n, mean = mean_y0_c[2], sd = sqrt(cova_y0_c[2, 2]))
-  }
-  if(cova_y0_c[1, 1] != 0 & cova_y0_c[2, 2] == 0){
-    y_0	<- rnorm(n = n, mean = mean_y0_c[1], sd = sqrt(cova_y0_c[1, 1]))
-    c		<- rep(x = mean_y0_c[2], times = n)
-  }
-  if(cova_y0_c[1, 1] != 0 & cova_y0_c[2, 2] != 0){
-    mat_y0_c	<- rmvnorm(
-      n		= n,
-      mean		= mean_y0_c,
-      sigma		= cova_y0_c,
-      method	= "chol"
-    )
-    y_0	<- mat_y0_c[, 1]
-    c		<- mat_y0_c[, 2]
-  }
-
-  v		<- matrix(data = rnorm(n = n*T, mean = 0, sd = sqrt(vari_v)), nrow = T, ncol = n, byrow = FALSE)
-
-  y		<- matrix(data = NA, nrow = T, ncol = n)
-
-  if(weight_c){
-    y[1, ]	<- alpha_0*y_0 + (1 - alpha_0)*c + v[1, ]
-    for(t in 2:T){
-      y[t, ]	<- alpha_0*y[t - 1, ] + (1 - alpha_0)*c + v[t, ]
-    }
-  } else {
-    y[1, ]	<- alpha_0*y_0 + c + v[1, ]
-    for(t in 2:T){
-      y[t, ]	<- alpha_0*y[t - 1, ] + c + v[t, ]
-    }
-  }
-
-  dat	<- data.frame(
-    dat.indices,
-    y	= as.numeric(y)
-  )
-
-  return(dat)
-}

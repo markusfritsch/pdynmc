@@ -1,4 +1,4 @@
- 
+
 ##############################################
 ###	Basics
 ##############################################
@@ -44,7 +44,95 @@ if(!file.exists(folder.name)){dir.create(folder.name)}
 
 
 
- 
+
+
+
+############################################################################################################
+### Function for DGPs of Gorgens, Han, & Xue (AES, 2019)
+############################################################################################################
+
+
+
+dat.create.GHX	<- function(
+    alpha_0,
+    n,
+    T,
+    mean_y0_c,
+    cova_y0_c,
+    vari_v,
+    weight_c = FALSE,
+    seed
+){
+  set.seed(seed)
+
+  dat.indices		<- data.frame(
+    i		= rep(1:n, each = T),
+    t		= rep(1:T, times = n)
+  )
+
+  if(cova_y0_c[1, 1] == 0 & cova_y0_c[2, 2] == 0){
+    y_0	<- rep(x = mean_y0_c[1], times = n)
+    c		<- rep(x = mean_y0_c[2], times = n)
+  }
+  if(cova_y0_c[1, 1] == 0 & cova_y0_c[2, 2] != 0){
+    y_0	<- rep(x = mean_y0_c[1], times = n)
+    c		<- rnorm(n = n, mean = mean_y0_c[2], sd = sqrt(cova_y0_c[2, 2]))
+  }
+  if(cova_y0_c[1, 1] != 0 & cova_y0_c[2, 2] == 0){
+    y_0	<- rnorm(n = n, mean = mean_y0_c[1], sd = sqrt(cova_y0_c[1, 1]))
+    c		<- rep(x = mean_y0_c[2], times = n)
+  }
+  if(cova_y0_c[1, 1] != 0 & cova_y0_c[2, 2] != 0){
+    mat_y0_c	<- rmvnorm(
+      n		= n,
+      mean		= mean_y0_c,
+      sigma		= cova_y0_c,
+      method	= "chol"
+    )
+    y_0	<- mat_y0_c[, 1]
+    c		<- mat_y0_c[, 2]
+  }
+
+  v		<- matrix(data = rnorm(n = n*T, mean = 0, sd = sqrt(vari_v)), nrow = T, ncol = n, byrow = FALSE)
+
+  y		<- matrix(data = NA, nrow = T, ncol = n)
+
+  if(weight_c){
+    y[1, ]	<- alpha_0*y_0 + (1 - alpha_0)*c + v[1, ]
+    for(t in 2:T){
+      y[t, ]	<- alpha_0*y[t - 1, ] + (1 - alpha_0)*c + v[t, ]
+    }
+  } else {
+    y[1, ]	<- alpha_0*y_0 + c + v[1, ]
+    for(t in 2:T){
+      y[t, ]	<- alpha_0*y[t - 1, ] + c + v[t, ]
+    }
+  }
+
+  dat	<- data.frame(
+    dat.indices,
+    y	= as.numeric(y)
+  )
+
+  return(dat)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ##############################################
 ###	Gorgens, Han, & Xue (2010), DGP 1.1 & 1.2
 ##############################################
@@ -79,12 +167,12 @@ seed.set	<- array(
 
 
 results.temp	<- as.data.frame(array(
-  data	= NA, 
+  data	= NA,
   dim		= c(R, 2 + 5 + 5 + 1),
   dimnames	= list(NULL, c(
-    "r", "seed", 
-    "A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg", 
-    "A.t", "B.t", "C.t", "rho.hat.t.pos", "rho.hat.t.neg", 
+    "r", "seed",
+    "A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg",
+    "A.t", "B.t", "C.t", "rho.hat.t.pos", "rho.hat.t.neg",
     "rho.hat.HP"
   ))
 ))
@@ -185,7 +273,7 @@ difftime(time.B, time.A, unit = "mins")
 
 
 
- 
+
 ##############################################
 ###	Gorgens, Han, & Xue (2010), DGP 1.1 & 1.2 adjusted to homoskedasticity
 ##############################################
@@ -218,12 +306,12 @@ seed.set	<- array(
 
 
 results.temp	<- as.data.frame(array(
-  data	= NA, 
+  data	= NA,
   dim		= c(R, 2 + 5 + 5 + 1),
   dimnames	= list(NULL, c(
-    "r", "seed", 
-    "A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg", 
-    "A.t", "B.t", "C.t", "rho.hat.t.pos", "rho.hat.t.neg", 
+    "r", "seed",
+    "A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg",
+    "A.t", "B.t", "C.t", "rho.hat.t.pos", "rho.hat.t.neg",
     "rho.hat.HP"
   ))
 ))
@@ -360,12 +448,12 @@ seed.set	<- array(
 
 
 results.temp	<- as.data.frame(array(
-  data	= NA, 
+  data	= NA,
   dim		= c(R, 2 + 5 + 5 + 1),
   dimnames	= list(NULL, c(
-    "r", "seed", 
-    "A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg", 
-    "A.t", "B.t", "C.t", "rho.hat.t.pos", "rho.hat.t.neg", 
+    "r", "seed",
+    "A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg",
+    "A.t", "B.t", "C.t", "rho.hat.t.pos", "rho.hat.t.neg",
     "rho.hat.HP"
   ))
 ))
