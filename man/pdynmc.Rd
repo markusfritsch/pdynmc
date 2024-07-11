@@ -6,13 +6,14 @@
    Models.}
 \usage{
 pdynmc(
-  dat,
-  varname.i,
-  varname.t,
-  use.mc.diff,
-  use.mc.lev,
-  use.mc.nonlin,
+  dat = NULL,
+  varname.i = NULL,
+  varname.t = NULL,
+  use.mc.diff = NULL,
+  use.mc.lev = NULL,
+  use.mc.nonlin = NULL,
   use.mc.nonlinAS = NULL,
+  inst.collapse = FALSE,
   inst.stata = FALSE,
   include.y,
   varname.y = NULL,
@@ -84,6 +85,10 @@ moment conditions should be used.}
 (quadratic) moment conditions in the form proposed by
 \insertCite{AhnSch1995;textual}{pdynmc} should be used (is set to `TRUE`
 when nonlinear moment conditions are employed).}
+
+\item{inst.collapse}{A logical variable indicating whether to collpase the set
+of moment conditions as proposed by \insertCite{Roo2009note} (defaults to
+`FALSE`).}
 
 \item{inst.stata}{A logical variable indicating whether to use the moment
 conditions from equations in levels as in Stata implementations xtabond2

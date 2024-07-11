@@ -1,33 +1,48 @@
 
 ############################################################################################################
-### Closed form estimation functions for AR(1) panel data models
+### Closed form estimation functions for linear dynamic panel data models
 ############################################################################################################
 
 
 
 
-#' Function for closed form nonlinear IV-estimator - T-version.
+#' Nonlinear instrumental variables estimator - T-version (NLIV.T).
 #'
 #' \code{NLIV.T} Computes closed form solution for lag parameter of linear
-#'    dynamic AR(1) panel data model according to the estimator proposed by
-#'    \insertCite{FriPuaSch2024;textual}{pdynmc} based on original
-#'    \insertCite{AhnSch1995;textual}{pdynmc} moment conditions.
+#'    dynamic panel data model based on instrumental variables (IV) estimator
+#'    employing nonlinear moment conditions.
+#'
+#' The function estimates a linear dynamic panel data model of the form
+#'    \deqn{y_{i,t} = y_{i,t-1} \rho_1 + a_i + \varepsilon_{i,t}}
+#'    where \eqn{y_{i,t-1}} is the lagged dependent variable, \eqn{\rho_1} is
+#'    the lag parameter, \eqn{a_i} is an unobserved individual specific effect,
+#'    and \eqn{\varepsilon_{i,t}} is an idiosyncratic remainder component. The
+#'    model structure accounts for unobserved individual specific heterogeneity
+#'    and dynamics. Note that more general lag structures and further covariates
+#'    are beyond the scope of the current implementation in \code{pdynmc}.
+#'
+#' The nonlinear IV estimator employs the original version of the nonlinear
+#'    moment conditions of \insertCite{AhnSch1995;textual}{pdynmc}.
+#'    More details on the implementation and the properties of the estimator
+#'    are provided in \insertCite{FriPuaSch2024;textual}{pdynmc}.
+#'
 #'
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
 #' @param varname.y A character string denoting the name of the dependent
 #'    variable in the dataset.
+#' @return An object of class `numeric` that contains the coefficient estimate for
+#'    the lag parameter according to the two roots of the quadratic equation.
 #'
 #' @export
+#' @importFrom data.table data.table
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
 #' @importFrom data.table setorderv
 #'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
+#' @references
+#' \insertAllCited{}
 #'
 #' @examples
 #' ## Load data
@@ -38,7 +53,7 @@
 #' m1 <- NLIV.T(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-NLIV.T	<- function (
+NLIV.T	<- function(
   dat,
   varname.i,
   varname.t,
@@ -46,7 +61,7 @@ NLIV.T	<- function (
 ){
 
   tPer			<- unique(as.numeric(dat[[varname.t]]))
-  dat.tmp			<- data.table(cbind(dat[[varname.i]],
+  dat.tmp			<- data.table::data.table(cbind(dat[[varname.i]],
                                 rep(1:length(tPer), times = length(unique(dat[[varname.i]]))),
                                 dat[[varname.y]]))
   colnames(dat.tmp)	<- c(varname.i, varname.t, varname.y)
@@ -90,29 +105,41 @@ NLIV.T	<- function (
 
 
 
-#' Function for closed form nonlinear IV-estimator - t-version.
+#' Nonlinear instrumental variables estimator - t-version (NLIV.t).
 #'
 #' \code{NLIV.t} Computes closed form solution for lag parameter of linear
-#'    dynamic AR(1) panel data model according to the estimator proposed by
-#'    \insertCite{FriPuaSch2024;textual}{pdynmc} based on an alternative
-#'    formulation of the \insertCite{AhnSch1995;textual}{pdynmc} moment
-#'    conditions.
+#'    dynamic panel data model based on instrumental variables (IV) estimator
+#'    employing alternative formulation of nonlinear moment conditions.
+#'
+#' The function estimates a linear dynamic panel data model of the form
+#'    \deqn{y_{i,t} = y_{i,t-1} \rho_1 + a_i + \varepsilon_{i,t}}
+#'    where \eqn{y_{i,t-1}} is the lagged dependent variable, \eqn{\rho_1} is
+#'    the lag parameter, \eqn{a_i} is an unobserved individual specific effect,
+#'    and \eqn{\varepsilon_{i,t}} is an idiosyncratic remainder component. The
+#'    model structure accounts for unobserved individual specific heterogeneity
+#'    and dynamics. Note that more general lag structures and further covariates
+#'    are beyond the scope of the current implementation in \code{pdynmc}.
+#'
+#' The nonlinear IV estimator employs an alternative formulation of the
+#'    nonlinear moment conditions of \insertCite{AhnSch1995;textual}{pdynmc}.
+#'    More details on the implementation and the properties of the estimator
+#'    are provided in \insertCite{FriPuaSch2024;textual}{pdynmc}.
 #'
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
 #' @param varname.y A character string denoting the name of the dependent
 #'    variable in the dataset.
+#' @return An object of class `numeric` that contains the coefficient estimate for
+#'    the lag parameter according to the two roots of the quadratic equation.
 #'
 #' @export
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
 #' @importFrom data.table setorderv
 #'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
+#' @references
+#' \insertAllCited{}
 #'
 #' @examples
 #' ## Load data
@@ -123,7 +150,7 @@ NLIV.T	<- function (
 #' m1 <- NLIV.t(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-NLIV.t	<- function (
+NLIV.t	<- function(
   dat,
   varname.i,
   varname.t,
@@ -171,26 +198,39 @@ NLIV.t	<- function (
 ###
 
 
-#' Function for closed form estimator of Han and Phillips (2010).
+#' First difference least squares (FDLS) estimator of Han and Phillips (2010).
 #'
 #' \code{HP2010} computes closed form estimator for lag parameter of linear
-#'    dynamic AR(1) panel data model of \insertCite{HanPhi2010;textual}{pdynmc}.
+#'    dynamic panel data model based on first difference least squares (FDLS)
+#'    estimator.
+#'
+#' The function estimates a linear dynamic panel data model of the form
+#'    \deqn{y_{i,t} = y_{i,t-1} \rho_1 + a_i + \varepsilon_{i,t}}
+#'    where \eqn{y_{i,t-1}} is the lagged dependent variable, \eqn{\rho_1} is
+#'    the lag parameter, \eqn{a_i} is an unobserved individual specific effect,
+#'    and \eqn{\varepsilon_{i,t}} is an idiosyncratic remainder component. The
+#'    model structure accounts for unobserved individual specific heterogeneity
+#'    and dynamics. Note that more general lag structures and further covariates
+#'    are beyond the scope of the current implementation in \code{pdynmc}.
+#'
+#' More details on the FDLS estimator and its properties are provided
+#'    in \insertCite{HanPhi2010;textual}{pdynmc}.
 #'
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
 #' @param varname.y A character string denoting the name of the dependent variable
 #'    in the dataset.
+#' @return An object of class `numeric` that contains the coefficient estimate for
+#'    the lag parameter according to the two roots of the quadratic equation.
 #'
 #' @export
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
 #' @importFrom data.table setorderv
 #'
-#' @seealso
-#'
-#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
-#'
+#' @references
+#' \insertAllCited{}
 #'
 #' @examples
 #' ## Load data
@@ -198,10 +238,10 @@ NLIV.t	<- function (
 #' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- HP2020(dat = dat, varname.i = "state", varname.t = "year", varname.y = "pckpc")
+#' m1 <- HP2010(dat = dat, varname.i = "state", varname.t = "year", varname.y = "pckpc")
 #'
 #'
-HP2010	<- function (
+HP2010	<- function(
   dat,
   varname.i,
   varname.t,

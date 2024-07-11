@@ -52,11 +52,10 @@ Description: Linear dynamic panel data modeling based on linear and
     For more detail on the IV-based estimation routines,
     see Fritsch, Pua, and Schnurbus (WP, 2024) and
     Han and Phillips (2010) <doi:10.1017/S026646660909063X>.
-    
 License: GPL (>=2)
 URL: https://github.com/markusfritsch/pdynmc
 BugReports: https://github.com/markusfritsch/pdynmc/issues
 VignetteBuilder: R.rsp
 Encoding: UTF-8
 Classification/JEL: C23, C26, C87
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
