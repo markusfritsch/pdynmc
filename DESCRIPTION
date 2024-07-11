@@ -1,8 +1,8 @@
 Package: pdynmc
 Type: Package
 Title: Moment Condition Based Estimation of Linear Dynamic Panel Data Models
-Version: 0.9.11.9008
-Date: 2024-07-10
+Version: 0.9.11.9009
+Date: 2024-07-11
 Authors@R: c(person("Markus", "Fritsch", role = c("aut", "cre"),
 		email = "Markus.Fritsch@uni-Passau.de"),
 	person("Joachim", "Schnurbus", role = c("aut"),
@@ -30,11 +30,12 @@ Description: Linear dynamic panel data modeling based on linear and
     Ahn and Schmidt (1995) <doi:10.1016/0304-4076(94)01641-C>,
     and Arellano and Bover (1995) <doi:10.1016/0304-4076(94)01642-D>.
     Estimation of the model parameters relies on the Generalized
-    Method of Moments (GMM), numerical optimization (when nonlinear
-    moment conditions are employed) and the computation of closed
-    form solutions (when estimation is based on linear moment
-    conditions). One-step, two-step and iterated estimation is
-    available. For inference and specification
+    Method of Moments (GMM) and instrumental variables (IV) estimation,
+    numerical optimization (when nonlinear moment conditions are
+    employed) and the computation of closed form solutions (when
+    estimation is based on linear moment conditions). One-step,
+    two-step and iterated estimation is available. For inference
+    and specification
     testing, Windmeijer (2005) <doi:10.1016/j.jeconom.2004.02.005>
     and doubly corrected standard errors
     (Hwang, Kang, Lee, 2021 <doi:10.1016/j.jeconom.2020.09.010>)
@@ -46,8 +47,12 @@ Description: Linear dynamic panel data modeling based on linear and
     and coefficient paths across GMM iterations (the latter is
     implemented according to the plot shown in
     Hansen and Lee, 2021 <doi:10.3982/ECTA16274>).
-    For a more detailed description of the functionality, please
-    see Fritsch, Pua, Schnurbus (2021) <doi:10.32614/RJ-2021-035>.
+    For a more detailed description of the GMM-based functionality,
+    please see Fritsch, Pua, Schnurbus (2021) <doi:10.32614/RJ-2021-035>.
+    For more detail on the IV-based estimation routines,
+    see Fritsch, Pua, and Schnurbus (WP, 2024) and
+    Han and Phillips (2010) <doi:10.1017/S026646660909063X>.
+    
 License: GPL (>=2)
 URL: https://github.com/markusfritsch/pdynmc
 BugReports: https://github.com/markusfritsch/pdynmc/issues

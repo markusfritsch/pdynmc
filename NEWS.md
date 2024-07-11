@@ -1,10 +1,22 @@
-# pdynmc version 0.9.11.9008
+# pdynmc version 0.9.11.9009
 
-Update of version 0.9.10 that adds estimation functions for the lag parameter of AR(1) panel data models. Additionally, the update allows for user-specified dummy matrix in estimation function. For this purpose, the internal helper function `corSparse` which was adopted from package 'qlcMatrix' in a previous function update was adjusted. Additionally, the argument checks of the estimation function were updated and an option to collapse the moment conditions was added.
+Update of version 0.9.10 that adds three estimation functions for the lag parameter of AR(1) panel data models. Additionally, the update allows for user-specified dummy matrix in estimation function. For this purpose, the internal helper function `corSparse` which was adopted from package 'qlcMatrix' in a previous function update was adjusted. Additionally, the argument checks of the estimation function were updated and an option to collapse the moment conditions was added.
 
 ### pdynmc
 * argument checks of estimation function updated
 * option for collapsing moment conditions added
+
+### NLIV.T
+* closed form estimation function for AR(1) panel data models
+* based on original version of Ahn and Schnidt (1995) moment conditions
+
+### NLIV.t
+* closed form estimation functions for AR(1) panel data models
+* based on alternative formulation of Ahn and Schnidt (1995) moment conditions
+
+### HP2010
+* closed form estimation functions for AR(1) panel data models
+* based on estimator proposed by Han and Phillips (2010)
 
 ### corSparse
 * internal helper function updated for checking for collinearities in dummy part of instrument matrix

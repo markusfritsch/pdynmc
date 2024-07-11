@@ -16,8 +16,8 @@
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
-#' @param varname.y A character string denoting the name of the dependent variable
-#'    in the dataset.
+#' @param varname.y A character string denoting the name of the dependent
+#'    variable in the dataset.
 #'
 #' @export
 #' @importFrom data.table is.data.table
@@ -95,13 +95,14 @@ NLIV.T	<- function (
 #' \code{NLIV.t} Computes closed form solution for lag parameter of linear
 #'    dynamic AR(1) panel data model according to the estimator proposed by
 #'    \insertCite{FriPuaSch2024;textual}{pdynmc} based on an alternative
-#'    version of the \insertCite{AhnSch1995;textual}{pdynmc} moment conditions.
+#'    formulation of the \insertCite{AhnSch1995;textual}{pdynmc} moment
+#'    conditions.
 #'
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
-#' @param varname.y A character string denoting the name of the dependent variable
-#'    in the dataset.
+#' @param varname.y A character string denoting the name of the dependent
+#'    variable in the dataset.
 #'
 #' @export
 #' @importFrom data.table is.data.table
