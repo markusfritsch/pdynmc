@@ -11,8 +11,8 @@ setwd("C:/Work/Research/Papers/Panel/Software_Proposal/R")
 
 
 
-#	install.packages("data.table")
-library(data.table)
+# install.packages("pdynmc")
+library(pdynmc)
 
 #	install.packages("mvtnorm")
 library(mvtnorm)
@@ -575,7 +575,7 @@ difftime(time.D, time.C, unit = "mins")
 
 rm(list = ls())
 
-folder.name		<- "MC_2024-07-04_GHX"
+folder.name		<- "MonteCarlo_2024-07-09"
 
 
 
