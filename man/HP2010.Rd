@@ -44,7 +44,7 @@ data(cigDemand, package = "pdynmc")
 dat <- cigDemand
 
 ## Code example
-m1 <- HP2010(dat = dat, varname.i = "state", varname.t = "year", varname.y = "pckpc")
+m1 <- HP2010(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 
 
 }
