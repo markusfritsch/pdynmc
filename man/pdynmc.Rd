@@ -87,8 +87,8 @@ moment conditions should be used.}
 when nonlinear moment conditions are employed).}
 
 \item{inst.collapse}{A logical variable indicating whether to collapse the set
-of moment conditions as proposed by \insertCite{Roo2009note} (defaults to
-`FALSE`).}
+of moment conditions as proposed by \insertCite{Roo2009note}{pdynmc}
+(defaults to `FALSE`).}
 
 \item{inst.stata}{A logical variable indicating whether to use the moment
 conditions from equations in levels as in Stata implementations xtabond2

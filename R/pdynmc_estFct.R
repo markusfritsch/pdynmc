@@ -98,8 +98,8 @@
 #'    \insertCite{AhnSch1995;textual}{pdynmc} should be used (is set to `TRUE`
 #'    when nonlinear moment conditions are employed).
 #' @param inst.collapse A logical variable indicating whether to collapse the set
-#'    of moment conditions as proposed by \insertCite{Roo2009note} (defaults to
-#'    `FALSE`).
+#'    of moment conditions as proposed by \insertCite{Roo2009note}{pdynmc}
+#'    (defaults to `FALSE`).
 #' @param inst.stata A logical variable indicating whether to use the moment
 #'    conditions from equations in levels as in Stata implementations xtabond2
 #'    \insertCite{Roo2018xtabond2;textual}{pdynmc} and xtdpdgmm

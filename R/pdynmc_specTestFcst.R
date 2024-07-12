@@ -271,7 +271,6 @@ wald.fct 		<- function(
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @references
-#'
 #' \insertAllCited{}
 #'
 #'

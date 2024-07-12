@@ -53,3 +53,6 @@ m1 <- NLIV.t(dat = dat, varname.i = "state", varname.t = "year", varname.y = "pa
 \references{
 \insertAllCited{}
 }
+\author{
+Joachim Schnurbus, Markus Fritsch
+}

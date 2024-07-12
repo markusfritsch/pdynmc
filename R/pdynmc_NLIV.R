@@ -35,6 +35,7 @@
 #' @return An object of class `numeric` that contains the coefficient estimate for
 #'    the lag parameter according to the two roots of the quadratic equation.
 #'
+#' @author Joachim Schnurbus, Markus Fritsch
 #' @export
 #' @importFrom data.table data.table
 #' @importFrom data.table is.data.table
@@ -133,6 +134,7 @@ NLIV.T	<- function(
 #' @return An object of class `numeric` that contains the coefficient estimate for
 #'    the lag parameter according to the two roots of the quadratic equation.
 #'
+#' @author Joachim Schnurbus, Markus Fritsch
 #' @export
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
@@ -200,7 +202,7 @@ NLIV.t	<- function(
 
 #' First difference least squares (FDLS) estimator of Han and Phillips (2010).
 #'
-#' \code{HP2010} computes closed form estimator for lag parameter of linear
+#' \code{FDLS} computes closed form estimator for lag parameter of linear
 #'    dynamic panel data model based on first difference least squares (FDLS)
 #'    estimator.
 #'
@@ -224,6 +226,7 @@ NLIV.t	<- function(
 #' @return An object of class `numeric` that contains the coefficient estimate for
 #'    the lag parameter according to the two roots of the quadratic equation.
 #'
+#' @author Joachim Schnurbus, Markus Fritsch
 #' @export
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
@@ -238,10 +241,10 @@ NLIV.t	<- function(
 #' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- HP2010(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
+#' m1 <- FDLS(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-HP2010	<- function(
+FDLS	<- function(
   dat,
   varname.i,
   varname.t,
