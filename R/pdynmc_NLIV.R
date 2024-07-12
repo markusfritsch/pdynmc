@@ -26,7 +26,6 @@
 #'    More details on the implementation and the properties of the estimator
 #'    are provided in \insertCite{FriPuaSch2024;textual}{pdynmc}.
 #'
-#'
 #' @param dat A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
