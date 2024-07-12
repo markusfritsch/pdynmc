@@ -86,7 +86,7 @@ moment conditions should be used.}
 \insertCite{AhnSch1995;textual}{pdynmc} should be used (is set to `TRUE`
 when nonlinear moment conditions are employed).}
 
-\item{inst.collapse}{A logical variable indicating whether to collpase the set
+\item{inst.collapse}{A logical variable indicating whether to collapse the set
 of moment conditions as proposed by \insertCite{Roo2009note} (defaults to
 `FALSE`).}
 

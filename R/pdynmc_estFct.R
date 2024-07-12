@@ -97,7 +97,7 @@
 #'    (quadratic) moment conditions in the form proposed by
 #'    \insertCite{AhnSch1995;textual}{pdynmc} should be used (is set to `TRUE`
 #'    when nonlinear moment conditions are employed).
-#' @param inst.collapse A logical variable indicating whether to collpase the set
+#' @param inst.collapse A logical variable indicating whether to collapse the set
 #'    of moment conditions as proposed by \insertCite{Roo2009note} (defaults to
 #'    `FALSE`).
 #' @param inst.stata A logical variable indicating whether to use the moment
