@@ -1,4 +1,4 @@
-utils::globalVariables(c("H_i", "fitted.j", "Szero.j"))
+utils::globalVariables(c("H_i", "fitted.j", "Szero.j", "ti"))
 
 
 
