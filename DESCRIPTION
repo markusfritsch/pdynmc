@@ -1,7 +1,7 @@
 Package: pdynmc
 Type: Package
 Title: Moment Condition Based Estimation of Linear Dynamic Panel Data Models
-Version: 0.9.11
+Version: 0.9.12.9000
 Date: 2024-07-12
 Authors@R: c(person("Markus", "Fritsch", role = c("aut", "cre"),
 		email = "Markus.Fritsch@uni-Passau.de"),
@@ -49,7 +49,7 @@ Description: Linear dynamic panel data modeling based on linear and
     Hansen and Lee, 2021 <doi:10.3982/ECTA16274>).
     For a more detailed description of the GMM-based functionality,
     please see Fritsch, Pua, Schnurbus (2021) <doi:10.32614/RJ-2021-035>.
-    For more detail on the IV-based estimation routines,
+    For more details on the IV-based estimation routines,
     see Fritsch, Pua, and Schnurbus (WP, 2024) and
     Han and Phillips (2010) <doi:10.1017/S026646660909063X>.
 License: GPL (>=2)

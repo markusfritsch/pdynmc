@@ -1,3 +1,9 @@
+# pdynmc version 0.9.12.9000
+
+Update of version 0.9.11 that ...
+
+
+
 # pdynmc version 0.9.11
 
 Update of version 0.9.10 that adds three estimation functions for the lag parameter of AR(1) panel data models. Additionally, the update allows for user-specified dummy matrix in estimation function. For this purpose, the internal helper function `corSparse` which was adopted from package 'qlcMatrix' in a previous function update was adjusted. Additionally, the argument checks of the estimation function were updated and an option to collapse the moment conditions was added.
