@@ -6,9 +6,9 @@
 
 
 
-#' Nonlinear instrumental variables estimator - T-version (NLIV.T).
+#' Nonlinear Instrumental Variables Estimator - T-Version (NLIV).
 #'
-#' \code{NLIV.T} Computes closed form solution for lag parameter of linear
+#' \code{NLIV} Computes closed form solution for lag parameter of linear
 #'    dynamic panel data model based on instrumental variables (IV) estimator
 #'    employing nonlinear moment conditions.
 #'
@@ -21,7 +21,7 @@
 #'    and dynamics. Note that more general lag structures and further covariates
 #'    are beyond the scope of the current implementation in \code{pdynmc}.
 #'
-#' The nonlinear IV estimator employs the original version of the nonlinear
+#'    The nonlinear IV estimator employs the original version of the nonlinear
 #'    moment conditions of \insertCite{AhnSch1995;textual}{pdynmc}.
 #'    More details on the implementation and the properties of the estimator
 #'    are provided in \insertCite{FriPuaSch2024;textual}{pdynmc}.
@@ -50,10 +50,10 @@
 #' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV.T(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
+#' m1 <- NLIV(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-NLIV.T	<- function(
+NLIV	<- function(
   dat,
   varname.i,
   varname.t,
@@ -105,9 +105,9 @@ NLIV.T	<- function(
 
 
 
-#' Nonlinear instrumental variables estimator - t-version (NLIV.t).
+#' Nonlinear Instrumental Variables Estimator - t-Version (NLIV.alt).
 #'
-#' \code{NLIV.t} Computes closed form solution for lag parameter of linear
+#' \code{NLIV.alt} Computes closed form solution for lag parameter of linear
 #'    dynamic panel data model based on instrumental variables (IV) estimator
 #'    employing alternative formulation of nonlinear moment conditions.
 #'
@@ -120,7 +120,7 @@ NLIV.T	<- function(
 #'    and dynamics. Note that more general lag structures and further covariates
 #'    are beyond the scope of the current implementation in \code{pdynmc}.
 #'
-#' The nonlinear IV estimator employs an alternative formulation of the
+#'    The nonlinear IV estimator employs an alternative formulation of the
 #'    nonlinear moment conditions of \insertCite{AhnSch1995;textual}{pdynmc}.
 #'    More details on the implementation and the properties of the estimator
 #'    are provided in \insertCite{FriPuaSch2024;textual}{pdynmc}.
@@ -148,10 +148,10 @@ NLIV.T	<- function(
 #' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV.t(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
+#' m1 <- NLIV.alt(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-NLIV.t	<- function(
+NLIV.alt	<- function(
   dat,
   varname.i,
   varname.t,
@@ -199,7 +199,7 @@ NLIV.t	<- function(
 ###
 
 
-#' First difference least squares (FDLS) estimator of Han and Phillips (2010).
+#' First Difference Least Squares (FDLS) Estimator of Han and Phillips (2010).
 #'
 #' \code{FDLS} computes closed form estimator for lag parameter of linear
 #'    dynamic panel data model based on first difference least squares (FDLS)
@@ -214,7 +214,7 @@ NLIV.t	<- function(
 #'    and dynamics. Note that more general lag structures and further covariates
 #'    are beyond the scope of the current implementation in \code{pdynmc}.
 #'
-#' More details on the FDLS estimator and its properties are provided
+#'    More details on the FDLS estimator and its properties are provided
 #'    in \insertCite{HanPhi2010;textual}{pdynmc}.
 #'
 #' @param dat A dataset.

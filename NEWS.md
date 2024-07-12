@@ -6,13 +6,13 @@ Update of version 0.9.10 that adds three estimation functions for the lag parame
 * argument checks of estimation function updated
 * option for collapsing moment conditions added
 
-### NLIV.T
+### NLIV
 * closed form estimation function for AR(1) panel data models
-* based on original version of Ahn and Schnidt (1995) moment conditions
+* based on original version of Ahn and Schmidt (1995) moment conditions
 
-### NLIV.t
+### NLIV.alt
 * closed form estimation functions for AR(1) panel data models
-* based on alternative formulation of Ahn and Schnidt (1995) moment conditions
+* based on alternative formulation of Ahn and Schmidt (1995) moment conditions
 
 ### FDLS
 * closed form estimation functions for AR(1) panel data models
