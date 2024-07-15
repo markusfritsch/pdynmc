@@ -27,7 +27,7 @@ rm(list = ls())
 
 
 
-source("NLIV_Functions_2024-07-09.R")
+#source("NLIV_Functions_2024-07-09.R")
 
 
 
@@ -232,11 +232,11 @@ dat	<- dat.create.GHX(
 ###	Compute estimators
 ###
 
-rho.hat.NLIV.T	<- NLIV.T(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.NLIV.T	<- NLIV(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
-rho.hat.NLIV.t	<- NLIV.t(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.NLIV.t	<- NLIV(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
-rho.hat.HP		<- HP2010(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.HP		<- FDLS(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
 
 res.temp[r, c("A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg")]	<- rho.hat.NLIV.T
@@ -370,11 +370,11 @@ dat	<- dat.create.GHX(
 ###	Compute estimators
 ###
 
-rho.hat.NLIV.T	<- NLIV.T(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.NLIV.T	<- NLIV(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
-rho.hat.NLIV.t	<- NLIV.t(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.NLIV.t	<- NLIV.alt(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
-rho.hat.HP		<- HP2010(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.HP		<- FDLS(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
 
 res.temp[r, c("A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg")]	<- rho.hat.NLIV.T
@@ -512,11 +512,11 @@ dat	<- dat.create.GHX(
 ###	Compute estimators
 ###
 
-rho.hat.NLIV.T	<- NLIV.T(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.NLIV.T	<- NLIV(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
-rho.hat.NLIV.t	<- NLIV.t(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.NLIV.t	<- NLIV.alt(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
-rho.hat.HP		<- HP2010(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.HP		<- FDLS(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
 
 res.temp[r, c("A.T", "B.T", "C.T", "rho.hat.T.pos", "rho.hat.T.neg")]	<- rho.hat.NLIV.T
