@@ -234,7 +234,7 @@ dat	<- dat.create.GHX(
 
 rho.hat.NLIV.T	<- NLIV(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
-rho.hat.NLIV.t	<- NLIV(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
+rho.hat.NLIV.t	<- NLIV.alt(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
 rho.hat.HP		<- FDLS(dat = dat, varname.i = "i", varname.t = "t", varname.y = "y")
 
