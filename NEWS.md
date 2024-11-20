@@ -1,7 +1,9 @@
-# pdynmc version 0.9.12.9000
+# pdynmc version 0.9.12.9001
 
 Update of version 0.9.11 that ...
 
+### plot.pdynmc
+*adjust function documentation
 
 
 # pdynmc version 0.9.11
