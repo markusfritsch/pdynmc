@@ -7,8 +7,8 @@
 #'    specification testing, and functions that extract and summarize particular
 #'    information from fitted model objects.
 #'
-#' @docType package
-#' @name pdynmc
+#' @name package-pdynmc
+#' @aliases package-pdynmc
 NULL
 
 ## NULL

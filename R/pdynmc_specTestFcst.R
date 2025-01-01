@@ -74,18 +74,14 @@
 #'
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(140:0), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(140:0), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -93,17 +89,12 @@
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  wald.fct(param = "all", m1)
-#' }
+#' wald.fct(param = "all", m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -116,7 +107,6 @@
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  wald.fct(m1, param = "all")
-#' }
 #' }
 #'
 #'
@@ -282,23 +272,18 @@ wald.fct 		<- function(
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @references
-#'
 #' \insertAllCited{}
 #'
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(140:0), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(140:0), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -306,17 +291,12 @@ wald.fct 		<- function(
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  jtest.fct(m1)
-#' }
+#' jtest.fct(m1)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -329,7 +309,6 @@ wald.fct 		<- function(
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  jtest.fct(m1)
-#' }
 #' }
 #'
 #'
@@ -429,18 +408,14 @@ jtest.fct		<- function(
 #'
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(140:0), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(140:0), ]
 #'
 #' ## Code example
-#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
 #'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
 #'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
 #'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
@@ -448,17 +423,12 @@ jtest.fct		<- function(
 #'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
-#'  mtest.fct(m1, order = 2)
-#' }
+#' mtest.fct(m1, order = 2)
 #'
 #' \donttest{
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
 #'  dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Further code example
@@ -471,7 +441,6 @@ jtest.fct		<- function(
 #'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
 #'     opt.meth = "none")
 #'  mtest.fct(m1, order = 2)
-#' }
 #' }
 #'
 #'

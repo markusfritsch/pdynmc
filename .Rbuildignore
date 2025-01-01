@@ -7,4 +7,6 @@ cran-comments.md
 ^\.travis\.yml$
 ^revdep$
 
+Rcode
+
 .github

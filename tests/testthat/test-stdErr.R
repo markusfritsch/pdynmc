@@ -1,9 +1,7 @@
 
 
- library(pdynmc)
-
- data(EmplUK, package = "plm")
- dat <- EmplUK
+ data(ABdata, package = "pdynmc")
+ dat <- ABdata
  dat[,c(4:7)] <- log(dat[,c(4:7)])
 
 ## Arellano and Bond (1991) estimation in Table 4, column (a1)

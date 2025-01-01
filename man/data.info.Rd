@@ -25,21 +25,16 @@ Returns information if panel dataset contained
    panel dataset contained in a `data.frame`.
 }
 \examples{
-## Load data from plm package
-if(!requireNamespace("plm", quietly = TRUE)){
- stop("Dataset from package \"plm\" needed for this example.
- Please install the package.", call. = FALSE)
-} else{
- data(EmplUK, package = "plm")
- dat <- EmplUK
- dat[,c(4:7)] <- log(dat[,c(4:7)])
- dat <- dat[c(1:140), ]
+## Load data
+data(ABdata, package = "pdynmc")
+dat <- ABdata
+dat[,c(4:7)] <- log(dat[,c(4:7)])
+dat <- dat[c(1:140), ]
 
 ## Code example
- data.info(dat, i.name = "firm", t.name = "year")
+data.info(dat, i.name = "firm", t.name = "year")
 
- data.info(dat[dat$year \%in\% 1979:1981, ], i.name = "firm", t.name = "year")
-}
+data.info(dat[dat$year \%in\% 1979:1981, ], i.name = "firm", t.name = "year")
 
 
 }

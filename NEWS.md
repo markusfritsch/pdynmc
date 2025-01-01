@@ -1,6 +1,87 @@
-# pdynmc version 0.9.7.9003
+# pdynmc version 0.9.12.9001
 
-Update of version 0.9.6 which updates the estimation function and the functions for visualizing the panel data structure. The functionality for deriving instruments and estimating parameters: Covariates for which no parameters are estimated, but from which instruments are derived and covariates for which parameters for which parameters are estimated, but from which no instruments are derived. Additionally, the functions are generalized to different data structures and the documentation is updated.
+Update of version 0.9.11 that ...
+
+### plot.pdynmc
+*adjust function documentation
+
+
+# pdynmc version 0.9.11
+
+Update of version 0.9.10 that adds three estimation functions for the lag parameter of AR(1) panel data models. Additionally, the update allows for user-specified dummy matrix in estimation function. For this purpose, the internal helper function `corSparse` which was adopted from package 'qlcMatrix' in a previous function update was adjusted. Additionally, the argument checks of the estimation function were updated and an option to collapse the moment conditions was added.
+
+### pdynmc
+* argument checks of estimation function updated
+* option for collapsing moment conditions added
+
+### NLIV
+* closed form estimation function for AR(1) panel data models
+* based on original version of Ahn and Schmidt (1995) moment conditions
+
+### NLIV.alt
+* closed form estimation functions for AR(1) panel data models
+* based on alternative formulation of Ahn and Schmidt (1995) moment conditions
+
+### FDLS
+* closed form estimation functions for AR(1) panel data models
+* based on estimator proposed by Han and Phillips (2010)
+
+### corSparse
+* internal helper function updated for checking for collinearities in dummy part of instrument matrix
+
+
+
+# pdynmc version 0.9.10
+
+Update of version 0.9.9 that generalizes functionality of functions for exploratory analysis of panel data. The function `corSparse` from package 'qlcMatrix' was added as internal helper function, as the aforementioned package was scheduled to be moved from CRAN to the archive by 2023-11-29. Additionally, bug fixes are provided for the estimation function and the documentation of the package is adjusted according to the new CRAN recommendation.
+
+### pdynmc
+* adjust check-related bug when instrumenting endogenous covariates
+
+### pDensTime.plot
+* `...` argument added to function
+* adjust scaling of abscissa for general time periods
+* allow for user defined axis labels
+
+### corSparse
+* new internal helper function copied from package 'qlcMatrix', which is scheduled to be archived
+
+
+
+
+
+# pdynmc version 0.9.9
+
+Update of version 0.9.8 which adds new function for visualization of evolution of empirical density of a variable of interest over longitudinal dimension of a panel dataset. Additionally, typos in description of `cigDemand` dataset are adjusted and further information is added to summary of `pdynmc' objects.
+
+### pdynmc
+* Summary function adjusted to add clarification on type of estimation
+
+### functions for exploratory analysis of panel data added
+* pDensTime.plot: : Visualizes empirical density of column of panel dataset
+
+
+
+
+
+# pdynmc version 0.9.8
+
+Update of version 0.9.7 which adds functionality for excluding the lagged dependent variable from the right-hand-side of the equation. Additionally, the update adds the published version of the article as vignette, ensures correct rendering of the package documentation (thanks to Kevin Tappe), and corrects minor bugs in the estimation function (thanks to Github user Dazhwu). 
+
+
+### pdynmc
+* Add flexibility for excluding the lagged dependent variable from the right-hand-side of the model equation (by setting function argument `lagTerms.y = 0`).
+* Adjust documentation to reflect the new feature.
+* Adjust further controls part of instrument matrix when using instruments from further covariates (function arguments: `include.x`, `varname.reg.pre`, `varname.reg.ex`)
+* Adjust internal helper functions (Wonestep.fct, sub.clForm.fct) correspondingly
+
+
+
+
+
+# pdynmc version 0.9.7
+
+Update of version 0.9.6 which updates the estimation function, the functions for visualizing the panel data structure, and adds two datasets to the package. The functionality for deriving instruments and estimating parameters: Covariates for which no parameters are estimated, but from which instruments are derived and covariates for which parameters for which parameters are estimated, but from which no instruments are derived.
 
 
 ### pdynmc
@@ -8,6 +89,7 @@ Update of version 0.9.6 which updates the estimation function and the functions 
 * Add flexibility for covariates for which parameters are estimated, but which are not used as instruments (function arguments: `include.x.toInstr`, `varname.reg.toInstr`)
 * Adjust code for further data structures
 * Update function documentation
+* Fix bug in function that creates instrument matrix
 
 
 ### data.info
@@ -16,6 +98,12 @@ Update of version 0.9.6 which updates the estimation function and the functions 
 
 ### struc.UPD.plot
 * Adjust code for further data structures
+
+
+
+### datasets
+* Add dataset of Arellano and Bond (1991) on employment by firms located in the UK
+* Add dataset of Stock and Watson (2003) on cigarette consumption in the US
 
 
 
@@ -71,10 +159,10 @@ Minor update of version 0.9.4 which adds further functionality and argument chec
 Minor update of version 0.9.3 in which package DESCRIPTION, CITATION, and documentation is adjusted and two further package vignettes are added.
 
 
-### new vignettes:
-*pdynmc-intro
-*pdynmc_introLong
-*pdynmc-pres-in-a-nutshell
+### new vignettes
+* pdynmc-intro
+* pdynmc_introLong
+* pdynmc-pres-in-a-nutshell
 
 
 

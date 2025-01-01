@@ -28,21 +28,16 @@
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
-#'  dat <- dat[c(1:140), ]
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(1:140), ]
 #'
 #' ## Code example
-#'  data.info(dat, i.name = "firm", t.name = "year")
+#' data.info(dat, i.name = "firm", t.name = "year")
 #'
-#'  data.info(dat[dat$year %in% 1979:1981, ], i.name = "firm", t.name = "year")
-#' }
+#' data.info(dat[dat$year %in% 1979:1981, ], i.name = "firm", t.name = "year")
 #'
 #'
 data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
@@ -133,19 +128,14 @@ data.info	<- function(object, i.name = NULL, t.name = NULL, ...){
 #' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
 #'
 #' @examples
-#' ## Load data from plm package
-#' if(!requireNamespace("plm", quietly = TRUE)){
-#'  stop("Dataset from package \"plm\" needed for this example.
-#'  Please install the package.", call. = FALSE)
-#' } else{
-#'  data(EmplUK, package = "plm")
-#'  dat <- EmplUK
-#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
 #'
 #' ## Code example
-#'  strucUPD.plot(dat, i.name = "firm", t.name = "year")
+#' strucUPD.plot(dat, i.name = "firm", t.name = "year")
 #'
-#' }
 #'
 #'
 strucUPD.plot	<- function(
@@ -213,6 +203,304 @@ strucUPD.plot	<- function(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Plot Empirical Density of a Column of a Panel Dataset over Time.
+#'
+#' \code{pDensTime.plot} Plot the empirical density
+#'    of a column of an object of class `data.frame`
+#'    containing a panel dataset across time
+#'    periods/aggregates of time periods.
+#'
+#' @param object An object of class `data.frame`.
+#' @param i.name Column name of cross-section identifier.
+#' @param t.name Column name of time-series identifier.
+#' @param var.name Column name of the variable that is
+#'    plotted (see `Details').
+#' @param aggregate.t Argument of data type `numeric'.
+#'    If argument is specified, the corresponding number
+#'    of time periods is merged (approximately); (defaults
+#'    to 'NULL').
+#' @param plot.quantiles Argument of data type `logical',
+#'    indicating whether the 5\%- and 95\%-quantiles and
+#'    the quartiles should be plotted (as specified by
+#'    `col.set[2]'; defaults to 'TRUE').
+#' @param plot.mean_ci Argument of data type `logical',
+#'    indicating whether the mean and the approximate
+#'    confidence intervals (mean plus/minus 2 standard
+#'    deviations) should be plotted (as specified by
+#'    `col.set[3]'; defaults to 'TRUE').
+#' @param plot.extrema Argument of data type `logical',
+#'    indicating whether the minimal and maximal observed
+#'    value (per time period/group) should be plotted
+#'    (as specified by `col.set[4]'; defaults to 'TRUE').
+#' @param col.set Vector of length 4 with entries of
+#'    data type `character' used to visualize the entities
+#'    of `pDensTime.plot' (see `Details'); must be a
+#'    valid argument to `col2rgb'; defaults to
+#'    `c("gray", "navy", "darkorange1", "red")'.
+#' @param ... further arguments.
+#'
+#' @return Returns a plot that visualizes the empirical
+#'    density for a column of a panel dataset
+#'    contained in an object of class `data.frame`. The
+#'    variable of interest is plotted on the ordinate,
+#'    the longitudinal dimension on the abscissa. For each
+#'    time period or aggregate of time periods, one
+#'    empirical density is computed and plotted.
+#'    Corresponding summary statistics on empirical
+#'    quantiles and the sample size per longitudinal
+#'    dimension are included in the plot.
+#'
+#' @author Markus Fritsch, Joachim Schnurbus
+#' @export
+#' @importFrom graphics abline
+#' @importFrom graphics axis
+#' @importFrom graphics box
+#' @importFrom graphics lines
+#' @importFrom graphics plot
+#' @importFrom graphics polygon
+#' @importFrom graphics text
+#' @importFrom stats density
+#' @importFrom stats median
+#' @importFrom stats quantile
+#' @importFrom stats sd
+#'
+#' @seealso
+#'
+#' \code{\link{pdynmc}} for fitting a linear dynamic panel data model.
+#'
+#' @examples
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
+#' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' ## Minimal set of arguments
+#' pDensTime.plot(object = ABdata, var.name = "emp", i.name = "firm", t.name = "year")
+#'
+#' ## All arguments explicitly stated
+#' pDensTime.plot(object	= ABdata, var.name	= "emp", i.name	= "firm", t.name	= "year",
+#'  aggregate.t	= NULL,	plot.quantiles	= TRUE, plot.mean_ci	= TRUE, plot.extrema	= TRUE,
+#'  col.set		= c("gray", "navy", "darkorange1", "red"))
+#'
+#' ## Aggregation over time periods (3 time periods per group)
+#' pDensTime.plot(object = ABdata, var.name = "emp", i.name = "firm", t.name = "year",
+#'  aggregate.t = 3)
+#'
+#' ## Employ alternative colouring scheme
+#' pDensTime.plot(object = ABdata, var.name = "emp", i.name = "firm", t.name = "year",
+#'  col.set		= c("pink", "blue", "purple", "black"))
+#'
+#' ## Plot only density, mean, and asymptotic confidence interval
+#' pDensTime.plot(object = ABdata, var.name = "emp", i.name = "firm", t.name = "year",
+#'  plot.quantiles	= FALSE, plot.extrema	= FALSE)
+#'
+pDensTime.plot	<- function(
+    object,
+    var.name,
+    i.name,
+    t.name,
+    aggregate.t	= NULL,	# if numeric, the corresponding number of time periods is merged (approximately)
+    plot.quantiles	= TRUE,
+    plot.mean_ci	= TRUE,
+    plot.extrema	= TRUE,
+    col.set		= c("gray", "navy", "darkorange1", "red"),
+    ...
+){
+
+  if (!is.data.frame(object)) {
+    stop("Function 'pDensTime.plot' applied to non `data.frame`.")
+  }
+  if (is.null(i.name) || is.null(t.name)) {
+    stop("Cross-section dimension and longitudinal dimension need to be specified.")
+  }
+
+  t.lab.txt	<- sort(unique(object[, t.name]))
+  if(!length(unique(diff(t.lab.txt))) == 1){
+    stop("Longitudinal dimension not equidistant.")
+  }
+
+  t.lab.dst	<- unique(diff(t.lab.txt))
+  t.set	    <- sort(unique(object[, t.name]))
+  t.set.sc	<- sort(unique(object[, t.name]))/t.lab.dst
+
+  i.set	<- sort(unique(object[, i.name]))
+  da		<- object[, var.name]
+  obj.tmp			<- object
+  obj.tmp[, t.name]	<- obj.tmp[, t.name]/t.lab.dst
+
+
+
+
+  if(is.numeric(aggregate.t)){
+    ###
+    ###	aggregated version (to approximately aggregate.t number of time periods per group)
+    ###
+
+    t.cat			<- floor((t.set.sc - min(t.set.sc))/aggregate.t) + 1
+    t.cat.values	<- floor((obj.tmp[, t.name] - min(obj.tmp[, t.name]))/aggregate.t) + 1
+    if(t.cat[length(t.cat)] != t.cat[length(t.cat) - 1]){
+      t.cat.values[t.cat.values == t.cat[length(t.cat)]] <- t.cat[length(t.cat) - 1]
+      t.cat[length(t.cat)] <- t.cat[length(t.cat) - 1]
+    }
+    t.cat.set		<- unique(t.cat)
+
+    t.cat.names		<- rep(NA, length(t.cat.set))
+    for(i in 1:length(t.cat.names)){
+      t.cat.temp	<- t.cat.set[i]
+      t.cat.names[i]	<- paste(range(t.set[t.cat == t.cat.temp]), collapse = "-")
+    }
+
+
+
+    dat.t.dens	<- list()
+    for(el in t.cat.set){
+      dat.t.dens[[paste("t.", el, sep = "")]]	<- density(da[obj.tmp[, t.name] %in% t.set.sc[t.cat == el]])
+    }
+    maxy		<- function(da){max(da$y)}
+    dens.max	<- max(sapply(X = dat.t.dens, FUN = maxy))
+
+
+
+
+
+    plot(
+      x		= t.cat.set,
+      y   = obj.tmp[,var.name][t.cat.set],
+      xlim	= range(t.cat.set) + c(-0.5, 1),
+      ylim	= range(obj.tmp[,var.name]) + c(-0.5, 1),
+      type	= "n",
+      xaxs	= "i",
+      yaxs	= "i",
+      xaxt	= "n",
+      ...
+    )
+    axis(side = 1, at = t.cat.set, labels = t.cat.names)
+
+    abline(v = t.cat.set, col = col.set[1])
+    for(el in t.cat.set){
+      polygon(
+        x	= el + (dat.t.dens[[paste("t.", el, sep = "")]]$y/dens.max),
+        y	= dat.t.dens[[paste("t.", el, sep = "")]]$x,
+        col = col.set[1], border = col.set[1]
+      )
+    }
+
+    if(plot.quantiles){
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = median), col = col.set[2], type = "b", pch = 19)
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = quantile, probs = 0.25), col = col.set[2], type = "b", pch = 19, lty = 2)
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = quantile, probs = 0.75), col = col.set[2], type = "b", pch = 19, lty = 2)
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = quantile, probs = 0.05), col = col.set[2], type = "b", pch = 19, lty = 3)
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = quantile, probs = 0.95), col = col.set[2], type = "b", pch = 19, lty = 3)
+      quant.temp	<- quantile(da[t.cat.values == min(t.cat.set)], probs = c(0.05, 0.25, 0.5, 0.75, 0.95))
+      text(x = min(t.cat.set) - 0.2, y = quant.temp, labels = paste("q", c("05", "25", "50", "75", "95"), sep = ""), col = rep(col.set[2], 5))
+    }
+
+    if(plot.mean_ci){
+      mp2s	<- function(da){mean(da) + 2*sd(da)}
+      mm2s	<- function(da){mean(da) - 2*sd(da)}
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = mean), col = col.set[3], type = "b", pch = 19)
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = mp2s), col = col.set[3], type = "b", pch = 19, lty = 3)
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = mm2s), col = col.set[3], type = "b", pch = 19, lty = 3)
+      text(x = max(t.cat.set) + 0.35, y = mean(da[t.cat.values == max(t.cat.set)]), labels = "Mean", col = col.set[3])
+      text(x = max(t.cat.set) + 0.4, y = mean(da[t.cat.values == max(t.cat.set)]) - 2*sd(da[t.cat.values == max(t.cat.set)]), labels = "M-2SD", col = col.set[3])
+      text(x = max(t.cat.set) + 0.4, y = mean(da[t.cat.values == max(t.cat.set)]) + 2*sd(da[t.cat.values == max(t.cat.set)]), labels = "M+2SD", col = col.set[3])
+    }
+
+    if(plot.extrema){
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = quantile, probs = 0), col = col.set[4], type = "l", pch = 19, lty = 1)
+      lines(x = t.cat.set, y = tapply(X = da, INDEX = t.cat.values, FUN = quantile, probs = 1), col = col.set[4], type = "l", pch = 19, lty = 1)
+      quant.temp	<- quantile(da[t.cat.values == min(t.cat.set)], probs = 0:1)
+      text(x = min(t.cat.set) - 0.2, y = quant.temp, labels = c("Min", "Max"), col = rep(col.set[4], 2))
+    }
+
+    axis(side = 3, at = t.cat.set, labels = paste("N=", tapply(X = da, INDEX = t.cat.values, FUN = length), sep = ""))
+    box()
+
+  } else {		# i.e., aggregate.t is not a number
+    ###
+    ###	disaggregated version, i.e., one density per period
+    ###
+
+
+    dat.t.dens	<- list()
+    for(el in t.set.sc){
+      dat.t.dens[[paste("t.", el, sep = "")]]	<- density(da[obj.tmp[, t.name] == el])
+    }
+    maxy		<- function(da){max(da$y)}
+    dens.max	<- max(sapply(X = dat.t.dens, FUN = maxy))
+
+
+
+    plot(
+      x	= t.set.sc,
+      y   = obj.tmp[,var.name][t.set.sc],
+      xlim	= range(t.set.sc) + c(-0.5, 1),
+      ylim	= range(obj.tmp[,var.name]) + c(-0.5, 1),
+      type	= "n",
+      xaxs	= "i",
+      yaxs	= "i",
+      xaxt	= "n",
+      ...
+    )
+    axis(side = 1, at = t.set.sc, labels = t.lab.txt)
+
+    abline(v = t.set.sc, col = col.set[1])
+    for(el in t.set.sc){
+      polygon(
+        x	= el + (dat.t.dens[[paste("t.", el, sep = "")]]$y/dens.max),
+        y	= dat.t.dens[[paste("t.", el, sep = "")]]$x,
+        col = col.set[1], border = col.set[1]
+      )
+    }
+
+    if(plot.quantiles){
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = median), col = col.set[2], type = "b", pch = 19)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0.25), col = col.set[2], type = "b", pch = 19, lty = 2)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0.75), col = col.set[2], type = "b", pch = 19, lty = 2)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0.05), col = col.set[2], type = "b", pch = 19, lty = 3)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0.95), col = col.set[2], type = "b", pch = 19, lty = 3)
+      quant.temp	<- quantile(da[obj.tmp[, t.name] == min(t.set)], probs = c(0.05, 0.25, 0.5, 0.75, 0.95))
+      text(x = min(t.set.sc) - 0.2, y = quant.temp, labels = paste("q", c("05", "25", "50", "75", "95"), sep = ""), col = rep(col.set[2], 5))
+    }
+
+    if(plot.mean_ci){
+      mp2s	<- function(da){mean(da) + 2*sd(da)}
+      mm2s	<- function(da){mean(da) - 2*sd(da)}
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = mean), col = col.set[3], type = "b", pch = 19)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = mp2s), col = col.set[3], type = "b", pch = 19, lty = 3)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = mm2s), col = col.set[3], type = "b", pch = 19, lty = 3)
+      text(x = max(t.set.sc) + 0.35, y = mean(da[obj.tmp[, t.name] == max(t.set)]), labels = "Mean", col = col.set[3])
+      text(x = max(t.set.sc) + 0.4, y = mean(da[obj.tmp[, t.name] == max(t.set)]) - 2*sd(da[obj.tmp[, t.name] == max(t.set)]), labels = "M-2SD", col = col.set[3])
+      text(x = max(t.set.sc) + 0.4, y = mean(da[obj.tmp[, t.name] == max(t.set)]) + 2*sd(da[obj.tmp[, t.name] == max(t.set)]), labels = "M+2SD", col = col.set[3])
+    }
+
+    if(plot.extrema){
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 0), col = col.set[4], type = "l", pch = 19, lty = 1)
+      lines(x = t.set.sc, y = tapply(X = da, INDEX = obj.tmp[, t.name], FUN = quantile, probs = 1), col = col.set[4], type = "l", pch = 19, lty = 1)
+      quant.temp	<- quantile(da[obj.tmp[, t.name] == min(t.set)], probs = 0:1)
+      text(x = min(t.set.sc) - 0.2, y = quant.temp, labels = c("Min", "Max"), col = rep(col.set[4], 2))
+    }
+
+    axis(side = 3, at = t.set.sc, labels = paste("N=", tapply(X = da, INDEX = obj.tmp[, t.name], FUN = length), sep = ""))
+    box()
+
+  }
+
+}
 
 
 
