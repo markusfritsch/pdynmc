@@ -459,6 +459,10 @@ pdynmc		<- function(
  ,seed.input			= 42
 ){
 
+# check arguments' input
+stopifnot(estimation %in% c("onestep", "twostep", "iterative"))
+stopifnot(std.err    %in% c("corrected", "unadjusted", "dbl.corrected"))
+stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
  if(estimation == "onestep"){
    j.max			<- 1
