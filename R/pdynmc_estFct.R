@@ -178,8 +178,8 @@
 #' @param col_tol A numeric variable in [0,1] indicating the absolute correlation
 #'    threshold for collinearity checks (columns are omitted when pairwise
 #'    correlations are above the threshold; defaults to 0.65).
-#' @param w.mat One of the character strings c(`"iid.err"`, `"identity"`,
-#'    `"zero.cov"`) indicating the type of weighting matrix to use (defaults to
+#' @param w.mat One of the characters `"iid.err"`, `"identity"`,
+#'    `"zero.cov"` indicating the type of weighting matrix to use (defaults to
 #'    `"iid.err"`).
 #' @param w.mat.stata A logical variable that slightly adjusts the weighting
 #'    matrix according to the Stata function xtdpdgmm (defaults to `FALSE`).
@@ -189,8 +189,8 @@
 #'    to \insertCite{Win2005;textual}{pdynmc} and
 #'    \insertCite{HwangKangLee2020;textual}{pdynmc}, respectively
 #'	  (defaults to `"corrected"`).
-#' @param estimation One of the character strings c(`"onestep"`, `"twostep"`,
-#'    `"iterative"`). Denotes the number of iterations of the parameter procedure
+#' @param estimation One of the characters `"onestep"`, `"twostep"`,
+#'    `"iterative"`. Denotes the number of iterations of the parameter procedure
 #'    (defaults to `"twostep"`).
 #' @param max.iter An integer indicating the maximum number of iterations
 #'    (defaults to `NULL`; if estimation is set to `"iterative"`, `max.iter`

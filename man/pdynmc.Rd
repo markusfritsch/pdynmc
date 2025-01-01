@@ -2,6 +2,7 @@
 % Please edit documentation in R/package-pdynmc.R, R/pdynmc_estFct.R
 \docType{package}
 \name{pdynmc}
+\alias{pdynmc-package}
 \alias{pdynmc}
 \title{pdynmc: A package for moment conditions based estimation of linear dynamic
    panel data models}
@@ -55,9 +56,9 @@ pdynmc(
   hessian = FALSE,
   optCtrl = list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol =
     .Machine$double.eps^(1/3), starttests = TRUE, dowarn = TRUE, badval = (0.25) *
-    .Machine$double.xmax, usenumDeriv = FALSE, reltol = 1e-12, maxit = 200, trace = TRUE,
-    follow.on = FALSE, save.failures = TRUE, maximize = FALSE, factr = 1e+07, pgtol = 0,
-    all.methods = FALSE),
+    .Machine$double.xmax, usenumDeriv = FALSE, reltol = 0.000000000001, maxit = 200,
+    trace = TRUE, follow.on = FALSE, save.failures = TRUE, maximize = FALSE, factr =
+    10000000, pgtol = 0, all.methods = FALSE),
   custom.start.val = FALSE,
   start.val = NULL,
   start.val.lo = -1,
@@ -199,8 +200,8 @@ be derived (can be different from varname.t; defaults to `NULL`).}
 threshold for collinearity checks (columns are omitted when pairwise
 correlations are above the threshold; defaults to 0.65).}
 
-\item{w.mat}{One of the character strings c(`"iid.err"`, `"identity"`,
-`"zero.cov"`) indicating the type of weighting matrix to use (defaults to
+\item{w.mat}{One of the characters `"iid.err"`, `"identity"`,
+`"zero.cov"` indicating the type of weighting matrix to use (defaults to
 `"iid.err"`).}
 
 \item{w.mat.stata}{A logical variable that slightly adjusts the weighting
@@ -213,8 +214,8 @@ matrix according to the Stata function xtdpdgmm (defaults to `FALSE`).}
  \insertCite{HwangKangLee2020;textual}{pdynmc}, respectively
 (defaults to `"corrected"`).}
 
-\item{estimation}{One of the character strings c(`"onestep"`, `"twostep"`,
-`"iterative"`). Denotes the number of iterations of the parameter procedure
+\item{estimation}{One of the characters `"onestep"`, `"twostep"`,
+`"iterative"`. Denotes the number of iterations of the parameter procedure
 (defaults to `"twostep"`).}
 
 \item{max.iter}{An integer indicating the maximum number of iterations
@@ -438,6 +439,13 @@ if(!requireNamespace("plm", quietly = TRUE)){
 \insertAllCited{}
 }
 \seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/markusfritsch/pdynmc}
+  \item Report bugs at \url{https://github.com/markusfritsch/pdynmc/issues}
+}
+
+
 \code{\link{wald.fct}} for Wald tests,
 \code{\link{jtest.fct}} for the Hansen J test, and
 \code{\link{mtest.fct}} for serial correlation tests.
@@ -445,5 +453,14 @@ if(!requireNamespace("plm", quietly = TRUE)){
    for numerical optimization
 }
 \author{
+\strong{Maintainer}: Markus Fritsch \email{Markus.Fritsch@uni-Passau.de}
+
+Authors:
+\itemize{
+  \item Joachim Schnurbus \email{Joachim.Schnurbus@uni-Passau.de}
+  \item Andrew Adrian Yu Pua \email{andrewypua@gmail.com}
+}
+
+
 Markus Fritsch
 }
