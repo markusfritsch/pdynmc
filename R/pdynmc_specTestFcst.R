@@ -188,7 +188,8 @@ wald.fct 		<- function(
 #    w.stat		<- n*crossprod(coef.hat, tcrossprod(MASS::ginv(vcov.hat), t(coef.hat)) ) *
 #				(as.vector(crossprod(do.call(res.1s_temp, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE) /(n*Time - sum(n.inst)+7)))						#[M:] Stata results with different dof-correction
     w.stat		<- n * Matrix::crossprod(coef.hat, Matrix::tcrossprod(MASS::ginv(as.matrix(vcov.hat)), Matrix::t(coef.hat)) ) *
-				(as.vector(Matrix::crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(sum(!is.na(dat.na[, varname.y])) - sum(n.inst)))		#[M:] Adjusted dof-correction (for missing observations)
+				(as.vector(Matrix::crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"))) /(sum(!is.na(dat.na[, varname.y])) - sum(n.inst)))		#[M:] Adjusted dof-correction (for missing observations)
+    ## na.rm is no argument to Matrix::crossprod
   } else{
     w.stat		<- crossprod(coef.hat, tcrossprod(MASS::ginv(as.matrix(vcov.hat)), t(coef.hat)) )
   }
