@@ -183,8 +183,8 @@
 #'    `"iid.err"`).
 #' @param w.mat.stata A logical variable that slightly adjusts the weighting
 #'    matrix according to the Stata function xtdpdgmm (defaults to `FALSE`).
-#' @param std.err One of the character strings c(`"corrected"`, `"unadjusted"`,
-#'    `"dbl.corrected"`).
+#' @param std.err One of the character `"corrected"`, `"unadjusted"`,
+#'    `"dbl.corrected"`.
 #'    The second and third options compute corrected standard error according
 #'    to \insertCite{Win2005;textual}{pdynmc} and
 #'    \insertCite{HwangKangLee2020;textual}{pdynmc}, respectively

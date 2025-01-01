@@ -4,7 +4,7 @@
 \alias{mtest.fct}
 \title{Arellano and Bond Serial Correlation Test.}
 \usage{
-mtest.fct(object, order = 2, ...)
+\method{mtest}{fct}(object, order = 2, ...)
 }
 \arguments{
 \item{object}{An object of class `pdynmc`.}
