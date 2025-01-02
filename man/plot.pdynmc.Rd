@@ -46,11 +46,11 @@ estimates (defaults to 'darkgrey'; requires 'type = coef.range').}
 (defaults to 'royalblue'; requires 'type = coef.range').}
 
 \item{omit1step}{Omit coefficient estimates from one-step GMM
-estimation in coefficient range plot. The argument can after
-obtaining coefficient estimates from numerical optimization
-methods to exclude the randomly drawn starting values from the
-plotted coefficient range (defaults to `FALSE`). Set to `TRUE` to
-exert the option; this argument requires iterative GMM estimates
+estimation in coefficient range plot. The argument can be employed
+to exclude the randomly drawn starting values from the plotted
+coefficient range when coefficient estimates were obtained from
+numerical optimization methods (defaults to `FALSE`). Set to `TRUE`
+to exert the option; this argument requires iterative GMM estimates
 and argument 'type = coef.range'.}
 
 \item{boxplot.coef}{Whether to draw boxplots for coefficient estimates
