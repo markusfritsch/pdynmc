@@ -1545,7 +1545,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
    dof          <- n.obs - length(varname.reg.estParam)
 
    if(std.err == "unadjusted"){
-     resGMM.vcov.j[[j]]		<- tXZW1tZX.inv * (as.vector(Matrix::crossprod(do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c"), do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c"), na.rm = TRUE) /dof))		# [M:] calculation acc. to description in Doornik, Arellano, and Bond (2012), p.30-31
+     resGMM.vcov.j[[j]]		<- tXZW1tZX.inv * (as.vector(Matrix::crossprod(do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c")) /dof))		# [M:] calculation acc. to description in Doornik, Arellano, and Bond (2012), p.30-31
    }
    if(std.err == "corrected"){
      resGMM.vcov.j[[j]]		<- Matrix::tcrossprod(Matrix::crossprod(tXZW1tZX.inv, Matrix::tcrossprod(Matrix::tcrossprod(Matrix::crossprod(tZX, get(paste("step", j, sep = "") , resGMM.W.j)), MASS::ginv(get(paste("step", j+1, sep = "") , resGMM.W.j))), Matrix::tcrossprod(Matrix::t(tZX), get(paste("step", j, sep = "") , resGMM.W.j)))), tXZW1tZX.inv)
