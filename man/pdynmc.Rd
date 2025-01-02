@@ -312,7 +312,7 @@ The function estimates a linear dynamic panel data model of the form
    \eqn{\varepsilon_{i,t}} is an idiosyncratic remainder component. The
    model structure accounts for unobserved individual specific heterogeneity
    and dynamics. Note that the specification given above is simplified for
-   illustatory purposes and more general lag structures are allowed in
+   illustratory purposes and more general lag structures are allowed in
    \code{pdynmc}.
 
    Estimation of the model parameters in \code{pdynmc} is based on
