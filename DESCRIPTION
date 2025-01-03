@@ -1,16 +1,14 @@
 Package: pdynmc
 Type: Package
 Title: Moment Condition Based Estimation of Linear Dynamic Panel Data Models
-Version: 0.9.12.9001
-Date: 2024-11-20
+Version: 0.9.12.9002
+Date: 2025-01-03
 Authors@R: c(person("Markus", "Fritsch", role = c("aut", "cre"),
 		email = "Markus.Fritsch@uni-Passau.de"),
 	person("Joachim", "Schnurbus", role = c("aut"),
 		email = "Joachim.Schnurbus@uni-Passau.de"),
 	person("Andrew Adrian Yu", "Pua", role = c("aut"),
 		email = "andrewypua@gmail.com"))
-Author: Markus Fritsch [aut, cre], Joachim Schnurbus [aut], Andrew Adrian Yu Pua [aut]
-Maintainer: Markus Fritsch <Markus.Fritsch@uni-Passau.de>
 Depends: R (>= 3.6.0)
 Imports: data.table (>= 1.12.2),
 	MASS (>= 7.3-51.4),
