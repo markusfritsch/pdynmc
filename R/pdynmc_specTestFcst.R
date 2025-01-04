@@ -469,6 +469,7 @@ mtest.fct 		<- function(
   varname.dum		<- object$data$varnames.dum
   dat.clF.temp	<- rapply(lapply(object$dat.clF, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
   dat.na			  <- object$data$dat.na
+  H_i           <- object$H_i
 
 
 
