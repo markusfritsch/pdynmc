@@ -857,7 +857,7 @@ Z_i.fct	<- function(
     Z_i.mc.diff_temp	<- do.call(what = "cbind", args = mget(ls(pattern = "Z_i.mc.diff")))
     # Note that sequence of arrangement is in alphabetical order, i.e.:
     # 1. endogenous, 2. exogenous, 3. predetermined Variables.
-    n.inst.diff	<- ncol(Z_i.mc.diff_temp)
+    n.inst.diff	<- sum(colSums(abs(as.matrix(Z_i.mc.diff_temp))) != 0)
     n.obs.diff	<- nrow(Z_i.mc.diff_temp)
   }
 
@@ -929,7 +929,7 @@ Z_i.fct	<- function(
       Z_i.mc.lev	<- Z_i.mc.lev_end.y
     }
     #     }
-    n.inst.lev	<- ncol(Z_i.mc.lev)
+    n.inst.lev	<- sum(colSums(abs(as.matrix(Z_i.mc.lev))) != 0)
     n.obs.lev	<- nrow(Z_i.mc.lev)
 
     if(use.mc.diff){
@@ -965,7 +965,7 @@ Z_i.fct	<- function(
       Z_i.temp		<- Matrix::bdiag(Z_i.mc.diff_temp, Z_i.mc.AS4, Z_i.mc.lev)
     }
     #     }
-    n.inst.nl		<- ncol(Z_i.mc.AS4)
+    n.inst.nl		<- sum(colSums(abs(as.matrix(Z_i.mc.AS4))) != 0)
     n.obs.nl		<- nrow(Z_i.mc.AS4)
   }
   if(!(use.mc.lev) & !(use.mc.nonlin)){
