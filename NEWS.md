@@ -1,9 +1,21 @@
-# pdynmc version 0.9.12.9001
+# pdynmc version 0.9.12.9003
 
-Update of version 0.9.11 that ...
+Update of version 0.9.11 that includes some suggestions on code improvements of Kevin Tappe (github user tappek). Adjustments to the instrument counts were also made following pointers by Steve Bond.
+
+### pdynmc
+* add checks of input arguments
+* remove redundant parts of code to get rid of WARNING message
+* adjust function documentation and correct typos
+
+### wald.fct
+* remove redundant parts of code to get rid of WARNING message
 
 ### plot.pdynmc
-*adjust function documentation
+* adjust function documentation
+
+### Z_i.fct
+* safeguard instrument count in internal helper function for the case when there are columns with zeros only
+
 
 
 # pdynmc version 0.9.11
