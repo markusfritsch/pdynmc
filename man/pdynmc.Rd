@@ -55,9 +55,9 @@ pdynmc(
   hessian = FALSE,
   optCtrl = list(kkt = FALSE, kkttol = .Machine$double.eps^(1/3), kkt2tol =
     .Machine$double.eps^(1/3), starttests = TRUE, dowarn = TRUE, badval = (0.25) *
-    .Machine$double.xmax, usenumDeriv = FALSE, reltol = 0.000000000001, maxit = 200,
-    trace = TRUE, follow.on = FALSE, save.failures = TRUE, maximize = FALSE, factr =
-    10000000, pgtol = 0, all.methods = FALSE),
+    .Machine$double.xmax, usenumDeriv = FALSE, reltol = 1e-12, maxit = 200, trace = TRUE,
+    follow.on = FALSE, save.failures = TRUE, maximize = FALSE, factr = 1e+07, pgtol = 0,
+    all.methods = FALSE),
   custom.start.val = FALSE,
   start.val = NULL,
   start.val.lo = -1,
