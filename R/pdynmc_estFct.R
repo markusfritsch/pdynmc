@@ -60,7 +60,7 @@
 #'    \eqn{\varepsilon_{i,t}} is an idiosyncratic remainder component. The
 #'    model structure accounts for unobserved individual specific heterogeneity
 #'    and dynamics. Note that the specification given above is simplified for
-#'    illustatory purposes and more general lag structures are allowed in
+#'    illustratory purposes and more general lag structures are allowed in
 #'    \code{pdynmc}.
 #'
 #'    Estimation of the model parameters in \code{pdynmc} is based on
@@ -179,19 +179,19 @@
 #' @param col_tol A numeric variable in [0,1] indicating the absolute correlation
 #'    threshold for collinearity checks (columns are omitted when pairwise
 #'    correlations are above the threshold; defaults to 0.65).
-#' @param w.mat One of the character strings c(`"iid.err"`, `"identity"`,
-#'    `"zero.cov"`) indicating the type of weighting matrix to use (defaults to
+#' @param w.mat One of the characters `"iid.err"`, `"identity"`,
+#'    `"zero.cov"` indicating the type of weighting matrix to use (defaults to
 #'    `"iid.err"`).
 #' @param w.mat.stata A logical variable that slightly adjusts the weighting
 #'    matrix according to the Stata function xtdpdgmm (defaults to `FALSE`).
-#' @param std.err One of the character strings c(`"corrected"`, `"unadjusted"`,
-#'    `"dbl.corrected"`).
+#' @param std.err One of the character `"corrected"`, `"unadjusted"`,
+#'    `"dbl.corrected"`.
 #'    The second and third options compute corrected standard error according
 #'    to \insertCite{Win2005;textual}{pdynmc} and
 #'    \insertCite{HwangKangLee2020;textual}{pdynmc}, respectively
 #'	  (defaults to `"corrected"`).
-#' @param estimation One of the character strings c(`"onestep"`, `"twostep"`,
-#'    `"iterative"`). Denotes the number of iterations of the parameter procedure
+#' @param estimation One of the characters `"onestep"`, `"twostep"`,
+#'    `"iterative"`. Denotes the number of iterations of the parameter procedure
 #'    (defaults to `"twostep"`).
 #' @param max.iter An integer indicating the maximum number of iterations
 #'    (defaults to `NULL`; if estimation is set to `"iterative"`, `max.iter`
@@ -450,6 +450,10 @@ pdynmc		<- function(
  ,seed.input			= 42
 ){
 
+# check arguments' input
+stopifnot(estimation %in% c("onestep", "twostep", "iterative"))
+stopifnot(std.err    %in% c("corrected", "unadjusted", "dbl.corrected"))
+stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
  if(is.null(dat)) stop ("No dataset provided.")
 
@@ -1541,7 +1545,7 @@ pdynmc		<- function(
    dof          <- n.obs - length(varname.reg.estParam)
 
    if(std.err == "unadjusted"){
-     resGMM.vcov.j[[j]]		<- tXZW1tZX.inv * (as.vector(Matrix::crossprod(do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c"), do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c"), na.rm = TRUE) /dof))		# [M:] calculation acc. to description in Doornik, Arellano, and Bond (2012), p.30-31
+     resGMM.vcov.j[[j]]		<- tXZW1tZX.inv * (as.vector(Matrix::crossprod(do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c")) /dof))		# [M:] calculation acc. to description in Doornik, Arellano, and Bond (2012), p.30-31
    }
    if(std.err == "corrected"){
      resGMM.vcov.j[[j]]		<- Matrix::tcrossprod(Matrix::crossprod(tXZW1tZX.inv, Matrix::tcrossprod(Matrix::tcrossprod(Matrix::crossprod(tZX, get(paste("step", j, sep = "") , resGMM.W.j)), MASS::ginv(get(paste("step", j+1, sep = "") , resGMM.W.j))), Matrix::tcrossprod(Matrix::t(tZX), get(paste("step", j, sep = "") , resGMM.W.j)))), tXZW1tZX.inv)
