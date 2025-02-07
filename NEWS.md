@@ -1,14 +1,15 @@
-# pdynmc version 0.9.12.9003
+# pdynmc version 0.9.12.9004
 
-Update of version 0.9.11 that includes some suggestions on code improvements of Kevin Tappe (github user tappek). Adjustments to the instrument counts were also made following pointers by Steve Bond.
+Update of version 0.9.11 that includes some suggestions on code improvements of Kevin Tappe (github user tappek) and changes the computation of the onestep unadjusted standard errors its asymptotic version. Adjustments to the instrument counts were also made following pointers by Steve Bond.
 
 ### pdynmc
+* change onestep unadjusted standard errors to asymptotic standard errors
 * add checks of input arguments
-* remove redundant parts of code to get rid of WARNING message
+* remove redundant parts of code
 * adjust function documentation and correct typos
 
 ### wald.fct
-* remove redundant parts of code to get rid of WARNING message
+* remove redundant parts of code
 
 ### plot.pdynmc
 * adjust function documentation

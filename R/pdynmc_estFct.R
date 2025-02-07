@@ -1545,7 +1545,11 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
    dof          <- n.obs - length(varname.reg.estParam)
 
    if(std.err == "unadjusted"){
-     resGMM.vcov.j[[j]]		<- tXZW1tZX.inv * (as.vector(Matrix::crossprod(do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c")) /dof))		# [M:] calculation acc. to description in Doornik, Arellano, and Bond (2012), p.30-31
+     if(j == 1){
+       resGMM.vcov.j[[j]]		<- tXZW1tZX.inv       #computes one-step asymptotic variance covariance matrix (matches pgmm results; differences to xtabond2 results)
+     } else{
+       resGMM.vcov.j[[j]]		<- tXZW1tZX.inv * (as.vector(Matrix::crossprod(do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c")) /dof))		# [M:] calculation acc. to description in Doornik, Arellano, and Bond (2012), p.30-31
+     }
    }
    if(std.err == "corrected"){
      resGMM.vcov.j[[j]]		<- Matrix::tcrossprod(Matrix::crossprod(tXZW1tZX.inv, Matrix::tcrossprod(Matrix::tcrossprod(Matrix::crossprod(tZX, get(paste("step", j, sep = "") , resGMM.W.j)), MASS::ginv(get(paste("step", j+1, sep = "") , resGMM.W.j))), Matrix::tcrossprod(Matrix::t(tZX), get(paste("step", j, sep = "") , resGMM.W.j)))), tXZW1tZX.inv)
@@ -1568,7 +1572,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
    if(sum(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j))) < 0) > 0){
      neg.ent                <- which(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j))) < 0)
      resGMM.stderr.j[[j]]		<- sqrt(abs(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j)))))
-     warning(paste("Covariance function contains ", length(neg.ent), " negative value(s); observation index(es): \n", paste(neg.ent, collapse = ", "), sep = ""))
+     warning(paste("Covariance matrix contains ", length(neg.ent), " negative value(s); observation index(es): \n", paste(neg.ent, collapse = ", "), sep = ""))
      rm(neg.ent)
    } else{
      resGMM.stderr.j[[j]]		<- sqrt(diag(as.matrix(get(paste("step", j, sep = "") , resGMM.vcov.j))))
