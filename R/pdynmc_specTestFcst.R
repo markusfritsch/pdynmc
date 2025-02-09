@@ -476,7 +476,7 @@ mtest.fct 		<- function(
   K.t			<- length(varname.dum) - length(varname.dum[!(varname.dum %in% varname.reg)])
   u.hat.m_o		<- lapply(Szero.j, function(x) c(rep(0, times = order), x[1:(length(x)-order)]) )
 
-  if(estimation == "onestep" & stderr.type == "unadjusted"){
+  if(estimation == "onestep" && stderr.type == "unadjusted"){
     #    uHtu			<- lapply(lapply(Szero.j, function(x) crossprod(x,x)), function(x) as.numeric(x) * 0.2* H_i.temp * (1/ (n*T - sum(n.inst)+3) ))
     uHtu			<- lapply(lapply(Szero.j, function(x) crossprod(x,x)), function(x) as.numeric(x) * H_i * (1/ (sum(!is.na(dat.na[, varname.y])) - sum(n.inst)) ))
     tu_m_outuu.m_o	<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::tcrossprod(y, Matrix::t(x))), u.hat.m_o, uHtu, SIMPLIFY = FALSE ))

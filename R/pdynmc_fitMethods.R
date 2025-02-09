@@ -1010,14 +1010,14 @@ plot.pdynmc		<- function(
       warning("Argument 'boxplot.coef' was ignored as coefficient boxplots are only displayed for a minimum of 10 iterations.")
     }
 
-    if(x$iter == 2 & omit1step){
+    if(x$iter == 2 && omit1step){
       stop("Cannot compute range from two-step GMM estimates after removing one-step estmates.")
     }
 
     parMar <- par()$mar
     par(mar=par()$mar + c(0,0,0,8), xpd=TRUE)
 
-    if(!include.dum | !include.fur.con){
+    if(!include.dum || !include.fur.con){
       if(!include.dum && !include.fur.con){
         varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.dum) & !(x$data$varnames.reg %in% x$data$varnames.reg.fur)
       } else{
@@ -1099,7 +1099,7 @@ plot.pdynmc		<- function(
     parMar <- par()$mar
     par(mar = par()$mar + c(0, 0, 0, 8), xpd = TRUE)
     if (is.null(co)) {
-      if(!include.dum | !include.fur.con){
+      if(!include.dum || !include.fur.con){
         if(!include.dum && !include.fur.con){
           varnames.ind <- !(x$data$varnames.reg %in% x$data$varnames.dum) & !(x$data$varnames.reg %in% x$data$varnames.reg.fur)
         } else {
@@ -1114,12 +1114,12 @@ plot.pdynmc		<- function(
       }
       co <- x$data$varnames.reg[varnames.ind]
     }
-    if(length(co) == 1 & sum(add.se.approx, is.null(add.se.approx))){
+    if(length(co) == 1 && sum(add.se.approx, is.null(add.se.approx))){
       add.se.approx <- TRUE
       plot.se <- TRUE
     } else {
       plot.se <- FALSE
-      if(length(co) > 1 & sum(add.se.approx)){
+      if(length(co) > 1 && sum(add.se.approx)){
         warning("Argument 'add.se.approx' is only available when plotting one coefficient path and was set to 'FALSE'")
       }
     }

@@ -70,19 +70,19 @@ dat.create.GHX	<- function(
     t		= rep(1:T, times = n)
   )
 
-  if(cova_y0_c[1, 1] == 0 & cova_y0_c[2, 2] == 0){
+  if(cova_y0_c[1, 1] == 0 && cova_y0_c[2, 2] == 0){
     y_0	<- rep(x = mean_y0_c[1], times = n)
     c		<- rep(x = mean_y0_c[2], times = n)
   }
-  if(cova_y0_c[1, 1] == 0 & cova_y0_c[2, 2] != 0){
+  if(cova_y0_c[1, 1] == 0 && cova_y0_c[2, 2] != 0){
     y_0	<- rep(x = mean_y0_c[1], times = n)
     c		<- rnorm(n = n, mean = mean_y0_c[2], sd = sqrt(cova_y0_c[2, 2]))
   }
-  if(cova_y0_c[1, 1] != 0 & cova_y0_c[2, 2] == 0){
+  if(cova_y0_c[1, 1] != 0 && cova_y0_c[2, 2] == 0){
     y_0	<- rnorm(n = n, mean = mean_y0_c[1], sd = sqrt(cova_y0_c[1, 1]))
     c		<- rep(x = mean_y0_c[2], times = n)
   }
-  if(cova_y0_c[1, 1] != 0 & cova_y0_c[2, 2] != 0){
+  if(cova_y0_c[1, 1] != 0 && cova_y0_c[2, 2] != 0){
     mat_y0_c	<- rmvnorm(
       n		= n,
       mean		= mean_y0_c,

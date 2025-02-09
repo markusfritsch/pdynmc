@@ -457,9 +457,9 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
  if(is.null(dat)) stop ("No dataset provided.")
 
- if(is.null(varname.i) | is.null(varname.t)) stop("Cross-section dimension and/or time series dimension not specified.")
+ if(is.null(varname.i) || is.null(varname.t)) stop("Cross-section dimension and/or time series dimension not specified.")
 
- if(is.null(use.mc.diff) | is.null(use.mc.lev) | is.null(use.mc.nonlin)) stop("Type of moment conditions need to be specified fully.")
+ if(is.null(use.mc.diff) || is.null(use.mc.lev) || is.null(use.mc.nonlin)) stop("Type of moment conditions need to be specified fully.")
 
  if(estimation == "onestep"){
    j.max			<- 1
@@ -491,7 +491,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
   toInstr.reg		<- !(is.null(varname.reg.toInstr))
 
 
-  max.lagTerms		<- max(if(!(is.null(varname.y)) | !(is.null(lagTerms.y))){ lagTerms.y }, if(!(is.null(varname.reg.end))){ lagTerms.reg.end },
+  max.lagTerms		<- max(if(!(is.null(varname.y)) || !(is.null(lagTerms.y))){ lagTerms.y }, if(!(is.null(varname.reg.end))){ lagTerms.reg.end },
                        if(!(is.null(varname.reg.pre))){ lagTerms.reg.pre }, if(!(is.null(varname.reg.ex))){ lagTerms.reg.ex },
                        if(!(is.null(varname.reg.fur))){ lagTerms.reg.fur } )
 
@@ -506,19 +506,19 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
 
 
- if(use.mc.nonlin & opt.meth == "none"){
+ if(use.mc.nonlin && opt.meth == "none"){
    opt.meth			<- "BFGS"
    warning("Nonlinear optimization required to use nonlinear moment conditions; 'opt.meth' was set to 'BFGS'.")
  }
 
- if(use.mc.nonlin == TRUE & is.null(use.mc.nonlinAS)){
+ if(use.mc.nonlin == TRUE && is.null(use.mc.nonlinAS)){
    use.mc.nonlinAS	<- TRUE
  }
 
 
 
 
-  if((use.mc.diff | use.mc.lev) && (length(unique(dat[, varname.t])) < 3)){
+  if((use.mc.diff || use.mc.lev) && (length(unique(dat[, varname.t])) < 3)){
     stop("Insufficient number of time periods to derive linear moment conditions.")
   }
   if(use.mc.nonlin && (length(unique(dat[, varname.t])) < 4)){
@@ -527,14 +527,14 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
 
 
-  if(include.x && (is.null(varname.reg.end) & is.null(varname.reg.pre) & is.null(varname.reg.ex))
+  if(include.x && (is.null(varname.reg.end) && is.null(varname.reg.pre) && is.null(varname.reg.ex))
   ){
     #  assign(x = include.x, value = "FALSE", envir = pdynmc::pdynmc)
     include.x		<- FALSE
     warning("Covariates (and types) from which additional instruments should be derived not given; 'include.x' was therefore set to FALSE.")
   }
 
-  if(!(include.x) && !(is.null(varname.reg.end) | is.null(varname.reg.pre) | is.null(varname.reg.ex))
+  if(!(include.x) && !(is.null(varname.reg.end) || is.null(varname.reg.pre) || is.null(varname.reg.ex))
   ){
     suppressWarnings(rm(varname.reg.end, varname.reg.pre, varname.reg.ex))
     warning("Covariates (and types) specified, while no instruments are supposed to be derived from covariates; argument(s) specifying the name (and type) of covariates was therefore ignored.")
@@ -563,21 +563,21 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
   }
 
   if(fur.con){
-    if((is.null(fur.con.diff) & is.null(fur.con.lev)) | (!fur.con.diff & !fur.con.lev)){
+    if((is.null(fur.con.diff) && is.null(fur.con.lev)) || (!fur.con.diff && !fur.con.lev)){
       fur.con.diff		<- FALSE
       fur.con.lev		<- TRUE
       warning("Options 'fur.con.diff' and 'fur.con.lev' not specified; 'fur.con.lev' was therefore set to TRUE.")
     }
-    if(fur.con.diff & is.null(fur.con.lev)){
+    if(fur.con.diff && is.null(fur.con.lev)){
       fur.con.lev		<- FALSE
       warning("Option 'fur.con.lev' not specified; option was therefore set to FALSE.")
     }
-    if(fur.con.lev & is.null(fur.con.diff)){
+    if(fur.con.lev && is.null(fur.con.diff)){
       fur.con.diff	<- FALSE
       warning("Option 'fur.con.diff' not specified; option was therefore set to FALSE.")
     }
   }
-  if(!fur.con && !((is.null(fur.con.diff) & is.null(fur.con.lev)) | (is.null(fur.con.diff) | is.null(fur.con.lev))) ){
+  if(!fur.con && !((is.null(fur.con.diff) && is.null(fur.con.lev)) || (is.null(fur.con.diff) || is.null(fur.con.lev))) ){
     if(fur.con.diff){
       fur.con.diff <- FALSE
       warning("No further controls included; argument 'fur.con.diff' was therefore ignored.")
@@ -589,35 +589,35 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
   }
 
 
-  if( (instr.reg == 0) & (toInstr.reg == 1) ){
+  if( (instr.reg == 0) && (toInstr.reg == 1) ){
     stop("No covariates given which should be used to instrument the endogenous covariate.")
   }
 
-  if(include.x.instr & is.null(varname.reg.instr)
+  if(include.x.instr && is.null(varname.reg.instr)
   ){
     include.x.instr	<- FALSE
     warning("No covariates given which should be used to derive instruments, while estimating no parameters for them; 'include.x.instr' was therefore set to FALSE.")
   }
 
-  if(!(include.x.instr) & !(is.null(varname.reg.instr))
+  if(!(include.x.instr) && !(is.null(varname.reg.instr))
   ){
     suppressWarnings(rm(varname.reg.instr))
     warning("Covariates to be used as instruments specified, while these types of covariates are not supposed to be included; argument specifying these instruments was therefore ignored.")
   }
 
-  if(include.x.toInstr & is.null(varname.reg.toInstr)
+  if(include.x.toInstr && is.null(varname.reg.toInstr)
   ){
     include.x.toInstr	<- FALSE
     warning("No covariates given which should be instrumented; 'include.x.toInstr' was therefore set to FALSE.")
   }
 
-  if(!(include.x.toInstr) & !(is.null(varname.reg.toInstr))
+  if(!(include.x.toInstr) && !(is.null(varname.reg.toInstr))
   ){
     suppressWarnings(rm(varname.reg.toInstr))
     warning("Further covariates to be instrumented specified, while these types of covariates are not supposed to be included; argument specifying these covariates was therefore ignored.")
   }
 
-  if(inst.reg.ex.expand & !use.mc.diff & ( (!include.x.instr & is.null(varname.reg.ex)) | (is.null(varname.reg.ex)) ) ){
+  if(inst.reg.ex.expand && !use.mc.diff && ( (!include.x.instr && is.null(varname.reg.ex)) || (is.null(varname.reg.ex)) ) ){
     inst.reg.ex.expand <- NULL
     #   warning("No exogenous covariates given; 'inst.reg.ex.expand' was therefore ignored.")
   }
@@ -639,21 +639,21 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
   }
 
   if(include.dum){
-    if((is.null(dum.diff) & is.null(dum.lev)) | (!dum.diff & !dum.lev)){
+    if((is.null(dum.diff) && is.null(dum.lev)) || (!dum.diff && !dum.lev)){
       dum.diff		<- FALSE
       dum.lev		<- TRUE
       warning("Options 'dum.diff' and 'dum.lev' not specified; 'dum.lev' was therefore set to TRUE.")
     }
-    if(dum.diff & is.null(dum.lev)){
+    if(dum.diff && is.null(dum.lev)){
       dum.lev		<- FALSE
       warning("Option 'dum.lev' not specified; option was therefore set to FALSE.")
     }
-    if(dum.lev & is.null(dum.diff)){
+    if(dum.lev && is.null(dum.diff)){
       dum.diff	<- FALSE
       warning("Option 'dum.diff' not specified; option was therefore set to FALSE.")
     }
   }
-  if(!include.dum &  (!is.null(dum.diff) | !is.null(dum.lev)) ){
+  if(!include.dum && (!is.null(dum.diff) || !is.null(dum.lev)) ){
     if(!is.null(dum.diff)){
       dum.diff <- FALSE
       warning("No dummies included; argument 'dum.diff' was therefore ignored.")
@@ -663,7 +663,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
       warning("No dummies included; argument 'dum.lev' was therefore ignored.")
     }
   }
-  if(!include.dum &  (is.null(dum.diff) | is.null(dum.lev)) ){
+  if(!include.dum && (is.null(dum.diff) || is.null(dum.lev)) ){
     if(is.null(dum.diff)){
       dum.diff <- FALSE
     }
@@ -681,7 +681,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 #          include.dum, varname.dum, dum.diff, dum.lev)
 
 
-# if((mc.ref.t && mc.ref.T) | (is.null(mc.ref.t) && is.null(mc.ref.T))		# [M:] check that only one reference period is set; else choose 'mc.ref.t'
+# if((mc.ref.t && mc.ref.T) || (is.null(mc.ref.t) && is.null(mc.ref.T))		# [M:] check that only one reference period is set; else choose 'mc.ref.t'
 # ){
 #   mc.ref.t		<- TRUE
 #   mc.ref.T		<- FALSE
@@ -845,7 +845,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
      for(k in 1:ncol(D.temp)){													#[M:] not helpful in obtaining results analoguous to Stata and pdgmm
        eigen.temp		<- eigen(crossprod(D.temp, D.temp))$values
-       if(max(eigen.temp)/min(eigen.temp) < det_tol.low | max(eigen.temp)/min(eigen.temp) > det_tol.up){
+       if(max(eigen.temp)/min(eigen.temp) < det_tol.low || max(eigen.temp)/min(eigen.temp) > det_tol.up){
          var.cor		<- c(var.cor, colnames(D.temp)[which.max(colSums(abs(corSparse(D.temp))))])
          D.temp		<- D.temp[, -which.max(colSums(abs(corSparse(D.temp))))]
        }
@@ -913,7 +913,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
 #a) maximum number of lags available as instruments
 
- if((include.y | !(is.null(lagTerms.y))) & !(is.null(maxLags.y))){
+ if((include.y || !(is.null(lagTerms.y))) && !(is.null(maxLags.y))){
    if(maxLags.y + 2 > Time){				# [M:] maximum number of time periods of y_{it}- and x_{it}-process employed in estimation
      maxLags.y		<- Time-2
      warning(paste(c("Longitudinal dimension too short. Maximum number of instruments from dependent variable to be employed in estimation",
@@ -934,7 +934,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 				"was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
      }
    }
-   if(!is.null(varname.reg.end) & is.null(maxLags.reg.end)){
+   if(!is.null(varname.reg.end) && is.null(maxLags.reg.end)){
      maxLags.reg.end						<- rep(Time-2, times = length(varname.reg.end))
      warning(paste("Number of lags of the non-lagged dependent endogenous covariates from which instruments should be derived not specified. Number was set to ", Time-2, " (= Time-2) for the ", length(varname.reg.end), " endogenous covariates.", sep = ""))
    }
@@ -946,7 +946,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
                        "was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
      }
    }
-   if(!is.null(varname.reg.pre) & is.null(maxLags.reg.pre)){
+   if(!is.null(varname.reg.pre) && is.null(maxLags.reg.pre)){
      maxLags.reg.pre						<- rep(Time-1, times = length(varname.reg.pre))
      warning(paste("Number of lags of non-lagged dependent predetermined covariates from which instruments should be derived not specified (completely).",
                    "Number was set to ", Time-1, " (= Time-1) for the ", length(varname.reg.pre), " predetermined covariates.", sep = "\n") )
@@ -959,7 +959,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
                        "was reduced to ", Time-2, " (= Time-2)."), sep = "\n") )
      }
    }
-   if(!is.null(varname.reg.ex) & is.null(maxLags.reg.ex)){
+   if(!is.null(varname.reg.ex) && is.null(maxLags.reg.ex)){
      maxLags.reg.ex						<- rep(Time, times = length(varname.reg.ex))
      warning(paste("Number of lags of non-lagged dependent exogenous covariates from which instruments should be derived not specified.",
                    "Number was set to ", Time, " (= Time) for the ", length(varname.reg.ex), " exogenous covariates.", sep = "\n") )
@@ -1002,19 +1002,19 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
  if(use.mc.diff){
    minLags.d <- max(2, max.lagTerms + 1)
-   lagLimit.d.temp <- min(if(!(is.null(varname.y)) | !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
+   lagLimit.d.temp <- min(if(!(is.null(varname.y)) || !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
                          if(!(is.null(varname.reg.pre))){ maxLags.reg.pre }, if(!(is.null(varname.reg.ex))){ maxLags.reg.ex } )
    if(lagLimit.d.temp < minLags.d) stop(paste("'maxLags' set too low. Minimum number of lags required to derive moment conditions from equations in differences is ", minLags.d, ".", sep = ""))
  }
  if(use.mc.lev){
    minLags.l <- max(2, max.lagTerms)
-   lagLimit.l.temp <- min(if(!(is.null(varname.y)) | !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
+   lagLimit.l.temp <- min(if(!(is.null(varname.y)) || !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
                          if(!(is.null(varname.reg.pre))){ maxLags.reg.pre }, if(!(is.null(varname.reg.ex))){ maxLags.reg.ex } )
    if(lagLimit.l.temp < minLags.l) stop(paste("'maxLags' set too low. Minimum number of lags required to derive moment conditions from equations in levels is ", minLags.l, ".", sep = ""))
  }
  if(use.mc.nonlin){
    minLags.dnl <- max(3, max.lagTerms+2)
-   lagLimit.dnl.temp <- min(if(!(is.null(varname.y)) | !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
+   lagLimit.dnl.temp <- min(if(!(is.null(varname.y)) || !(is.null(maxLags.y))){ maxLags.y }, if(!(is.null(varname.reg.end))){ maxLags.reg.end },
                           if(!(is.null(varname.reg.pre))){ maxLags.reg.pre }, if(!(is.null(varname.reg.ex))){ maxLags.reg.ex } )
    if(lagLimit.dnl.temp < minLags.dnl) stop(paste("'maxLags' set too low. Minimum number of lags required to derive nonlinear moment conditions is ", minLags.dnl, ".", sep = ""))
  }
@@ -1025,7 +1025,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
 #b) lags of lagged dependent variable and non-lagged dependent variable included in the model
 
- if(include.y & is.null(lagTerms.y)){
+ if(include.y && is.null(lagTerms.y)){
    lagTerms.y		<- 1
    warning(paste(c("Number of lags of lagged dependent variables on rhs of model equation not specified; 1 lag was therefore used.")))
  }
@@ -1034,21 +1034,21 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
    if(!(is.null(lagTerms.reg.end))){
      try(if(length(lagTerms.reg.end) != length(varname.reg.end)) stop("number of lags of non-lagged dependent endogenous covariates needs to be specified completely."))
    }
-   if(!(is.null(varname.reg.end)) & is.null(lagTerms.reg.end)){
+   if(!(is.null(varname.reg.end)) && is.null(lagTerms.reg.end)){
      lagTerms.reg.end						<- rep(0, times = length(varname.reg.end))
      warning(paste("Number of lags of the non-lagged dependent endogenous covariates not specified. Number was set to 0 for all covariates.", sep = ""))
    }
    if(!(is.null(lagTerms.reg.pre))){
      try(if(length(lagTerms.reg.pre) != length(varname.reg.pre)) stop("number of AR-terms of non-lagged dependent predetermined covariates needs to be specified completely."))
    }
-   if(!(is.null(varname.reg.pre)) & is.null(lagTerms.reg.pre)){
+   if(!(is.null(varname.reg.pre)) && is.null(lagTerms.reg.pre)){
      lagTerms.reg.pre						<- rep(0, times = length(varname.reg.pre))
      warning(paste("Number of lags of the non-lagged dependent predetermined covariates not specified. Number was set to 0 for all covariates.", sep = ""))
    }
    if(!(is.null(lagTerms.reg.ex))){
      try(if(length(lagTerms.reg.ex) != length(varname.reg.ex)) stop("number of lags of non-lagged dependent exogenous covariates needs to be specified completely."))
    }
-   if(!(is.null(varname.reg.ex)) & is.null(lagTerms.reg.ex)){
+   if(!(is.null(varname.reg.ex)) && is.null(lagTerms.reg.ex)){
      lagTerms.reg.ex						<- rep(0, times = length(varname.reg.ex))
      warning(paste("Number of lags of the non-lagged dependent exogenous covariates not specified. Number was set to 0 for all covariates.", sep = ""))
    }
@@ -1118,7 +1118,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 # }
 
  if(include.x){
-#   if(!(is.null(varname.reg.end)) & sum(!(varname.reg.end %in% varname.reg.instr)) > 0){
+#   if(!(is.null(varname.reg.end)) && sum(!(varname.reg.end %in% varname.reg.instr)) > 0){
 #     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.end[!(varname.reg.end %in% varname.reg.instr)]} else{ varname.reg.end }
 #     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.end[!(varname.reg.end %in% varname.reg.instr)]} else{ lagTerms.reg.end }
    if(!is.null(varname.reg.end)){
@@ -1138,7 +1138,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 									FUN = dat.na.lag)
      }
    }
-#   if(!(is.null(varname.reg.pre)) & sum(!(varname.reg.pre %in% varname.reg.instr)) > 0){
+#   if(!(is.null(varname.reg.pre)) && sum(!(varname.reg.pre %in% varname.reg.instr)) > 0){
 #     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ varname.reg.pre }
 #     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.pre[!(varname.reg.pre %in% varname.reg.instr)] } else{ lagTerms.reg.pre }
    if(!is.null(varname.reg.pre)){
@@ -1158,7 +1158,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 									FUN = dat.na.lag)
      }
    }
-#   if(!(is.null(varname.reg.ex)) & sum(!(varname.reg.ex %in% varname.reg.instr)) > 0){
+#   if(!(is.null(varname.reg.ex)) && sum(!(varname.reg.ex %in% varname.reg.instr)) > 0){
 #     varname.temp					<- if(!(is.null(varname.reg.instr))){ varname.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ varname.reg.ex }
 #     lagTerms.temp					<- if(!(is.null(varname.reg.instr))){ lagTerms.reg.ex[!(varname.reg.ex %in% varname.reg.instr)] } else{ lagTerms.reg.ex }
    if(!is.null(varname.reg.ex)){
@@ -1206,7 +1206,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 						,if(exists("varname.reg.estParam.x.pre")) as.vector(varname.reg.estParam.x.pre)
 						,if(exists("varname.reg.estParam.x.ex")) as.vector(varname.reg.estParam.x.ex)
 						,if(exists("varname.reg.toInstr")) as.vector(varname.reg.toInstr)
-						,if(exists("varname.reg.estParam.fur") & !(is.null(varname.reg.estParam.fur))) as.vector(varname.reg.estParam.fur) )
+						,if(exists("varname.reg.estParam.fur") && !(is.null(varname.reg.estParam.fur))) as.vector(varname.reg.estParam.fur) )
 
 
 
@@ -1277,7 +1277,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
 
  if(include.dum){
-   if((dum.lev & !(dum.diff)) | (dum.lev & dum.diff)){
+   if((dum.lev && !(dum.diff)) || (dum.lev && dum.diff)){
      varname.reg.estParam	<- c(varname.reg.estParam, colnames.dum)
 #     varname.reg.estParam	<- c(varname.reg.estParam, colnames.dum[colnames.dum %in% colnames.dum.Z])
    } else{
@@ -1456,21 +1456,21 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 ##     n.obs.lev		<- sum(Reduce("+", lapply(dep.temp, function(x) x[,paste(varname.y, sep = "")])) != 0)*n
 #     dep.temp		<- lapply(dep.temp, function(x) rowSums(x))
 #
-#       dat.clF.temp.diff	<- if(use.mc.diff | dum.diff | fur.con.diff) lapply(dat.clF.temp, function(x) x[, colnames(x) %in% paste("D.", varname.reg.estParam, sep = "")])
+#       dat.clF.temp.diff	<- if(use.mc.diff || dum.diff || fur.con.diff) lapply(dat.clF.temp, function(x) x[, colnames(x) %in% paste("D.", varname.reg.estParam, sep = "")])
 #       dat.clF.temp.nl		<- if(use.mc.nonlin) lapply(dat.clF.temp, function(x) x[, colnames(x) %in% paste("NL.D.", varname.reg.estParam, sep = "")])
-#       dat.clF.temp.lev		<- if(use.mc.lev | dum.lev | fur.con.lev) lapply(dat.clF.temp, function(x) x[, colnames(x) %in% varname.reg.estParam])
+#       dat.clF.temp.lev		<- if(use.mc.lev || dum.lev || fur.con.lev) lapply(dat.clF.temp, function(x) x[, colnames(x) %in% varname.reg.estParam])
 #       list.temp			<- list()
 #       for(i in 1:n){
-#         if((use.mc.diff | dum.diff | fur.con.diff) & use.mc.nonlin & (use.mc.lev | dum.lev | fur.con.lev)){
+#         if((use.mc.diff || dum.diff || fur.con.diff) && use.mc.nonlin && (use.mc.lev || dum.lev || fur.con.lev)){
 #           list.temp[[i]]		<- dat.clF.temp.diff[[i]] + dat.clF.temp.nl[[i]] + dat.clF.temp.lev[[i]]
 #         } else{
-#           if((use.mc.diff | dum.diff | fur.con.diff) & use.mc.nonlin){
+#           if((use.mc.diff || dum.diff || fur.con.diff) && use.mc.nonlin){
 #             list.temp[[i]]		<- dat.clF.temp.diff[[i]] + dat.clF.temp.nl[[i]]
 #           }
-#           if((use.mc.diff | dum.diff | fur.con.diff) & (use.mc.lev | dum.lev | fur.con.lev)){
+#           if((use.mc.diff || dum.diff || fur.con.diff) && (use.mc.lev || dum.lev || fur.con.lev)){
 #             list.temp[[i]]		<- dat.clF.temp.diff[[i]] + dat.clF.temp.lev[[i]]
 #           }
-#           if(use.mc.nonlin & (use.mc.lev | dum.lev | fur.con.lev)){
+#           if(use.mc.nonlin && (use.mc.lev || dum.lev || fur.con.lev)){
 #             list.temp[[i]]		<- dat.clF.temp.nonlin[[i]] + dat.clF.temp.lev[[i]]
 #           }
 #         }
@@ -1759,9 +1759,9 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 #     resGMM.iter 	<- j
 
      if(opt.meth != "none"){
-       if((j > 2) && ((j == j.max) | (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.par.opt.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.par.opt.j))))) < iter.tol) ) break
+       if((j > 2) && ((j == j.max) || (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.par.opt.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.par.opt.j))))) < iter.tol) ) break
      } else{
-       if((j > 2) && ((j == j.max) | (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.clF.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.clF.j))))) < iter.tol) ) break
+       if((j > 2) && ((j == j.max) || (sum(abs(as.numeric(get(paste("step", j, sep = "") , resGMM.clF.j)) - as.numeric(get(paste("step", j-1, sep = "") , resGMM.clF.j))))) < iter.tol) ) break
      }
    }
 

@@ -427,7 +427,7 @@ LEV.fct	<- function(
   ,dat.na
 ){
   ##   if(use.mc.diff){
-  if(use.mc.diff & !(inst.stata)){
+  if(use.mc.diff && !(inst.stata)){
     #     if(mc.ref.t){
     ti.temp   <- max(2,lagTerms)
     tend.temp <- Time-1
@@ -511,7 +511,7 @@ LEV.pre.fct	<- function(
   ,dat
   ,dat.na
 ){
-  if(use.mc.diff & !(inst.stata)){
+  if(use.mc.diff && !(inst.stata)){
     #     if(mc.ref.t){
     ti.temp   <- max(2,lagTerms)
     tend.temp <- Time
@@ -591,7 +591,7 @@ datLEV.fct		<- function(
   ,dat.na
 ){
 
-  if(use.mc.diff & !(inst.stata)){
+  if(use.mc.diff && !(inst.stata)){
 
     (dat[dat[, varname.i] == i, varname][ti:t.end]*
        as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti - max(2,lagTerms) + 1):(t.end - max(2,lagTerms) + 1)]*
@@ -672,7 +672,7 @@ datLEV.pre.fct		<- function(
 #    t.end	= t.end+1
 #  }
 
-  if(use.mc.diff & !(inst.stata)){
+  if(use.mc.diff && !(inst.stata)){
 
     (dat[dat[, varname.i] == i, varname][(ti):t.end]*
        as.numeric(!is.na(dat.na[dat[, varname.i] == i, varname][(ti):(t.end)] )) -
@@ -887,7 +887,7 @@ Z_i.fct	<- function(
                                                                         , dat = dat, dat.na = dat.na)) )
         }
       }
-      if(ex.reg | pre.reg){
+      if(ex.reg || pre.reg){
         varname.ex.pre.temp <- c({if(!(is.null("varname.reg.ex"))){varname.reg.ex}}, {if(!(is.null("varname.reg.pre"))){varname.reg.pre}} )
         T.mcLev.temp    <- c({if(!(is.null("varname.reg.ex"))){maxLags.reg.ex - 1}}, {if(!(is.null("varname.reg.pre"))){maxLags.reg.pre}} )
         if(length(varname.ex.pre.temp) == 1){
@@ -909,10 +909,10 @@ Z_i.fct	<- function(
 
       if(end.reg){
         Z_i.mc.lev_end	<- do.call(what = "cbind", args = mget(ls(pattern = "Z_i.mc.lev_end")))
-        if(include.x & (include.y | end.reg) & (ex.reg | pre.reg)){
+        if(include.x && (include.y || end.reg) && (ex.reg || pre.reg)){
           Z_i.mc.lev	<- cbind(rbind(0, Z_i.mc.lev_end), Z_i.mc.lev_ex.pre)
         } else{
-          if((include.y | end.reg) & ((include.dum & dum.lev) | (fur.con & fur.con.lev))){
+          if((include.y || end.reg) && ((include.dum && dum.lev) || (fur.con && fur.con.lev))){
             if(max.lagTerms == 1){
               Z_i.mc.lev	<- rbind(0, Z_i.mc.lev_end)
             } else{
@@ -951,24 +951,24 @@ Z_i.fct	<- function(
       Z_i.mc.AS4	<- diag(as.numeric(!(is.na(diff(dat.na[dat[, varname.i] == i, varname.y], differences = max.lagTerms+2))) ))
     }
 
-    if(use.mc.diff & !(use.mc.lev)){
+    if(use.mc.diff && !(use.mc.lev)){
       Z_i.temp		<- Matrix::bdiag(list(Z_i.mc.diff_temp, Z_i.mc.AS4))
     }
-    if(!(use.mc.diff) & use.mc.lev){
+    if(!(use.mc.diff) && use.mc.lev){
       Z_i.temp	<- Matrix::bdiag(Z_i.mc.AS4, Z_i.mc.lev)
     }
-    if(!(use.mc.diff) & !(use.mc.lev)){
+    if(!(use.mc.diff) && !(use.mc.lev)){
       Z_i.temp	<- Z_i.mc.AS4
     }
 
-    if(use.mc.diff & use.mc.lev){
+    if(use.mc.diff && use.mc.lev){
       Z_i.temp		<- Matrix::bdiag(Z_i.mc.diff_temp, Z_i.mc.AS4, Z_i.mc.lev)
     }
     #     }
     n.inst.nl		<- sum(colSums(abs(as.matrix(Z_i.mc.AS4))) != 0)
     n.obs.nl		<- nrow(Z_i.mc.AS4)
   }
-  if(!(use.mc.lev) & !(use.mc.nonlin)){
+  if(!(use.mc.lev) && !(use.mc.nonlin)){
     Z_i.temp	<- Z_i.mc.diff_temp
   }
 
@@ -1004,14 +1004,14 @@ Z_i.fct	<- function(
         colnames(Z_i.dum_1.diff)	<- NULL
         rownames(Z_i.dum_1.diff)	<- NULL
       }
-      if(dum.diff & dum.lev){
+      if(dum.diff && dum.lev){
         if(use.mc.nonlin){
           Z_i.dum			<- Matrix::bdiag(Z_i.dum_1.diff, rbind(Z_i.dum_2.nl, Z_i.dum_4.lev))
         } else{
           Z_i.dum			<- do.call(what = Matrix::bdiag, mget(ls(pattern = "Z_i.dum_")))
         }
       } else{
-        if((use.mc.diff | fur.con.diff) & !dum.diff){
+        if((use.mc.diff || fur.con.diff) && !dum.diff){
           Z_i.dum_1.diff		<- matrix(0, ncol = ncol(Z_i.dum_4.lev), nrow = (Time-max.lagTerms-1))
           colnames.dum_1.diff	<- colnames(Z_i.dum_4.lev)
           if(use.mc.nonlin){
@@ -1030,7 +1030,7 @@ Z_i.fct	<- function(
 
     }
 
-    if(dum.diff & !(dum.lev)){
+    if(dum.diff && !(dum.lev)){
       Z_i.dum_1.diff				<- as.matrix(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(2+max.lagTerms):Time, ] -
                                        rbind(dat[dat[, varname.i] == i, colnames.dum[-c(1:max.lagTerms)]][(2+(max.lagTerms-1)):(Time-1), ]))
       Z_i.dum_1.diff[ind_vec.diff.row, ]	<- 0
@@ -1045,7 +1045,7 @@ Z_i.fct	<- function(
         colnames(Z_i.dum_2.nl)	<- NULL
       }
       if(use.mc.lev){
-        if(fur.con.lev | ex.reg | pre.reg){
+        if(fur.con.lev || ex.reg || pre.reg){
           Z_i.dum_4.lev		<- matrix(0, ncol = ncol(Z_i.dum_1.diff), nrow = (Time - max.lagTerms))
         } else{
           Z_i.dum_4.lev		<- matrix(0, ncol = ncol(Z_i.dum_1.diff), nrow = (Time - max(2,max.lagTerms)))
@@ -1060,28 +1060,28 @@ Z_i.fct	<- function(
     }
 
 #    if(use.mc.lev){
-#      if((include.y | end.reg) & (ex.reg | pre.reg | dum.lev | fur.con.lev)){
+#      if((include.y || end.reg) && (ex.reg || pre.reg || dum.lev || fur.con.lev)){
 #        Z_i.temp			<- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp)),
 #                            Z_i.temp )
 #      }
-#      if(!(include.y | end.reg) & (ex.reg | pre.reg | dum.lev | fur.con.lev)){
+#      if(!(include.y || end.reg) && (ex.reg || pre.reg || dum.lev || fur.con.lev)){
 #        Z_i.temp			<- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp)), Z_i.temp )
 #      }
-#      if((include.y | end.reg) & !(ex.reg | pre.reg | dum.lev | fur.con.lev) & (dum.diff | fur.con.diff)){
+#      if((include.y || end.reg) && !(ex.reg || pre.reg || dum.lev || fur.con.lev) && (dum.diff || fur.con.diff)){
 #        Z_i.temp			<- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp)), Z_i.temp )
 #      }
 #    } else{
-#      if((dum.diff | fur.con.diff) & !(dum.lev | fur.con.lev)){
+#      if((dum.diff || fur.con.diff) && !(dum.lev || fur.con.lev)){
 #        Z_i.temp			<- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp)), Z_i.temp)
 #      }
-#      if(!(dum.diff | fur.con.diff) & (dum.lev | fur.con.lev)){
+#      if(!(dum.diff || fur.con.diff) && (dum.lev || fur.con.lev)){
 #        Z_i.temp			<- rbind(Z_i.temp, matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp)) )
 #      }
-#      if((dum.diff | fur.con.diff) & (dum.lev | fur.con.lev)){
+#      if((dum.diff || fur.con.diff) && (dum.lev || fur.con.lev)){
 #        if(use.mc.diff){
 #          Z_i.temp		<- rbind(Z_i.temp, matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp)))
 #        }
-#        if(!(use.mc.diff) & use.mc.nonlin){
+#        if(!(use.mc.diff) && use.mc.nonlin){
 #          Z_i.temp		<- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum_1.diff)),
 #                             Z_i.temp,
 #                             matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp) - nrow(Z_i.dum_1.diff)) )
@@ -1097,7 +1097,7 @@ Z_i.fct	<- function(
         if(use.mc.diff){
           Z_i.temp    <- rbind(Z_i.temp, matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp)))
         } else{
-          if(use.mc.nonlin & !use.mc.diff & !use.mc.lev){
+          if(use.mc.nonlin && !use.mc.diff && !use.mc.lev){
             if(dum.diff){
               Z_i.temp    <- rbind(matrix(0, ncol = ncol(Z_i.temp), nrow = nrow(Z_i.dum) - nrow(Z_i.temp)), Z_i.temp)
             } else{
@@ -1109,14 +1109,14 @@ Z_i.fct	<- function(
     }
     Z_i.temp			<- cbind(Z_i.temp, as.matrix(Z_i.dum))
 
-    if(dum.diff & dum.lev){
+    if(dum.diff && dum.lev){
       colnames_Z_i.dum <- colnames_Z_i.dum[-1]
       n.inst.dum			 <- c(length(get(ls(pattern = "colnames.dum_1"))) -1, length(get(ls(pattern = "colnames.dum_4"))))
     } else{
-      if(dum.diff & !(dum.lev)){
+      if(dum.diff && !(dum.lev)){
         n.inst.dum		   <- length(get(ls(pattern = "colnames.dum_1")))
       }
-      if(dum.lev & !(dum.diff)){
+      if(dum.lev && !(dum.diff)){
         n.inst.dum		 <- length(get(ls(pattern = "colnames.dum_4")))
       }
     }
@@ -1129,7 +1129,7 @@ Z_i.fct	<- function(
   if(fur.con){
 
     ind_vec.diff.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:Time], differences = max.lagTerms+1) )
-    if(use.mc.lev & (pre.reg|ex.reg)){
+    if(use.mc.lev && (pre.reg || ex.reg)){
       if(max.lagTerms > 1){
         ind_vec.lev.row	<- is.na(diff(dat.na[dat[, varname.i] == i, varname.y][1:(Time)], differences = max.lagTerms-1) )
       }
@@ -1159,7 +1159,7 @@ Z_i.fct	<- function(
     if(fur.con.lev){
       #       if(mc.ref.t){
       if(length(varname.reg.estParam.fur) == 1){
-        if(use.mc.lev & (pre.reg|ex.reg)){
+        if(use.mc.lev && (pre.reg || ex.reg)){
           if(max.lagTerms > 1){
             Z_i.furCon.temp_lev				            <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time][-c(1:(max.lagTerms-1))] )
           } else{
@@ -1174,7 +1174,7 @@ Z_i.fct	<- function(
         rownames(Z_i.furCon.temp_lev)		<- NULL
         colnames(Z_i.furCon.temp_lev)		<- NULL
       } else{
-        if(use.mc.lev & (pre.reg|ex.reg)){
+        if(use.mc.lev && (pre.reg || ex.reg)){
           if(max.lagTerms > 1){
             Z_i.furCon.temp_lev				              <- as.matrix(dat.na[dat[, varname.i] == i, varname.reg.estParam.fur][1:Time, ][-c(1:(max.lagTerms-1)), ] )
           } else{
@@ -1191,7 +1191,7 @@ Z_i.fct	<- function(
       }
     }
 
-    if(fur.con.diff & fur.con.lev){
+    if(fur.con.diff && fur.con.lev){
       if(length(varname.reg.estParam.fur) == 1){
         if(use.mc.nonlin){
           Z_i.furCon.diff  <- as.matrix(c(Z_i.furCon.temp_diff, rep(0, times = nrow(Z_i.furCon.temp_lev) + nrow(Z_i.mc.AS4))))
@@ -1217,21 +1217,21 @@ Z_i.fct	<- function(
         Z_i.furCon.temp	<- Z_i.furCon.temp_diff
         n.inst.furCon		<- length(get(ls(pattern = "colnames.fur.con.diff")))
 
-#        if(dum.lev & !dum.diff){
-#        if(dum.lev & !include.dum){
+#        if(dum.lev && !dum.diff){
+#        if(dum.lev && !include.dum){
         if(nrow(Z_i.furCon.temp) != nrow(Z_i.temp)){
           if(!include.dum){
-            if((use.mc.lev | use.mc.nonlin) & !use.mc.diff){
+            if((use.mc.lev || use.mc.nonlin) && !use.mc.diff){
               Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)))
             }
-            if(use.mc.diff & use.mc.lev){
+            if(use.mc.diff && use.mc.lev){
               Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
             }
-            if(use.mc.diff & use.mc.nonlin){
+            if(use.mc.diff && use.mc.nonlin){
               Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
             }
           } else{
-            if((use.mc.lev | use.mc.nonlin) & !use.mc.diff){
+            if((use.mc.lev || use.mc.nonlin) && !use.mc.diff){
               Z_i.furCon.temp <- rbind(Z_i.furCon.temp, matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp) - nrow(Z_i.furCon.temp)))
             }
             if(use.mc.diff){
@@ -1243,23 +1243,23 @@ Z_i.fct	<- function(
       } else{
         Z_i.furCon.temp	<- Z_i.furCon.temp_lev
         n.inst.furCon		<- length(get(ls(pattern = "colnames.fur.con.lev")))
-        if(dum.diff & !dum.lev){
-          if(use.mc.lev & !use.mc.diff){
+        if(dum.diff && !dum.lev){
+          if(use.mc.lev && !use.mc.diff){
             if(nrow(Z_i.temp) > nrow(Z_i.furCon.temp)){
               Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
             }
           } else{
-            if(use.mc.lev & use.mc.diff){
+            if(use.mc.lev && use.mc.diff){
               Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
             } else{
               Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
             }
           }
         } else{
-          if(use.mc.diff & !use.mc.lev & !include.dum){
+          if(use.mc.diff && !use.mc.lev && !include.dum){
             Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)), Z_i.furCon.temp)
           }
-          if(!use.mc.diff & !use.mc.lev & use.mc.nonlin){
+          if(!use.mc.diff && !use.mc.lev && use.mc.nonlin){
             if(dum.lev){
               Z_i.furCon.temp <- rbind(matrix(0, ncol = ncol(Z_i.furCon.temp), nrow = nrow(Z_i.temp)-nrow(Z_i.furCon.temp)), Z_i.furCon.temp)
             } else{
@@ -1297,8 +1297,8 @@ Z_i.fct	<- function(
                  if(use.mc.nonlin){ n.inst.nl }, if(include.dum){ n.inst.dum }, if(fur.con){ n.inst.furCon } )
   names(n.inst)			<- c(if(use.mc.diff){ "inst.diff" }, if(use.mc.lev){ "inst.lev" },
                        if(use.mc.nonlin){ "inst.nl" },
-                       if(include.dum & dum.diff){ "dum.diff" }, if(include.dum & dum.lev){ "dum.lev" },
-                       if(fur.con & fur.con.diff){ "inst.furCon.diff" }, if(fur.con & fur.con.lev){ "inst.furCon.lev" } )
+                       if(include.dum && dum.diff){ "dum.diff" }, if(include.dum && dum.lev){ "dum.lev" },
+                       if(fur.con && fur.con.diff){ "inst.furCon.diff" }, if(fur.con && fur.con.lev){ "inst.furCon.lev" } )
 
   n.obs				<- c(if(use.mc.diff){ n.obs.diff }, if(use.mc.lev){ n.obs.lev },
                 if(use.mc.nonlin){ n.obs.nl } )

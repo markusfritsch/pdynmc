@@ -79,7 +79,7 @@ Wonestep.fct		<- function(
 
   if(w.mat == "iid.err"){
     #   if(mc.ref.t){
-    if(use.mc.diff | dum.diff | fur.con.diff){
+    if(use.mc.diff || dum.diff || fur.con.diff){
       H_i.mcDiff	<- (diag(x = 2, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1) -
                        rbind(rep(x = 0, times = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 2),
                              diag(x = 1, nrow = Time - max.lagTerms - 2, ncol = Time - max.lagTerms - 1)) -
@@ -87,12 +87,12 @@ Wonestep.fct		<- function(
                              diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 2)) )
     }
 
-    if(use.mc.lev | end.reg){												# [M:] part of weighting matrix is identical for 'mc.ref.t' and 'mc.ref.T'
+    if(use.mc.lev || end.reg){												# [M:] part of weighting matrix is identical for 'mc.ref.t' and 'mc.ref.T'
       H_i.mcLev		<- diag(Time - max(2,max.lagTerms))
     }
 
-    if(dum.lev | fur.con.lev | ex.reg | pre.reg){
-      if(pre.reg|ex.reg){
+    if(dum.lev || fur.con.lev || ex.reg || pre.reg){
+      if(pre.reg || ex.reg){
         if(max.lagTerms > 1){
           H_i.mcLev		<- diag(Time - (max.lagTerms-1))
         } else{
@@ -113,12 +113,12 @@ Wonestep.fct		<- function(
       }
     }
 
-    if((use.mc.diff | dum.diff | fur.con.diff) & (use.mc.lev | dum.lev | fur.con.lev)){
+    if((use.mc.diff || dum.diff || fur.con.diff) && (use.mc.lev || dum.lev || fur.con.lev)){
       if((nrow(Z.temp[[1]]) - ncol(H_i.mcDiff) - if(use.mc.nonlin){ncol(H_i.mcNL)} else{0}) > Time - max.lagTerms - 1){
         H_i.off	<- (cbind(diag(x = -1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1), 0) +
                       cbind(rep(x = 0, times = Time - max.lagTerms - 1),
                                diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1)) )
-        if((pre.reg|ex.reg) & max.lagTerms > 1){
+        if((pre.reg || ex.reg) && max.lagTerms > 1){
           H_i.off <- cbind(H_i.off, 0)
         }
       } else{
@@ -141,12 +141,12 @@ Wonestep.fct		<- function(
       }
     }
 
-    if((use.mc.diff | dum.diff | fur.con.diff) & !(use.mc.lev | dum.lev | fur.con.lev)){
+    if((use.mc.diff || dum.diff || fur.con.diff) && !(use.mc.lev || dum.lev || fur.con.lev)){
       if(use.mc.nonlin){
         H_i.temp		<- Matrix::bdiag(H_i.mcDiff, H_i.mcNL)
       }
       if(!(use.mc.nonlin)){
-        if(dum.lev | fur.con.lev){
+        if(dum.lev || fur.con.lev){
           H_i.temp		<- Matrix::bdiag(H_i.mcDiff, H_i.mcLev)
         } else{
           H_i.temp		<- H_i.mcDiff
@@ -154,7 +154,7 @@ Wonestep.fct		<- function(
       }
     }
 
-    if(!(use.mc.diff | dum.diff | fur.con.diff) & (use.mc.lev | dum.lev | fur.con.lev)){
+    if(!(use.mc.diff || dum.diff || fur.con.diff) && (use.mc.lev || dum.lev || fur.con.lev)){
       if(use.mc.nonlin){
         H_i.temp		<- Matrix::bdiag(H_i.mcNL, H_i.mcLev)
       }
@@ -163,7 +163,7 @@ Wonestep.fct		<- function(
       }
     }
 
-    if(!(use.mc.diff | dum.diff | fur.con.diff) & !(use.mc.lev | dum.lev | fur.con.lev) & use.mc.nonlin){
+    if(!(use.mc.diff || dum.diff || fur.con.diff) && !(use.mc.lev || dum.lev || fur.con.lev) && use.mc.nonlin){
       H_i.temp		<- H_i.mcNL
     }
 
@@ -195,7 +195,7 @@ Wonestep.fct		<- function(
 
   if(w.mat == "zero.cov"){					#[M:] similar to w.mat = "iid.err"; difference: covariances of linear m.c. are set to zero.
     #   if(mc.ref.t){
-    if(use.mc.diff | dum.diff | fur.con.diff){
+    if(use.mc.diff || dum.diff || fur.con.diff){
       H_i.mcDiff	<- (diag(x = 2, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 1) -
                        rbind(rep(x = 0, times = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 2),
                              diag(x = 1, nrow = Time - max.lagTerms - 2, ncol = Time - max.lagTerms - 1)) -
@@ -203,8 +203,8 @@ Wonestep.fct		<- function(
                              diag(x = 1, nrow = Time - max.lagTerms - 1, ncol = Time - max.lagTerms - 2)) )
     }
 
-    if(use.mc.lev | dum.lev | fur.con.lev){												# [M:] part of weighting matrix is identical for 'mc.ref.t' and 'mc.ref.T'
-      if((pre.reg|ex.reg) & max.lagTerms > 1){
+    if(use.mc.lev || dum.lev || fur.con.lev){												# [M:] part of weighting matrix is identical for 'mc.ref.t' and 'mc.ref.T'
+      if((pre.reg || ex.reg) && max.lagTerms > 1){
         H_i.mcLev		<- diag(Time - (max.lagTerms-1))
       } else{
         H_i.mcLev		<- diag(Time - max.lagTerms)
@@ -215,7 +215,7 @@ Wonestep.fct		<- function(
       H_i.mcNL		<- diag(Time - max.lagTerms - 2)
     }
 
-    if((use.mc.diff | dum.diff | fur.con.diff) & (use.mc.lev | dum.lev | fur.con.lev)){
+    if((use.mc.diff || dum.diff || fur.con.diff) && (use.mc.lev || dum.lev || fur.con.lev)){
       if(use.mc.nonlin){
         H_i.temp		<- Matrix::bdiag(H_i.mcDiff, H_i.mcNL, H_i.mcLev)
       }
@@ -224,7 +224,7 @@ Wonestep.fct		<- function(
       }
     }
 
-    if(use.mc.diff & !(use.mc.lev | dum.lev | fur.con.lev)){
+    if(use.mc.diff && !(use.mc.lev || dum.lev || fur.con.lev)){
       if(use.mc.nonlin){
         H_i.temp		<- Matrix::bdiag(H_i.mcDiff, H_i.mcNL)
       }
@@ -233,7 +233,7 @@ Wonestep.fct		<- function(
       }
     }
 
-    if(!(use.mc.diff | dum.diff | fur.con.diff) & use.mc.lev){
+    if(!(use.mc.diff || dum.diff || fur.con.diff) && use.mc.lev){
       if(use.mc.nonlin){
         H_i.temp		<- Matrix::bdiag(H_i.mcNL, H_i.mcLev)
       }
@@ -241,7 +241,7 @@ Wonestep.fct		<- function(
         H_i.temp		<- H_i.mcLev
       }
     }
-    if(!(use.mc.diff | dum.diff | fur.con.diff) & !(use.mc.lev | dum.lev | fur.con.lev) & use.mc.nonlin){
+    if(!(use.mc.diff || dum.diff || fur.con.diff) && !(use.mc.lev || dum.lev || fur.con.lev) && use.mc.nonlin){
       H_i.temp		<- H_i.mcNL
     }
 
@@ -298,7 +298,7 @@ Wonestep.fct		<- function(
   W1.inv[!is.finite(W1.inv)]	<- 0
 
 
-  if(use.mc.nonlin & w.mat.stata){
+  if(use.mc.nonlin && w.mat.stata){
     if(use.mc.diff){
       diag(W1.inv[(n.inst[1,"inst.diff"] + 1):(n.inst[1,"inst.diff"] + n.inst[1,"inst.nl"]),
                   (n.inst[1,"inst.diff"] + 1):(n.inst[1,"inst.diff"] + n.inst[1,"inst.nl"])])		<- 1
@@ -696,7 +696,7 @@ gmmObj.fct		<- function(
     #    ,fur.con.lev
   ){
     #    if(mc.ref.t){
-    if(use.mc.diff | dum.diff | fur.con.diff){
+    if(use.mc.diff || dum.diff || fur.con.diff){
       u.vec.1_diff			<- gmmDat.parDep$du.hat[(Time-2)*(i-1) + (max.lagTerms:(Time-2))]
       y.vec.1_diff			<- gmmDat.parDep$fitted.diff[(Time-2)*(i-1) + (max.lagTerms:(Time-2))]
 
@@ -718,14 +718,14 @@ gmmObj.fct		<- function(
       }
     }
 
-    if(use.mc.lev & (include.y | end.reg)){
+    if(use.mc.lev && (include.y || end.reg)){
       u.vec.3_lev		<- gmmDat.parDep$u.hat_t[(max(2,max.lagTerms)):(Time-1) + (i-1)*(Time-1)]
 #      u.vec.3_lev		<- gmmDat.parDep$u.hat_t[(max.lagTerms):(Time-1) + (i-1)*(Time-1)]
       y.vec.3_lev		<- gmmDat.parDep$fitted.lev[(max(2,max.lagTerms)):(Time-1) + (i-1)*(Time-1)]
 #      y.vec.3_lev		<- gmmDat.parDep$fitted.lev[(max.lagTerms):(Time-1) + (i-1)*(Time-1)]
     }
 
-    if((use.mc.lev & (include.y | end.reg) & (ex.reg | pre.reg)) | dum.lev | fur.con.lev){
+    if((use.mc.lev && (include.y || end.reg) && (ex.reg || pre.reg)) || dum.lev || fur.con.lev){
       u.vec.3_lev		<- gmmDat.parDep$u.hat_t[max.lagTerms:(Time-1) + (i-1)*(Time-1)]
       y.vec.3_lev		<- gmmDat.parDep$fitted.lev[max.lagTerms:(Time-1) + (i-1)*(Time-1)]
     }
@@ -857,7 +857,7 @@ sub.clForm.fct		<- function(
   ,ex.reg
 ){
 
-  if(use.mc.diff | dum.diff | fur.con.diff){
+  if(use.mc.diff || dum.diff || fur.con.diff){
     dat.temp_1diff				<- apply(X = data.temp[-c(1:(max.lagTerms)), ], MARGIN = 2, FUN = diff, args = list(differences=1)) *
       as.logical( ( (diff(data.temp[, varname.y], differences = max.lagTerms + 1)) * (diff(data.temp[, varname.y], differences = max.lagTerms + 1)) + 1) )
     colnames(dat.temp_1diff)			<- NULL
@@ -875,12 +875,12 @@ sub.clForm.fct		<- function(
     colnames(dat.temp_2nl)			<- NULL
     rownames(dat.temp_2nl)			<- NULL
   }
-  if(use.mc.lev | dum.lev | fur.con.lev){
-    if(max.lagTerms == 1 & (dum.lev | fur.con.lev | (include.x & (pre.reg | ex.reg)))){
+  if(use.mc.lev || dum.lev || fur.con.lev){
+    if(max.lagTerms == 1 && (dum.lev || fur.con.lev || (include.x && (pre.reg || ex.reg)))){
       dat.temp_3lev					<- as.matrix(data.temp[-c(1:(max.lagTerms)), ]) *
         as.logical( ( diff(data.temp[, varname.y], differences = max.lagTerms) * is.na(diff(data.temp[, varname.y], differences = max.lagTerms))) + 1 )
     } else{
-      if(pre.reg|ex.reg){
+      if(pre.reg || ex.reg){
         dat.temp_3lev					<- as.matrix(data.temp[-c(1:(max.lagTerms-1)), ]) *
           as.logical( ( diff(data.temp[, varname.y], differences = (max.lagTerms-1)) * is.na(diff(data.temp[, varname.y], differences = (max.lagTerms-1))) + 1 ) )
 
@@ -1052,7 +1052,7 @@ checkArgs		<- function(
     ,dum.lev
 ){
 
- if((use.mc.diff | use.mc.lev) && (length(unique(dat[, varname.t])) < 3)){
+ if((use.mc.diff || use.mc.lev) && (length(unique(dat[, varname.t])) < 3)){
    stop("Insufficient number of time periods to derive linear moment conditions.")
  }
  if(use.mc.nonlin && (length(unique(dat[, varname.t])) < 4)){
@@ -1061,14 +1061,14 @@ checkArgs		<- function(
 
 
 
- if(include.x && (is.null(varname.reg.end) & is.null(varname.reg.pre) & is.null(varname.reg.ex))
+ if(include.x && (is.null(varname.reg.end) && is.null(varname.reg.pre) && is.null(varname.reg.ex))
  ){
  #  assign(x = include.x, value = "FALSE", envir = pdynmc::pdynmc)
    include.x		<- FALSE
    warning("Covariates (and types) from which additional instruments should be derived not given; 'include.x' was therefore set to FALSE.")
  }
 
- if(!(include.x) && !(is.null(varname.reg.end) | is.null(varname.reg.pre) | is.null(varname.reg.ex))
+ if(!(include.x) && !(is.null(varname.reg.end) || is.null(varname.reg.pre) || is.null(varname.reg.ex))
  ){
    suppressWarnings(rm(varname.reg.end, varname.reg.pre, varname.reg.ex))
    warning("Covariates (and types) specified, while no instruments are supposed to be derived from covariates; argument(s) specifying the name (and type) of covariates was therefore ignored.")
@@ -1097,21 +1097,21 @@ checkArgs		<- function(
  }
 
  if(fur.con){
-   if((is.null(fur.con.diff) & is.null(fur.con.lev)) | (!fur.con.diff & !fur.con.lev)){
+   if((is.null(fur.con.diff) && is.null(fur.con.lev)) || (!fur.con.diff && !fur.con.lev)){
      fur.con.diff		<- FALSE
      fur.con.lev		<- TRUE
      warning("Options 'fur.con.diff' and 'fur.con.lev' not specified; 'fur.con.lev' was therefore set to TRUE.")
    }
-   if(fur.con.diff & is.null(fur.con.lev)){
+   if(fur.con.diff && is.null(fur.con.lev)){
      fur.con.lev		<- FALSE
      warning("Option 'fur.con.lev' not specified; option was therefore set to FALSE.")
    }
-   if(fur.con.lev & is.null(fur.con.diff)){
+   if(fur.con.lev && is.null(fur.con.diff)){
      fur.con.diff	<- FALSE
      warning("Option 'fur.con.diff' not specified; option was therefore set to FALSE.")
    }
  }
- if(!fur.con && !((is.null(fur.con.diff) & is.null(fur.con.lev)) | (is.null(fur.con.diff) | is.null(fur.con.lev))) ){
+ if(!fur.con && !((is.null(fur.con.diff) && is.null(fur.con.lev)) || (is.null(fur.con.diff) || is.null(fur.con.lev))) ){
    if(fur.con.diff){
      fur.con.diff <- FALSE
      warning("No further controls included; argument 'fur.con.diff' was therefore ignored.")
@@ -1123,35 +1123,35 @@ checkArgs		<- function(
  }
 
 
- if( (instr.reg == 0) & (toInstr.reg == 1) ){
+ if( (instr.reg == 0) && (toInstr.reg == 1) ){
    stop("No covariates given which should be used to instrument the endogenous covariate.")
  }
 
- if(include.x.instr & is.null(varname.reg.instr)
+ if(include.x.instr && is.null(varname.reg.instr)
  ){
    include.x.instr	<- FALSE
    warning("No covariates given which should be used to derive instruments, while estimating no parameters for them; 'include.x.instr' was therefore set to FALSE.")
  }
 
- if(!(include.x.instr) & !(is.null(varname.reg.instr))
+ if(!(include.x.instr) && !(is.null(varname.reg.instr))
  ){
    suppressWarnings(rm(varname.reg.instr))
    warning("Covariates to be used as instruments specified, while these types of covariates are not supposed to be included; argument specifying these instruments was therefore ignored.")
  }
 
- if(include.x.toInstr & is.null(varname.reg.toInstr)
+ if(include.x.toInstr && is.null(varname.reg.toInstr)
  ){
    include.x.toInstr	<- FALSE
    warning("No covariates given which should be instrumented; 'include.x.toInstr' was therefore set to FALSE.")
  }
 
- if(!(include.x.toInstr) & !(is.null(varname.reg.toInstr))
+ if(!(include.x.toInstr) && !(is.null(varname.reg.toInstr))
  ){
    suppressWarnings(rm(varname.reg.toInstr))
    warning("Further covariates to be instrumented specified, while these types of covariates are not supposed to be included; argument specifying these covariates was therefore ignored.")
  }
 
- if(inst.reg.ex.expand & !use.mc.diff & ( (!include.x.instr & is.null(varname.reg.ex)) | (is.null(varname.reg.ex)) ) ){
+ if(inst.reg.ex.expand && !use.mc.diff && ( (!include.x.instr && is.null(varname.reg.ex)) || (is.null(varname.reg.ex)) ) ){
    inst.reg.ex.expand <- NULL
   #   warning("No exogenous covariates given; 'inst.reg.ex.expand' was therefore ignored.")
  }
@@ -1173,21 +1173,21 @@ checkArgs		<- function(
  }
 
  if(include.dum){
-   if((is.null(dum.diff) & is.null(dum.lev)) | (!dum.diff & !dum.lev)){
+   if((is.null(dum.diff) && is.null(dum.lev)) || (!dum.diff && !dum.lev)){
      dum.diff		<- FALSE
      dum.lev		<- TRUE
      warning("Options 'dum.diff' and 'dum.lev' not specified; 'dum.lev' was therefore set to TRUE.")
    }
-   if(dum.diff & is.null(dum.lev)){
+   if(dum.diff && is.null(dum.lev)){
      dum.lev		<- FALSE
      warning("Option 'dum.lev' not specified; option was therefore set to FALSE.")
    }
-   if(dum.lev & is.null(dum.diff)){
+   if(dum.lev && is.null(dum.diff)){
      dum.diff	<- FALSE
      warning("Option 'dum.diff' not specified; option was therefore set to FALSE.")
    }
  }
- if(!include.dum &  (!is.null(dum.diff) | !is.null(dum.lev)) ){
+ if(!include.dum && (!is.null(dum.diff) || !is.null(dum.lev)) ){
    if(!is.null(dum.diff)){
      dum.diff <- FALSE
      warning("No dummies included; argument 'dum.diff' was therefore ignored.")
@@ -1197,7 +1197,7 @@ checkArgs		<- function(
      warning("No dummies included; argument 'dum.lev' was therefore ignored.")
    }
  }
- if(!include.dum &  (is.null(dum.diff) | is.null(dum.lev)) ){
+ if(!include.dum && (is.null(dum.diff) || is.null(dum.lev)) ){
    if(is.null(dum.diff)){
      dum.diff <- FALSE
    }
