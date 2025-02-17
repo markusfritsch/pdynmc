@@ -1,12 +1,15 @@
-# pdynmc version 0.9.12.9004
+# pdynmc version 0.9.12.9005
 
-Update of version 0.9.11 that includes some suggestions on code improvements of Kevin Tappe (github user tappek) and changes the computation of the onestep unadjusted standard errors its asymptotic version. Adjustments to the instrument counts were also made following pointers by Steve Bond.
+Update of version 0.9.11 that includes some suggestions on code improvements of Kevin Tappe (github user tappek) and corrects bugs in the computation of the onestep unadjusted standard errors and the serial correlation test statistic. Adjustments to the instrument counts were also made following pointers by Steve Bond.
 
 ### pdynmc
-* change onestep unadjusted standard errors to asymptotic standard errors
+* adjust computation of onestep unadjusted standard errors
 * add checks of input arguments
 * remove redundant parts of code
 * adjust function documentation and correct typos
+
+### mtest.fct
+* correct bugs in computation of the test statistic
 
 ### wald.fct
 * remove redundant parts of code

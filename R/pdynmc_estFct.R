@@ -1546,9 +1546,9 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
    if(std.err == "unadjusted"){
      if(j == 1){
-       resGMM.vcov.j[[j]]		<- tXZW1tZX.inv       #computes one-step asymptotic variance covariance matrix (matches pgmm results; differences to xtabond2 results)
+       resGMM.vcov.j[[j]]		<- tXZW1tZX.inv *n.obs/dof      #computes one-step asymptotic variance covariance matrix (matches pgmm results; differences to xtabond and xtabond2 results)
      } else{
-       resGMM.vcov.j[[j]]		<- tXZW1tZX.inv * (as.vector(Matrix::crossprod(do.call(get(paste("step", j, sep = "") , resGMM.Szero.j), what = "c")) /dof))		# [M:] calculation acc. to description in Doornik, Arellano, and Bond (2012), p.30-31
+       resGMM.vcov.j[[j]]		<- tXZW1tZX.inv * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), get(paste("step", j, sep = "") , resGMM.Szero.j))) /dof		# [M:] calculation acc. to description in Doornik, Arellano, and Bond (2012), p.30-31
      }
    }
    if(std.err == "corrected"){

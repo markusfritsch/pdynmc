@@ -453,60 +453,64 @@ mtest.fct 		<- function(
     stop("Use only with \"pdynmc\" objects.")
   }
 
-  estimation	<- object$data$estimation
-  Szero.j			<- get(paste("step", object$iter, sep = ""), object$residuals.int)
-  Z.temp			<- object$data$Z.temp
-  vcov.est		<- get(paste("step", object$iter, sep = ""), object$vcov)
-  W.j				  <- get(paste("step", object$iter, sep = ""), object$w.mat)
+  estimation    <- object$data$estimation
+  Szero.j       <- get(paste("step", object$iter, sep = ""), object$residuals.int)
+  Z.temp        <- object$data$Z.temp
+  vcov.est      <- get(paste("step", object$iter, sep = ""), object$vcov)
+  W.j           <- get(paste("step", object$iter, sep = ""), object$w.mat)
+  stderr.type   <- object$data$stderr.type
+  std.err       <- get(paste("step", object$iter, sep = ""), object$stderr)
+  n.inst        <- object$data$n.inst
+  varname.y     <- object$data$varname.y
+  varname.reg   <- object$data$varnames.reg
+  varname.dum   <- object$data$varnames.dum
+  dat.clF.temp  <- rapply(lapply(object$dat.clF, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
+  dat.na        <- object$data$dat.na
+  u.hat.m_o     <- lapply(Szero.j, function(x) c(rep(0, times = order), x[1:(length(x) - order)]))
+  tZX           <- Reduce("+", mapply(function(x, y) Matrix::crossprod(x,y), Z.temp, dat.clF.temp, SIMPLIFY = FALSE))
 
-  stderr.type	<- object$data$stderr.type
-  std.err			<- get(paste("step", object$iter, sep = ""), object$stderr)
-  n.inst			<- object$data$n.inst
-  n				    <- object$data$n
-  Time				    <- object$data$Time
-  varname.y			<- object$data$varname.y
-  varname.reg		<- object$data$varnames.reg
-  varname.dum		<- object$data$varnames.dum
-  dat.clF.temp	<- rapply(lapply(object$dat.clF, FUN = as.matrix), function(x) ifelse(is.na(x), 0, x), how = "replace")
-  dat.na			  <- object$data$dat.na
-  H_i           <- object$H_i
-
-
-
-  K.t			<- length(varname.dum) - length(varname.dum[!(varname.dum %in% varname.reg)])
-  u.hat.m_o		<- lapply(Szero.j, function(x) c(rep(0, times = order), x[1:(length(x)-order)]) )
-
-  if(estimation == "onestep" & stderr.type == "unadjusted"){
-    #    uHtu			<- lapply(lapply(Szero.j, function(x) crossprod(x,x)), function(x) as.numeric(x) * 0.2* H_i.temp * (1/ (n*T - sum(n.inst)+3) ))
-    uHtu			<- lapply(lapply(Szero.j, function(x) crossprod(x,x)), function(x) as.numeric(x) * H_i * (1/ (sum(!is.na(dat.na[, varname.y])) - sum(n.inst)) ))
-    tu_m_outuu.m_o	<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::tcrossprod(y, Matrix::t(x))), u.hat.m_o, uHtu, SIMPLIFY = FALSE ))
-    tZutuu.m_o		<- Reduce("+", mapply(function(x,y,z) Matrix::tcrossprod(Matrix::crossprod(x,y), Matrix::t(z)), Z.temp, uHtu, u.hat.m_o, SIMPLIFY = FALSE))
-  } else{
-    tu_m_outuu.m_o	<- Reduce("+", mapply(function(x,y) tcrossprod(crossprod(y,x), crossprod(y,x)), Szero.j, u.hat.m_o, SIMPLIFY = FALSE))
-    tZutuu.m_o		<- Reduce("+", mapply(function(x,y,z) Matrix::tcrossprod(Matrix::crossprod(x,y), Matrix::crossprod(z,y)), Z.temp, Szero.j, u.hat.m_o, SIMPLIFY = FALSE))
+  if(estimation == "onestep" && stderr.type == "unadjusted"){
+    H_i         <- 0.5*object$H_i * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
+    A           <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), Z.temp, SIMPLIFY = FALSE)))
+    M.inv       <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
+  }
+  if(estimation == "onestep" && stderr.type == "corrected"){
+    H_1i        <- 0.5*object$H_i * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
+    A           <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_1i, x)), Z.temp, SIMPLIFY = FALSE)))
+    M.inv       <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
+    H_i         <- Reduce("+", mapply(function(x) Matrix::tcrossprod(x,x), Szero.j, SIMPLIFY = FALSE)) * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
+    A_2N        <- Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), Z.temp, SIMPLIFY = FALSE))
+#    vcov.est    <- as.matrix(Matrix::crossprod(M.inv, Matrix::crossprod(tZX, Matrix::crossprod(A, Matrix::crossprod(A_2N, Matrix::crossprod(A, Matrix::tcrossprod(tZX, M.inv)))))))
   }
 
-  tu.m_oX		<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), u.hat.m_o, dat.clF.temp, SIMPLIFY = FALSE))
-  tZX			<- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), Z.temp, dat.clF.temp, SIMPLIFY = FALSE))
+  if(estimation != "onestep"){
+    H_i         <- Reduce("+", mapply(function(x) Matrix::tcrossprod(x,x), Szero.j, SIMPLIFY = FALSE)) * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
+    A           <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), Z.temp, SIMPLIFY = FALSE)))
+    M.inv       <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
+  }
 
-  frac.num		<- Reduce("+", mapply(function(x,y) crossprod(x,y), Szero.j, u.hat.m_o, SIMPLIFY = FALSE))
-  frac.denom.sq	<- (as.numeric(tu_m_outuu.m_o - 2* Matrix::crossprod(Matrix::t(tu.m_oX), Matrix::crossprod(Matrix::t(vcov.est), Matrix::crossprod(tZX, Matrix::tcrossprod(W.j, Matrix::t(tZutuu.m_o))))) + Matrix::crossprod(Matrix::t(tu.m_oX), Matrix::tcrossprod(vcov.est, tu.m_oX))))
-
-  if(frac.denom.sq < 0){
-    frac.denom	<- sqrt(abs(as.numeric(tu_m_outuu.m_o - 2* Matrix::crossprod(Matrix::t(tu.m_oX), Matrix::crossprod(Matrix::t(vcov.est), Matrix::crossprod(tZX, Matrix::tcrossprod(W.j, Matrix::t(tZutuu.m_o))))) + Matrix::crossprod(Matrix::t(tu.m_oX), Matrix::tcrossprod(vcov.est, tu.m_oX)))))
+  tu.m_oHu.m_o <- Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), u.hat.m_o, SIMPLIFY = FALSE))
+  tZHu.m_o <- Reduce("+", mapply(function(x, y) Matrix::crossprod(x, Matrix::crossprod(H_i, y)), Z.temp, u.hat.m_o, SIMPLIFY = FALSE))
+  tu.m_oX <- Reduce("+", mapply(function(x, y) Matrix::crossprod(x, y), u.hat.m_o, dat.clF.temp, SIMPLIFY = FALSE))
+  frac.num <- Reduce("+", mapply(function(x, y) crossprod(x, y), u.hat.m_o, Szero.j, SIMPLIFY = FALSE))
+  frac.denom.sq <- (as.numeric(tu.m_oHu.m_o -
+                                 2 * Matrix::crossprod(Matrix::t(tu.m_oX),
+                                     Matrix::crossprod(M.inv, Matrix::crossprod(tZX, Matrix::tcrossprod(A, Matrix::t(tZHu.m_o))))) +
+                                 Matrix::crossprod(Matrix::t(tu.m_oX), Matrix::tcrossprod(vcov.est, tu.m_oX))))
+  if (frac.denom.sq < 0) {
+    frac.denom <- sqrt(abs(frac.denom.sq))
     warning("Absolute value of denominator of test statistic was used in the computation.")
-  } else{
-    frac.denom	<- sqrt(as.numeric(tu_m_outuu.m_o - 2* Matrix::crossprod(Matrix::t(tu.m_oX), Matrix::crossprod(Matrix::t(vcov.est), Matrix::crossprod(tZX, Matrix::tcrossprod(W.j, Matrix::t(tZutuu.m_o))))) + Matrix::crossprod(Matrix::t(tu.m_oX), Matrix::tcrossprod(vcov.est, tu.m_oX))))
+  } else {
+    frac.denom <- sqrt(frac.denom.sq)
   }
-
-  stat		<- frac.num/frac.denom
-  names(stat)	<- "normal"
-  pval		<- 2*stats::pnorm(abs(stat), lower.tail = FALSE)
-  mtest		<- list(statistic = stat, p.value = pval, method = paste("Arellano and Bond (1991) serial correlation test of degree", order)
-                 ,data.name = paste(object$iter, "step GMM Estimation", sep = "")
-                 ,alternative = paste("serial correlation of order ", order, " in the error terms", sep = "")
-  )
-  class(mtest)	<- "htest"
+  stat <- frac.num/frac.denom
+  names(stat) <- "normal"
+  pval <- 2 * stats::pnorm(abs(stat), lower.tail = FALSE)
+  mtest <- list(statistic = stat, p.value = pval,
+                method = paste("Arellano and Bond (1991) serial correlation test of degree",
+                              order), data.name = paste(object$iter, "step GMM Estimation", sep = ""),
+                alternative = paste("serial correlation of order ", order, " in the error terms", sep = ""))
+  class(mtest) <- "htest"
   return(mtest)
 }
 
