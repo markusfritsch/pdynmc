@@ -1,6 +1,6 @@
-# pdynmc version 0.9.12.9005
+# pdynmc version 0.9.12.9006
 
-Update of version 0.9.11 that includes some suggestions on code improvements of Kevin Tappe (github user tappek) and corrects bugs in the computation of the onestep unadjusted standard errors and the serial correlation test statistic. Adjustments to the instrument counts were also made following pointers by Steve Bond.
+Update of version 0.9.11 that includes some suggestions on code improvements of Kevin Tappe (github user tappek) and corrects computation of the onestep unadjusted standard errors and the serial correlation test statistic. Adjustments to the instrument counts were also made following pointers by Steve Bond. Additionally, the `sargan.fct` was added which computes the sargan test statistic for the overidentifying restrictions.
 
 ### pdynmc
 * adjust computation of onestep unadjusted standard errors
@@ -13,6 +13,9 @@ Update of version 0.9.11 that includes some suggestions on code improvements of 
 
 ### wald.fct
 * remove redundant parts of code
+
+### sargan.fct
+* added to package for computing sargan test statistic
 
 ### plot.pdynmc
 * adjust function documentation
