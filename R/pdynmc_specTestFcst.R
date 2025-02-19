@@ -174,7 +174,7 @@ wald.fct 		<- function(
   coef.hat		<- coef.est[start:end]
   vcov.hat		<- vcov.est[start:end, start:end]
 
-  if(estimation == "onestep"){
+  if(object$data$estimation == "onestep"){
 #    w.stat		<- n*crossprod(coef.hat, tcrossprod(MASS::ginv(vcov.hat), t(coef.hat)) ) *
 #				(as.vector(crossprod(do.call(res.1s_temp, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE) /(n*Time - sum(n.inst)+7)))						#[M:] Stata results with different dof-correction
     w.stat		<- n * Matrix::crossprod(coef.hat, Matrix::tcrossprod(MASS::ginv(as.matrix(vcov.hat)), Matrix::t(coef.hat)) ) *
@@ -325,7 +325,7 @@ jtest.fct		<- function(
   stderr.type   <- object$data$stderr.type
   n.inst		    <- object$data$n.inst
 
-  if(estimation == "onestep" && stderr.type == "corrected"){
+  if(object$data$estimation == "onestep" && stderr.type == "corrected"){
     W.j			  <- object$w.mat[[2]]
     warning("Hansen J-Test statistic is inconsistent when error terms are non-spherical.")
   } else{
@@ -403,20 +403,39 @@ jtest.fct		<- function(
 #'
 #'
 #' @examples
-#' \donttest{
-#' data(EmplUK, package = "plm")
-#' dat <- EmplUK
+#' ## Load data
+#' data(ABdata, package = "pdynmc")
+#' dat <- ABdata
 #' dat[,c(4:7)] <- log(dat[,c(4:7)])
+#' dat <- dat[c(140:0), ]
 #'
+#' ## Code example
 #' m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
-#'    use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
-#'    include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
-#'    fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
-#'    varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
-#'    include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
-#'    w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
-#'    opt.meth = "none")
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
 #' sargan.fct(m1)
+#'
+#' \donttest{
+#' ## Load data
+#'  data(ABdata, package = "pdynmc")
+#'  dat <- ABdata
+#'  dat[,c(4:7)] <- log(dat[,c(4:7)])
+#'
+#' ## Further code example
+#'  m1 <- pdynmc(dat = dat, varname.i = "firm", varname.t = "year",
+#'     use.mc.diff = TRUE, use.mc.lev = FALSE, use.mc.nonlin = FALSE,
+#'     include.y = TRUE, varname.y = "emp", lagTerms.y = 2,
+#'     fur.con = TRUE, fur.con.diff = TRUE, fur.con.lev = FALSE,
+#'     varname.reg.fur = c("wage", "capital", "output"), lagTerms.reg.fur = c(1,2,2),
+#'     include.dum = TRUE, dum.diff = TRUE, dum.lev = FALSE, varname.dum = "year",
+#'     w.mat = "iid.err", std.err = "corrected", estimation = "onestep",
+#'     opt.meth = "none")
+#'  sargan.fct(m1)
 #' }
 #'
 #'
@@ -439,7 +458,7 @@ sargan.fct 		<- function(
   K.tot		  <- length(coef.est)
   N			    <- length(do.call(what = "c", Szero.j))
   tzu			  <- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), Z.temp, Szero.j, SIMPLIFY = FALSE))
-  stat		  <- as.numeric(Matrix::crossprod(tzu, Matrix::crossprod(A, tzu)))
+  stat		  <- as.numeric(Matrix::crossprod(tzu, Matrix::crossprod(W.j, tzu)))
   names(stat)	  <- "chisq"
   p			        <- sum(n.inst)
   param		      <- p - K.tot
