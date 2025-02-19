@@ -426,6 +426,8 @@ sargan.fct 		<- function(
   n.inst		<- object$data$n.inst
   varname.y		<- object$data$varname.y
 
+  W.j			<- get(paste("step", object$iter, sep = ""), object$w.mat)
+
   if(estimation == "onestep"){
     H_i       <- 0.5*object$H_i * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
     A         <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i,x)), Z.temp)))
@@ -439,11 +441,11 @@ sargan.fct 		<- function(
   N			    <- length(do.call(what = "c", Szero.j))
   tzu			  <- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), Z.temp, Szero.j, SIMPLIFY = FALSE))
   stat		  <- as.numeric(Matrix::crossprod(tzu, Matrix::crossprod(A, tzu)))*
-    #  stat		<- as.numeric(crossprod(tzu, t(crossprod(tzu, gmm.1step.results$W1))))*
-    #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE) /(n*T - sum(n.inst)+3))))^(-1)						#[M:] 'xtabond2' test statistics (does not account for unbalancedness of the data!!)
+#    #  stat		<- as.numeric(crossprod(tzu, t(crossprod(tzu, gmm.1step.results$W1))))*
+#    #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE) /(n*T - sum(n.inst)+3))))^(-1)						#[M:] 'xtabond2' test statistics (does not account for unbalancedness of the data!!)
     (Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j)) /(n.obs - length(object$coefficients)))^(-1)		#[M:] adjusted dof correction (unbalancedness of the data is accounted for)
-  #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(n.obs - 280 - sum(n.inst))))^(-1)
-  #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(1260-27-280-sum(n.inst)+3)))^(-1)					#[M:] roughly the Stata results
+#  #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(n.obs - 280 - sum(n.inst))))^(-1)
+#  #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(1260-27-280-sum(n.inst)+3)))^(-1)					#[M:] roughly the Stata results
   names(stat)	  <- "chisq"
   p			        <- sum(n.inst)
   param		      <- p - K.tot
@@ -579,33 +581,44 @@ mtest.fct 		<- function(
   u.hat.m_o     <- lapply(Szero.j, function(x) c(rep(0, times = order), x[1:(length(x) - order)]))
   tZX           <- Reduce("+", mapply(function(x, y) Matrix::crossprod(x,y), Z.temp, dat.clF.temp, SIMPLIFY = FALSE))
 
-  if(estimation == "onestep" && stderr.type == "unadjusted"){
-    H_i         <- 0.5*object$H_i * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
-    A           <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), Z.temp, SIMPLIFY = FALSE)))
-    M.inv       <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
-  }
-  if(estimation == "onestep" && stderr.type == "corrected"){
-    H_1i        <- 0.5*object$H_i * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
-    A           <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_1i, x)), Z.temp, SIMPLIFY = FALSE)))
-    M.inv       <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
-    H_i         <- Reduce("+", mapply(function(x) Matrix::tcrossprod(x,x), Szero.j, SIMPLIFY = FALSE)) * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
-    A_2N        <- Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), Z.temp, SIMPLIFY = FALSE))
-#    vcov.est    <- as.matrix(Matrix::crossprod(M.inv, Matrix::crossprod(tZX, Matrix::crossprod(A, Matrix::crossprod(A_2N, Matrix::crossprod(A, Matrix::tcrossprod(tZX, M.inv)))))))
+  if(estimation == "onestep"){
+
+    if(stderr.type == "unadjusted"){
+      H_i           <- 0.5*object$H_i * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
+      A             <- object$w.mat[[1]]
+      M.inv         <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
+
+      tu.m_oHu.m_o  <- Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), u.hat.m_o, SIMPLIFY = FALSE))
+      tZHu.m_o      <- Reduce("+", mapply(function(x, y) Matrix::crossprod(x, Matrix::crossprod(H_i, y)), Z.temp, u.hat.m_o, SIMPLIFY = FALSE))
+    }
+
+    if(stderr.type == "corrected"){
+      H_1i          <- 0.5*object$H_i * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
+      A             <- object$w.mat[[1]]
+      M.inv         <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
+      H_i           <- Reduce("+", mapply(function(x) Matrix::tcrossprod(x,x), Szero.j, SIMPLIFY = FALSE)) * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
+      A_2N          <- object$w.mat[[2]]
+
+      tu.m_oHu.m_o  <- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::crossprod(Matrix::tcrossprod(y,y), x)), u.hat.m_o, Szero.j, SIMPLIFY = FALSE))
+      tZHu.m_o      <- Reduce("+", mapply(function(x,y,z) Matrix::crossprod(x, Matrix::crossprod(Matrix::tcrossprod(z,z), y)), Z.temp, u.hat.m_o, Szero.j, SIMPLIFY = FALSE))
+      }
+
   }
 
   if(estimation != "onestep"){
-    H_i         <- Reduce("+", mapply(function(x) Matrix::tcrossprod(x,x), Szero.j, SIMPLIFY = FALSE)) * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
-    A           <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), Z.temp, SIMPLIFY = FALSE)))
-    M.inv       <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
+    H_i             <- Reduce("+", mapply(function(x) Matrix::tcrossprod(x,x), Szero.j, SIMPLIFY = FALSE))
+    A               <- W.j
+    M.inv           <- solve(Matrix::crossprod(tZX, Matrix::crossprod(A, tZX)))
+
+    tu.m_oHu.m_o    <- Reduce("+", mapply(function(x,y) Matrix::crossprod(x, Matrix::crossprod(Matrix::tcrossprod(y,y), x)), u.hat.m_o, Szero.j, SIMPLIFY = FALSE))
+    tZHu.m_o        <- Reduce("+", mapply(function(x,y,z) Matrix::crossprod(x, Matrix::crossprod(Matrix::tcrossprod(z,z), y)), Z.temp, u.hat.m_o, Szero.j, SIMPLIFY = FALSE))
   }
 
-  tu.m_oHu.m_o <- Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i, x)), u.hat.m_o, SIMPLIFY = FALSE))
-  tZHu.m_o <- Reduce("+", mapply(function(x, y) Matrix::crossprod(x, Matrix::crossprod(H_i, y)), Z.temp, u.hat.m_o, SIMPLIFY = FALSE))
-  tu.m_oX <- Reduce("+", mapply(function(x, y) Matrix::crossprod(x, y), u.hat.m_o, dat.clF.temp, SIMPLIFY = FALSE))
-  frac.num <- Reduce("+", mapply(function(x, y) crossprod(x, y), u.hat.m_o, Szero.j, SIMPLIFY = FALSE))
-  frac.denom.sq <- (as.numeric(tu.m_oHu.m_o -
+  tu.m_oX         <- Reduce("+", mapply(function(x, y) Matrix::crossprod(x, y), u.hat.m_o, dat.clF.temp, SIMPLIFY = FALSE))
+  frac.num        <- Reduce("+", mapply(function(x, y) crossprod(x, y), u.hat.m_o, Szero.j, SIMPLIFY = FALSE))
+  frac.denom.sq   <- (as.numeric(tu.m_oHu.m_o -
                                  2 * Matrix::crossprod(Matrix::t(tu.m_oX),
-                                     Matrix::crossprod(M.inv, Matrix::crossprod(tZX, Matrix::tcrossprod(A, Matrix::t(tZHu.m_o))))) +
+                                                       Matrix::crossprod(M.inv, Matrix::crossprod(tZX, Matrix::tcrossprod(A, Matrix::t(tZHu.m_o))))) +
                                  Matrix::crossprod(Matrix::t(tu.m_oX), Matrix::tcrossprod(vcov.est, tu.m_oX))))
   if (frac.denom.sq < 0) {
     frac.denom <- sqrt(abs(frac.denom.sq))
