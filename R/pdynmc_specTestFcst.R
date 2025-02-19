@@ -319,27 +319,35 @@ jtest.fct		<- function(
     stop("Use only with \"pdynmc\" objects.")
   }
 
-  coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
-  Szero.j		<- get(paste("step", object$iter, sep = ""), object$residuals.int)
-  Z.temp		<- object$data$Z.temp
-  W.j			<- get(paste("step", object$iter, sep = ""), object$w.mat)
-  n.inst		<- object$data$n.inst
+  coef.est	    <- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
+  Szero.j		    <- get(paste("step", object$iter, sep = ""), object$residuals.int)
+  Z.temp		    <- object$data$Z.temp
+  stderr.type   <- object$data$stderr.type
+  n.inst		    <- object$data$n.inst
+
+  if(estimation == "onestep" && stderr.type == "corrected"){
+    W.j			  <- object$w.mat[[2]]
+    warning("Hansen J-Test statistic is inconsistent when error terms are non-spherical.")
+  } else{
+    W.j			  <- get(paste("step", object$iter, sep = ""), object$w.mat)
+    Szero.j		<- get(paste("step", object$iter, sep = ""), object$residuals.int)
+  }
 
 
   K.tot			<- length(coef.est)
-  N				<- length(do.call(what = "c", Szero.j))
+  N				  <- length(do.call(what = "c", Szero.j))
   tzu				<- as.numeric(Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), Z.temp, Szero.j, SIMPLIFY = FALSE)))
-  stat			<- as.numeric(crossprod(tzu, t(crossprod(tzu, W.j))))
+  stat			<- as.numeric(Matrix::crossprod(tzu, Matrix::crossprod(W.j, tzu)))
   names(stat)		<- "chisq"
-  p				<- sum(n.inst)
-  param			<- p - K.tot
-  names(param)		<- "df"
-  method			<- "J-Test of Hansen"
-  pval			<- stats::pchisq(stat, df = param, lower.tail = FALSE)
-  jtest			<- list(statistic = stat, p.value = pval, parameter = param, method = method
-					,data.name = paste(object$iter, "step GMM Estimation", sep = "")
-					,alternative = paste("overidentifying restrictions invalid", sep = "")
-					)
+  p				      <- sum(n.inst)
+  param			    <- p - K.tot
+  names(param)	<- "df"
+  method			  <- "J-Test of Hansen"
+  pval			    <- stats::pchisq(stat, df = param, lower.tail = FALSE)
+  jtest			    <- list(statistic = stat, p.value = pval, parameter = param, method = method
+					            ,data.name = paste(object$iter, "step GMM Estimation", sep = "")
+					            ,alternative = paste("overidentifying restrictions invalid", sep = "")
+					            )
   class(jtest)		<- "htest"
   return(jtest)
 }
@@ -423,29 +431,15 @@ sargan.fct 		<- function(
   Szero.j     <- get(paste("step", object$iter, sep = ""), object$residuals.int)
   Z.temp      <- object$data$Z.temp
   n.obs				<- nrow(object$data$dat.na) - sum(is.na(object$data$dat.na[, varname.y]))
-  n.inst		<- object$data$n.inst
+  n.inst		  <- object$data$n.inst
   varname.y		<- object$data$varname.y
 
-  W.j			<- get(paste("step", object$iter, sep = ""), object$w.mat)
-
-  if(estimation == "onestep"){
-    H_i       <- 0.5*object$H_i * as.numeric((1/(n.obs - length(object$coefficients))) * Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j, SIMPLIFY = FALSE)))
-    A         <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i,x)), Z.temp)))
-  } else{
-    H_i       <- Reduce("+", mapply(function(x) Matrix::tcrossprod(x,x), Szero.j, SIMPLIFY = FALSE))
-    A         <- solve(Reduce("+", mapply(function(x) Matrix::crossprod(x, Matrix::crossprod(H_i,x)), Z.temp)))
-  }
-
+  W.j			    <- object$w.mat[[1]]
 
   K.tot		  <- length(coef.est)
   N			    <- length(do.call(what = "c", Szero.j))
   tzu			  <- Reduce("+", mapply(function(x,y) Matrix::crossprod(x,y), Z.temp, Szero.j, SIMPLIFY = FALSE))
-  stat		  <- as.numeric(Matrix::crossprod(tzu, Matrix::crossprod(A, tzu)))*
-#    #  stat		<- as.numeric(crossprod(tzu, t(crossprod(tzu, gmm.1step.results$W1))))*
-#    #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE) /(n*T - sum(n.inst)+3))))^(-1)						#[M:] 'xtabond2' test statistics (does not account for unbalancedness of the data!!)
-    (Reduce("+", mapply(function(x) Matrix::crossprod(x,x), Szero.j)) /(n.obs - length(object$coefficients)))^(-1)		#[M:] adjusted dof correction (unbalancedness of the data is accounted for)
-#  #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(n.obs - 280 - sum(n.inst))))^(-1)
-#  #				((as.vector(crossprod(do.call(Szero.j, what = "c"), do.call(Szero.j, what = "c"), na.rm = TRUE)) /(1260-27-280-sum(n.inst)+3)))^(-1)					#[M:] roughly the Stata results
+  stat		  <- as.numeric(Matrix::crossprod(tzu, Matrix::crossprod(A, tzu)))
   names(stat)	  <- "chisq"
   p			        <- sum(n.inst)
   param		      <- p - K.tot
