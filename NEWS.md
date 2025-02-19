@@ -17,6 +17,9 @@ Update of version 0.9.11 that includes some suggestions on code improvements of 
 ### sargan.fct
 * added to package for computing sargan test statistic
 
+### jtest.fct
+* warning message for non-spherical error terms added
+
 ### plot.pdynmc
 * adjust function documentation
 
