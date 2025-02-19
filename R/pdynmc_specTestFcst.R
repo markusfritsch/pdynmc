@@ -423,6 +423,7 @@ sargan.fct 		<- function(
   Szero.j     <- get(paste("step", object$iter, sep = ""), object$residuals.int)
   Z.temp      <- object$data$Z.temp
   n.obs				<- nrow(object$data$dat.na) - sum(is.na(object$data$dat.na[, varname.y]))
+  n.inst		<- object$data$n.inst
   varname.y		<- object$data$varname.y
 
   if(estimation == "onestep"){
