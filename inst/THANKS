@@ -1,8 +1,8 @@
 We've benefited from a number of resources when writing the package.
 The plm package by Croissant and Millo (2008-2019) was an inspiration.
-We thank Kevin Tappe for several suggestions.
-We also thank Massimo Giannini, Maxime Gueuder, and Github user Dazhwu
-for noticing some bugs in the code.
+We thank Kevin Tappe for several suggestions and code improvements.
+We also thank Steve Bond, Massimo Giannini, Maxime Gueuder, and
+Github user Dazhwu for noticing some bugs in the code.
 Additionally, a number of books, blogs, and forum entries on
 stackexchange proved to be very resourceful. A notable example is the
 book R Packages by Hadley Wickham and Jennifer Bryan.

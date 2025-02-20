@@ -854,7 +854,9 @@ optimIn.pdynmc		<- function(object, step = object$iter, ...){
 #' @param x An object of class `pdynmc`. The function requires
 #'    twostep or iterative GMM estimates.
 #' @param type Whether to plot fitted values against residuals (argument
-#'    'fire'; default), coefficient ranges (argument 'coef.range';
+#'    'fire'; default), first differenced fitted values against
+#'    first differenced residuals (argument 'fire.fd'),
+#'    coefficient ranges (argument 'coef.range';
 #'    this requires twostep or iterative GMM estimates), path of
 #'    coefficient estimates across GMM iterations (argument 'coef.path';
 #'    this requires twostep or iterative GMM estimates).
@@ -985,8 +987,8 @@ plot.pdynmc		<- function(
     }
 
     step.temp <- x$iter
-    fitteds <- unlist(x$fitted.values[[step.temp]])
-    resids  <- unlist(x$residuals[[step.temp]])
+    fitteds <- unlist(x$fitted.values.int[[step.temp]])     #fitted values in levels
+    resids  <- unlist(x$residuals.int[[step.temp]])         #residuals in levels
 
     y.range	<- c(-1, 1)*max(abs(resids))
     graphics::plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted values", ylab = "Residuals",
@@ -995,6 +997,25 @@ plot.pdynmc		<- function(
     graphics::lines(x = c(par("usr")[1], par("usr")[2]), y = c(0,0), col = 1, lty = 2)
 #    graphics::lines(x = range(fitteds, na.rm = TRUE), y = c(0,0), col = 1, lty = 2)
 #    graphics::abline(h = 0)
+  }
+
+  if(type == "fire.fd"){
+
+    if(!inherits(x, what = "pdynmc")){
+      stop("Use only with \"pdynmc\" objects.")
+    }
+
+    step.temp <- x$iter
+    fitteds <- unlist(x$fitted.values[[step.temp]])       #fitted values in first differences
+    resids  <- unlist(x$residuals[[step.temp]])           #residuals in first differences
+
+    y.range	<- c(-1, 1)*max(abs(resids))
+    graphics::plot(x = fitteds, y = resids, ylim = y.range, xlab = "Fitted values", ylab = "Residuals",
+                   #         main	= paste("Fitted vs. residual plot of", substitute(x))
+                   , col = "grey60", ...)
+    graphics::lines(x = c(par("usr")[1], par("usr")[2]), y = c(0,0), col = 1, lty = 2)
+    #    graphics::lines(x = range(fitteds, na.rm = TRUE), y = c(0,0), col = 1, lty = 2)
+    #    graphics::abline(h = 0)
   }
 
 

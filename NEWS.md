@@ -22,6 +22,7 @@ Update of version 0.9.11 that includes some suggestions on code improvements of 
 
 ### plot.pdynmc
 * adjust function documentation
+* add further option for `fire`-plot
 
 ### Z_i.fct
 * safeguard instrument count in internal helper function for the case when there are columns with zeros only
