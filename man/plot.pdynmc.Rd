@@ -25,7 +25,9 @@
 twostep or iterative GMM estimates.}
 
 \item{type}{Whether to plot fitted values against residuals (argument
-'fire'; default), coefficient ranges (argument 'coef.range';
+'fire'; default), first differenced fitted values against
+first differenced residuals (argument 'fire.fd'),
+coefficient ranges (argument 'coef.range';
 this requires twostep or iterative GMM estimates), path of
 coefficient estimates across GMM iterations (argument 'coef.path';
 this requires twostep or iterative GMM estimates).}
