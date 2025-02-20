@@ -449,9 +449,7 @@ sargan.fct 		<- function(
   coef.est		<- ifelse((sapply(get(paste("step", object$iter, sep = ""), object$par.optim), FUN = is.na)), yes = get(paste("step", object$iter, sep = ""), object$par.clForm), no = get(paste("step", object$iter, sep = ""), object$par.optim) )
   Szero.j     <- get(paste("step", object$iter, sep = ""), object$residuals.int)
   Z.temp      <- object$data$Z.temp
-  n.obs				<- nrow(object$data$dat.na) - sum(is.na(object$data$dat.na[, varname.y]))
   n.inst		  <- object$data$n.inst
-  varname.y		<- object$data$varname.y
 
   W.j			    <- object$w.mat[[1]]
 
