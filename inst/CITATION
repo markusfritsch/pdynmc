@@ -22,6 +22,7 @@ bibentry(bibtype = "misc",
 	version = ("0.9.12"),
   date = ("2025-02-20"),
   year = ("2025"),
+  doi = {10.32614/CRAN.package.pdynmc},
 	url = ("https://cran.r-project.org/package=pdynmc"),
 	header = "To cite the software implementation of pdynmc in publication, please use:"
 	)
