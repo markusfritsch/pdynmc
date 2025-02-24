@@ -64,10 +64,10 @@
 #'    \code{pdynmc}.
 #'
 #'    Estimation of the model parameters in \code{pdynmc} is based on
-#'    moment conditions with the generalized method of moments (GMM). Linear
-#'    dynamic panel data models  The moment conditions employed in estimation can be linear and
-#'    nonlinear in parameters and estimation is carried out iteratively. In case
-#'    only linear moment conditions are used in estimation, closed form solutions
+#'    moment conditions with the generalized method of moments (GMM). The
+#'    moment conditions employed in estimation can be linear and nonlinear
+#'    in parameters and estimation is carried out iteratively. In case only
+#'    linear moment conditions are used in estimation, closed form solutions
 #'    can be for computing parameter estimates -- while when nonlinear moment
 #'    conditions are employed, parameter estimation relies on numerical
 #'    optimization of the objective function.
