@@ -1712,7 +1712,7 @@ variable.names.pdynmc		<- function(object, ...){
 #'    used for obtaining parameter estimates).
 #' @param ... further arguments.
 #'
-#' @return Extract variance covariance matrix of the paramter estimates
+#' @return Extract variance covariance matrix of the parameter estimates
 #'    from an object of class `pdynmc`.
 #'
 #' @author Markus Fritsch

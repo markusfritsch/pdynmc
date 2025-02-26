@@ -1,6 +1,6 @@
-# pdynmc version 0.9.13.9001
+# pdynmc version 0.9.13.9002
 
-Update of version 0.9.12
+Update of version 0.9.12 that ... and fixes typos in documentation
 
 
 
