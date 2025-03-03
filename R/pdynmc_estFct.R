@@ -1025,7 +1025,7 @@ stopifnot(w.mat      %in% c("iid.err", "identity", "zero.cov"))
 
 #b) lags of lagged dependent variable and non-lagged dependent variable included in the model
 
- if(include.y & is.null(lagTerms.y)){
+ if(include.y && is.null(lagTerms.y)){
    lagTerms.y		<- 1
    warning(paste(c("Number of lags of lagged dependent variables on rhs of model equation not specified; 1 lag was therefore used.")))
  }
