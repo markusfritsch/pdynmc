@@ -70,14 +70,37 @@ NLIV.T	<- function(
 
   data.table::setorderv(data, cols = c(varname.i, varname.t))
 
-  T	<- max(as.numeric(data[[varname.t]]))
+  data$i.label        <- as.character(data[[varname.i]])
+  data[[varname.i]]   <- as.numeric(as.factor(data[[varname.i]]))
 
-  dat[, "y"]	<- data[[varname.y]]
+  data$t.label        <- as.character(data[[varname.t]])
+  data[[varname.t]]   <- as.numeric(as.factor(data[[varname.t]]))
+
+  i_cases			<- sort(unique(data[[varname.i]]))
+  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
+  t_cases			<- sort(unique(data[[varname.t]]))
+  t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
+
+  data_b			<- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
+                                  dimnames = list(NULL, c(varname.i, varname.t))))
+  data_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
+  data_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
+
+  data_b			<- data.table::setDT(x = data_b)
+  data.table::setorderv(data_b, cols = c(varname.i, varname.t))
+
+  data			<- merge(x = data_b, y = data, by = c(varname.i, varname.t), all.x = TRUE)
+  data			<- data[order(data[[varname.i]], data[[varname.t]], decreasing = FALSE), ]
+
+  data.na			<- data
+  data[is.na(data.na)]	<- 0
+
+  data[, "y"]	<- data[[varname.y]]
   y.T			<- data[i = data[[varname.t]] == T, j = y]
-  y.Tm1		<- data[i = data[[varname.t]] == T - 1, j = y]
-  y.Tm2		<- data[i = data[[varname.t]] == T - 2, j = y]
-  y.2			<- data[i = data[[varname.t]] == 2, j = y]
-  y.1			<- data[i = data[[varname.t]] == 1, j = y]
+  y.Tm1		<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[length(unique(as.numeric(data[[varname.t]]))) - 1], j = y]
+  y.Tm2		<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[length(unique(as.numeric(data[[varname.t]]))) - 2], j = y]
+  y.2			<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[2], j = y]
+  y.1			<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[1], j = y]
 
   A	<- sum(unlist(y.Tm1*(y.Tm2 - y.1)))
   B	<- -sum(unlist( y.Tm1*(y.Tm1 - y.2) + y.T*(y.Tm2 - y.1) ))
@@ -102,6 +125,7 @@ NLIV.T	<- function(
   }
 
   return(to.return)
+
 
 }
 
