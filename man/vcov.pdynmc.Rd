@@ -16,7 +16,7 @@ used for obtaining parameter estimates).}
 \item{...}{further arguments.}
 }
 \value{
-Extract variance covariance matrix of the paramter estimates
+Extract variance covariance matrix of the parameter estimates
    from an object of class `pdynmc`.
 }
 \description{
