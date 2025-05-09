@@ -290,13 +290,98 @@ FDLS	<- function(
   rho.hat	<- sum(data$Dy.lag1*(2*data$Dy + data$Dy.lag1), na.rm = TRUE) / sum(data$Dy.lag1^2, na.rm = TRUE)
 
   return(rho.hat)
+
 }
 
 
 
 
 
+###
+###	Estimator of Anderson & Hsiao (1981, JASA)
+###
 
+
+#' Estimator of Anderson and Hsiao (1981).
+#'
+#' \code{AH81} computes closed form estimator for lag parameter of linear
+#'    dynamic panel data model based on Anderson & Hsiao (1981) (AH81)
+#'    estimator.
+#'
+#' The function estimates a linear dynamic panel data model of the form
+#'    \deqn{y_{i,t} = y_{i,t-1} \rho_1 + a_i + \varepsilon_{i,t}}
+#'    where \eqn{y_{i,t-1}} is the lagged dependent variable, \eqn{\rho_1} is
+#'    the lag parameter, \eqn{a_i} is an unobserved individual specific effect,
+#'    and \eqn{\varepsilon_{i,t}} is an idiosyncratic remainder component. The
+#'    model structure accounts for unobserved individual specific heterogeneity
+#'    and dynamics. Note that more general lag structures and further covariates
+#'    are beyond the scope of the current implementation in \code{pdynmc}.
+#'
+#'    More details on the AH81 estimator and its properties are provided
+#'    in \insertCite{AndHsi1981;textual}{pdynmc} and
+#'    \insertCite{AndHsi1982;textual}{pdynmc}.
+#'
+#' @param data A dataset.
+#' @param varname.i The name of the cross-section identifier.
+#' @param varname.t The name of the time-series identifier.
+#' @param varname.y A character string denoting the name of the dependent variable
+#'    in the dataset.
+#' @param eq8.2 A logical variable indicating whether the estimation function is
+#'    based on Equation (8.2) of Anderson and Hsiao (1981);
+#'    otherwise Equation (8.1) is employed (defaults to `TRUE`).
+#' @return An object of class `numeric` that contains the coefficient estimate for
+#'    the lag parameter according to the two roots of the quadratic equation.
+#'
+#' @author Joachim Schnurbus, Markus Fritsch
+#' @export
+#' @importFrom data.table is.data.table
+#' @importFrom data.table setDT
+#' @importFrom data.table setorderv
+#' @importFrom data.table shift
+#'
+#' @references
+#' \insertAllCited{}
+#'
+#' @examples
+#' ## Load data
+#' data(cigDemand, package = "pdynmc")
+#' dat <- cigDemand
+#'
+#' ## Code example
+#' m1 <- AH81(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
+#'
+#'
+AH81	<- function (
+    data,
+    varname.i,
+    varname.t,
+    varname.y,
+    eq8.2	= TRUE	# this uses the estimator of AH1981, equation (8.2), if FALSE, the estimator of equation (8.1) is computed.
+){
+
+  if(!data.table::is.data.table(data)){data.table::setDT(x = data)}
+
+  data.table::setorderv(data, cols = c(varname.i, varname.t))
+
+  data[, "y"]		<- data[[varname.y]]
+  data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
+  data[, "y.lag2"]	<- data.table::shift(x = data[[varname.y]], n = 2L, type = "lag")
+  data[, "y.lag3"]	<- data.table::shift(x = data[[varname.y]], n = 3L, type = "lag")
+
+  data[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
+  data[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
+  data[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
+
+
+  if(eq8.2){
+    rho.hat	<- sum( (data$y - data$y.lag1) * data$y.lag2 , na.rm = TRUE ) / sum( (data$y.lag1 - data$y.lag2) * data$y.lag2 , na.rm = TRUE )
+  } else {
+    rho.hat	<- sum( (data$y - data$y.lag1) * (data$y.lag2 - data$y.lag3) , na.rm = TRUE ) / sum( (data$y.lag1 - data$y.lag2) * (data$y.lag2 - data$y.lag3) , na.rm = TRUE )
+  }
+
+  return(rho.hat)
+
+}
 
 
 
