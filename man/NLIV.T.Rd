@@ -19,8 +19,8 @@ variable in the dataset.}
 \item{trueAR}{A logical variable indicating whether the true autoregressive
 parameter is known (defaults to `NULL`). The parameter is used to
 compute the terms `A`, `B`, and `C` that can be employed to rewrite
-the estimating equation (for details, see
-\insertCitep{FriPuaSch2024;textual}{pdynmc}).}
+the estimating equation. For details, see
+\insertCite{FriPuaSch2024;textual}{pdynmc}.}
 }
 \value{
 An object of class `numeric` that contains the coefficient estimate for
