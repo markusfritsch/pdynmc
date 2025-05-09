@@ -196,9 +196,35 @@ NLIV.t	<- function(
   trueAR = NULL
 ){
 
+
   if(!data.table::is.data.table(data)){data.table::setDT(x = data)}
 
   data.table::setorderv(data, cols = c(varname.i, varname.t))
+
+  data$i.label        <- as.character(data[[varname.i]])
+  data[[varname.i]]   <- as.numeric(as.factor(data[[varname.i]]))
+
+  data$t.label        <- as.character(data[[varname.t]])
+  data[[varname.t]]   <- as.numeric(as.factor(data[[varname.t]]))
+
+  i_cases			<- sort(unique(data[[varname.i]]))
+  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
+  t_cases			<- sort(unique(data[[varname.t]]))
+  t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
+
+  data_b			<- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
+                                  dimnames = list(NULL, c(varname.i, varname.t))))
+  data_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
+  data_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
+
+  data_b			<- data.table::setDT(x = data_b)
+  data.table::setorderv(data_b, cols = c(varname.i, varname.t))
+
+  data			<- merge(x = data_b, y = data, by = c(varname.i, varname.t), all.x = TRUE)
+  data			<- data[order(data[[varname.i]], data[[varname.t]], decreasing = FALSE), ]
+
+  data.na			<- data
+  data[is.na(data.na)]	<- 0
 
   data[, "y"]		<- data[[varname.y]]
   data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
@@ -233,6 +259,7 @@ NLIV.t	<- function(
   }
 
   return(to.return)
+
 
 }
 
@@ -297,9 +324,35 @@ FDLS	<- function(
   varname.y
 ){
 
+
   if(!data.table::is.data.table(data)){data.table::setDT(x = data)}
 
   data.table::setorderv(data, cols = c(varname.i, varname.t))
+
+  data$i.label        <- as.character(data[[varname.i]])
+  data[[varname.i]]   <- as.numeric(as.factor(data[[varname.i]]))
+
+  data$t.label        <- as.character(data[[varname.t]])
+  data[[varname.t]]   <- as.numeric(as.factor(data[[varname.t]]))
+
+  i_cases			<- sort(unique(data[[varname.i]]))
+  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
+  t_cases			<- sort(unique(data[[varname.t]]))
+  t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
+
+  data_b			<- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
+                                  dimnames = list(NULL, c(varname.i, varname.t))))
+  data_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
+  data_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
+
+  data_b			<- data.table::setDT(x = data_b)
+  data.table::setorderv(data_b, cols = c(varname.i, varname.t))
+
+  data			<- merge(x = data_b, y = data, by = c(varname.i, varname.t), all.x = TRUE)
+  data			<- data[order(data[[varname.i]], data[[varname.t]], decreasing = FALSE), ]
+
+  data.na			<- data
+  data[is.na(data.na)]	<- 0
 
   data[, "y"]		<- data[[varname.y]]
   data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
@@ -314,6 +367,7 @@ FDLS	<- function(
   rho.hat	<- sum(data$Dy.lag1*(2*data$Dy + data$Dy.lag1), na.rm = TRUE) / sum(data$Dy.lag1^2, na.rm = TRUE)
 
   return(rho.hat)
+
 
 }
 
@@ -383,18 +437,44 @@ AH81	<- function (
     eq8.2	= TRUE	# this uses the estimator of AH1981, equation (8.2), if FALSE, the estimator of equation (8.1) is computed.
 ){
 
+
   if(!data.table::is.data.table(data)){data.table::setDT(x = data)}
 
   data.table::setorderv(data, cols = c(varname.i, varname.t))
+
+  data$i.label        <- as.character(data[[varname.i]])
+  data[[varname.i]]   <- as.numeric(as.factor(data[[varname.i]]))
+
+  data$t.label        <- as.character(data[[varname.t]])
+  data[[varname.t]]   <- as.numeric(as.factor(data[[varname.t]]))
+
+  i_cases			<- sort(unique(data[[varname.i]]))
+  i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
+  t_cases			<- sort(unique(data[[varname.t]]))
+  t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
+
+  data_b			<- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
+                                  dimnames = list(NULL, c(varname.i, varname.t))))
+  data_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
+  data_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
+
+  data_b			<- data.table::setDT(x = data_b)
+  data.table::setorderv(data_b, cols = c(varname.i, varname.t))
+
+  data			<- merge(x = data_b, y = data, by = c(varname.i, varname.t), all.x = TRUE)
+  data			<- data[order(data[[varname.i]], data[[varname.t]], decreasing = FALSE), ]
+
+  data.na			<- data
+  data[is.na(data.na)]	<- 0
 
   data[, "y"]		<- data[[varname.y]]
   data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
   data[, "y.lag2"]	<- data.table::shift(x = data[[varname.y]], n = 2L, type = "lag")
   data[, "y.lag3"]	<- data.table::shift(x = data[[varname.y]], n = 3L, type = "lag")
 
-  data[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
-  data[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
-  data[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
+  data[i = data[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
+  data[i = data[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
+  data[i = data[[varname.t]] == 3, j = "y.lag3"]	<- NA
 
 
   if(eq8.2){
@@ -404,6 +484,7 @@ AH81	<- function (
   }
 
   return(rho.hat)
+
 
 }
 
