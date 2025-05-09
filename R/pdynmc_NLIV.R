@@ -1,14 +1,14 @@
 
 ############################################################################################################
-### Closed form estimation functions for linear dynamic panel data models
+### Closed form estimation functions for AR(1) linear dynamic panel data models
 ############################################################################################################
 
 
 
 
-#' Nonlinear Instrumental Variables Estimator - T-Version (NLIV).
+#' Nonlinear Instrumental Variables Estimator - T-Version (NLIV.T).
 #'
-#' \code{NLIV} Computes closed form solution for lag parameter of linear
+#' \code{NLIV.T} Computes closed form solution for lag parameter of linear
 #'    dynamic panel data model based on instrumental variables (IV) estimator
 #'    employing nonlinear moment conditions.
 #'
@@ -26,17 +26,21 @@
 #'    More details on the implementation and the properties of the estimator
 #'    are provided in \insertCite{FriPuaSch2024;textual}{pdynmc}.
 #'
-#' @param dat A dataset.
+#' @param data A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
 #' @param varname.y A character string denoting the name of the dependent
 #'    variable in the dataset.
+#' @param trueAR A logical variable indicating whether the true autoregressive
+#'    parameter is known (defaults to `NULL`). The parameter is used to
+#'    compute the terms `A`, `B`, and `C` that can be employed to rewrite
+#'    the estimating equation (for details, see
+#'    \insertCitep{FriPuaSch2024;textual}{pdynmc}).
 #' @return An object of class `numeric` that contains the coefficient estimate for
 #'    the lag parameter according to the two roots of the quadratic equation.
 #'
 #' @author Joachim Schnurbus, Markus Fritsch
 #' @export
-#' @importFrom data.table data.table
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
 #' @importFrom data.table setorderv
@@ -50,35 +54,30 @@
 #' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
+#' m1 <- NLIV.T(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-NLIV	<- function(
-  dat,
+NLIV.T	<- function(
+  data,
   varname.i,
   varname.t,
-  varname.y
+  varname.y,
+  trueAR = NULL
 ){
 
-  tPer			<- unique(as.numeric(dat[[varname.t]]))
-  dat.tmp			<- data.table::data.table(cbind(dat[[varname.i]],
-                                rep(1:length(tPer), times = length(unique(dat[[varname.i]]))),
-                                dat[[varname.y]]))
-  colnames(dat.tmp)	<- c(varname.i, varname.t, varname.y)
-  dat.tmp[[varname.t]]	<- as.numeric(dat.tmp[[varname.t]])
-  dat.tmp[[varname.y]]	<- as.numeric(dat.tmp[[varname.y]])
 
-  T				<- max(dat.tmp[[varname.t]])
+  if(!data.table::is.data.table(data)){data.table::setDT(x = data)}
 
-  if(!data.table::is.data.table(dat.tmp)){data.table::setDT(x = dat.tmp)}
+  data.table::setorderv(data, cols = c(varname.i, varname.t))
 
-  data.table::setorderv(dat.tmp, cols = c(varname.i, varname.t))
+  T	<- max(as.numeric(data[[varname.t]]))
 
-  y.T			<- dat.tmp[i = dat.tmp[[varname.t]] == T, j = get(varname.y)]
-  y.Tm1		<- dat.tmp[i = dat.tmp[[varname.t]] == T - 1, j = get(varname.y)]
-  y.Tm2		<- dat.tmp[i = dat.tmp[[varname.t]] == T - 2, j = get(varname.y)]
-  y.2			<- dat.tmp[i = dat.tmp[[varname.t]] == 2, j = get(varname.y)]
-  y.1			<- dat.tmp[i = dat.tmp[[varname.t]] == 1, j = get(varname.y)]
+  dat[, "y"]	<- data[[varname.y]]
+  y.T			<- data[i = data[[varname.t]] == T, j = y]
+  y.Tm1		<- data[i = data[[varname.t]] == T - 1, j = y]
+  y.Tm2		<- data[i = data[[varname.t]] == T - 2, j = y]
+  y.2			<- data[i = data[[varname.t]] == 2, j = y]
+  y.1			<- data[i = data[[varname.t]] == 1, j = y]
 
   A	<- sum(unlist(y.Tm1*(y.Tm2 - y.1)))
   B	<- -sum(unlist( y.Tm1*(y.Tm1 - y.2) + y.T*(y.Tm2 - y.1) ))
@@ -93,9 +92,17 @@ NLIV	<- function(
   rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
   rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
 
-  to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2)
+
+  if(!is.null(trueAR)){
+    papB	<- -sum(unlist( y.Tm1*((y.Tm1 - y.2) - trueAR*(y.Tm2 - y.1)) + (y.T - trueAR*y.Tm1)*(y.Tm2 - y.1) ))
+    papC	<- sum(unlist( (y.T - trueAR*y.Tm1)*((y.Tm1 - y.2) - trueAR*(y.Tm2 - y.1)) ))
+    to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2, papB = papB, papC = papC)
+  } else {
+    to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2)
+  }
 
   return(to.return)
+
 }
 
 
@@ -105,7 +112,7 @@ NLIV	<- function(
 
 
 
-#' Nonlinear Instrumental Variables Estimator - t-Version (NLIV.alt).
+#' Nonlinear Instrumental Variables Estimator - t-Version (NLIV.t).
 #'
 #' \code{NLIV.alt} Computes closed form solution for lag parameter of linear
 #'    dynamic panel data model based on instrumental variables (IV) estimator
@@ -125,11 +132,16 @@ NLIV	<- function(
 #'    More details on the implementation and the properties of the estimator
 #'    are provided in \insertCite{FriPuaSch2024;textual}{pdynmc}.
 #'
-#' @param dat A dataset.
+#' @param data A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
 #' @param varname.y A character string denoting the name of the dependent
 #'    variable in the dataset.
+#' @param trueAR A logical variable indicating whether the true autoregressive
+#'    parameter is known (defaults to `NULL`). The parameter is used to
+#'    compute the terms `A`, `B`, and `C` that can be employed to rewrite
+#'    the estimating equation (for details, see
+#'    \insertCitep{FriPuaSch2024;textual}{pdynmc}).
 #' @return An object of class `numeric` that contains the coefficient estimate for
 #'    the lag parameter according to the two roots of the quadratic equation.
 #'
@@ -138,6 +150,7 @@ NLIV	<- function(
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
 #' @importFrom data.table setorderv
+#' @importFrom data.table shift
 #'
 #' @references
 #' \insertAllCited{}
@@ -148,33 +161,34 @@ NLIV	<- function(
 #' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV.alt(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
+#' m1 <- NLIV.t(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-NLIV.alt	<- function(
-  dat,
+NLIV.t	<- function(
+  data,
   varname.i,
   varname.t,
-  varname.y
+  varname.y,
+  trueAR = NULL
 ){
 
-  if(!data.table::is.data.table(dat)){data.table::setDT(x = dat)}
+  if(!data.table::is.data.table(data)){data.table::setDT(x = data)}
 
-  data.table::setorderv(dat, cols = c(varname.i, varname.t))
+  data.table::setorderv(data, cols = c(varname.i, varname.t))
 
-  dat[, "y"]		<- dat[[varname.y]]
-  dat[, "y.lag1"]	<- shift(x = dat[[varname.y]], n = 1L, type = "lag")
-  dat[, "y.lag2"]	<- shift(x = dat[[varname.y]], n = 2L, type = "lag")
-  dat[, "y.lag3"]	<- shift(x = dat[[varname.y]], n = 3L, type = "lag")
+  data[, "y"]		<- data[[varname.y]]
+  data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
+  data[, "y.lag2"]	<- data.table::shift(x = data[[varname.y]], n = 2L, type = "lag")
+  data[, "y.lag3"]	<- data.table::shift(x = data[[varname.y]], n = 3L, type = "lag")
 
-  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
-  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
-  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
+  data[i = data[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
+  data[i = data[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
+  data[i = data[[varname.t]] == 3, j = "y.lag3"]	<- NA
 
 
-  A	<- sum(dat$y.lag1*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
-  B	<- -sum(dat$y.lag1*(dat$y.lag1 - dat$y.lag2) + dat$y*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
-  C	<- sum((dat$y*(dat$y.lag1 - dat$y.lag2))[dat$t != 3], na.rm = TRUE)
+  A	<- sum(data$y.lag1*(data$y.lag2 - data$y.lag3), na.rm = TRUE)
+  B	<- -sum(data$y.lag1*(data$y.lag1 - data$y.lag2) + data$y*(data$y.lag2 - data$y.lag3), na.rm = TRUE)
+  C	<- sum((data$y*(data$y.lag1 - data$y.lag2))[dat$t != 3], na.rm = TRUE)
 
   rho.sqrtterm	<- ((-B)^2 - 4*A*C)
 
@@ -185,9 +199,17 @@ NLIV.alt	<- function(
   rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
   rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
 
-  to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2)
+
+  if(!is.null(trueAR)){
+    papB	<- -sum( data$y.lag1*((data$y.lag1 - data$y.lag2) - trueAR*(data$y.lag2 - data$y.lag3)) + (data$y - trueAR*data$y.lag1)*(data$y.lag2 - data$y.lag3) , na.rm = TRUE)
+    papC	<- sum( (data$y - trueAR*data$y.lag1)*((data$y.lag1 - data$y.lag2) - trueAR*(data$y.lag2 - data$y.lag3)) , na.rm = TRUE)
+    to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2, papB = papB, papC = papC)
+  } else {
+    to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2)
+  }
 
   return(to.return)
+
 }
 
 
@@ -217,7 +239,7 @@ NLIV.alt	<- function(
 #'    More details on the FDLS estimator and its properties are provided
 #'    in \insertCite{HanPhi2010;textual}{pdynmc}.
 #'
-#' @param dat A dataset.
+#' @param data A dataset.
 #' @param varname.i The name of the cross-section identifier.
 #' @param varname.t The name of the time-series identifier.
 #' @param varname.y A character string denoting the name of the dependent variable
@@ -230,6 +252,7 @@ NLIV.alt	<- function(
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
 #' @importFrom data.table setorderv
+#' @importFrom data.table shift
 #'
 #' @references
 #' \insertAllCited{}
@@ -244,27 +267,27 @@ NLIV.alt	<- function(
 #'
 #'
 FDLS	<- function(
-  dat,
+  data,
   varname.i,
   varname.t,
   varname.y
 ){
 
-  if(!data.table::is.data.table(dat)){data.table::setDT(x = dat)}
+  if(!data.table::is.data.table(data)){data.table::setDT(x = data)}
 
-  data.table::setorderv(dat, cols = c(varname.i, varname.t))
+  data.table::setorderv(data, cols = c(varname.i, varname.t))
 
-  dat[, "y"]		<- dat[[varname.y]]
-  dat[, "y.lag1"]	<- shift(x = dat[[varname.y]], n = 1L, type = "lag")
-  dat[, "y.lag2"]	<- shift(x = dat[[varname.y]], n = 2L, type = "lag")
+  data[, "y"]		<- data[[varname.y]]
+  data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
+  data[, "y.lag2"]	<- data.table::shift(x = data[[varname.y]], n = 2L, type = "lag")
 
-  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2")]	<- NA
-  dat[i = dat[[varname.t]] == 2, j = "y.lag2"]	<- NA
+  data[i = data[[varname.t]] == 1, j = c("y.lag1", "y.lag2")]	<- NA
+  data[i = data[[varname.t]] == 2, j = "y.lag2"]	<- NA
 
-  dat[, "Dy"]		<- dat$y - dat$y.lag1
-  dat[, "Dy.lag1"]	<- dat$y.lag1 - dat$y.lag2
+  data[, "Dy"]		<- data$y - data$y.lag1
+  data[, "Dy.lag1"]	<- data$y.lag1 - data$y.lag2
 
-  rho.hat	<- sum(dat$Dy.lag1*(2*dat$Dy + dat$Dy.lag1), na.rm = TRUE) / sum(dat$Dy.lag1^2, na.rm = TRUE)
+  rho.hat	<- sum(data$Dy.lag1*(2*data$Dy + data$Dy.lag1), na.rm = TRUE) / sum(data$Dy.lag1^2, na.rm = TRUE)
 
   return(rho.hat)
 }
