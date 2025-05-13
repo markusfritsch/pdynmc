@@ -81,6 +81,9 @@ NLIV.T	<- function(
   t_cases			<- sort(unique(data[[varname.t]]))
   t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
 
+  n				    <- length(i_temp)		# number of cross-section units
+  Time				<- length(t_temp)		# number of time-series units
+
   data_b			<- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
                                   dimnames = list(NULL, c(varname.i, varname.t))))
   data_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
@@ -93,27 +96,40 @@ NLIV.T	<- function(
   data			<- data[order(data[[varname.i]], data[[varname.t]], decreasing = FALSE), ]
 
   data.na			<- data
-  data[is.na(data.na)]	<- 0
+  #  data[is.na(data.na)]	<- 0
 
-  data[, "y"]	<- data[[varname.y]]
-  y.T			<- data[i = data[[varname.t]] == T, j = y]
-  y.Tm1		<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[length(unique(as.numeric(data[[varname.t]]))) - 1], j = y]
-  y.Tm2		<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[length(unique(as.numeric(data[[varname.t]]))) - 2], j = y]
-  y.2			<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[2], j = y]
-  y.1			<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[1], j = y]
+  data[, "y"]		<- data[[varname.y]]
+  y.T				<- data[i = data[[varname.t]] == T, j = y]
+  y.T[is.na(y.T)]		<- 0
+  y.Tm1			<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[length(unique(as.numeric(data[[varname.t]]))) - 1], j = y]
+  y.Tm1[is.na(y.Tm1)]	<- 0
+  y.Tm2			<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[length(unique(as.numeric(data[[varname.t]]))) - 2], j = y]
+  y.Tm2[is.na(y.Tm2)]	<- 0
+  y.2				<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[2], j = y]
+  y.2[is.na(y.2)]		<- 0
+  y.1				<- data[i = data[[varname.t]] == sort(unique(data[[varname.t]]))[1], j = y]
+  y.1[is.na(y.1)]		<- 0
 
   A	<- sum(unlist(y.Tm1*(y.Tm2 - y.1)))
   B	<- -sum(unlist( y.Tm1*(y.Tm1 - y.2) + y.T*(y.Tm2 - y.1) ))
   C	<- sum(unlist( y.T*(y.Tm1 - y.2) ))
 
-  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
+  rho.sqrtterm	<- (((-1)*B/(2*A))^2 - C/A)
 
-  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
+  if(rho.sqrtterm < 0){abs(rho.sqrtterm)}
 
   rho.sqrt		<- sqrt(rho.sqrtterm)
 
-  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
-  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
+  rho.hat.1		<- -B/(2*A) + rho.sqrt
+  rho.hat.2		<- -B/(2*A) - rho.sqrt
+
+  #  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
+  #
+  #  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
+  #  rho.sqrt		<- sqrt(rho.sqrtterm)
+  #
+  #  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
+  #  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
 
 
   if(!is.null(trueAR)){
@@ -212,6 +228,9 @@ NLIV.t	<- function(
   t_cases			<- sort(unique(data[[varname.t]]))
   t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
 
+  n				    <- length(i_temp)		# number of cross-section units
+  Time				<- length(t_temp)		# number of time-series units
+
   data_b			<- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
                                   dimnames = list(NULL, c(varname.i, varname.t))))
   data_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
@@ -224,7 +243,7 @@ NLIV.t	<- function(
   data			<- data[order(data[[varname.i]], data[[varname.t]], decreasing = FALSE), ]
 
   data.na			<- data
-  data[is.na(data.na)]	<- 0
+  #  data[is.na(data.na)]	<- 0
 
   data[, "y"]		<- data[[varname.y]]
   data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
@@ -340,6 +359,9 @@ FDLS	<- function(
   t_cases			<- sort(unique(data[[varname.t]]))
   t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
 
+  n				    <- length(i_temp)		# number of cross-section units
+  Time				<- length(t_temp)		# number of time-series units
+
   data_b			<- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
                                   dimnames = list(NULL, c(varname.i, varname.t))))
   data_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
@@ -452,6 +474,9 @@ AH81	<- function (
   i_temp			<- 1:length(i_cases)				      # reflects data structures where i does not start at i = 1
   t_cases			<- sort(unique(data[[varname.t]]))
   t_temp			<- 1:length(unique(t_cases))			# reflects data structures where t does not start at t = 1
+
+  n				    <- length(i_temp)		# number of cross-section units
+  Time				<- length(t_temp)		# number of time-series units
 
   data_b			<- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
                                   dimnames = list(NULL, c(varname.i, varname.t))))
