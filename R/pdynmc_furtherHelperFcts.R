@@ -1336,7 +1336,30 @@ corSparse <- function(X, Y = NULL, cov = FALSE){
 
 
 
+###
+### Helper function for computing lags of dependent variable for iv estimator
+###
 
+
+#' @keywords internal
+#'
+#' @importFrom data.table shift
+lagsIV.compute   <- function(
+    i
+    ,dat.na
+    ,varname.i
+    ,varname){
+
+  dat.tmp     <- as.data.frame(dat.na)
+  y.tmp       <- dat.tmp[dat.tmp[, varname.i] == i, varname]
+  L.y.tmp	    <- data.table::shift(x = y.tmp, n = 1L, type = "lag")
+  L2.y.tmp	  <- data.table::shift(x = y.tmp, n = 2L, type = "lag")
+  L3.y.tmp	  <- data.table::shift(x = y.tmp, n = 3L, type = "lag")
+
+  lags.tmp    <- cbind(y.tmp, L.y.tmp, L2.y.tmp, L3.y.tmp)
+
+  return(lags.tmp)
+}
 
 
 

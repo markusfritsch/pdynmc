@@ -245,19 +245,26 @@ NLIV.t	<- function(
   data.na			<- data
   #  data[is.na(data.na)]	<- 0
 
-  data[, "y"]		<- data[[varname.y]]
-  data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
-  data[, "y.lag2"]	<- data.table::shift(x = data[[varname.y]], n = 2L, type = "lag")
-  data[, "y.lag3"]	<- data.table::shift(x = data[[varname.y]], n = 3L, type = "lag")
+  dat.tmp   <- do.call("rbind", lapply(i_cases, FUN = lagsIV.compute, dat.na = data.na, varname.i = varname.i, varname = varname.y))
+  dat.tmp   <- data.frame(dat.tmp)
 
-  data[i = data[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
-  data[i = data[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
-  data[i = data[[varname.t]] == 3, j = "y.lag3"]	<- NA
+  A	<- sum(dat.tmp$L.y.tmp*(dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp), na.rm = TRUE)
+  B	<- -sum(dat.tmp$L.y.tmp*(dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp) + dat.tmp$y.tmp*(dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp), na.rm = TRUE)
+  C	<- sum((dat.tmp$y.tmp*(dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp)), na.rm = TRUE)
 
-
-  A	<- sum(data$y.lag1*(data$y.lag2 - data$y.lag3), na.rm = TRUE)
-  B	<- -sum(data$y.lag1*(data$y.lag1 - data$y.lag2) + data$y*(data$y.lag2 - data$y.lag3), na.rm = TRUE)
-  C	<- sum((data$y*(data$y.lag1 - data$y.lag2))[dat$t != 3], na.rm = TRUE)
+#  data[, "y"]		<- data[[varname.y]]
+#  data[, "y.lag1"]	<- data.table::shift(x = data[[varname.y]], n = 1L, type = "lag")
+#  data[, "y.lag2"]	<- data.table::shift(x = data[[varname.y]], n = 2L, type = "lag")
+#  data[, "y.lag3"]	<- data.table::shift(x = data[[varname.y]], n = 3L, type = "lag")
+#
+#  data[i = data[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
+#  data[i = data[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
+#  data[i = data[[varname.t]] == 3, j = "y.lag3"]	<- NA
+#
+#
+#  A	<- sum(data$y.lag1*(data$y.lag2 - data$y.lag3), na.rm = TRUE)
+#  B	<- -sum(data$y.lag1*(data$y.lag1 - data$y.lag2) + data$y*(data$y.lag2 - data$y.lag3), na.rm = TRUE)
+#  C	<- sum((data$y*(data$y.lag1 - data$y.lag2))[dat$t != 3], na.rm = TRUE)
 
   rho.sqrtterm	<- ((-B)^2 - 4*A*C)
 
