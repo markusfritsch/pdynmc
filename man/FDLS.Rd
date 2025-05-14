@@ -4,10 +4,10 @@
 \alias{FDLS}
 \title{First Difference Least Squares (FDLS) Estimator of Han and Phillips (2010).}
 \usage{
-FDLS(data, varname.i, varname.t, varname.y)
+FDLS(dat, varname.i, varname.t, varname.y)
 }
 \arguments{
-\item{data}{A dataset.}
+\item{dat}{A dataset.}
 
 \item{varname.i}{The name of the cross-section identifier.}
 

@@ -4,10 +4,10 @@
 \alias{NLIV.t}
 \title{Nonlinear Instrumental Variables Estimator - t-Version (NLIV.t).}
 \usage{
-NLIV.t(data, varname.i, varname.t, varname.y, trueAR = NULL)
+NLIV.t(dat, varname.i, varname.t, varname.y, trueAR = NULL)
 }
 \arguments{
-\item{data}{A dataset.}
+\item{dat}{A dataset.}
 
 \item{varname.i}{The name of the cross-section identifier.}
 
@@ -27,7 +27,7 @@ An object of class `numeric` that contains the coefficient estimate for
    the lag parameter according to the two roots of the quadratic equation.
 }
 \description{
-\code{NLIV.alt} Computes closed form solution for lag parameter of linear
+\code{NLIV.t} Computes closed form solution for lag parameter of linear
    dynamic panel data model based on instrumental variables (IV) estimator
    employing alternative formulation of nonlinear moment conditions.
 }

@@ -4,10 +4,10 @@
 \alias{AH81}
 \title{Estimator of Anderson and Hsiao (1981).}
 \usage{
-AH81(data, varname.i, varname.t, varname.y, eq8.2 = TRUE)
+AH81(dat, varname.i, varname.t, varname.y, eq8.2 = TRUE)
 }
 \arguments{
-\item{data}{A dataset.}
+\item{dat}{A dataset.}
 
 \item{varname.i}{The name of the cross-section identifier.}
 
