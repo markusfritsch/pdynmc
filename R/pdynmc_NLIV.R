@@ -378,7 +378,7 @@ FDLS	<- function(
   Time				<- length(t_temp)		# number of time-series units
 
   dat_b			  <- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
-                                  dimnames = list(NULL, c(varname.i, varname.t))))
+                                   dimnames = list(NULL, c(varname.i, varname.t))))
   dat_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
   dat_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
 
@@ -388,20 +388,28 @@ FDLS	<- function(
   dat			    <- merge(x = dat_b, y = dat, by = c(varname.i, varname.t), all.x = TRUE)
   dat			    <- dat[order(dat[[varname.i]], dat[[varname.t]], decreasing = FALSE), ]
 
-  dat.na			        <- dat
-  dat[is.na(dat.na)]	<- 0
+  dat.na			<- dat
 
-  dat[, "y"]		  <- dat[[varname.y]]
-  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
-  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
+  dat.tmp   <- do.call("rbind", lapply(i_cases, FUN = lagsIV.compute, dat.na = dat.na, varname.i = varname.i, varname = varname.y))
+  dat.tmp   <- data.frame(dat.tmp)
 
-  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2")]	<- NA
-  dat[i = dat[[varname.t]] == 2, j = "y.lag2"]	<- NA
+  dat.tmp   <- cbind(dat.tmp, D.y.tmp = dat.tmp$y.tmp - dat.tmp$L.y.tmp, DL.y.tmp = dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp)
 
-  dat[, "Dy"]		    <- dat$y - dat$y.lag1
-  dat[, "Dy.lag1"]	<- dat$y.lag1 - dat$y.lag2
+  dat.tmp[is.na(dat.tmp)]	<- 0
 
-  rho.hat	<- sum(dat$Dy.lag1*(2*dat$Dy + dat$Dy.lag1), na.rm = TRUE) / sum(dat$Dy.lag1^2, na.rm = TRUE)
+  rho.hat	<- sum(dat.tmp$DL.y.tmp*(2*dat.tmp$D.y.tmp + dat.tmp$DL.y.tmp)) / sum(dat.tmp$DL.y.tmp^2)
+
+#  dat[, "y"]		  <- dat[[varname.y]]
+#  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
+#  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
+#
+#  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2")]	<- NA
+#  dat[i = dat[[varname.t]] == 2, j = "y.lag2"]	<- NA
+#
+#  dat[, "Dy"]		    <- dat$y - dat$y.lag1
+#  dat[, "Dy.lag1"]	<- dat$y.lag1 - dat$y.lag2
+#
+#  rho.hat	<- sum(dat$Dy.lag1*(2*dat$Dy + dat$Dy.lag1), na.rm = TRUE) / sum(dat$Dy.lag1^2, na.rm = TRUE)
 
   return(rho.hat)
 
