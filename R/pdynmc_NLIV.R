@@ -513,23 +513,33 @@ AH81	<- function (
   dat			    <- dat[order(dat[[varname.i]], dat[[varname.t]], decreasing = FALSE), ]
 
   dat.na			        <- dat
-  #dat[is.na(dat.na)]	<- 0
 
-  dat[, "y"]		  <- dat[[varname.y]]
-  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
-  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
-  dat[, "y.lag3"]	<- data.table::shift(x = dat[[varname.y]], n = 3L, type = "lag")
+  dat.tmp   <- do.call("rbind", lapply(i_cases, FUN = lagsIV.compute, dat.na = dat.na, varname.i = varname.i, varname = varname.y))
+  dat.tmp   <- data.frame(dat.tmp)
 
-  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
-  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
-  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
-
+  dat.tmp[is.na(dat.tmp)]	<- 0
 
   if(eq8.2){
-    rho.hat	<- sum( (dat$y - dat$y.lag1) * dat$y.lag2 , na.rm = TRUE ) / sum( (dat$y.lag1 - dat$y.lag2) * dat$y.lag2 , na.rm = TRUE )
+    rho.hat	<- sum( (dat.tmp$y.tmp - dat.tmp$L.y.tmp) * dat.tmp$L2.y.tmp) / sum( (dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp) * dat.tmp$L2.y.tmp)
   } else {
-    rho.hat	<- sum( (dat$y - dat$y.lag1) * (dat$y.lag2 - dat$y.lag3) , na.rm = TRUE ) / sum( (dat$y.lag1 - dat$y.lag2) * (dat$y.lag2 - dat$y.lag3) , na.rm = TRUE )
+    rho.hat	<- sum( (dat.tmp$y.tmp - dat.tmp$L.y.tmp) * (dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp)) / sum( (dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp) * (dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp))
   }
+
+#  dat[, "y"]		  <- dat[[varname.y]]
+#  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
+#  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
+#  dat[, "y.lag3"]	<- data.table::shift(x = dat[[varname.y]], n = 3L, type = "lag")
+#
+#  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
+#  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
+#  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
+#
+#
+#  if(eq8.2){
+#    rho.hat	<- sum( (dat$y - dat$y.lag1) * dat$y.lag2 , na.rm = TRUE ) / sum( (dat$y.lag1 - dat$y.lag2) * dat$y.lag2 , na.rm = TRUE )
+#  } else {
+#    rho.hat	<- sum( (dat$y - dat$y.lag1) * (dat$y.lag2 - dat$y.lag3) , na.rm = TRUE ) / sum( (dat$y.lag1 - dat$y.lag2) * (dat$y.lag2 - dat$y.lag3) , na.rm = TRUE )
+#  }
 
   return(rho.hat)
 
