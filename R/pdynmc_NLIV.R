@@ -121,13 +121,13 @@ NLIV.T	<- function(
   rho.hat.1		<- -B/(2*A) + rho.sqrt
   rho.hat.2		<- -B/(2*A) - rho.sqrt
 
-  #  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
-  #
-  #  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
-  #  rho.sqrt		<- sqrt(rho.sqrtterm)
-  #
-  #  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
-  #  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
+#  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
+#
+#  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
+#  rho.sqrt		<- sqrt(rho.sqrtterm)
+#
+#  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
+#  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
 
 
   if(!is.null(trueAR)){
@@ -260,28 +260,28 @@ NLIV.t	<- function(
   rho.hat.1		<- -B/(2*A) + rho.sqrt
   rho.hat.2		<- -B/(2*A) - rho.sqrt
 
-  #  dat[, "y"]		<- dat[[varname.y]]
-  #  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
-  #  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
-  #  dat[, "y.lag3"]	<- data.table::shift(x = dat[[varname.y]], n = 3L, type = "lag")
-  #
-  #  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
-  #  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
-  #  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
-  #
-  #
-  #  A	<- sum(dat$y.lag1*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
-  #  B	<- -sum(dat$y.lag1*(dat$y.lag1 - dat$y.lag2) + dat$y*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
-  #  C	<- sum((dat$y*(dat$y.lag1 - dat$y.lag2))[dat$t != 3], na.rm = TRUE)
-  #
-  #  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
-  #
-  #  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
-  #
-  #  rho.sqrt		<- sqrt(rho.sqrtterm)
-  #
-  #  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
-  #  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
+#  dat[, "y"]		<- dat[[varname.y]]
+#  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
+#  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
+#  dat[, "y.lag3"]	<- data.table::shift(x = dat[[varname.y]], n = 3L, type = "lag")
+#
+#  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
+#  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
+#  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
+#
+#
+#  A	<- sum(dat$y.lag1*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
+#  B	<- -sum(dat$y.lag1*(dat$y.lag1 - dat$y.lag2) + dat$y*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
+#  C	<- sum((dat$y*(dat$y.lag1 - dat$y.lag2))[dat$t != 3], na.rm = TRUE)
+#
+#  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
+#
+#  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
+#
+#  rho.sqrt		<- sqrt(rho.sqrtterm)
+#
+#  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
+#  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
 
 
   if(!is.null(trueAR)){
