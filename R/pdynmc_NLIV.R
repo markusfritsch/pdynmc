@@ -85,7 +85,7 @@ NLIV.T	<- function(
   Time				<- length(t_temp)		# number of time-series units
 
   dat_b			  <- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
-                                  dimnames = list(NULL, c(varname.i, varname.t))))
+                                   dimnames = list(NULL, c(varname.i, varname.t))))
   dat_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
   dat_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
 
@@ -98,16 +98,16 @@ NLIV.T	<- function(
   dat.na			<- dat
   #  dat[is.na(dat.na)]	<- 0
 
-  dat[, "y"]		      <- dat[[varname.y]]
-  y.T				          <- dat[i = dat[[varname.t]] == T, j = y]
+  dat$y		            <- dat[[varname.y]]
+  y.T				          <- dat[i = dat[[varname.t]] == Time, j = y]
   y.T[is.na(y.T)]		  <- 0
-  y.Tm1			          <- dat[i = dat[[varname.t]] == sort(unique(dat[[varname.t]]))[length(unique(as.numeric(dat[[varname.t]]))) - 1], j = y]
+  y.Tm1			          <- dat[i = dat[[varname.t]] == Time - 1, j = y]
   y.Tm1[is.na(y.Tm1)]	<- 0
-  y.Tm2			          <- dat[i = dat[[varname.t]] == sort(unique(dat[[varname.t]]))[length(unique(as.numeric(dat[[varname.t]]))) - 2], j = y]
+  y.Tm2			          <- dat[i = dat[[varname.t]] == Time - 2, j = y]
   y.Tm2[is.na(y.Tm2)]	<- 0
-  y.2				          <- dat[i = dat[[varname.t]] == sort(unique(dat[[varname.t]]))[2], j = y]
+  y.2				          <- dat[i = dat[[varname.t]] == t_temp[2], j = y]
   y.2[is.na(y.2)]		  <- 0
-  y.1				          <- dat[i = dat[[varname.t]] == sort(unique(dat[[varname.t]]))[1], j = y]
+  y.1				          <- dat[i = dat[[varname.t]] == t_temp[1], j = y]
   y.1[is.na(y.1)]		  <- 0
 
   A	<- sum(unlist(y.Tm1*(y.Tm2 - y.1)))
