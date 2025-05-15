@@ -96,18 +96,17 @@ NLIV.T	<- function(
   dat			    <- dat[order(dat[[varname.i]], dat[[varname.t]], decreasing = FALSE), ]
 
   dat.na			<- dat
-  #  dat[is.na(dat.na)]	<- 0
 
-  dat$y		            <- dat[[varname.y]]
-  y.T				          <- dat[i = dat[[varname.t]] == Time, j = y]
+#  dat$y		            <- dat[[varname.y]]
+  y.T				          <- dat[i = dat[[varname.t]] == Time, j = varname.y]
   y.T[is.na(y.T)]		  <- 0
-  y.Tm1			          <- dat[i = dat[[varname.t]] == Time - 1, j = y]
+  y.Tm1			          <- dat[i = dat[[varname.t]] == Time - 1, j = varname.y]
   y.Tm1[is.na(y.Tm1)]	<- 0
-  y.Tm2			          <- dat[i = dat[[varname.t]] == Time - 2, j = y]
+  y.Tm2			          <- dat[i = dat[[varname.t]] == Time - 2, j = varname.y]
   y.Tm2[is.na(y.Tm2)]	<- 0
-  y.2				          <- dat[i = dat[[varname.t]] == t_temp[2], j = y]
+  y.2				          <- dat[i = dat[[varname.t]] == t_temp[2], j = varname.y]
   y.2[is.na(y.2)]		  <- 0
-  y.1				          <- dat[i = dat[[varname.t]] == t_temp[1], j = y]
+  y.1				          <- dat[i = dat[[varname.t]] == t_temp[1], j = varname.y]
   y.1[is.na(y.1)]		  <- 0
 
   A	<- sum(unlist(y.Tm1*(y.Tm2 - y.1)))
@@ -232,7 +231,7 @@ NLIV.t	<- function(
   Time				<- length(t_temp)		# number of time-series units
 
   dat_b			  <- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
-                                  dimnames = list(NULL, c(varname.i, varname.t))))
+                                   dimnames = list(NULL, c(varname.i, varname.t))))
   dat_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
   dat_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
 
@@ -243,42 +242,52 @@ NLIV.t	<- function(
   dat			  <- dat[order(dat[[varname.i]], dat[[varname.t]], decreasing = FALSE), ]
 
   dat.na		<- dat
-  #  dat[is.na(dat.na)]	<- 0
 
   dat.tmp   <- do.call("rbind", lapply(i_cases, FUN = lagsIV.compute, dat.na = dat.na, varname.i = varname.i, varname = varname.y))
   dat.tmp   <- data.frame(dat.tmp)
 
-  A	<- sum(dat.tmp$L.y.tmp*(dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp), na.rm = TRUE)
-  B	<- -sum(dat.tmp$L.y.tmp*(dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp) + dat.tmp$y.tmp*(dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp), na.rm = TRUE)
-  C	<- sum((dat.tmp$y.tmp*(dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp)), na.rm = TRUE)
+  dat.tmp[is.na(dat.tmp)]	<- 0
 
-#  dat[, "y"]		<- dat[[varname.y]]
-#  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
-#  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
-#  dat[, "y.lag3"]	<- data.table::shift(x = dat[[varname.y]], n = 3L, type = "lag")
-#
-#  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
-#  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
-#  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
-#
-#
-#  A	<- sum(dat$y.lag1*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
-#  B	<- -sum(dat$y.lag1*(dat$y.lag1 - dat$y.lag2) + dat$y*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
-#  C	<- sum((dat$y*(dat$y.lag1 - dat$y.lag2))[dat$t != 3], na.rm = TRUE)
+  A	<- sum(dat.tmp$L.y.tmp*(dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp))
+  B	<- -sum(dat.tmp$L.y.tmp*(dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp) + dat.tmp$y.tmp*(dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp))
+  C	<- sum((dat.tmp$y.tmp*(dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp)))
 
-  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
+  rho.sqrtterm	<- (((-1)*B/(2*A))^2 - C/A)
 
-  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
+  if(rho.sqrtterm < 0){rho.sqrtterm   <- abs(rho.sqrtterm)}
 
   rho.sqrt		<- sqrt(rho.sqrtterm)
 
-  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
-  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
+  rho.hat.1		<- -B/(2*A) + rho.sqrt
+  rho.hat.2		<- -B/(2*A) - rho.sqrt
+
+  #  dat[, "y"]		<- dat[[varname.y]]
+  #  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
+  #  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
+  #  dat[, "y.lag3"]	<- data.table::shift(x = dat[[varname.y]], n = 3L, type = "lag")
+  #
+  #  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
+  #  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
+  #  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
+  #
+  #
+  #  A	<- sum(dat$y.lag1*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
+  #  B	<- -sum(dat$y.lag1*(dat$y.lag1 - dat$y.lag2) + dat$y*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
+  #  C	<- sum((dat$y*(dat$y.lag1 - dat$y.lag2))[dat$t != 3], na.rm = TRUE)
+  #
+  #  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
+  #
+  #  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
+  #
+  #  rho.sqrt		<- sqrt(rho.sqrtterm)
+  #
+  #  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
+  #  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
 
 
   if(!is.null(trueAR)){
-    papB	<- -sum( dat$y.lag1*((dat$y.lag1 - dat$y.lag2) - trueAR*(dat$y.lag2 - dat$y.lag3)) + (dat$y - trueAR*dat$y.lag1)*(dat$y.lag2 - dat$y.lag3) , na.rm = TRUE)
-    papC	<- sum( (dat$y - trueAR*dat$y.lag1)*((dat$y.lag1 - dat$y.lag2) - trueAR*(dat$y.lag2 - dat$y.lag3)) , na.rm = TRUE)
+    papB	<- -sum( dat$y.lag1*((dat$y.lag1 - dat$y.lag2) - trueAR*(dat$y.lag2 - dat$y.lag3)) + (dat$y - trueAR*dat$y.lag1)*(dat$y.lag2 - dat$y.lag3))
+    papC	<- sum( (dat$y - trueAR*dat$y.lag1)*((dat$y.lag1 - dat$y.lag2) - trueAR*(dat$y.lag2 - dat$y.lag3)))
     to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2, papB = papB, papC = papC)
   } else {
     to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2)
