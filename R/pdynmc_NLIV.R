@@ -97,16 +97,15 @@ NLIV.T	<- function(
 
   dat.na			<- dat
 
-#  dat$y		            <- dat[[varname.y]]
-  y.T				          <- dat[i = dat[[varname.t]] == Time, j = varname.y]
+  y.T				          <- dat[i = dat[[varname.t]] == Time, ..varname.y]
   y.T[is.na(y.T)]		  <- 0
-  y.Tm1			          <- dat[i = dat[[varname.t]] == Time - 1, j = varname.y]
+  y.Tm1			          <- dat[i = dat[[varname.t]] == Time - 1, ..varname.y]
   y.Tm1[is.na(y.Tm1)]	<- 0
-  y.Tm2			          <- dat[i = dat[[varname.t]] == Time - 2, j = varname.y]
+  y.Tm2			          <- dat[i = dat[[varname.t]] == Time - 2, ..varname.y]
   y.Tm2[is.na(y.Tm2)]	<- 0
-  y.2				          <- dat[i = dat[[varname.t]] == t_temp[2], j = varname.y]
+  y.2				          <- dat[i = dat[[varname.t]] == t_temp[2], ..varname.y]
   y.2[is.na(y.2)]		  <- 0
-  y.1				          <- dat[i = dat[[varname.t]] == t_temp[1], j = varname.y]
+  y.1				          <- dat[i = dat[[varname.t]] == t_temp[1], ..varname.y]
   y.1[is.na(y.1)]		  <- 0
 
   A	<- sum(unlist(y.Tm1*(y.Tm2 - y.1)))
