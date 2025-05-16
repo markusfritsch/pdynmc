@@ -6,9 +6,9 @@
 
 
 
-#' Nonlinear Instrumental Variables Estimator - T-Version (NLIV).
+#' Nonlinear Instrumental Variables Estimator - T-Version (NLIV_T).
 #'
-#' \code{NLIV} Computes closed form solution for lag parameter of linear
+#' \code{NLIV_T} Computes closed form solution for lag parameter of linear
 #'    dynamic panel data model based on instrumental variables (IV) estimator
 #'    employing nonlinear moment conditions.
 #'
@@ -54,10 +54,10 @@
 #' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
+#' m1 <- NLIV_T(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-NLIV	<- function(
+NLIV_T	<- function(
   dat,
   varname.i,
   varname.t,
@@ -114,7 +114,7 @@ NLIV	<- function(
 
   rho.sqrtterm	<- (((-1)*B/(2*A))^2 - C/A)
 
-  if(rho.sqrtterm < 0){abs(rho.sqrtterm)}
+  if(rho.sqrtterm < 0){rho.sqrtterm		<- abs(rho.sqrtterm)}
 
   rho.sqrt		<- sqrt(rho.sqrtterm)
 
@@ -150,9 +150,9 @@ NLIV	<- function(
 
 
 
-#' Nonlinear Instrumental Variables Estimator - t-Version (NLIV.t).
+#' Nonlinear Instrumental Variables Estimator - t-Version (NLIV_t).
 #'
-#' \code{NLIV.t} Computes closed form solution for lag parameter of linear
+#' \code{NLIV_t} Computes closed form solution for lag parameter of linear
 #'    dynamic panel data model based on instrumental variables (IV) estimator
 #'    employing alternative formulation of nonlinear moment conditions.
 #'
@@ -199,10 +199,10 @@ NLIV	<- function(
 #' dat <- cigDemand
 #'
 #' ## Code example
-#' m1 <- NLIV.t(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
+#' m1 <- NLIV_t(dat = dat, varname.i = "state", varname.t = "year", varname.y = "packpc")
 #'
 #'
-NLIV.t	<- function(
+NLIV_t	<- function(
   dat,
   varname.i,
   varname.t,
