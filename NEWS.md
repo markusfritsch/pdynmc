@@ -1,8 +1,8 @@
 # pdynmc version 0.9.13.9007
 
-Update of version 0.9.12 that adds an estimation function to compute the Anderson-Hsiao estimator for AR(1) panel data models, adjust the code of functions NLIV_T, NLIV_t, and FDLS to allow for more general data strctures and unbalanced panels, and fixes typos in documentation. Additionally, function NLIV was renamed to NLIV_T NLIV.alt was renamed to NLIV_t.
+Update of version 0.9.12 that adds an estimation function to compute the Anderson-Hsiao estimator for AR(1) panel data models, adjust the code of functions NLIV, NLIV_t, and FDLS to allow for more general data strctures and unbalanced panels, and fixes typos in documentation. Additionally, function NLIV.alt was renamed to NLIV_t.
 
-### NLIV_T
+### NLIV
 * adjust code to allow for more general data structures
 * allow for unbalanced panels
 
