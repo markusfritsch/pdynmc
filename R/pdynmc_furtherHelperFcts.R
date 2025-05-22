@@ -1337,15 +1337,48 @@ corSparse <- function(X, Y = NULL, cov = FALSE){
 
 
 ###
-### Helper function for computing lags of dependent variable for iv estimator
+### Helper function for computing lags and differences of dependent variable for NLIV, FDLS, and AH81 estimators
 ###
 
 
 #' @keywords internal
 #'
-#' @importFrom data.table shift
-lagsIV.compute   <- function(
+abcIV.compute_T   <- function(
     i
+    ,Time
+    ,dat.na
+    ,varname.i
+    ,varname){
+
+  dat.tmp     <- as.data.frame(dat.na)
+  y.tmp       <- dat.tmp[dat.tmp[, varname.i] == i, varname]
+  y.T         <- y.tmp[Time]
+  y.Tm1       <- y.tmp[Time-1]
+  y.Tm2       <- y.tmp[Time-2]
+  y.2         <- y.tmp[2]
+  y.1         <- y.tmp[1]
+
+  lags.tmp    <- cbind(y.tmp, y.T, y.Tm1, y.Tm2, y.2, y.1)
+
+  a_i         <- (y.Tm1 * (y.Tm2 - y.1))*!is.na(y.Tm1 + y.Tm2 + y.1)
+  b_i         <- (y.T * (y.Tm2 - y.1) + y.Tm1 * (y.Tm1 - y.2))*!is.na(y.T + y.Tm2 + y.1 + y.Tm1 + y.2)
+  c_i         <- (y.T * (y.Tm1 - y.2))*!is.na(y.T + y.Tm1 + y.2)
+
+  abc.tmp     <- data.frame(a_i = a_i, b_i = b_i, c_i = c_i)
+  abc.tmp[is.na(abc.tmp)]	<- 0
+
+  #  return(list(abc.tmp, lags.tmp))
+  return(abc.tmp)
+
+}
+
+
+#' @keywords internal
+#'
+#' @importFrom data.table shift
+abcIV.compute_t   <- function(
+    i
+    ,Time
     ,dat.na
     ,varname.i
     ,varname){
@@ -1358,7 +1391,90 @@ lagsIV.compute   <- function(
 
   lags.tmp    <- cbind(y.tmp, L.y.tmp, L2.y.tmp, L3.y.tmp)
 
-  return(lags.tmp)
+  a_i         <- (L.y.tmp[-c(1:3)] * (L2.y.tmp[-c(1:3)] - L3.y.tmp[-c(1:3)])) *
+    !is.na(L.y.tmp[-c(1:3)] + L2.y.tmp[-c(1:3)] + L3.y.tmp[-c(1:3)])
+  b_i         <- (y.tmp[-c(1:3)] * (L2.y.tmp[-c(1:3)] - L3.y.tmp[-c(1:3)]) +
+                    L.y.tmp[-c(1:3)] * (L.y.tmp[-c(1:3)] - L2.y.tmp[-c(1:3)])) *
+    !is.na(y.tmp[-c(1:3)] + L2.y.tmp[-c(1:3)] + L3.y.tmp[-c(1:3)] + L.y.tmp[-c(1:3)] )
+  c_i         <- (y.tmp[-c(1:3)] * (L.y.tmp[-c(1:3)] - L2.y.tmp[-c(1:3)])) *
+    !is.na(y.tmp[-c(1:3)] + L.y.tmp[-c(1:3)] + L2.y.tmp[-c(1:3)])
+
+  abc.tmp     <- data.frame(cbind(a_i = a_i, b_i = b_i, c_i = c_i))
+  abc.tmp[is.na(abc.tmp)]	<- 0
+
+  #  return(list(abc.tmp, lags.tmp))
+  return(abc.tmp)
+
+}
+
+
+#' @keywords internal
+#'
+#' @importFrom data.table shift
+lagsDiffFDLS.compute   <- function(
+    i
+    ,dat.na
+    ,varname.i
+    ,varname){
+
+  dat.tmp     <- as.data.frame(dat.na)
+  y.tmp       <- dat.tmp[dat.tmp[, varname.i] == i, varname]
+  L.y.tmp	    <- data.table::shift(x = y.tmp, n = 1L, type = "lag")
+  L2.y.tmp	  <- data.table::shift(x = y.tmp, n = 2L, type = "lag")
+  L3.y.tmp	  <- data.table::shift(x = y.tmp, n = 3L, type = "lag")
+
+  D.y.tmp	  <- y.tmp - L.y.tmp
+  D.L.y.tmp	  <- L.y.tmp - L2.y.tmp
+
+  #  lags.tmp    <- cbind(y.tmp, L.y.tmp, L2.y.tmp, L3.y.tmp, D.y.tmp, D.L.y.tmp)
+
+  fdls_i.num    <- D.L.y.tmp[-c(1:2)]*(2*D.y.tmp[-c(1:2)] + D.L.y.tmp[-c(1:2)])
+  fdls_i.denom    <- D.L.y.tmp[-c(1:2)]^2
+
+  fdls_i    <- cbind(fdls_i.num = fdls_i.num, fdls_i.denom = fdls_i.denom)
+  fdls_i[is.na(fdls_i)]    <- 0
+
+  #  return(list(lags.tmp, fdls_i))
+  return(fdls_i)
+
+}
+
+
+#' @keywords internal
+#'
+#' @importFrom data.table shift
+lagsDiffAH81.compute   <- function(
+    i
+    ,dat.na
+    ,varname.i
+    ,varname
+    ,eq8.2){
+
+  dat.tmp     <- as.data.frame(dat.na)
+  y.tmp       <- dat.tmp[dat.tmp[, varname.i] == i, varname]
+  L.y.tmp	    <- data.table::shift(x = y.tmp, n = 1L, type = "lag")
+  L2.y.tmp	  <- data.table::shift(x = y.tmp, n = 2L, type = "lag")
+  L3.y.tmp	  <- data.table::shift(x = y.tmp, n = 3L, type = "lag")
+
+  D.y.tmp	  <- y.tmp - L.y.tmp
+  D.L.y.tmp	  <- L.y.tmp - L2.y.tmp
+
+  #  lags.tmp    <- cbind(y.tmp, L.y.tmp, L2.y.tmp, L3.y.tmp, D.y.tmp, D.L.y.tmp)
+
+  if(eq8.2){
+    ah81_i.num	<- (y.tmp[-c(1:3)] - L.y.tmp[-c(1:3)]) * L2.y.tmp[-c(1:3)]
+    ah81_i.denom	<- (L.y.tmp[-c(1:3)] - L2.y.tmp[-c(1:3)]) * L2.y.tmp[-c(1:3)]
+  } else {
+    ah81_i.num	<- (y.tmp[-c(1:3)] - L.y.tmp[-c(1:3)]) * (L2.y.tmp[-c(1:3)] - L3.y.tmp[-c(1:3)])
+    ah81_i.denom	<- (L.y.tmp[-c(1:3)] - L2.y.tmp[-c(1:3)]) * (L2.y.tmp[-c(1:3)] - L3.y.tmp[-c(1:3)])
+  }
+
+  ah81_i    <- cbind(ah81_i.num = ah81_i.num, ah81_i.denom = ah81_i.denom)
+  ah81_i[is.na(ah81_i)]    <- 0
+
+  #  return(list(lags.tmp, ah81_i))
+  return(ah81_i)
+
 }
 
 

@@ -84,6 +84,10 @@ NLIV	<- function(
   n				    <- length(i_temp)		# number of cross-section units
   Time				<- length(t_temp)		# number of time-series units
 
+  if(Time < 4){
+    stop(paste("At least 4 time periods required to compute estimator. Dataset only has ", Time, " time periods.", sep = ""))
+  }
+
   dat_b			  <- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
                                    dimnames = list(NULL, c(varname.i, varname.t))))
   dat_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
@@ -97,20 +101,11 @@ NLIV	<- function(
 
   dat.na			<- dat
 
-  y.T				          <- dat[i = dat[[varname.t]] == Time, ..varname.y]
-  y.T[is.na(y.T)]		  <- 0
-  y.Tm1			          <- dat[i = dat[[varname.t]] == Time - 1, ..varname.y]
-  y.Tm1[is.na(y.Tm1)]	<- 0
-  y.Tm2			          <- dat[i = dat[[varname.t]] == Time - 2, ..varname.y]
-  y.Tm2[is.na(y.Tm2)]	<- 0
-  y.2				          <- dat[i = dat[[varname.t]] == t_temp[2], ..varname.y]
-  y.2[is.na(y.2)]		  <- 0
-  y.1				          <- dat[i = dat[[varname.t]] == t_temp[1], ..varname.y]
-  y.1[is.na(y.1)]		  <- 0
+  dat.tmp   <- lapply(i_cases, FUN = abcIV.compute_T, Time = Time, dat.na = dat.na, varname.i = varname.i, varname = varname.y)
 
-  A	<- sum(unlist(y.Tm1*(y.Tm2 - y.1)))
-  B	<- -sum(unlist( y.Tm1*(y.Tm1 - y.2) + y.T*(y.Tm2 - y.1) ))
-  C	<- sum(unlist( y.T*(y.Tm1 - y.2) ))
+  A	<- Reduce("+", lapply(dat.tmp, "[[", 1))
+  B	<- -Reduce("+", lapply(dat.tmp, "[[", 2))
+  C	<- Reduce("+", lapply(dat.tmp, "[[", 3))
 
   rho.sqrtterm	<- (((-1)*B/(2*A))^2 - C/A)
 
@@ -120,14 +115,6 @@ NLIV	<- function(
 
   rho.hat.1		<- -B/(2*A) + rho.sqrt
   rho.hat.2		<- -B/(2*A) - rho.sqrt
-
-#  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
-#
-#  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
-#  rho.sqrt		<- sqrt(rho.sqrtterm)
-#
-#  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
-#  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
 
 
   if(!is.null(trueAR)){
@@ -229,6 +216,10 @@ NLIV_t	<- function(
   n				    <- length(i_temp)		# number of cross-section units
   Time				<- length(t_temp)		# number of time-series units
 
+  if(Time < 4){
+    stop(paste("At least 4 time periods required to compute estimator. Dataset only has ", Time, " time periods.", sep = ""))
+  }
+
   dat_b			  <- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
                                    dimnames = list(NULL, c(varname.i, varname.t))))
   dat_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
@@ -242,14 +233,13 @@ NLIV_t	<- function(
 
   dat.na		<- dat
 
-  dat.tmp   <- do.call("rbind", lapply(i_cases, FUN = lagsIV.compute, dat.na = dat.na, varname.i = varname.i, varname = varname.y))
-  dat.tmp   <- data.frame(dat.tmp)
+  dat.tmp   <- lapply(i_cases, FUN = abcIV.compute_t, Time = Time, dat.na = dat.na, varname.i = varname.i, varname = varname.y)
 
-  dat.tmp[is.na(dat.tmp)]	<- 0
+  dat.tmp2	<- lapply(dat.tmp, FUN = colSums)
 
-  A	<- sum(dat.tmp$L.y.tmp*(dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp))
-  B	<- -sum(dat.tmp$L.y.tmp*(dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp) + dat.tmp$y.tmp*(dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp))
-  C	<- sum((dat.tmp$y.tmp*(dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp)))
+  A		<- Reduce("+", lapply(dat.tmp2, "[[", 1))
+  B		<- -Reduce("+", lapply(dat.tmp2, "[[", 2))
+  C		<- Reduce("+", lapply(dat.tmp2, "[[", 3))
 
   rho.sqrtterm	<- (((-1)*B/(2*A))^2 - C/A)
 
@@ -259,29 +249,6 @@ NLIV_t	<- function(
 
   rho.hat.1		<- -B/(2*A) + rho.sqrt
   rho.hat.2		<- -B/(2*A) - rho.sqrt
-
-#  dat[, "y"]		<- dat[[varname.y]]
-#  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
-#  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
-#  dat[, "y.lag3"]	<- data.table::shift(x = dat[[varname.y]], n = 3L, type = "lag")
-#
-#  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
-#  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
-#  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
-#
-#
-#  A	<- sum(dat$y.lag1*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
-#  B	<- -sum(dat$y.lag1*(dat$y.lag1 - dat$y.lag2) + dat$y*(dat$y.lag2 - dat$y.lag3), na.rm = TRUE)
-#  C	<- sum((dat$y*(dat$y.lag1 - dat$y.lag2))[dat$t != 3], na.rm = TRUE)
-#
-#  rho.sqrtterm	<- ((-B)^2 - 4*A*C)
-#
-#  if(rho.sqrtterm < 0){rho.sqrtterm <- 0}
-#
-#  rho.sqrt		<- sqrt(rho.sqrtterm)
-#
-#  rho.hat.1		<- -B/(2*A) + rho.sqrt/(2*A)
-#  rho.hat.2		<- -B/(2*A) - rho.sqrt/(2*A)
 
 
   if(!is.null(trueAR)){
@@ -377,6 +344,10 @@ FDLS	<- function(
   n				    <- length(i_temp)		# number of cross-section units
   Time				<- length(t_temp)		# number of time-series units
 
+  if(Time < 3){
+    stop(paste("At least 3 time periods required to compute estimator. Dataset only has ", Time, " time periods.", sep = ""))
+  }
+
   dat_b			  <- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
                                    dimnames = list(NULL, c(varname.i, varname.t))))
   dat_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
@@ -390,26 +361,12 @@ FDLS	<- function(
 
   dat.na			<- dat
 
-  dat.tmp   <- do.call("rbind", lapply(i_cases, FUN = lagsIV.compute, dat.na = dat.na, varname.i = varname.i, varname = varname.y))
-  dat.tmp   <- data.frame(dat.tmp)
+  dat.tmp   <- lapply(i_cases, FUN = lagsDiffFDLS.compute, dat.na = dat.na, varname.i = varname.i, varname = varname.y)
 
-  dat.tmp   <- cbind(dat.tmp, D.y.tmp = dat.tmp$y.tmp - dat.tmp$L.y.tmp, DL.y.tmp = dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp)
+  fdls_num   <- Reduce("+", lapply(dat.tmp, "[[", 1))
+  fdls_denom   <- Reduce("+", lapply(dat.tmp, "[[", 2))
 
-  dat.tmp[is.na(dat.tmp)]	<- 0
-
-  rho.hat	<- sum(dat.tmp$DL.y.tmp*(2*dat.tmp$D.y.tmp + dat.tmp$DL.y.tmp)) / sum(dat.tmp$DL.y.tmp^2)
-
-#  dat[, "y"]		  <- dat[[varname.y]]
-#  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
-#  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
-#
-#  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2")]	<- NA
-#  dat[i = dat[[varname.t]] == 2, j = "y.lag2"]	<- NA
-#
-#  dat[, "Dy"]		    <- dat$y - dat$y.lag1
-#  dat[, "Dy.lag1"]	<- dat$y.lag1 - dat$y.lag2
-#
-#  rho.hat	<- sum(dat$Dy.lag1*(2*dat$Dy + dat$Dy.lag1), na.rm = TRUE) / sum(dat$Dy.lag1^2, na.rm = TRUE)
+  rho.hat	<- fdls_num/fdls_denom
 
   return(rho.hat)
 
@@ -501,8 +458,12 @@ AH81	<- function (
   n				    <- length(i_temp)		# number of cross-section units
   Time				<- length(t_temp)		# number of time-series units
 
+  if(Time < 4){
+    stop(paste("At least 4 time periods required to compute estimator. Dataset only has ", Time, " time periods.", sep = ""))
+  }
+
   dat_b			  <- as.data.frame(array(data = NA, dim = c(length(i_cases)*length(t_cases), 2),
-                                  dimnames = list(NULL, c(varname.i, varname.t))))
+                                   dimnames = list(NULL, c(varname.i, varname.t))))
   dat_b[, varname.i]	<- rep(x = i_cases, each = length(t_cases))
   dat_b[, varname.t]	<- rep(x = t_cases, times = length(i_cases))
 
@@ -514,32 +475,12 @@ AH81	<- function (
 
   dat.na			        <- dat
 
-  dat.tmp   <- do.call("rbind", lapply(i_cases, FUN = lagsIV.compute, dat.na = dat.na, varname.i = varname.i, varname = varname.y))
-  dat.tmp   <- data.frame(dat.tmp)
+  dat.tmp   <- lapply(i_cases, FUN = lagsDiffAH81.compute, dat.na = dat.na, varname.i = varname.i, varname = varname.y, eq8.2 = eq8.2)
 
-  dat.tmp[is.na(dat.tmp)]	<- 0
+  ah81_num   <- Reduce("+", lapply(dat.tmp, "[[", 1))
+  ah81_denom   <- Reduce("+", lapply(dat.tmp, "[[", 2))
 
-  if(eq8.2){
-    rho.hat	<- sum( (dat.tmp$y.tmp - dat.tmp$L.y.tmp) * dat.tmp$L2.y.tmp) / sum( (dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp) * dat.tmp$L2.y.tmp)
-  } else {
-    rho.hat	<- sum( (dat.tmp$y.tmp - dat.tmp$L.y.tmp) * (dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp)) / sum( (dat.tmp$L.y.tmp - dat.tmp$L2.y.tmp) * (dat.tmp$L2.y.tmp - dat.tmp$L3.y.tmp))
-  }
-
-#  dat[, "y"]		  <- dat[[varname.y]]
-#  dat[, "y.lag1"]	<- data.table::shift(x = dat[[varname.y]], n = 1L, type = "lag")
-#  dat[, "y.lag2"]	<- data.table::shift(x = dat[[varname.y]], n = 2L, type = "lag")
-#  dat[, "y.lag3"]	<- data.table::shift(x = dat[[varname.y]], n = 3L, type = "lag")
-#
-#  dat[i = dat[[varname.t]] == 1, j = c("y.lag1", "y.lag2", "y.lag3")]	<- NA
-#  dat[i = dat[[varname.t]] == 2, j = c("y.lag2", "y.lag3")]	<- NA
-#  dat[i = dat[[varname.t]] == 3, j = "y.lag3"]	<- NA
-#
-#
-#  if(eq8.2){
-#    rho.hat	<- sum( (dat$y - dat$y.lag1) * dat$y.lag2 , na.rm = TRUE ) / sum( (dat$y.lag1 - dat$y.lag2) * dat$y.lag2 , na.rm = TRUE )
-#  } else {
-#    rho.hat	<- sum( (dat$y - dat$y.lag1) * (dat$y.lag2 - dat$y.lag3) , na.rm = TRUE ) / sum( (dat$y.lag1 - dat$y.lag2) * (dat$y.lag2 - dat$y.lag3) , na.rm = TRUE )
-#  }
+  rho.hat	<- ah81_num/ah81_denom
 
   return(rho.hat)
 
