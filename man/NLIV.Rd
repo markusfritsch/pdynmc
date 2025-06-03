@@ -43,8 +43,9 @@ The function estimates a linear dynamic panel data model of the form
 
    The nonlinear IV estimator employs the original version of the nonlinear
    moment conditions of \insertCite{AhnSch1995;textual}{pdynmc}.
-   More details on the implementation and the properties of the estimator
-   are provided in \insertCite{FriPuaSch2024;textual}{pdynmc}.
+   More details on the implementation, the properties of the estimator, and
+   how to account for predetermined covariates are provided in
+   \insertCite{FriPuaSch2024;textual}{pdynmc}.
 }
 \examples{
 ## Load data
