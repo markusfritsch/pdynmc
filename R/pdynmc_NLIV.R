@@ -119,8 +119,8 @@ NLIV	<- function(
 
 
   if(!is.null(trueAR)){
-    papB	<- -sum(unlist( y.Tm1*((y.Tm1 - y.2) - trueAR*(y.Tm2 - y.1)) + (y.T - trueAR*y.Tm1)*(y.Tm2 - y.1) ))
-    papC	<- sum(unlist( (y.T - trueAR*y.Tm1)*((y.Tm1 - y.2) - trueAR*(y.Tm2 - y.1)) ))
+    papB	<- -sum(unlist( abc.tmp$y.Tm1*((abc.tmp$y.Tm1 - abc.tmp$y.2) - trueAR*(abc.tmp$y.Tm2 - abc.tmp$y.1)) + (abc.tmp$y.T - trueAR*abc.tmp$y.Tm1)*(abc.tmp$y.Tm2 - abc.tmp$y.1) ))
+    papC	<- sum(unlist( (abc.tmp$y.T - trueAR*abc.tmp$y.Tm1)*((abc.tmp$y.Tm1 - abc.tmp$y.2) - trueAR*(abc.tmp$y.Tm2 - abc.tmp$y.1)) ))
     to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2, papB = papB, papC = papC)
   } else {
     to.return		<- c(A = A, B = B, C = C, rho.hat.pos = rho.hat.1, rho.hat.neg = rho.hat.2)

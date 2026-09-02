@@ -1364,7 +1364,7 @@ abcIV.compute_T   <- function(
   b_i         <- (y.T * (y.Tm2 - y.1) + y.Tm1 * (y.Tm1 - y.2))*!is.na(y.T + y.Tm2 + y.1 + y.Tm1 + y.2)
   c_i         <- (y.T * (y.Tm1 - y.2))*!is.na(y.T + y.Tm1 + y.2)
 
-  abc.tmp     <- data.frame(a_i = a_i, b_i = b_i, c_i = c_i)
+  abc.tmp     <- data.frame(a_i = a_i, b_i = b_i, c_i = c_i, y.T = y.T, y.Tm1 = y.Tm1, y.Tm2 = y.Tm2, y.2 = y.2, y.1 = y.1)
   abc.tmp[is.na(abc.tmp)]	<- 0
 
   #  return(list(abc.tmp, lags.tmp))
