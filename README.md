@@ -22,7 +22,7 @@ GMM iterations (the latter is implemented according to the plot shown in
 Hansen and Lee, 2021 https://doi.org/10.3982/ECTA16274).
 
 See also: https://cran.r-project.org/web/packages/pdynmc/index.html.
-For further details on the implementation, see Fritsch, Pua, and Schnurbus (2021) https://journal.r-project.org/archive/2021/RJ-2021-035/index.html.
+For further details on the implementation, see Fritsch, Pua, and Schnurbus (2021) https://journal.r-project.org/articles/RJ-2021-035/index.html.
 
 
 To install the latest development version of the package, please use:
