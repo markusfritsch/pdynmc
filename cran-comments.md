@@ -7,12 +7,8 @@ winbuilder: R 4.5.3, R 4.6.1, and R-devel (2026-08-31 r90457 ucrt)
 
 
 ## R CMD check results
-There were no ERRORs or WARNINGs.
-There was one NOTE in the winbuilder checks on CRAN (R 4.6.1 and R.devel):
+There were no ERRORs, WARNINGs, or NOTEs.
 
-Found the following (possibly) invalid URLs:
-
-The listed URLs are included in an article published in the R Journal that is used as package vignette.
 
 
 ## Downstream dependencies
